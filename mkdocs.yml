@@ -1,1 +1,16 @@
-site_name: My Docs
+site_name: The tinyBIG Toolkit
+
+plugins:
+  - mkdocstrings
+  - macros:
+      module_name: docs/macros
+
+theme:
+  name: "material"
+
+nav:
+  - Docs: index.md
+  - Tutorials: tutorials/tutorial.md
+  - How-To-Guides: guides/guide.md
+  - Explanations: explanations/explanation.md
+  - References: references/reference.md

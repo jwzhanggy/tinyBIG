@@ -7,7 +7,7 @@ from abc import abstractmethod
 
 class metric:
     """
-    The base class of the evaluation metrics in the {{toolkit}} toolkit.
+    The base class of the evaluation metrics in the {{ toolkit }} toolkit.
 
     ...
 
@@ -18,10 +18,11 @@ class metric:
 
     Methods
     ----------
-    evaluate(self, *args, **kwargs):
-        It performs the evaluation based on the inputs.
-    __call__(self, *args, **kwargs):
-        It performs the evaluation based on the inputs by calling the object directly.
+        evaluate(self, *args, **kwargs):
+            It performs the evaluation based on the inputs.
+
+        __call__(self, *args, **kwargs):
+            It performs the evaluation based on the inputs by calling the object directly.
     """
     def __init__(self, name: str = 'base_metric', *args, **kwargs):
         """
