@@ -1,4 +1,10 @@
 
+"""
+This {{toolkit}} toolkit package implements the modules that can be used to design and build the {{our}} model.
+
+Modules implemented in this package:
+- TBD
+"""
 from tinybig.model import *
 from tinybig.module import *
 from tinybig.config import *
