@@ -1,16 +1,55 @@
-site_name: The tinyBIG Toolkit
-
-plugins:
-  - mkdocstrings
-  - macros:
-      module_name: docs/macros
-
+site_name: tinyBIG
+site_url: https://www.tinybig.org/
 theme:
   name: "material"
+  palette:
+    primary: "deep purple"
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - toc.follow
+
+
+markdown_extensions:
+  - tables
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            heading_level: 3
+  - macros:
+      module_name: docs/env
 
 nav:
-  - Docs: index.md
-  - Tutorials: tutorials/tutorial.md
-  - How-To-Guides: guides/guide.md
-  - Explanations: explanations/explanation.md
-  - References: references/reference.md
+  - index.md
+  - Get Started:
+    - Overview: guides/overview.md
+    - Installation: guides/install.md
+  - Docs:
+    - Overview: documentations/index.md
+    - documentations/tinybig.md
+    - documentations/expansion.md
+    - documentations/reconciliation.md
+    - documentations/remainder.md
+    - documentations/module.md
+    - documentations/model.md
+    - documentations/config.md
+    - documentations/learner.md
+    - documentations/data.md
+    - documentations/output.md
+    - documentations/metric.md
+    - documentations/util.md
+  - Tutorials: tutorials/index.md
+  - Examples: examples/index.md
+  - References: references/index.md

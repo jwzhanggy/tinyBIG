@@ -5,22 +5,30 @@ This {{toolkit}} toolkit package implements the modules that can be used to desi
 Modules implemented in this package:
 - TBD
 """
-from tinybig.model import *
-from tinybig.module import *
-from tinybig.config import *
 
-from tinybig.remainder import *
-from tinybig.expansion import *
-from tinybig.compression import *
-from tinybig.reconciliation import *
+from tinybig import model, module, config
 
-from tinybig.learner import *
-from tinybig.data import *
-from tinybig.output import *
-from tinybig.metric import *
-from tinybig.koala import *
+from tinybig import remainder, expansion, compression, reconciliation
 
-from tinybig.visual import *
+from tinybig import learner, data, output, metric, koala
 
-from tinybig.util import *
+from tinybig import visual, util
 
+__all__ = [
+    'model',
+    'module',
+    'config',
+    'remainder',
+    'expansion',
+    'compression',
+    'reconciliation',
+    'learner',
+    'data',
+    'output',
+    'metric',
+    'koala',
+    'visual',
+    'util'
+]
+
+__version__ = '0.1.0'

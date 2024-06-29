@@ -7,22 +7,22 @@ from abc import abstractmethod
 
 class metric:
     """
-    The base class of the evaluation metrics in the {{ toolkit }} toolkit.
+    class metric
 
-    ...
+    The base class of the evaluation metrics in the tinyBIG toolkit.
 
     Attributes
     ----------
-        name: str
-            name of the evaluation metric
+    name: str
+        name of the evaluation metric
 
     Methods
     ----------
-        evaluate(self, *args, **kwargs):
-            It performs the evaluation based on the inputs.
+    evaluate
+        It performs the evaluation based on the inputs.
 
-        __call__(self, *args, **kwargs):
-            It performs the evaluation based on the inputs by calling the object directly.
+    __call__
+        It performs the evaluation based on the inputs by calling the object directly.
     """
     def __init__(self, name: str = 'base_metric', *args, **kwargs):
         """
@@ -32,12 +32,12 @@ class metric:
 
         Parameters
         ----------
-        :param name: name of the metric, with default value "base_metric"
-        :param args: other arguments.
+        name
+            The name of the metric, with default value "base_metric".
 
         Returns
         ----------
-        :param kwargs: other arguments.
+        The metric object.
         """
         self.name = name
 
@@ -49,32 +49,22 @@ class metric:
         It is declared to be an abstractmethod and needs to be implemented in the inherited evaluation metric classes.
         The evaluate function accepts prediction results and ground-truth results as inputs and return the evaluation metric scores as the outputs.
 
-        Parameters
-        ----------
-        :param args: input prediction results and ground-truth results
-        :param kwargs: other inputs
-
         Returns
         ----------
-        :return: evaluation metric scores
+        The evaluation metric scores.
         """
         pass
 
     @abstractmethod
     def __call__(self, *args, **kwargs):
         """
-        Reimplementation of the __call__ function.
+        Reimplementation of the build-in callable function.
 
         It is declared to be an abstractmethod and needs to be implemented in the inherited evaluation metric classes.
 
-        Parameters
-        ----------
-        :param args: input prediction results and ground-truth results
-        :param kwargs: other inputs
-
         Returns
         ----------
-        :return: evaluation metric scores
+        The evaluation metric scores.
         """
         pass
 

@@ -10,5 +10,6 @@ The module contains the following metric classes:
 """
 
 from tinybig.metric.metric import metric
-from tinybig.metric.classification_metrics import accuracy, f1
+from tinybig.metric.metric2 import metric2
+from tinybig.metric.classification_metric import accuracy, f1
 from tinybig.metric.regression_metric import mse

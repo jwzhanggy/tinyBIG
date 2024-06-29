@@ -9,6 +9,11 @@ from sklearn.metrics import accuracy_score, f1_score
 
 
 class accuracy(metric):
+    """
+    The accuracy evaluation metric.
+
+
+    """
     def __init__(self, name='accuracy'):
         super().__init__(name=name)
         self.metric = accuracy_score
@@ -21,6 +26,11 @@ class accuracy(metric):
 
 
 class f1(metric):
+    """
+    The f1 evaluation metric.
+
+
+    """
     def __init__(self, name='f1', average='weighted'):
         super().__init__(name=name)
         self.metric = f1_score
@@ -33,3 +43,7 @@ class f1(metric):
     def __call__(self, y_true: list, y_pred: list, *args, **kwargs):
         return self.evaluate(y_true=y_true, y_pred=y_pred, *args, **kwargs)
 
+
+if __name__ == '__main__':
+    print(accuracy.__doc__)
+    help(f1)

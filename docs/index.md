@@ -1,3 +1,3 @@
-# Documentations of the {{ toolkit }} Toolkit
+# {{ toolkit }} Toolkit
 
-::: tinybig.metric.metric
+
