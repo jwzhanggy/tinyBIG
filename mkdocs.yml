@@ -1,7 +1,14 @@
 site_name: tinyBIG
 site_url: https://www.tinybig.org/
+repo_url: https://github.com/jwzhanggy/tinyBIG
+
 theme:
   name: "material"
+  logo: assets/logo.png
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Roboto
   palette:
     primary: "deep purple"
   features:
@@ -15,7 +22,13 @@ theme:
     - navigation.path
     - navigation.top
     - toc.follow
+    - header.autohide
+    - navigation.footer
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jwzhanggy/tinyBIG
 
 markdown_extensions:
   - tables
