@@ -5,14 +5,14 @@
 import warnings
 import torch
 
-from tinybig.module.fabrication import base_fabrication as base_reconciliation
+from tinybig.reconciliation import reconciliation
 
 
 #####################
 # Basic reconciliation #
 #####################
 
-class constant_reconciliation(base_reconciliation):
+class constant_reconciliation(reconciliation):
     def __init__(self, name='constant_reconciliation', c=1.0, *args, **kwargs):
         super().__init__(name=name, require_parameters=False, *args, **kwargs)
         self.c = c
@@ -24,7 +24,7 @@ class constant_reconciliation(base_reconciliation):
         return self.c * torch.ones(n, D).to(device)
 
 
-class constant_eye_reconciliation(base_reconciliation):
+class constant_eye_reconciliation(reconciliation):
     def __init__(self, name='constant_c_reconciliation', *args, **kwargs):
         super().__init__(name=name, require_parameters=False, *args, **kwargs)
 
@@ -35,7 +35,7 @@ class constant_eye_reconciliation(base_reconciliation):
         return torch.eye(n=n, m=D).to(device)
 
 
-class identity_reconciliation(base_reconciliation):
+class identity_reconciliation(reconciliation):
     def __init__(self, name='identity_reconciliation', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -46,7 +46,7 @@ class identity_reconciliation(base_reconciliation):
         return w.view(n, D).to(device)
 
 
-class masking_reconciliation(base_reconciliation):
+class masking_reconciliation(reconciliation):
 
     def __init__(self, name='masking_reconciliation', masking_ratio=0.5, fixed_mask: bool = True, *args, **kwargs):
         # masking ratio: used parameter percentage
@@ -71,7 +71,7 @@ class masking_reconciliation(base_reconciliation):
         return w.view(n, D) * self.mask_matrix.to(device)
 
 
-class duplicated_padding_reconciliation(base_reconciliation):
+class duplicated_padding_reconciliation(reconciliation):
     def __init__(self, name='duplicated_padding_reconciliation', p=2, q=None, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.p = p

@@ -142,18 +142,18 @@ Dimensionless_Feynman_Equations = (
 )
 
 
-class feynman(function_dataloader):
+class feynman_function(function_dataloader):
     def __init__(self, name='feynman_function', function_list: list = Feynman_Equations, *args, **kwargs):
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
 
-class dimensionless_feynman(function_dataloader):
+class dimensionless_feynman_function(function_dataloader):
     def __init__(self, name='dimensionless_feynman_function', function_list: list = Dimensionless_Feynman_Equations, *args, **kwargs):
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
 
 if __name__ == '__main__':
-    feynman_dataloader = dimensionless_feynman()
+    feynman_dataloader = dimensionless_feynman_function()
     print(feynman_dataloader.load_equation())
     for i in range(0, 27):
         print(i, feynman_dataloader.load_equation(i))

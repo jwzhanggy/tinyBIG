@@ -6,14 +6,14 @@ import warnings
 import numpy as np
 import torch.nn
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 ###################################################
 # Expansions defined with closed-form polynomials #
 ###################################################
 
 
-class taylor_expansion(base_expansion):
+class taylor_expansion(expansion):
     def __init__(self, name='taylor_expansion', d=2, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -38,7 +38,7 @@ class taylor_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class fourier_expansion(base_expansion):
+class fourier_expansion(expansion):
     def __init__(self, name='fourier_expansion', P=1, N=5, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.P = P

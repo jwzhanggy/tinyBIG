@@ -1,3 +1,6 @@
+
+from tinybig.module.remainder import remainder
+
 from tinybig.remainder.basic_remainder import (
     constant_remainder,
     zero_remainder,

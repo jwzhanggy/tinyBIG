@@ -5,7 +5,7 @@
 import torch
 import torch.nn.functional as F
 
-from tinybig.module.remainder import base_remainder
+from tinybig.remainder import remainder
 from tinybig.util.util import func_x
 
 
@@ -14,7 +14,7 @@ from tinybig.util.util import func_x
 ####################
 
 
-class constant_remainder(base_remainder):
+class constant_remainder(remainder):
     def __init__(self, name='constant_remainder', c=1.0, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.c = c
@@ -34,7 +34,7 @@ class one_remainder(constant_remainder):
         super().__init__(name=name, c=1.0, *args, **kwargs)
 
 
-class identity_remainder(base_remainder):
+class identity_remainder(remainder):
     def __init__(self, name='identity_remainder', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -42,7 +42,7 @@ class identity_remainder(base_remainder):
         return self.activation(x=x, device=device)
 
 
-class linear_remainder(base_remainder):
+class linear_remainder(remainder):
     def __init__(self, name='linear_remainder', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 

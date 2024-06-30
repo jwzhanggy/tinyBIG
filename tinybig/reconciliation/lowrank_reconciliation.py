@@ -5,7 +5,7 @@
 import torch
 import torch.nn.functional as F
 
-from tinybig.module.fabrication import base_fabrication as base_reconciliation
+from tinybig.reconciliation import reconciliation
 
 
 ####################
@@ -13,7 +13,7 @@ from tinybig.module.fabrication import base_fabrication as base_reconciliation
 ####################
 
 
-class lorr_reconciliation(base_reconciliation):
+class lorr_reconciliation(reconciliation):
     def __init__(self, name='low_rank_reconciliation', r=2, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.r = r
@@ -39,7 +39,7 @@ class lorr_reconciliation(base_reconciliation):
         return F.linear(A.view(n, self.r), B.view(D, self.r))
 
 
-class hm_reconciliation(base_reconciliation):
+class hm_reconciliation(reconciliation):
     def __init__(self, name='hypercomplex_multiplication_reconciliation', p=2, q=None, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.p = p
@@ -68,7 +68,7 @@ class hm_reconciliation(base_reconciliation):
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
 
 
-class lphm_reconciliation(base_reconciliation):
+class lphm_reconciliation(reconciliation):
     def __init__(self, name='lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.p = p
@@ -90,7 +90,7 @@ class lphm_reconciliation(base_reconciliation):
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
 
 
-class dual_lphm_reconciliation(base_reconciliation):
+class dual_lphm_reconciliation(reconciliation):
     def __init__(self, name='dual_lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.p = p

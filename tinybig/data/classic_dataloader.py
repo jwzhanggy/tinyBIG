@@ -17,9 +17,9 @@ from tinybig.data.dataloader import dataloader, dataset_template
 # we preprocess data into a unified format
 # headline row: physical meanings and data types of each column
 # remaining rows: data instances (id, features, label)
-class classic_dataloader(dataloader):
+class tabular_dataloader(dataloader):
 
-    def __init__(self, name='classic_dataset', data_contents: list | tuple = None,
+    def __init__(self, name='tabular_dataloader', data_contents: list | tuple = None,
                  train_batch_size=64, test_batch_size=64, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.train_batch_size = train_batch_size
@@ -5641,22 +5641,22 @@ Wheat_Seeds_Dataset = (
 )
 
 
-class iris(classic_dataloader):
+class iris(tabular_dataloader):
     def __init__(self, name='iris_dataset', data_contents=Iris_Dataset, *args, **kwargs):
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
-class diabetes(classic_dataloader):
+class diabetes(tabular_dataloader):
     def __init__(self, name='pima_indians_diabetes_dataset', data_contents=Pima_indian_Diabetes_Dataset, *args, **kwargs):
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
-class banknote(classic_dataloader):
+class banknote(tabular_dataloader):
     def __init__(self, name='banknote_dataset', data_contents=Banknote_Dataset, *args, **kwargs):
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
-class wheat(classic_dataloader):
+class wheat(tabular_dataloader):
     def __init__(self, name='wheat_seeds_dataset', data_contents=Wheat_Seeds_Dataset, *args, **kwargs):
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 

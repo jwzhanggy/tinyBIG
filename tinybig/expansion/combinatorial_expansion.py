@@ -5,14 +5,14 @@
 import torch
 from scipy.special import comb
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 
 ############################
 # Combinatorial Expansions #
 ############################
 
-class combinatorial_expansion(base_expansion):
+class combinatorial_expansion(expansion):
     def __init__(self, name='combinatorial_expansion', d: int = 1, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.d = d

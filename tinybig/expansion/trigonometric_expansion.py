@@ -4,14 +4,14 @@
 
 import torch.nn
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 ###################################################
 # Expansions defined with closed-form polynomials #
 ###################################################
 
 
-class hyperbolic_expansion(base_expansion):
+class hyperbolic_expansion(expansion):
     def __init__(self, name='hyperbolic_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -29,7 +29,7 @@ class hyperbolic_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class arc_hyperbolic_expansion(base_expansion):
+class arc_hyperbolic_expansion(expansion):
     def __init__(self, name='hyperbolic_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -49,7 +49,7 @@ class arc_hyperbolic_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class trigonometric_expansion(base_expansion):
+class trigonometric_expansion(expansion):
     def __init__(self, name='trigonometric_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -67,7 +67,7 @@ class trigonometric_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class arc_trigonometric_expansion(base_expansion):
+class arc_trigonometric_expansion(expansion):
     def __init__(self, name='trigonometric_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 

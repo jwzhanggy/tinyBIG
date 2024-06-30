@@ -1,40 +1,75 @@
-site_name: tinyBIG
+site_name: tinyBIG by IFM Lab
 site_url: https://www.tinybig.org/
 repo_url: https://github.com/jwzhanggy/tinyBIG
+#repo_name: Edit on Github
+copyright: Copyright &copy; 2024  <a href="https://www.ifmlab.org/">IFM Lab</a>
 
 theme:
-  name: "material"
-  logo: assets/logo.png
+  name: material
+  logo: assets/logo_white.png
+  favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
   font:
     text: Roboto
   palette:
-    primary: "deep purple"
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: "deep purple"
+      accent: "deep purple"
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: "deep purple"
+      accent: "deep purple"
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
   features:
+    - navigation.indexes
     - navigation.instant
     - navigation.instant.progress
     - navigation.tracking
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.indexes
-    - navigation.expand
     - navigation.path
     - navigation.top
-    - toc.follow
+    #- toc.follow
     - header.autohide
     - navigation.footer
+    - announce.dismiss
+
+markdown_extensions:
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+      block_tag: 'pre'
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
 
-markdown_extensions:
-  - tables
-
 plugins:
   - search
+  - blog
   - mkdocstrings:
       handlers:
         python:
@@ -43,26 +78,137 @@ plugins:
             heading_level: 3
   - macros:
       module_name: docs/env
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
 
 nav:
-  - index.md
+  - Home: index.md
   - Get Started:
     - Overview: guides/overview.md
     - Installation: guides/install.md
   - Docs:
     - Overview: documentations/index.md
-    - documentations/tinybig.md
-    - documentations/expansion.md
-    - documentations/reconciliation.md
-    - documentations/remainder.md
-    - documentations/module.md
-    - documentations/model.md
-    - documentations/config.md
-    - documentations/learner.md
-    - documentations/data.md
-    - documentations/output.md
-    - documentations/metric.md
-    - documentations/util.md
+    - tinybig:
+      - documentations/tinybig/index.md
+    - tinybig.expansion:
+      - documentations/expansion/index.md
+      - documentations/expansion/transformation.md
+      - documentations/expansion/identity_expansion.md
+      - documentations/expansion/reciprocal_expansion.md
+      - documentations/expansion/linear_expansion.md
+      - documentations/expansion/taylor_expansion.md
+      - documentations/expansion/fourier_expansion.md
+      - documentations/expansion/bspline_expansion.md
+      - documentations/expansion/chebyshev_expansion.md
+      - documentations/expansion/jacobi_expansion.md
+      - documentations/expansion/hyperbolic_expansion.md
+      - documentations/expansion/arc_hyperbolic_expansion.md
+      - documentations/expansion/trigonometric_expansion.md
+      - documentations/expansion/arc_trigonometric_expansion.md
+      - documentations/expansion/gaussian_rbf_expansion.md
+      - documentations/expansion/inverse_quadratic_rbf_expansion.md
+      - documentations/expansion/naive_normal_expansion.md
+      - documentations/expansion/naive_cauchy_expansion.md
+      - documentations/expansion/naive_chi2_expansion.md
+      - documentations/expansion/naive_gamma_expansion.md
+      - documentations/expansion/naive_exponential_expansion.md
+      - documentations/expansion/naive_laplace_expansion.md
+      - documentations/expansion/combinatorial_expansion.md
+      - documentations/expansion/combinatorial_normal_expansion.md
+      - documentations/expansion/nested_expansion.md
+      - documentations/expansion/extended_expansion.md
+    - tinybig.reconciliation:
+      - documentations/reconciliation/index.md
+      - documentations/reconciliation/fabrication.md
+      - documentations/reconciliation/constant_reconciliation.md
+      - documentations/reconciliation/constant_eye_reconciliation.md
+      - documentations/reconciliation/identity_reconciliation.md
+      - documentations/reconciliation/masking_reconciliation.md
+      - documentations/reconciliation/duplicated_padding_reconciliation.md
+      - documentations/reconciliation/lorr_reconciliation.md
+      - documentations/reconciliation/hm_reconciliation.md
+      - documentations/reconciliation/lphm_reconciliation.md
+      - documentations/reconciliation/dual_lphm_reconciliation.md
+      - documentations/reconciliation/hypernet_reconciliation.md
+    - tinybig.remainder:
+      - documentations/remainder/index.md
+      - documentations/remainder/remainder.md
+      - documentations/remainder/constant_remainder.md
+      - documentations/remainder/zero_remainder.md
+      - documentations/remainder/one_remainder.md
+      - documentations/remainder/identity_remainder.md
+      - documentations/remainder/linear_remainder.md
+      - documentations/remainder/bspline_remainder.md
+    - tinybig.module:
+      - documentations/module/index.md
+      - documentations/expansion/transformation.md
+      - documentations/reconciliation/fabrication.md
+      - documentations/remainder/remainder.md
+      - documentations/module/rpn_head.md
+      - documentations/module/rpn_layer.md
+    - tinybig.model:
+      - documentations/model/index.md
+      - documentations/model/model.md
+      - documentations/model/rpn.md
+    - tinybig.config:
+      - documentations/config/index.md
+      - documentations/config/config.md
+      - documentations/config/rpn_config.md
+    - tinybig.learner:
+      - documentations/learner/index.md
+      - documentations/learner/learner.md
+      - documentations/learner/backward_learner.md
+      - documentations/learner/forward_learner.md
+    - tinybig.data:
+      - documentations/data/index.md
+      - documentations/data/dataset_template.md
+      - documentations/data/dataloader.md
+      - documentations/data/function_dataloader.md
+      - documentations/data/elementary_function.md
+      - documentations/data/composite_function.md
+      - documentations/data/feynman_function.md
+      - documentations/data/dimensionless_feynman_function.md
+      - documentations/data/mnist.md
+      - documentations/data/cifar10.md
+      - documentations/data/imagenet.md
+      - documentations/data/text_dataloader.md
+      - documentations/data/text_dataset_template.md
+      - documentations/data/imdb.md
+      - documentations/data/sst2.md
+      - documentations/data/agnews.md
+      - documentations/data/tabular_dataloader.md
+      - documentations/data/iris.md
+      - documentations/data/diabetes.md
+      - documentations/data/banknote.md
+    - tinybig.output:
+      - documentations/output/index.md
+      - documentations/output/result.md
+      - documentations/output/prediction.md
+    - tinybig.metric:
+      - documentations/metric/index.md
+      - documentations/metric/metric.md
+      - documentations/metric/accuracy.md
+      - documentations/metric/f1.md
+      - documentations/metric/mse.md
+    - tinybig.util:
+      - documentations/util/index.md
+      - documentations/util/set_random_seed.md
+      - documentations/util/get_obj_from_str.md
+      - documentations/util/process_num_alloc_configs.md
+      - documentations/util/process_function_list.md
+      - documentations/util/register_function_parameters.md
+      - documentations/util/special_function_process.md
+      - documentations/util/func_x.md
+      - documentations/util/str_func_x.md
+      - documentations/util/string_to_function.md
+      - documentations/util/create_directory_if_not_exists.md
   - Tutorials: tutorials/index.md
   - Examples: examples/index.md
   - References: references/index.md
+  - Blog:
+      - blog/index.md

@@ -7,14 +7,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from tinybig.module.fabrication import base_fabrication as base_reconciliation
+from tinybig.reconciliation import reconciliation
 
 
 ########################
 # Hypernet reconciliation #
 ########################
 
-class hypernet_reconciliation(base_reconciliation):
+class hypernet_reconciliation(reconciliation):
     def __init__(self, name='hypernet_reconciliation', l: int = 64, hidden_dim: int = 128, static: bool = True, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.l = l

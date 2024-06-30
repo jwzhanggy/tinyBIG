@@ -5,7 +5,7 @@
 import torch
 import torch.nn.functional as F
 
-from tinybig.module.remainder import base_remainder
+from tinybig.remainder import remainder
 
 
 ##############################
@@ -13,7 +13,7 @@ from tinybig.module.remainder import base_remainder
 ##############################
 
 
-class bspline_remainder(base_remainder):
+class bspline_remainder(remainder):
     def __init__(self, name='bspline_remainder', grid_range=(-1, 1), num_interval=5, spline_order=3, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.grid_range = grid_range

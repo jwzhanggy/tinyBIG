@@ -2,6 +2,12 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+"""
+Base evaluation metric.
+
+This module contains the base evaluation metric class definition.
+"""
+
 from abc import abstractmethod
 
 
@@ -68,6 +74,7 @@ class metric:
         Reimplementation of the build-in callable method.
 
         It is declared to be an abstractmethod and needs to be implemented in the inherited evaluation metric classes.
+        This callable method accepts prediction results and ground-truth results as inputs and return the evaluation metric scores as the outputs.
 
         Returns
         ----------

@@ -12,7 +12,7 @@ from tinybig.util import process_function_list, func_x, register_function_parame
 ##################
 
 
-class base_remainder(torch.nn.Module):
+class remainder(torch.nn.Module):
 
     def __init__(self, name='base_remainder', require_parameters=False, enable_bias=False, activation_functions=None,
                  activation_function_configs=None, device='cpu', *args, **kwargs):

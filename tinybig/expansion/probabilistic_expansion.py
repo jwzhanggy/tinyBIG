@@ -5,14 +5,14 @@
 import torch
 import torch.nn.functional as F
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 ############################################################
 # Expansions defined with pure probabilistic distributions #
 ############################################################
 
 
-class naive_normal_expansion(base_expansion):
+class naive_normal_expansion(expansion):
     def __init__(self, name='naive_normal_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -32,7 +32,7 @@ class naive_normal_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class normal_expansion(base_expansion):
+class normal_expansion(expansion):
     def __init__(self, name='normal_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -67,7 +67,7 @@ class normal_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class naive_cauchy_expansion(base_expansion):
+class naive_cauchy_expansion(expansion):
     def __init__(self, name='naive_cauchy_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -87,7 +87,7 @@ class naive_cauchy_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class cauchy_expansion(base_expansion):
+class cauchy_expansion(expansion):
     def __init__(self, name='cauchy_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -122,7 +122,7 @@ class cauchy_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class naive_chi2_expansion(base_expansion):
+class naive_chi2_expansion(expansion):
     def __init__(self, name='naive_chi2_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -143,7 +143,7 @@ class naive_chi2_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class chi2_expansion(base_expansion):
+class chi2_expansion(expansion):
     def __init__(self, name='chi2_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -167,7 +167,7 @@ class chi2_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class naive_gamma_expansion(base_expansion):
+class naive_gamma_expansion(expansion):
     def __init__(self, name='naive_gamma_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -189,7 +189,7 @@ class naive_gamma_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class gamma_expansion(base_expansion):
+class gamma_expansion(expansion):
     def __init__(self, name='gamma_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -226,7 +226,7 @@ class gamma_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class naive_laplace_expansion(base_expansion):
+class naive_laplace_expansion(expansion):
     def __init__(self, name='naive_laplace_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -246,7 +246,7 @@ class naive_laplace_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class laplace_expansion(base_expansion):
+class laplace_expansion(expansion):
     def __init__(self, name='laplace_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -281,7 +281,7 @@ class laplace_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class naive_exponential_expansion(base_expansion):
+class naive_exponential_expansion(expansion):
     def __init__(self, name='naive_exponential_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -303,7 +303,7 @@ class naive_exponential_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class exponential_expansion(base_expansion):
+class exponential_expansion(expansion):
     def __init__(self, name='exponential_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 
@@ -340,7 +340,7 @@ class exponential_expansion(base_expansion):
         return self.post_process(x=expansion, device=device).to(device)
 
 
-class hybrid_probabilistic_expansion(base_expansion):
+class hybrid_probabilistic_expansion(expansion):
     def __init__(self, name='hybrid_probabilistic_expansion', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
 

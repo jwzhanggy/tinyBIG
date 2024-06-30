@@ -1,0 +1,2 @@
+# arc_trigonometric_expansion
+::: tinybig.expansion.trigonometric_expansion.arc_trigonometric_expansion

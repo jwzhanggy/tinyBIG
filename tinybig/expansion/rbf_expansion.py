@@ -4,14 +4,14 @@
 
 import torch.nn
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 
 #########################################################
 # Expansions defined with RBF for given base fix points #
 #########################################################
 
-class gaussian_rbf_expansion(base_expansion):
+class gaussian_rbf_expansion(expansion):
     def __init__(self, name='gaussian_rbf_expansion', base_range=(-1, 1), num_interval=10, epsilon=1.0, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.betaase_range = base_range

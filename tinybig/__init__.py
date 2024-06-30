@@ -1,6 +1,6 @@
 
 """
-This {{toolkit}} toolkit package implements the modules that can be used to design and build the {{our}} model.
+This tinyBIG toolkit package implements the modules that can be used to design and build the RPN model.
 
 Modules implemented in this package:
 - TBD

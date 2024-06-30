@@ -4,14 +4,14 @@
 
 import torch.nn
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 
 
 #####################################################
 # Expansions defined with recursively defined basis #
 #####################################################
 
-class bspline_expansion(base_expansion):
+class bspline_expansion(expansion):
     def __init__(self, name='bspline_expansion', grid_range=(-1, 1), t=5, d=3, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.grid_range = grid_range
@@ -49,7 +49,7 @@ class bspline_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class chebyshev_expansion(base_expansion):
+class chebyshev_expansion(expansion):
     def __init__(self, name='chebyshev_polynomial_expansion', d=5, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -69,7 +69,7 @@ class chebyshev_expansion(base_expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class jacobi_expansion(base_expansion):
+class jacobi_expansion(expansion):
     def __init__(self, name='jacobi_polynomial_expansion', d=5, alpha=1.0, beta=1.0, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.d = d

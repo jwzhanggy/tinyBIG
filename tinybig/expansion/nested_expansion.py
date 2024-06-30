@@ -4,7 +4,7 @@
 
 import torch.nn
 
-from tinybig.module.transformation import base_transformation as base_expansion
+from tinybig.expansion import expansion
 from tinybig.util.util import get_obj_from_str
 
 #####################
@@ -12,7 +12,7 @@ from tinybig.util.util import get_obj_from_str
 #####################
 
 
-class nested_expansion(base_expansion):
+class nested_expansion(expansion):
     def __init__(self, name='nested_expansion', expansion_pipeline: list = None, expansion_configs: list = None, *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
         self.expansion_pipeline = []

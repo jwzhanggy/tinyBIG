@@ -29,9 +29,9 @@ class config:
         pass
 
 
-class detailed_config(config):
+class rpn_config(config):
 
-    def __init__(self, name='detailed_config'):
+    def __init__(self, name='rpn_detailed_config'):
         super().__init__(name=name)
 
     def load(self, cache_dir='./configs', config_file='configs.yaml'):

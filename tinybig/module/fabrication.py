@@ -10,7 +10,7 @@ import torch
 ##############################
 
 
-class base_fabrication(torch.nn.Module):
+class fabrication(torch.nn.Module):
     def __init__(self, name='base_fabrication', require_parameters=True, enable_bias=False, device='cpu', *args, **kwargs):
         super().__init__()
         self.name = name

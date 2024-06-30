@@ -1,3 +1,3 @@
-# {{ toolkit }} Toolkit
+# {{ toolkit }}.py
 
 

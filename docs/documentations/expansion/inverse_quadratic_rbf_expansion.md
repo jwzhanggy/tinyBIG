@@ -1,0 +1,2 @@
+# inverse_quadratic_rbf_expansion
+::: tinybig.expansion.rbf_expansion.inverse_quadratic_rbf_expansion
