@@ -1,13 +1,13 @@
 # tinybig.module
 
 ## Data Transformation Function
-* [transformation](../expansion/transformation.md)
+* [transformation](transformation.md)
 
 ## Parameter Fabrication Function
-* [fabrication](../reconciliation/fabrication.md)
+* [fabrication](fabrication.md)
 
 ## Remainder Function
-* [remainder](../remainder/remainder.md)
+* [remainder](remainder.md)
 
 ## RPN Head
 * [rpn_head](rpn_head.md)

@@ -1,8 +1,5 @@
 # tinybig.reconciliation
 
-## Base Reconciliation
-* [base reconciliation](fabrication.md)
-
 ## Basic Reconciliation
 * [constant_reconciliation](constant_reconciliation.md)
 * [constant_eye_reconciliation](constant_eye_reconciliation.md)

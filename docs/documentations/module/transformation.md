@@ -1,3 +1,3 @@
-# base transformation
+# transformation
 
 ::: tinybig.module.transformation.transformation

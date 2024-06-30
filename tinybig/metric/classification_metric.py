@@ -15,8 +15,6 @@ from sklearn.metrics import accuracy_score, f1_score
 
 class accuracy(metric):
     """
-    class accuracy
-
     The accuracy evaluation metric.
 
     The class inherits from the base metric class.
@@ -129,8 +127,6 @@ class accuracy(metric):
 
 class f1(metric):
     """
-    class f1
-
     The f1 evaluation metric.
 
     The class inherits from the base metric class.

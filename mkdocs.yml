@@ -86,18 +86,19 @@ plugins:
         - categories
         - tags
 
+#===========================================
 nav:
   - Home: index.md
   - Get Started:
-    - Overview: guides/overview.md
-    - Installation: guides/install.md
+    - guides/index.md
+    - Installation: guides/installation.md
+    - Quick Start: guides/quick_start.md
   - Docs:
     - Overview: documentations/index.md
     - tinybig:
       - documentations/tinybig/index.md
     - tinybig.expansion:
       - documentations/expansion/index.md
-      - documentations/expansion/transformation.md
       - documentations/expansion/identity_expansion.md
       - documentations/expansion/reciprocal_expansion.md
       - documentations/expansion/linear_expansion.md
@@ -124,7 +125,6 @@ nav:
       - documentations/expansion/extended_expansion.md
     - tinybig.reconciliation:
       - documentations/reconciliation/index.md
-      - documentations/reconciliation/fabrication.md
       - documentations/reconciliation/constant_reconciliation.md
       - documentations/reconciliation/constant_eye_reconciliation.md
       - documentations/reconciliation/identity_reconciliation.md
@@ -137,7 +137,6 @@ nav:
       - documentations/reconciliation/hypernet_reconciliation.md
     - tinybig.remainder:
       - documentations/remainder/index.md
-      - documentations/remainder/remainder.md
       - documentations/remainder/constant_remainder.md
       - documentations/remainder/zero_remainder.md
       - documentations/remainder/one_remainder.md
@@ -146,9 +145,9 @@ nav:
       - documentations/remainder/bspline_remainder.md
     - tinybig.module:
       - documentations/module/index.md
-      - documentations/expansion/transformation.md
-      - documentations/reconciliation/fabrication.md
-      - documentations/remainder/remainder.md
+      - documentations/module/transformation.md
+      - documentations/module/fabrication.md
+      - documentations/module/remainder.md
       - documentations/module/rpn_head.md
       - documentations/module/rpn_layer.md
     - tinybig.model:
@@ -207,8 +206,26 @@ nav:
       - documentations/util/str_func_x.md
       - documentations/util/string_to_function.md
       - documentations/util/create_directory_if_not_exists.md
-  - Tutorials: tutorials/index.md
-  - Examples: examples/index.md
-  - References: references/index.md
-  - Blog:
-      - blog/index.md
+  - Tutorials:
+      - tutorials/index.md
+  - Examples:
+      - examples/index.md
+  - Blogs:
+      - blogs/index.md
+      - blogs/toolkit.md
+      - blogs/model.md
+      - blogs/exploration.md
+  - News:
+      - news/index.md
+      - news/about_us.md
+      - news/toolkit.md
+      - news/research.md
+      - news/product.md
+  - Contact us:
+      - contact/index.md
+      - contact/sponsors.md
+      - contact/contributing.md
+      - contact/privacy.md
+      - contact/license.md
+      - contact/certificate.md
+#===========================================

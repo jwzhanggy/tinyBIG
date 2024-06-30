@@ -13,8 +13,6 @@ from abc import abstractmethod
 
 class metric:
     """
-    class metric
-
     The base class of the evaluation metrics in the tinyBIG toolkit.
 
     ...

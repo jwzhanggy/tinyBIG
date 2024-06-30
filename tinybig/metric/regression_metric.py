@@ -13,8 +13,6 @@ from tinybig.metric.metric import metric
 
 class mse(metric):
     """
-    class mse
-
     The mse evaluation metric.
 
     The class inherits from the base metric class.

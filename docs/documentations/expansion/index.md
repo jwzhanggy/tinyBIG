@@ -1,8 +1,5 @@
 # tinybig.expansion
 
-## Base Expansion
-* [base_expansion](transformation.md)
-
 ## Basic Expansions
 * [identity_expansion](identity_expansion.md)
 * [reciprocal_expansion](reciprocal_expansion.md)
@@ -40,3 +37,4 @@
 ## Nested and Extended expansions
 * [nested_expansion](nested_expansion.md)
 * [extended_expansion](extended_expansion.md)
+

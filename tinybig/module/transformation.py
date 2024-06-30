@@ -6,7 +6,7 @@
 Base transformation function.
 
 This module contains the base transformation function class definition.
-The data expansion functions
+The data expansion and compression functions are all defined based on this transformation class.
 """
 
 from abc import abstractmethod
@@ -21,9 +21,9 @@ from tinybig.util import func_x, process_function_list, register_function_parame
 
 class transformation(torch.nn.Module):
     """
-    class transformation
-
     The base class of the data transformation function in the tinyBIG toolkit.
+
+    It will be used as the base class template for defining the data expansion and compression functions.
 
     ...
 

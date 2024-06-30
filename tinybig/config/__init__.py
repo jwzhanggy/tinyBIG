@@ -1,1 +1,1 @@
-from tinybig.config.config import config, detailed_config
+from tinybig.config.config import config, rpn_config
