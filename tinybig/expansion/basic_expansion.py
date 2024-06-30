@@ -3,7 +3,7 @@
 # Affiliation: IFM Lab, UC Davis
 
 """
-Data expansion basic functions.
+Basic data expansion functions.
 
 This module contains the basic data expansion functions,
 including identity_expansion, reciprocal_expansion and linear_expansion.
@@ -258,16 +258,126 @@ class reciprocal_expansion(expansion):
 
 
 class linear_expansion(expansion):
+    r"""
+    The linear data expansion function.
+
+    It performs the linear expansion of the input vector, and returns the expansion result.
+    The class inherits from the base expansion class (i.e., the transformation class in the module directory).
+
+    ...
+
+    Notes
+    ----------
+    For input vector $\mathbf{x} \in R^m$, its linear expansion can be based on one of the following equations:
+    $$
+    \begin{align}
+        \kappa(\mathbf{x}) &= c \mathbf{x} \in {R}^D, \\\\
+        \kappa(\mathbf{x}) &= \mathbf{x} \mathbf{C}\_{post} \in {R}^D,\\\\
+        \kappa(\mathbf{x}) &= \mathbf{C}\_{pre} \mathbf{x} \in {R}^{D},
+    \end{align}
+    $$
+    where $c \in {R}$, $\mathbf{C}_{post}, \mathbf{C}_{pre} \in {R}^{m \times m}$ denote the provided
+    constant scalar and linear transformation matrices, respectively.
+    Linear data expansion will not change the data vector dimensions, and the output data vector dimension $D=m$.
+
+    By default, the input and output can also be processed with the optional pre- or post-processing functions
+    in the linear expansion function.
+
+    Attributes
+    ----------
+    name: str, default = 'linear_expansion'
+        Name of the expansion function.
+
+    Methods
+    ----------
+    __init__
+        It performs the initialization of the expansion function.
+
+    calculate_D
+        It calculates the expansion space dimension D based on the input dimension parameter m.
+
+    __call__
+        It reimplements the abstract callable method declared in the base expansion class.
+
+    """
     def __init__(self, name='linear_expansion', c=None, pre_C=None, post_C=None, *args, **kwargs):
+        r"""
+        The initialization method of the linear expansion function.
+
+        It initializes a linear expansion object based on the input metric name.
+        This method will also call the initialization method of the base class as well.
+
+        Parameters
+        ----------
+        name: str, default = 'linear_expansion'
+            The name of the linear expansion function.
+        c: float | torch.Tensor, default = None
+            The scalar $c$ of the linear expansion.
+        pre_C: torch.Tensor, default = None
+            The $\mathbf{C}_{pre}$ matrix of the linear expansion.
+        post_C: torch.Tensor, default = None
+            The $\mathbf{C}_{post}$ matrix of the linear expansion.
+        """
         super().__init__(name=name, *args, **kwargs)
         self.c = c
         self.pre_C = pre_C
         self.post_C = post_C
 
     def calculate_D(self, m: int):
+        r"""
+        The expansion dimension calculation method.
+
+        It calculates the intermediate expansion space dimension based on the input dimension parameter m.
+        For the linear expansion function, the expansion space dimension equals to the input space dimension, i.e.,
+        $$ D = m. $$
+
+        Parameters
+        ----------
+        m: int
+            The dimension of the input space.
+
+        Returns
+        -------
+        int
+            The dimension of the expansion space.
+        """
         return m
 
     def __call__(self, x: torch.Tensor, device='cpu', c=None, pre_C=None, post_C=None, *args, **kwargs):
+        r"""
+        The callable method of the data expansion function.
+
+        It performs the linear data expansion of the input data and returns the expansion result
+        according to one of the following equation:
+        $$
+        \begin{align}
+            \kappa(\mathbf{x}) &= c \mathbf{x} \in {R}^D, \\\\
+            \kappa(\mathbf{x}) &= \mathbf{x} \mathbf{C}\_{post} \in {R}^D,\\\\
+            \kappa(\mathbf{x}) &= \mathbf{C}\_{pre} \mathbf{x} \in {R}^{D},
+        \end{align}
+        $$
+        where $c \in {R}$, $\mathbf{C}_{post}, \mathbf{C}_{pre} \in {R}^{m \times m}$ denote the provided
+        constant scalar and linear transformation matrices, respectively.
+
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data vector.
+        device: str, default = 'cpu'
+            The device to perform the data expansion.
+        c: float | torch.Tensor, default = None
+            The scalar $c$ of the linear expansion.
+        pre_C: torch.Tensor, default = None
+            The $\mathbf{C}_{pre}$ matrix of the linear expansion.
+        post_C: torch.Tensor, default = None
+            The $\mathbf{C}_{post}$ matrix of the linear expansion.
+
+        Returns
+        ----------
+        torch.Tensor
+            The expanded data vector of the input.
+        """
         x = self.pre_process(x=x, device=device)
 
         c = c if c is not None else self.c
