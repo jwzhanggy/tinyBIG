@@ -76,7 +76,7 @@ class taylor_expansion(expansion):
         r"""
         The initialization method of taylor's expansion function.
 
-        It initializes a taylor's expansion object based on the input metric name.
+        It initializes a taylor's expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -206,7 +206,7 @@ class fourier_expansion(expansion):
         r"""
         The initialization method of fourier expansion function.
 
-        It initializes a fourier expansion object based on the input metric name.
+        It initializes a fourier expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters

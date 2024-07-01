@@ -61,7 +61,7 @@ class identity_expansion(expansion):
         """
         The initialization method of the identity expansion function.
 
-        It initializes an identity expansion object based on the input metric name.
+        It initializes an identity expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -192,7 +192,7 @@ class reciprocal_expansion(expansion):
         """
         The initialization method of the reciprocal expansion function.
 
-        It initializes a reciprocal expansion object based on the input metric name.
+        It initializes a reciprocal expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -304,7 +304,7 @@ class linear_expansion(expansion):
         r"""
         The initialization method of the linear expansion function.
 
-        It initializes a linear expansion object based on the input metric name.
+        It initializes a linear expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
