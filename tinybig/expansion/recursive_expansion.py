@@ -98,7 +98,7 @@ class bspline_expansion(expansion):
         r"""
         The initialization method of bspline expansion function.
 
-        It initializes a bspline expansion object based on the input metric name.
+        It initializes a bspline expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -281,7 +281,7 @@ class chebyshev_expansion(expansion):
         r"""
         The initialization method of chebyshev expansion function.
 
-        It initializes a chebyshev expansion object based on the input metric name.
+        It initializes a chebyshev expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -422,7 +422,7 @@ class jacobi_expansion(expansion):
         r"""
         The initialization method of jacobi expansion function.
 
-        It initializes a jacobi expansion object based on the input metric name.
+        It initializes a jacobi expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
