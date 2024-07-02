@@ -67,8 +67,8 @@ class taylor_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
 
@@ -121,9 +121,9 @@ class taylor_expansion(expansion):
                           'with more than 10M features per instance...', UserWarning)
         return D
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the taylor's data expansion of the input data and returns the expansion result
         according to the following equation:
@@ -198,8 +198,8 @@ class fourier_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='fourier_expansion', P=10, N=5, *args, **kwargs):
@@ -244,9 +244,9 @@ class fourier_expansion(expansion):
         """
         return m * self.N * 2
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the fourier data expansion of the input data and returns the expansion result
         according to the following equation:

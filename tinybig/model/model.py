@@ -17,9 +17,8 @@ class model:
     def load_ckpt(self, *args, **kwargs):
         pass
 
-    @abstractmethod
     def __call__(self, *args, **kwargs):
-        pass
+        return self.forward(*args, **kwargs)
 
     @abstractmethod
     def forward(self, *args, **kwargs):

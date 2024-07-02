@@ -97,8 +97,8 @@ class bspline_remainder(remainder):
     initialize_grid
         It initializes the grid defining the relationships between lower-order bspline polynomials with high-order ones.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base remainder class.
 
     """
     def __init__(self, name='bspline_remainder', grid_range=(-1, 1), t=5, d=3,
@@ -214,9 +214,9 @@ class bspline_remainder(remainder):
         h = (grid_range[1] - grid_range[0]) / t
         self.grid = torch.Tensor((torch.arange(-d, t + d + 1) * h + grid_range[0]).expand(m, -1).contiguous()).to(device)
 
-    def __call__(self, x: torch.Tensor, w: torch.nn.Parameter = None, b: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, w: torch.nn.Parameter = None, b: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the bspline expansion based remainder function.
+        The forward method of the bspline expansion based remainder function.
 
         The complementary bspline expansion based remainder function calculates the remainder term as follows:
         $$

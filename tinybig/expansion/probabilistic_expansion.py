@@ -62,8 +62,8 @@ class naive_normal_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_normal_expansion', *args, **kwargs):
@@ -101,9 +101,9 @@ class naive_normal_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive normal probabilistic expansion function.
+        The forward method of the naive normal probabilistic expansion function.
 
         It performs the naive normal probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -145,7 +145,7 @@ class normal_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -216,8 +216,8 @@ class naive_cauchy_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_cauchy_expansion', *args, **kwargs):
@@ -255,9 +255,9 @@ class naive_cauchy_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive cauchy probabilistic expansion function.
+        The forward method of the naive cauchy probabilistic expansion function.
 
         It performs the naive cauchy probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -298,7 +298,7 @@ class cauchy_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -369,8 +369,8 @@ class naive_chi2_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_chi2_expansion', *args, **kwargs):
@@ -408,9 +408,9 @@ class naive_chi2_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive chi2 probabilistic expansion function.
+        The forward method of the naive chi2 probabilistic expansion function.
 
         It performs the naive chi2 probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -452,7 +452,7 @@ class chi2_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 2
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
         x = F.sigmoid(x)+0.001
@@ -512,8 +512,8 @@ class naive_gamma_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_gamma_expansion', *args, **kwargs):
@@ -551,9 +551,9 @@ class naive_gamma_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive gamma probabilistic expansion function.
+        The forward method of the naive gamma probabilistic expansion function.
 
         It performs the naive gamma probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -596,7 +596,7 @@ class gamma_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -669,8 +669,8 @@ class naive_laplace_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_laplace_expansion', *args, **kwargs):
@@ -708,9 +708,9 @@ class naive_laplace_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive laplace probabilistic expansion function.
+        The forward method of the naive laplace probabilistic expansion function.
 
         It performs the naive laplace probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -751,7 +751,7 @@ class laplace_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -825,8 +825,8 @@ class naive_exponential_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='naive_exponential_expansion', *args, **kwargs):
@@ -864,9 +864,9 @@ class naive_exponential_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the naive exponential probabilistic expansion function.
+        The forward method of the naive exponential probabilistic expansion function.
 
         It performs the naive exponential probabilistic expansion of the input data and returns the expansion result as
         $$
@@ -909,7 +909,7 @@ class exponential_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -946,7 +946,7 @@ class hybrid_probabilistic_expansion(expansion):
     def calculate_D(self, m: int):
         return m * 6
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 

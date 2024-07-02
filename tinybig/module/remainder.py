@@ -53,8 +53,11 @@ class remainder(torch.nn.Module):
     activation
         It applies the activation functions to data calculated in this remainder function.
 
+    forward
+        The forward method to calculate the remainder term.
+
     __call__
-        It reimplementation the build-in callable method of the remainder function.
+        The build-in callable method of the remainder function.
     """
     def __init__(
             self,
@@ -133,10 +136,13 @@ class remainder(torch.nn.Module):
         """
         return func_x(x, self.activation_functions, device=device)
 
-    @abstractmethod
     def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
+
+    @abstractmethod
+    def forward(self, *args, **kwargs):
         """
-        The callable method of the remainder function.
+        The forward method of the remainder function.
 
         It calculates the remainder term based on the inputs. For some remainder functions, this method
         will also accept parameters as the input, which can be applied to the input data for remainder calculation.

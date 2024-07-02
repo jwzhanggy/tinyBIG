@@ -53,8 +53,8 @@ class identity_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='identity_expansion', *args, **kwargs):
@@ -91,9 +91,9 @@ class identity_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs) -> torch.Tensor:
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the identity data expansion of the input data and returns the expansion result
         according to the following equation:
@@ -184,8 +184,8 @@ class reciprocal_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='reciprocal_expansion', *args, **kwargs):
@@ -222,9 +222,9 @@ class reciprocal_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the reciprocal data expansion of the input data and returns the expansion result
         according to the following equation:
@@ -296,8 +296,8 @@ class linear_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='linear_expansion', c=None, pre_C=None, post_C=None, *args, **kwargs):
@@ -343,9 +343,9 @@ class linear_expansion(expansion):
         """
         return m
 
-    def __call__(self, x: torch.Tensor, device='cpu', c=None, pre_C=None, post_C=None, *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', c=None, pre_C=None, post_C=None, *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the linear data expansion of the input data and returns the expansion result
         according to one of the following equation:

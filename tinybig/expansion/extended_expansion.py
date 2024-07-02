@@ -55,8 +55,8 @@ class extended_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class for data expansion.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(
@@ -117,9 +117,9 @@ class extended_expansion(expansion):
             D += expansion_func.calculate_D(m=m)
         return D
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the extended expansion function.
+        The forward method of the extended expansion function.
 
         For the extended expansion function defined based on $n$ functions (1) $\kappa_1: {R}^{m} \to {R}^{d_1}$,
         (2) $\kappa_2: {R}^{m} \to {R}^{d_2}$, $\cdots$, (n) $\kappa_n: {R}^{m} \to {R}^{d_{n}}$,

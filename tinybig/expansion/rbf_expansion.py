@@ -74,8 +74,8 @@ class gaussian_rbf_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='gaussian_rbf_expansion', base_range=(-1, 1), num_interval=10, epsilon=1.0, base=None, *args, **kwargs):
@@ -151,9 +151,9 @@ class gaussian_rbf_expansion(expansion):
         num_interval = num_interval if num_interval is not None else self.num_interval
         self.base = torch.Tensor(torch.linspace(base_range[0], base_range[1], num_interval)).to(device)
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the gaussian rbf data expansion of the input data and returns the expansion result as
         $$
@@ -241,8 +241,8 @@ class inverse_quadratic_rbf_expansion(gaussian_rbf_expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='inverse_quadratic_rbf', base_range=(-1, 1), num_interval=10, epsilon=1.0, base=None, *args, **kwargs):
@@ -268,9 +268,9 @@ class inverse_quadratic_rbf_expansion(gaussian_rbf_expansion):
         """
         super().__init__(name=name, base_range=base_range, num_interval=num_interval, epsilon=epsilon, base=base, *args, **kwargs)
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the inverse quadratic rbf data expansion of the input data and returns the expansion result as
         $$

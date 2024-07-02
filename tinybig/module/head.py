@@ -171,5 +171,5 @@ class rpn_head(torch.nn.Module):
         # [batch, n]
         return result
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
-        return self.forward(x=x, device=device, *args, **kwargs)
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)

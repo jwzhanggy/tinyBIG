@@ -63,8 +63,8 @@ class hypernet_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters for the reconciliation function.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='hypernet_reconciliation', l: int = 64, hidden_dim: int = 128, static: bool = True, net = None, *args, **kwargs):
         """
@@ -178,13 +178,13 @@ class hypernet_reconciliation(reconciliation):
             for param in self.net.parameters():
                 param.requires_grad = True
 
-    # def __call__test(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    # def forwardtest(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
     #     print(w.shape, self.calculate_l(n, D))
     #     return F.linear(w, torch.ones(n*D, self.calculate_l(n, D)).to(device)).view(n, D).to(device)
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the hypernet based parameter reconciliation operation to the input parameter vector $\mathbf{w}$,
         and returns the reconciled parameter matrix of shape (n, D) subject to rank parameters $r$ as follows:

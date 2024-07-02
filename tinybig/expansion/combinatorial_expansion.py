@@ -79,8 +79,8 @@ class combinatorial_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class for data expansion.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name: str = 'combinatorial_expansion', d: int = 2, with_replacement: bool = False, *args, **kwargs):
@@ -192,9 +192,9 @@ class combinatorial_expansion(expansion):
         else:
             raise ValueError("Input x can only be 2d or 1d, higher dimensional inputs are not supported yet...")
 
-    def __call__(self, x: torch.Tensor, device='cpu', with_replacement: bool = False, *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', with_replacement: bool = False, *args, **kwargs):
         r"""
-        The callable method of the combinatorial expansion function.
+        The forward method of the combinatorial expansion function.
 
         It performs the combinatorial data expansion of the input data and returns the expansion result as
         $$
@@ -270,8 +270,8 @@ class combinatorial_normal_expansion(combinatorial_expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name: str = 'combinatorial_normal_expansion', d: int = 1, with_replacement: bool = False, *args, **kwargs):
@@ -314,9 +314,9 @@ class combinatorial_normal_expansion(combinatorial_expansion):
         assert type(self.d) is int and self.d >= 1
         return int(sum([comb(m, r) for r in range(1, self.d+1)]))
 
-    def __call__(self, x: torch.Tensor, device='cpu', with_replacement: bool = False, *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', with_replacement: bool = False, *args, **kwargs):
         r"""
-        The callable method of the combinatorial normal probabilistic expansion function.
+        The forward method of the combinatorial normal probabilistic expansion function.
 
         It performs the combinatorial data expansion of the input data and returns the expansion result as
         $$

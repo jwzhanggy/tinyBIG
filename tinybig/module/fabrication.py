@@ -47,8 +47,11 @@ class fabrication(torch.nn.Module):
     calculate_l
         It calculates the length of required parameters.
 
+    forward
+        The forward method to perform parameter fabrication.
+
     __call__
-        It reimplementation the build-in callable method of the parameter fabrication.
+        The build-in callable method of the parameter fabrication function.
     """
     def __init__(
             self,
@@ -121,10 +124,13 @@ class fabrication(torch.nn.Module):
         """
         pass
 
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
+
     @abstractmethod
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, *args, **kwargs):
         """
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the parameter reconciliation operation to the input parameter of length l,
         and returns the reconciled parameter matrix of shape (n, D).

@@ -99,8 +99,8 @@ class bspline_expansion(expansion):
     initialize_grid
         It initializes the grid defining the relationships between lower-order bspline polynomials with high-order ones.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='bspline_expansion', grid_range=(-1, 1), t=5, d=3, *args, **kwargs):
@@ -190,9 +190,9 @@ class bspline_expansion(expansion):
         self.grid = torch.Tensor((torch.arange(-d, t + d + 1) * h + grid_range[0])
                                  .expand(m, -1).contiguous()).to(device)
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the bspline data expansion of the input data and returns the expansion result
         according to the following equation:
@@ -285,8 +285,8 @@ class chebyshev_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='chebyshev_polynomial_expansion', d=5, *args, **kwargs):
@@ -328,9 +328,9 @@ class chebyshev_expansion(expansion):
         """
         return m * self.d
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the chebyshev data expansion of the input data and returns the expansion result
         according to the following equation:
@@ -426,8 +426,8 @@ class jacobi_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='jacobi_polynomial_expansion', d=5, alpha=1.0, beta=1.0, *args, **kwargs):
@@ -475,9 +475,9 @@ class jacobi_expansion(expansion):
         """
         return m * self.d
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the jacobi data expansion of the input data and returns the expansion result
         according to the following equation:

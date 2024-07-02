@@ -55,8 +55,8 @@ class nested_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class for data expansion.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(
@@ -116,9 +116,9 @@ class nested_expansion(expansion):
             D = expansion_func.calculate_D(m=D)
         return D
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the nested expansion function.
+        The forward method of the nested expansion function.
 
         For the nested expansion function defined based on $n$ functions (1) $\kappa_1: {R}^{m} \to {R}^{d_1}$,
         (2) $\kappa_2: {R}^{d_1} \to {R}^{d_2}$, $\cdots$, (n) $\kappa_n: {R}^{d_{n-1}} \to {R}^{D}$,

@@ -65,8 +65,8 @@ class lorr_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters for the reconciliation function.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name: str = 'low_rank_reconciliation', r: int = 2, *args, **kwargs):
         """
@@ -117,9 +117,9 @@ class lorr_reconciliation(reconciliation):
         """
         return self.r * (n + D)
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the low-rank parameter reconciliation operation to the input parameter vector $\mathbf{w}$,
         and returns the reconciled parameter matrix of shape (n, D) subject to rank parameters $r$ as follows:
@@ -207,8 +207,8 @@ class hm_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters for the reconciliation function.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='hypercomplex_multiplication_reconciliation', p=2, q=None, *args, **kwargs):
         """
@@ -267,9 +267,9 @@ class hm_reconciliation(reconciliation):
         assert (self.p * self.q * s * t == n * D)
         return self.p * self.q + s * t
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the hypercomplex multiplication based parameter reconciliation operation to the input parameter vector $\mathbf{w}$,
         and returns the reconciled parameter matrix of shape (n, D) subject to the parameters $p$ and $q$ as follows:
@@ -365,8 +365,8 @@ class lphm_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters for the reconciliation function.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
         """
@@ -438,9 +438,9 @@ class lphm_reconciliation(reconciliation):
         assert (self.p * self.q * s * t == n * D)
         return self.p * self.q + s * self.r + t * self.r
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the LPHM parameter reconciliation operation to the input parameter vector $\mathbf{w}$,
         and returns the reconciled parameter matrix of shape (n, D) subject to the dimension and rank parameters
@@ -539,8 +539,8 @@ class dual_lphm_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters for the reconciliation function.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='dual_lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
         """
@@ -612,9 +612,9 @@ class dual_lphm_reconciliation(reconciliation):
         assert (self.p * self.q * s * t == n * D)
         return self.p * self.r + self.q * self.r + s * self.r + t * self.r
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the Dual-LPHM parameter reconciliation operation to the input parameter vector $\mathbf{w}$,
         and returns the reconciled parameter matrix of shape (n, D) subject to the dimension and rank parameters

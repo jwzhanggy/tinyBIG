@@ -59,8 +59,11 @@ class transformation(torch.nn.Module):
     calculate_D
         It calculate the expansion space dimension based on the input dimension parameter.
 
+    forward
+        The forward method to perform data transformation.
+
     __call__
-        It reimplementation the build-in callable method.
+        The built-in callable method of the data transformation function.
     """
 
     def __init__(
@@ -187,10 +190,13 @@ class transformation(torch.nn.Module):
         """
         pass
 
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
+
     @abstractmethod
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         """
-        The callable method of the data transformation function.
+        The forward method of the data transformation function.
 
 
         It applies the data expansion operation to the input data and returns the expansion result.

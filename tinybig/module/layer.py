@@ -107,8 +107,8 @@ class rpn_layer(torch.nn.Module):
         self.fusion_parameters = torch.nn.Parameter(torch.rand(self.n, self.n*self.head_num))
         torch.nn.init.xavier_uniform_(self.fusion_parameters)
 
-    def __call__(self, x: torch.Tensor, fusion_strategy=None, device='cpu', *args, **kwargs):
-        return self.forward(x=x, fusion_strategy=fusion_strategy, device=device, *args, **kwargs)
+    def __call__(self, *args, **kwargs):
+        return self.forward(*args, **kwargs)
 
     def forward(self, x: torch.Tensor, fusion_strategy=None, device='cpu', *args, **kwargs):
         results = []

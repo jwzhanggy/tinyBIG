@@ -64,8 +64,8 @@ class constant_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name: str = 'constant_c_reconciliation', c: float = 1.0, *args, **kwargs):
         """
@@ -114,9 +114,9 @@ class constant_reconciliation(reconciliation):
         """
         return 0
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the constant parameter reconciliation operation to the input parameter of length l,
         and returns the reconciled parameter matrix of shape (n, D) as follows:
@@ -269,8 +269,8 @@ class constant_eye_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='constant_eye_reconciliation', *args, **kwargs):
         """
@@ -316,9 +316,9 @@ class constant_eye_reconciliation(reconciliation):
         """
         return 0
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the constant eye parameter reconciliation operation to the input parameter of length l,
         and returns the reconciled parameter matrix of shape (n, D) as follows:
@@ -396,8 +396,8 @@ class identity_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='identity_reconciliation', *args, **kwargs):
         """
@@ -444,9 +444,9 @@ class identity_reconciliation(reconciliation):
         """
         return n*D
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device: str = 'cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device: str = 'cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the identity parameter reconciliation operation to the input parameter of length l,
         and returns the reconciled parameter matrix of shape (n, D) as follows:
@@ -528,8 +528,8 @@ class masking_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='masking_reconciliation', p=0.5, fixed_mask: bool = True, *args, **kwargs):
         """
@@ -607,9 +607,9 @@ class masking_reconciliation(reconciliation):
         """
         self.mask_matrix = torch.rand(n, D) < self.p
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the masking parameter reconciliation operation to the input parameter vector,
         and returns the reconciled parameter matrix of shape (n, D) subject to the masking ratio $p$ as follows:
@@ -699,8 +699,8 @@ class duplicated_padding_reconciliation(reconciliation):
     calculate_l
         It calculates the length of required parameters.
 
-    __call__
-        It reimplementation the build-in callable method of the parameter reconciliation.
+    forward
+        It implements the abstract forward method declared in the base reconciliation class.
     """
     def __init__(self, name='duplicated_padding_reconciliation', p=2, q=None, *args, **kwargs):
         """
@@ -757,9 +757,9 @@ class duplicated_padding_reconciliation(reconciliation):
         assert (self.p * self.q * s * t == n * D)
         return s * t
 
-    def __call__(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the parameter reconciliation function.
+        The forward method of the parameter reconciliation function.
 
         It applies the duplicated padding based parameter reconciliation operation to the input parameter vector,
         and returns the reconciled parameter matrix of shape (n, D) subject to duplication parameters $p$ and $q$ as follows:

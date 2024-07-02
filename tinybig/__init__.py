@@ -7,11 +7,8 @@ Modules implemented in this package:
 """
 
 from tinybig import model, module, config
-
 from tinybig import remainder, expansion, compression, reconciliation
-
 from tinybig import learner, data, output, metric, koala
-
 from tinybig import visual, util
 
 __all__ = [

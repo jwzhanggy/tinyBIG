@@ -53,8 +53,8 @@ class constant_remainder(remainder):
     __init__
         It initializes the constant remainder function.
 
-    __call__
-        It reimplementation the build-in callable method of the remainder function.
+    forward
+        It implements the abstract forward method declared in the base remainder class.
     """
     def __init__(self, name='constant_remainder', c=1.0, *args, **kwargs):
         """
@@ -78,9 +78,9 @@ class constant_remainder(remainder):
         super().__init__(name=name, *args, **kwargs)
         self.c = c
 
-    def __call__(self, n: int, device='cpu', *args, **kwargs):
+    def forward(self, n: int, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the constant remainder function.
+        The forward method of the constant remainder function.
 
         It calculates the constant remainder term of length $n$, which can be represented as follows
         $$
@@ -238,8 +238,8 @@ class identity_remainder(remainder):
     __init__
         It initializes the identity remainder function.
 
-    __call__
-        It reimplementation the build-in callable method of the remainder function.
+    forward
+        It implements the abstract forward method declared in the base remainder class.
     """
     def __init__(self, name='identity_remainder', *args, **kwargs):
         """
@@ -260,9 +260,9 @@ class identity_remainder(remainder):
         """
         super().__init__(name=name, *args, **kwargs)
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-       The callable method of the identity remainder function.
+       The forward method of the identity remainder function.
 
        The identity remainder function $\pi: {R}^m \to {R}^n$ just projects all inputs to the inputs themselves, i.e.,
         $$
@@ -323,8 +323,8 @@ class linear_remainder(remainder):
     __init__
         It initializes the linear remainder function.
 
-    __call__
-        It reimplementation the build-in callable method of the linear remainder function.
+    forward
+        It implements the abstract forward method declared in the base remainder class.
     """
     def __init__(self, name: str = 'linear_remainder', require_parameters: bool = True, enable_bias: bool = False, *args, **kwargs):
         """
@@ -349,9 +349,9 @@ class linear_remainder(remainder):
         """
         super().__init__(name=name, require_parameters=require_parameters, enable_bias=enable_bias, *args, **kwargs)
 
-    def __call__(self, x: torch.Tensor, w: torch.nn.Parameter, b: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, w: torch.nn.Parameter, b: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the linear remainder function.
+        The forward method of the linear remainder function.
 
         The linear remainder function $\pi: {R}^m \to {R}^n$ just projects all inputs to themselves subject to linear
         transformations, i.e.,

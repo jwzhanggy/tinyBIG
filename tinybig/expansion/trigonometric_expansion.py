@@ -52,8 +52,8 @@ class hyperbolic_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
 
@@ -91,9 +91,9 @@ class hyperbolic_expansion(expansion):
         """
         return m * 3
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the hyperbolic data expansion of the input data and returns the expansion result as
         $$
@@ -160,8 +160,8 @@ class arc_hyperbolic_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='arc_hyperbolic_expansion', *args, **kwargs):
@@ -198,9 +198,9 @@ class arc_hyperbolic_expansion(expansion):
         """
         return m * 3
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the arc hyperbolic data expansion of the input data and returns the expansion result as
         $$
@@ -269,8 +269,8 @@ class trigonometric_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
 
@@ -308,9 +308,9 @@ class trigonometric_expansion(expansion):
         """
         return m * 3
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the trigonometric data expansion of the input data and returns the expansion result as
         $$
@@ -377,8 +377,8 @@ class arc_trigonometric_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
-    __call__
-        It reimplements the abstract callable method declared in the base expansion class.
+    forward
+        It implements the abstract forward method declared in the base expansion class.
 
     """
     def __init__(self, name='arc_trigonometric_expansion', *args, **kwargs):
@@ -415,9 +415,9 @@ class arc_trigonometric_expansion(expansion):
         """
         return m * 3
 
-    def __call__(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
-        The callable method of the data expansion function.
+        The forward method of the data expansion function.
 
         It performs the arc trigonometric data expansion of the input data and returns the expansion result as
         $$

@@ -101,13 +101,10 @@ class rpn(torch.nn.Module, model):
                 self.delete_single_layer(index=id)
         return True
 
-    def forward(self, x: torch.Tensor, device='cpu'):
+    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         for layer in self.layers:
             x = layer(x, device=device)
         return x
-
-    def __call__(self, x:torch.Tensor, device='cpu', *args, **kwargs):
-        return self.forward(x=x, device=device)
 
     def save_ckpt(self, cache_dir='./ckpt', checkpoint_file='checkpoint'):
         create_directory_if_not_exists(f'{cache_dir}/{checkpoint_file}')
