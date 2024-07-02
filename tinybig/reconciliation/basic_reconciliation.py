@@ -52,9 +52,9 @@ class constant_reconciliation(reconciliation):
     Attributes
     ----------
     name: str, default = 'constant_reconciliation'
-        Name of the reconciliation function
+        Name of the reconciliation function.
     c: float, default = 1.0
-        The constant value of the reconciliation function
+        The constant value of the reconciliation function.
 
     Methods
     ----------
@@ -135,6 +135,8 @@ class constant_reconciliation(reconciliation):
         w: torch.nn.Parameter, default = None
             The learnable parameters of the model.
             For constant reconciliation, it is assigned with a default value None.
+        device: str, default = 'cpu'
+            Device to perform the parameter reconciliation.
 
         Returns
         ----------
@@ -336,6 +338,8 @@ class constant_eye_reconciliation(reconciliation):
         w: torch.nn.Parameter, default = None
             The learnable parameters of the model.
             For constant eye reconciliation, it is assigned with a default value None.
+        device: str, default = 'cpu'
+            Device to perform the parameter reconciliation.
 
         Returns
         ----------

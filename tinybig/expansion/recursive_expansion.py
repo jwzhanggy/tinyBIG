@@ -79,8 +79,14 @@ class bspline_expansion(expansion):
     ----------
     name: str, default = 'bspline_expansion'
         Name of the expansion function.
-    d: int, default = 2
-        Degree of bspline expansion.
+    grid_range: tuple, default = (-1, 1)
+        The input value range for defining the grid.
+    t: int, default = 5
+        The interval number divided by the knots in bspline.
+    d: int, default = 3
+        The degree of the bspline expansion.
+    grid: torch.Tensor, default = None
+        The grid representing relationships between lower-order bspline polynomials with high-order ones.
 
     Methods
     ----------
@@ -90,6 +96,9 @@ class bspline_expansion(expansion):
     calculate_D
         It calculates the expansion space dimension D based on the input dimension parameter m.
 
+    initialize_grid
+        It initializes the grid defining the relationships between lower-order bspline polynomials with high-order ones.
+
     __call__
         It reimplements the abstract callable method declared in the base expansion class.
 
@@ -98,7 +107,7 @@ class bspline_expansion(expansion):
         r"""
         The initialization method of bspline expansion function.
 
-        It initializes a bspline expansion object based on the input function name.
+        It initializes a bspline expansion object based on the input function name and parameters.
         This method will also call the initialization method of the base class as well.
 
         Parameters
@@ -111,13 +120,17 @@ class bspline_expansion(expansion):
             The interval number divided by the knots in bspline.
         d: int, default = 3
             The degree of the bspline expansion.
+
+        Returns
+        -------
+        object
+            The bspline expansion function object.
         """
         super().__init__(name=name, *args, **kwargs)
         self.grid_range = grid_range
         self.t = t
         self.d = d
         self.grid = None
-        self.m = None
 
     def calculate_D(self, m: int):
         r"""
@@ -169,7 +182,6 @@ class bspline_expansion(expansion):
         torch.Tensor
             The grid tensor of shape (m, t+d) denoting the lower-order and high-order bspline polynomial relationships.
         """
-        self.m = m
         grid_range = grid_range if grid_range is not None else self.grid_range
         t = t if t is not None else self.t
         d = d if d is not None else self.d
@@ -206,7 +218,7 @@ class bspline_expansion(expansion):
         x = self.pre_process(x=x, device=device)
         if self.grid is None:
             self.initialize_grid(m=x.size(1), device=device, *args, **kwargs)
-        assert x.dim() == 2 and x.size(1) == self.m
+        assert x.dim() == 2
         x = x.unsqueeze(-1)
         bases = ((x >= self.grid[:, :-1]) & (x < self.grid[:, 1:])).to(x.dtype)
         for k in range(1, self.d + 1):

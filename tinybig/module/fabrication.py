@@ -77,7 +77,7 @@ class fabrication(torch.nn.Module):
         Returns
         ----------
         object
-            The base parameter fabrication function object.
+            The parameter fabrication function object.
         """
         super().__init__()
         self.name = name

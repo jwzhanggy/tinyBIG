@@ -1,5 +1,5 @@
 r"""
-This module provides the expansion functions that can be used to build the RPN model within the tinyBIG toolkit.
+This module provides the **data expansion functions** that can be used to build the RPN model within the tinyBIG toolkit.
 
 Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$ to be learned,
 the **data expansion function** $\kappa$ projects input data into a new space shown as follows:

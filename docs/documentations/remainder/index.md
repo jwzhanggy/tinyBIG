@@ -1,5 +1,8 @@
 # tinybig.remainder
 
+::: tinybig.remainder
+
+---------------------------------------
 ## Basic Remainders
 * [constant_remainder](constant_remainder.md)
 * [zero_remainder](zero_remainder.md)
