@@ -1,5 +1,11 @@
 # tinybig.expansion
 
+::: tinybig.expansion
+
+---------------------------------------
+## Data Expansion/Transformation
+* [transformation](../module/transformation.md) (defined in the tinybig.module directory)
+
 ## Basic Expansions
 * [identity_expansion](identity_expansion.md)
 * [reciprocal_expansion](reciprocal_expansion.md)

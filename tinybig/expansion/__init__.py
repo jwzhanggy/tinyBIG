@@ -1,55 +1,28 @@
-"""
-This module provides the expansion functions that can be used within the tinyBIG toolkit.
+r"""
+This module provides the expansion functions that can be used to build the RPN model within the tinyBIG toolkit.
 
-The module contains the following expansion functions:
+Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$ to be learned,
+the **data expansion function** $\kappa$ projects input data into a new space shown as follows:
 
-the base expansion function
-- base_expansion
+$$ \kappa: {R}^m \to {R}^{D}, $$
 
-basic expansion functions
-- identity_expansion
-- reciprocal_expansion
-- linear_expansion
+where the target dimension vector space dimension $D$ is determined when defining $\kappa$.
 
-polynomial expansion functions
-- taylor_expansion
-- fourier_expansion
-- bspline_expansion
-- chebyshev_expansion
-- jacobi_expansion
+In practice, the function $\kappa$ can either expand or compress the input to a higher- or lower-dimensional space.
+The corresponding function, $\kappa$, can also be referred to as the data expansion function (if $D > m$)
+and data compression function (if $D < m$), respectively. Collectively, these can be unified under the term
+"**data transformation functions**".
 
-trigonometric expansion functions
-- hyperbolic_expansion
-- arc_hyperbolic_expansion
-- trigonometric_expansion
-- arc_trigonometric_expansion
+This module contains the following categories of expansion functions:
 
-RBF expansion functions
-- gaussian_rbf_expansion
-- inverse_quadratic_rbf_expansion
-
-naive probabilistic expansion functions
-- normal_expansion
-- cauchy_expansion
-- chi2_expansion
-- gamma_expansion
-- exponential_expansion
-- laplace_expansion
-- hybrid_probabilistic_expansion
-- naive_normal_expansion
-- naive_cauchy_expansion
-- naive_chi2_expansion
-- naive_gamma_expansion
-- naive_exponential_expansion
-- naive_laplace_expansion
-
-combinatorial (probabilistic) expansion functions
-- combinatorial_expansion
-- combinatorial_normal_expansion
-
-nested and extended expansion functions
-- nested_expansion
-- extended_expansion
+* Basic expansion functions
+* Polynomial expansion functions
+* Trigonometric expansion functions
+* RBF expansion functions
+* Naive probabilistic expansion functions
+* Combinatorial (probabilistic) expansion functions
+* Nested expansion function
+* Extended expansion function
 """
 
 from tinybig.module.transformation import (

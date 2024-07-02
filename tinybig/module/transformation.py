@@ -3,9 +3,9 @@
 # Affiliation: IFM Lab, UC Davis
 
 """
-Base transformation function.
+Base transformation function for data.
 
-This module contains the base transformation function class definition.
+This module contains the base data transformation function class definition.
 The data expansion and compression functions are all defined based on this transformation class.
 """
 
@@ -40,12 +40,12 @@ class transformation(torch.nn.Module):
     postprocess_function_configs: dict, default = None
         Configs of postprocessing function or function list.
     device: str, default = 'cpu'
-        The device of the transformation function.
+        Device of the data transformation function of the data transformation.
 
     Methods
     ----------
     __init__
-        It performs the initialization of the data transformation function.
+        It initializes the data transformation function.
 
     get_name
         It gets the name of the data transformation function.
@@ -74,9 +74,9 @@ class transformation(torch.nn.Module):
             *args, **kwargs
     ):
         """
-        The initialization method of the base transformation function.
+        The initialization method of the base data transformation function.
 
-        It initializes a base transformation function object based on the provided method parameters.
+        It initializes a base data transformation function object.
 
         Parameters
         ----------
@@ -96,7 +96,7 @@ class transformation(torch.nn.Module):
         Returns
         ----------
         object
-            The base transformation function object.
+            The base data transformation function object.
         """
         super().__init__()
         self.name = name
@@ -173,7 +173,7 @@ class transformation(torch.nn.Module):
         The transformation dimension calculation method.
 
         It calculates the intermediate transformation space dimension based on the input dimension parameter m.
-        The method is declared as a abstractmethod and needs to be implemented in the inherited classes.
+        The method is declared as an abstractmethod and needs to be implemented in the inherited classes.
 
         Parameters
         ----------
@@ -193,7 +193,7 @@ class transformation(torch.nn.Module):
         The callable method of the data transformation function.
 
 
-        It executes the data expansion operation on the input data and returns the expansion result.
+        It applies the data expansion operation to the input data and returns the expansion result.
         The method is declared as a abstractmethod and needs to be implemented in the inherited classes.
 
         Parameters
@@ -202,10 +202,6 @@ class transformation(torch.nn.Module):
             The input data vector.
         device: str, default = 'cpu'
             The device to perform the data transformation.
-        args: list, default = ()
-            The other parameters.
-        kwargs: dict, default = {}
-            The other parameters.
 
         Returns
         ----------

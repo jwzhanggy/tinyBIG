@@ -51,6 +51,9 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
       block_tag: 'pre'
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -127,6 +130,8 @@ nav:
     - tinybig.reconciliation:
       - documentations/reconciliation/index.md
       - documentations/reconciliation/constant_reconciliation.md
+      - documentations/reconciliation/zero_reconciliation.md
+      - documentations/reconciliation/one_reconciliation.md
       - documentations/reconciliation/constant_eye_reconciliation.md
       - documentations/reconciliation/identity_reconciliation.md
       - documentations/reconciliation/masking_reconciliation.md
