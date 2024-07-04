@@ -96,9 +96,11 @@ extra:
 
 plugins:
   - search
-  - blog
   - macros
   - mkdocs-jupyter
+  - blog:
+      #authors_profiles: true
+      enabled: true
   - mkdocstrings:
       handlers:
         python:
@@ -106,7 +108,7 @@ plugins:
             docstring_style: numpy
             heading_level: 3
   - rss:
-      match_path: blogs/posts/.*
+      match_path: blog/posts/.*
       date_from_meta:
         as_creation: date
       categories:
@@ -259,11 +261,19 @@ nav:
         - tutorials/advanced/index.md
   - Examples:
       - examples/index.md
+      - Elementary Function Approximation: examples/function/elementary.md
+      - Composite Function Approximation: examples/function/composite.md
+      - Feynman Function Approximation: examples/function/feynman.md
+      - MNIST Classification: examples/image/mnist.md
+      - CIFAR10 Classification: examples/image/cifar10.md
+      - IMDB Classification: examples/text/imdb.md
+      - AGNews Classification: examples/text/agnews.md
+      - SST2 Classification: examples/text/sst2.md
+      - Iris Species Inference: examples/tabular/iris.md
+      - Diabetes Diagnosis Inference: examples/tabular/diabetes.md
+      - Banknote Authentication Inference: examples/tabular/banknote.md
   - Blogs:
-      - blogs/index.md
-      - blogs/toolkit.md
-      - blogs/model.md
-      - blogs/exploration.md
+      - blog/index.md
   - News:
       - news/index.md
       - news/about_us.md

@@ -1,2 +1,2 @@
 # diabetes
-::: tinybig.data.classic_dataloader.diabetes
+::: tinybig.data.tabular_dataloader.diabetes

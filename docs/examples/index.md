@@ -1,22 +1,36 @@
 # Examples
 
-=== "rpn.py"
-    ```py title="bubble_sort.py" linenums="1" 
-    import numpy as np
-    import pandas as pd 
-    ```
+## Examples of {{our}} for Continuous Function Approximation
 
-=== "config.yaml"
-    ``` yaml title="config.yaml" linenums="1"
-    theme:
-      features:
-        - content.code.annotate
-    ```
+|              Example ID               |           Example Title           | Release Date |   Colab Link    |
+|:-------------------------------------:|:---------------------------------:|:------------:|:---------------:|
+| [Example 1](./function/elementary.md) | Elementary Function Approximation |     TBD      | To Be Provided  |
+|             [Example 2]()             | Composite Function Approximation  |     TBD      | To Be Provided  |
+|             [Example 3]()             |  Feynman Function Approximation   |     TBD      | To Be Provided  |
 
-``` yaml
-theme:
-      features:
-        - content.code.annotate # (1)!
-```
+<!-- [![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/) |-->
 
-1.  Look ma, less line noise!
+## Examples of {{our}} for Image Classification
+
+|  Example ID   |                Example Title                 | Release Date |   Colab Link    |
+|:-------------:|:--------------------------------------------:|:------------:|:---------------:|
+| [Example 4]() | MNIST Handwritten Digit Image Classification |     TBD      | To Be Provided  |
+| [Example 5]() |      CIFAR10 Object Detection in Images      |     TBD      | To Be Provided  |
+
+## Examples of {{our}} for Text Classification
+
+|  Example ID   |         Example Title          | Release Date |   Colab Link    |
+|:-------------:|:------------------------------:|:------------:|:---------------:|
+| [Example 6]() |   IMDB Review Classification   |     TBD      | To Be Provided  |
+| [Example 7]() |  AGNews Topic Classification   |     TBD      | To Be Provided  |
+| [Example 8]() | SST-2 Sentiment Classification |     TBD      | To Be Provided  |
+
+## Examples of {{our}} for Probabilistic Relationship Inference
+
+|   Example ID   |           Example Title           | Release Date |   Colab Link    |
+|:--------------:|:---------------------------------:|:------------:|:---------------:|
+| [Example 9]()  |      Iris Species Inference       |     TBD      | To Be Provided  |
+| [Example 10]() |   Diabetes Diagnosis Inference    |     TBD      | To Be Provided  |
+| [Example 11]() | Banknote Authentication Inference |     TBD      | To Be Provided  |
+
+

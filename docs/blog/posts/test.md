@@ -1,10 +1,15 @@
 ---
 draft: true 
 date: 2024-01-31 
+readtime: 15
+pin: true
 authors:
   - jwzhanggy
 categories:
   - Hello_World
+tags:
+  - Foo
+  - Bar
 slug: hello-world
 links:
   - plugins/search.md

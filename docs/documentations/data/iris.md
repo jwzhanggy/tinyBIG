@@ -1,2 +1,2 @@
 # iris
-::: tinybig.data.classic_dataloader.iris
+::: tinybig.data.tabular_dataloader.iris

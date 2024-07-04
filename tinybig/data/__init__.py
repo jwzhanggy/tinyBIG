@@ -49,7 +49,7 @@ from .feynman_dataloader import (
     dimensionless_feynman_function
 )
 
-from .classic_dataloader import (
+from .tabular_dataloader import (
     tabular_dataloader,
     diabetes,
     iris,

@@ -1,2 +1,2 @@
 # banknote
-::: tinybig.data.classic_dataloader.banknote
+::: tinybig.data.tabular_dataloader.banknote
