@@ -1,3 +1,3 @@
 # remainder
 
-::: tinybig.module.remainder.remainder
+::: tinybig.module.base_remainder.remainder

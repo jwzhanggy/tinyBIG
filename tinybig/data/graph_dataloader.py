@@ -4,7 +4,7 @@
 
 from torch.utils.data import DataLoader
 
-from tinybig.data.dataloader import dataloader
+from tinybig.data.base_data import dataloader
 
 #https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid
 

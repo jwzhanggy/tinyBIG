@@ -1,8 +1,10 @@
 r"""
-This module provides the **parameter reconciliation functions** that can be used to build the RPN model within the tinyBIG toolkit.
+This module provides the parameter reconciliation functions that can be used to build the RPN model within the tinyBIG toolkit.
+
+## Parameter Reconciliation Function
 
 Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$ to be learned,
-the **parameter reconciliation function** $\psi$ adjusts the available parameter vector of length $l$ by fabricating
+the parameter reconciliation function $\psi$ adjusts the available parameter vector of length $l$ by fabricating
 a new parameter matrix of size $n \times D$ to accommodate the expansion space dimension $D$ as follows:
 
 $$ \psi: {R}^l \to {R}^{n \times D}, $$
@@ -14,7 +16,9 @@ i.e., $l \ll n \times D$.
 Meanwhile, in practice, we can also define function $\psi$ to fabricate a longer parameter vector into a smaller
 parameter matrix, i.e., $l > n \times D$.
 To unify these different cases, the data reconciliation function can also be referred to as the
-"**parameter fabrication function**", and these function names will be used interchangeably.
+"parameter fabrication function", and these function names will be used interchangeably.
+
+## Organization of this Module
 
 This module contains the following categories of parameter reconciliation functions:
 
@@ -23,8 +27,8 @@ This module contains the following categories of parameter reconciliation functi
 * Hypernet reconciliation functions
 """
 
-from tinybig.module.fabrication import (
-    fabrication as reconciliation
+from tinybig.module.base_fabrication import (
+    fabrication
 )
 
 from tinybig.reconciliation.basic_reconciliation import (

@@ -1,2 +1,2 @@
 # dataloader
-::: tinybig.data.dataloader.dataloader
+::: tinybig.data.base_data.dataloader

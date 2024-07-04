@@ -6,10 +6,10 @@ Modules implemented in this package:
 - TBD
 """
 
-from tinybig import model, module, config
-from tinybig import remainder, expansion, compression, reconciliation
-from tinybig import learner, data, output, metric, koala
-from tinybig import visual, util
+from . import model, module, config
+from . import remainder, expansion, compression, reconciliation
+from . import learner, data, output, metric, koala
+from . import visual, util
 
 __all__ = [
     'model',

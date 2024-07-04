@@ -1,5 +1,9 @@
 # tinybig.metric
 
+::: tinybig.metric
+
+---------------------------------------
+
 ## Base Metric
 * [base_metric](metric.md)
 

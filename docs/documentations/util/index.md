@@ -1,5 +1,9 @@
 # tinybig.util
 
+::: tinybig.util
+
+---------------------------------------
+
 ## Utility Functions for Project Initialization
 * [set_random_seed](set_random_seed.md)
 

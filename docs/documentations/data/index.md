@@ -1,5 +1,9 @@
 # tinybig.data
 
+::: tinybig.data
+
+---------------------------------------
+
 ## Base Data
 * [base dataloader](dataloader.md)
 * [dataset_template](dataset_template.md)
@@ -18,7 +22,6 @@
 
 ## Text Data
 * [text_dataloader](text_dataloader.md)
-* [text_dataset_template](text_dataset_template.md)
 * [imdb](imdb.md)
 * [sst2](sst2.md)
 * [agnews](agnews.md)
@@ -29,7 +32,7 @@
 * [diabetes](diabetes.md)
 * [banknote](banknote.md)
 
-## Graph Data
+<!-- ## Graph Data -->
 
 
 

@@ -11,14 +11,14 @@ including gaussian_rbf_expansion and inverse_quadratic_rbf_expansion.
 
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 
 #########################################################
 # Expansions defined with RBF for given base fix points #
 #########################################################
 
-class gaussian_rbf_expansion(expansion):
+class gaussian_rbf_expansion(transformation):
     r"""
     The gaussian rbf data expansion function.
 

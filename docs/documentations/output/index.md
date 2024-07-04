@@ -1,7 +1,11 @@
 # tinybig.output
 
-## Base Result
-* [result](result.md)
+::: tinybig.output
 
-## Prediction Result
-* [prediction](prediction.md)
+---------------------------------------
+
+## Base Output
+* [result](output.md)
+
+## Prediction Output
+* [prediction_output](prediction.md)

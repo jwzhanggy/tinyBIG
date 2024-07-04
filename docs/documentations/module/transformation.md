@@ -1,3 +1,3 @@
 # transformation
 
-::: tinybig.module.transformation.transformation
+::: tinybig.module.base_transformation.transformation

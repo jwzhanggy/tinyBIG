@@ -11,14 +11,14 @@ including bspline_expansion, chebyshev_expansion and jacobi_expansion.
 
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 
 #####################################################
 # Expansions defined with recursively defined basis #
 #####################################################
 
-class bspline_expansion(expansion):
+class bspline_expansion(transformation):
     r"""
     The bspline data expansion function.
 
@@ -230,7 +230,7 @@ class bspline_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class chebyshev_expansion(expansion):
+class chebyshev_expansion(transformation):
     r"""
     The chebyshev data expansion function.
 
@@ -365,7 +365,7 @@ class chebyshev_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class jacobi_expansion(expansion):
+class jacobi_expansion(transformation):
     r"""
     The jacobi data expansion function.
 

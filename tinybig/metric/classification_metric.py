@@ -8,7 +8,7 @@ Classification result evaluation metrics.
 This module contains the evaluation metrics for classification results, including accuracy and f1.
 """
 
-from tinybig.metric.metric import metric
+from tinybig.metric.base_metric import metric
 
 from sklearn.metrics import accuracy_score, f1_score
 

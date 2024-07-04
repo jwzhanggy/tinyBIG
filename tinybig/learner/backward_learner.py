@@ -1,47 +1,170 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+"""
+Error back propagation algorithm based learner.
 
+This module implements the backward learner, which can be used to
+train, validate and test the RPN model within the tinyBIG toolkit.
+"""
 from tqdm import tqdm
 import time
 import torch
 
 from tinybig.util.util import get_obj_from_str
-from tinybig.learner.learner import learner
-
+from tinybig.learner.base_learner import learner
+from tinybig.model.base_model import model as tinybig_model
+from tinybig.data.base_data import dataloader as tinybig_dataloader
+from tinybig.metric.base_metric import metric as tinybig_metric
 
 class backward_learner(learner):
-    def __init__(self, name='error_backward_propagation_algorithm', n_epochs=100,
-                 lr_scheduler=None, optimizer=None, loss=None,
-                 lr_scheduler_class=None, optimizer_class=None, loss_class=None, *args, **kwargs):
+    """
+    The backward learner defined based on the error back propagation algorithm.
+
+    Attributes
+    ----------
+    n_epochs: int, default = 100
+        Number of training epochs in the backward learner.
+    loss: torch.nn.Module
+        The loss function for RPN prediction evaluation.
+    optimizer: torch.optim.Optimizer
+        The optimizer for parameter gradient calculation
+    lr_scheduler: torch.optim.lr_scheduler.LRScheduler
+        The learning rate scheduler of the optimizer.
+
+    Methods
+    ----------
+    __init__
+        The backward learner initialization method.
+
+    train
+        The training method of the backward learner.
+
+    test
+        The testing method of the backward learner.
+    """
+    def __init__(
+            self,
+            name='error_backward_propagation_algorithm',
+            n_epochs=100,
+            lr_scheduler=None,
+            optimizer=None,
+            loss=None,
+            lr_scheduler_configs=None,
+            optimizer_configs=None,
+            loss_configs=None,
+            *args, **kwargs
+    ):
+        """
+        The initialization method of the backward learner.
+
+        It initializes the backward learner object, and initializes the loss function, optimizer,
+        and lr_scheduler that will be used for the RPN model training.
+
+        Specifically, the loss function, optimizer, and lr_scheduler can be initialized with the provided
+        parameter loss, optimizer and lr_scheduler directly.
+        Another initialization approach is to define the corresponding configurations, and initialize them
+        based on the configuration descriptions instead.
+
+        Parameters
+        ----------
+        name: str, default = 'error_backward_propagation_algorithm'
+            Name of the backward learner.
+        n_epochs: int, default = 100
+            Number of training epochs in the backward learner.
+
+        loss: torch.nn.Module
+            The loss function for RPN prediction evaluation.
+        optimizer: torch.optim.Optimizer
+            The optimizer for parameter gradient calculation
+        lr_scheduler: torch.optim.lr_scheduler.LRScheduler
+            The learning rate scheduler of the optimizer.
+
+        loss_configs: dict, default = None
+            The loss function configuration, which can also be used to initialize the loss function.
+        optimizer_configs: dict, default = None
+            The optimizer configuration, which can also be used to initialize the optimizer.
+        lr_scheduler_configs: dict, default = None
+            The configuration of the lr_scheduler, which can also
+            be used to initialize the learning rate scheduler.
+
+        Returns
+        ----------
+        object
+            The backward learner object initialized with the parameters.
+        """
         super().__init__(name=name)
         self.n_epochs = n_epochs
 
+        # initialize of the lr_scheduler
         if lr_scheduler is not None:
             self.lr_scheduler = lr_scheduler
-        elif lr_scheduler_class is not None:
-            self.lr_scheduler = lr_scheduler_class
-            self.lr_scheduler_parameters = kwargs['lr_scheduler_parameters'] if 'lr_scheduler_parameters' in kwargs else {}
+        elif lr_scheduler_configs is not None:
+            self.lr_scheduler = lr_scheduler_configs['lr_scheduler_class']
+            self.lr_scheduler_parameters = lr_scheduler_configs['lr_scheduler_parameters'] if 'lr_scheduler_parameters' in lr_scheduler_configs else {}
         else:
             self.lr_scheduler = None
 
+        # initialize of the optimizer
         if optimizer is not None:
             self.optimizer = optimizer
-        elif optimizer_class is not None:
-            self.optimizer = optimizer_class
-            self.optimizer_parameters = kwargs['optimizer_parameters'] if 'optimizer_parameters' in kwargs else {}
+        elif optimizer_configs is not None:
+            self.optimizer = optimizer_configs['optimizer_class']
+            self.optimizer_parameters = optimizer_configs['optimizer_parameters'] if 'optimizer_parameters' in optimizer_configs else {}
         else:
             self.optimizer = None
 
+        # initialize the loss function
         if loss is not None:
             self.loss = loss
-        if loss_class is not None:
-            parameters = kwargs['loss_parameters'] if 'loss_parameters' in kwargs else {}
+        if loss_configs is not None:
+            loss_class = loss_configs['loss_class']
+            parameters = loss_configs['loss_parameters'] if 'loss_parameters' in loss_configs else {}
             self.loss = get_obj_from_str(loss_class)(**parameters)
         else:
             self.loss = None
 
-    def train(self, model, data_loader, device='cpu', metric=None, test_check=True, disable_tqdm: bool = False, display_step: int = 1):
+    def train(
+            self,
+            model: tinybig_model,
+            data_loader: tinybig_dataloader,
+            device: str = 'cpu',
+            metric: tinybig_metric = None,
+            test_check: bool = True,
+            disable_tqdm: bool = False,
+            display_step: int = 1
+    ):
+        """
+        The backward learner training method for RPN model.
+
+        It trains the RPN model with the provided training dataset. Based on the provided parameters,
+        this method will also display information about the training process for each of the epochs,
+        like the current epochs, time cost, training loss, training scores, and testing loss and testing scores.
+
+        Parameters
+        ----------
+        model: tinybig.model.model
+            The RPN model to be trained.
+        data_loader: tinybig.data.dataloader
+            The training data_loader.
+        device: str, default = 'cpu'
+            The device used for the model training.
+        metric: tinybig.metric.metric, default = None
+            The evaluation metric used to display the training process.
+        test_check: bool, default = True
+            Boolean tag indicating whether to display the testing performance or not during training.
+        disable_tqdm: bool, default = False
+            Boolean tag indicating whether to disable the tqdm progress bar or not.
+        display_step: int, default = 1
+            How often this method will display the training progress information,
+            e.g., display_step=10, the training information will be displayed every 10 epochs.
+
+        Returns
+        -------
+        dict
+            The training record of the RPN model, covering information like the time cost,
+            training loss, training scores, and testing loss and testing scores, etc.
+        """
         #----------------------------
         training_record_dict = {
             'preparation': {},
@@ -72,7 +195,7 @@ class backward_learner(learner):
             if self.lr_scheduler is not None:
                 lr_scheduler = self.optimizer(optimizer=optimizer)
             else:
-                lr_scheduler = self.lr_scheduler
+                lr_scheduler = None
         # ----------------------------
 
         # ----------------------------
@@ -137,7 +260,41 @@ class backward_learner(learner):
 
         return training_record_dict
 
-    def test(self, model, test_loader, device='cpu', metric=None, return_full_result=True):
+    def test(
+            self,
+            model: tinybig_model,
+            test_loader: tinybig_dataloader,
+            device: str = 'cpu',
+            metric: tinybig_metric = None,
+            return_full_result: bool = True
+    ):
+        """
+        The testing method of the backward learning for RPN performance testing.
+
+        It applies the RPN model to the provided testing set,
+        and return the generated prediction results on the testing set.
+
+        Parameters
+        ----------
+        model: tinybig.model.model
+            The RPN model to be tested.
+        test_loader: tinybig.data.dataloader
+            The testing set dataloader.
+        device: str, default = 'cpu'
+            Device used for the testing method.
+        metric: tinybig.metric.metric, default = None
+            Evaluation metric used for evaluating the testing performance.
+        return_full_result: bool, default = True
+            The boolean tag indicating whether the full result should be returned.
+            Since this test method will also be called in the train method for training
+            performance display, which don't require the full testing results actually.
+
+        Returns
+        -------
+        dict
+            The testing results together with testing performance records.
+        """
+
         start_time = time.time()
 
         model.eval()

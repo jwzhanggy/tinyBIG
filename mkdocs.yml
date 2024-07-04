@@ -32,6 +32,7 @@ theme:
         name: Switch to light mode
 
   features:
+    # navigation features
     - navigation.indexes
     - navigation.instant
     - navigation.instant.progress
@@ -39,21 +40,39 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.indexes
-    - navigation.path
     - navigation.top
+    - navigation.footer
+    #- navigation.sections
     #- toc.follow
     - header.autohide
-    - navigation.footer
     - announce.dismiss
+    # code features
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - navigation.path
 
 markdown_extensions:
   - tables
+  - def_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
       block_tag: 'pre'
-  - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -70,20 +89,24 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
   generator: false
+  toolkit: 'tinyBIG'
+  our: 'RPN'
+  author: 'Jiawei Zhang'
+  affiliation: 'IFM Lab'
 
 plugins:
   - search
   - blog
+  - macros
+  - mkdocs-jupyter
   - mkdocstrings:
       handlers:
         python:
           options:
             docstring_style: numpy
             heading_level: 3
-  - macros:
-      module_name: docs/env
   - rss:
-      match_path: blog/posts/.*
+      match_path: blogs/posts/.*
       date_from_meta:
         as_creation: date
       categories:
@@ -98,7 +121,7 @@ nav:
     - Installation: guides/installation.md
     - Quick Start: guides/quick_start.md
   - Docs:
-    - Overview: documentations/index.md
+    - documentations/index.md
     - tinybig:
       - documentations/tinybig/index.md
     - tinybig.expansion:
@@ -182,7 +205,6 @@ nav:
       - documentations/data/cifar10.md
       - documentations/data/imagenet.md
       - documentations/data/text_dataloader.md
-      - documentations/data/text_dataset_template.md
       - documentations/data/imdb.md
       - documentations/data/sst2.md
       - documentations/data/agnews.md
@@ -192,7 +214,7 @@ nav:
       - documentations/data/banknote.md
     - tinybig.output:
       - documentations/output/index.md
-      - documentations/output/result.md
+      - documentations/output/output.md
       - documentations/output/prediction.md
     - tinybig.metric:
       - documentations/metric/index.md
@@ -214,6 +236,27 @@ nav:
       - documentations/util/create_directory_if_not_exists.md
   - Tutorials:
       - tutorials/index.md
+      - Kickstart Tutorials:
+        - tutorials/kickstart/index.md
+        - Expansion Function: tutorials/kickstart/module/expansion_function.md
+        - Extended/Nested Expansion: tutorials/kickstart/module/extended_nested_expansion.md
+        - Reconciliation Function: tutorials/kickstart/module/reconciliation_function.md
+        - Remainder Function: tutorials/kickstart/module/remainder_function.md
+        - Data Processing Function: tutorials/kickstart/module/data_processing_function.md
+        - RPN Model: tutorials/kickstart/model/rpn_model.md
+        - Wide RPN: tutorials/kickstart/model/wide_rpn.md
+        - Deep RPN: tutorials/kickstart/model/deep_rpn.md
+        - RPN Configurations: tutorials/kickstart/model/rpn_config.md
+        - Continuous Data: tutorials/kickstart/data/function_data.md
+        - Image Data: tutorials/kickstart/data/image_data.md
+        - Text Data: tutorials/kickstart/data/text_data.md
+        - Tabular Data: tutorials/kickstart/data/tabular_data.md
+        - Function Approximation: tutorials/kickstart/task/function_approximation.md
+        - Image Classification: tutorials/kickstart/task/image_classification.md
+        - Text Classification: tutorials/kickstart/task/text_classification.md
+        - Dependency Inference: tutorials/kickstart/task/dependency_inference.md
+      - Advanced Tutorials:
+        - tutorials/advanced/index.md
   - Examples:
       - examples/index.md
   - Blogs:

@@ -11,7 +11,7 @@ for defining more complex data expansions.
 
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 from tinybig.util.util import get_obj_from_str
 
 #####################
@@ -19,7 +19,7 @@ from tinybig.util.util import get_obj_from_str
 #####################
 
 
-class nested_expansion(expansion):
+class nested_expansion(transformation):
     r"""
     The nested data expansion function.
 

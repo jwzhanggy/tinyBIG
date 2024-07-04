@@ -12,7 +12,7 @@ including lorr_reconciliation, hm_reconciliation, lphm_reconciliation, and dual_
 import torch
 import torch.nn.functional as F
 
-from tinybig.reconciliation import reconciliation
+from tinybig.reconciliation import fabrication
 
 
 ############################
@@ -20,7 +20,7 @@ from tinybig.reconciliation import reconciliation
 ############################
 
 
-class lorr_reconciliation(reconciliation):
+class lorr_reconciliation(fabrication):
     r"""
     The low-rank parameter reconciliation function.
 
@@ -152,7 +152,7 @@ class lorr_reconciliation(reconciliation):
         return F.linear(A.view(n, self.r), B.view(D, self.r))
 
 
-class hm_reconciliation(reconciliation):
+class hm_reconciliation(fabrication):
     r"""
     The hypercomplex multiplication based parameter reconciliation function.
 
@@ -303,7 +303,7 @@ class hm_reconciliation(reconciliation):
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
 
 
-class lphm_reconciliation(reconciliation):
+class lphm_reconciliation(fabrication):
     r"""
     The low-rank parameterized hypercomplex multiplication (LPHM) based parameter reconciliation function.
 
@@ -477,7 +477,7 @@ class lphm_reconciliation(reconciliation):
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
 
 
-class dual_lphm_reconciliation(reconciliation):
+class dual_lphm_reconciliation(fabrication):
     r"""
     The dual low-rank parameterized hypercomplex multiplication (Dual-LPHM) based parameter reconciliation function.
 

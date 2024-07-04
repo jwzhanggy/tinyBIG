@@ -1,0 +1,140 @@
+configurations:
+  device: mps
+  random_seed: 1234 #, 2345, 3456, 4567, 5678
+
+  data_configs:
+    data_class: tinybig.data.mnist
+    data_parameters:
+      name: mnist
+      train_batch_size: 64
+      test_batch_size: 64
+
+  learner_configs:
+    learner_class: tinybig.learner.backward_learner
+    learner_parameters:
+      name: error_backward_propagation
+      n_epochs: 50
+      optimizer_configs:
+        optimizer_class: torch.optim.AdamW
+        optimizer_parameters:
+          lr: 2.0e-03
+          weight_decay: 2.0e-04
+      lr_scheduler_configs:
+        lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
+        lr_scheduler_parameters:
+          gamma: 0.9
+      loss_configs:
+        loss_class: torch.nn.CrossEntropyLoss
+        loss_parameters:
+          reduction: mean
+
+  model_configs:
+    model_class: tinybig.model.rpn
+    model_parameters:
+      name: reconciled_polynomial_network
+      depth: 3
+      depth_alloc: [1, 1, 1]
+      layer_configs:
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 784
+            n: 64
+            width: 1
+            fusion_strategy: average
+            width_alloc: [1]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.taylor_expansion
+                    data_transformation_parameters:
+                      name: taylor_expansion
+                      d: 2
+                    postprocess_functions: torch.nn.functional.layer_norm
+                    preprocess_function_configs:
+                      preprocess_function_class: torch.nn.LayerNorm
+                      preprocess_function_parameters:
+                        normalized_shape: 64
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
+                    parameter_fabrication_parameters:
+                      name: identity_reconciliation
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.zero_remainder
+                    remainder_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 64
+            n: 64
+            width:
+            fusion_strategy: average
+            width_alloc: [ 1 ]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l:
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.taylor_expansion
+                    data_transformation_parameters:
+                      name: taylor_expansion
+                      d: 2
+                      postprocess_functions: torch.nn.functional.layer_norm
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
+                    parameter_fabrication_parameters:
+                      name: identity_reconciliation
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.zero_remainder
+                    remainder_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 64
+            n: 10
+            width:
+            fusion_strategy: average
+            width_alloc: [ 1 ]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l:
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.taylor_expansion
+                    data_transformation_parameters:
+                      name: taylor_expansion
+                      d: 2
+                      postprocess_functions: torch.nn.functional.layer_norm
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
+                    parameter_fabrication_parameters:
+                      name: identity_reconciliation
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.zero_remainder
+                    remainder_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+
+  metric_configs:
+    metric_class: tinybig.metric.accuracy
+    metric_parameters:
+      name: accuracy
+
+  result_configs:
+    result_class: tinybig.output.prediction
+    result_parameters:
+      name: prediction_result

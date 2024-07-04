@@ -1,5 +1,9 @@
 # tinybig.learnaer
 
+::: tinybig.learner
+
+---------------------------------------
+
 ## Base Learner
 * [learner](learner.md)
 

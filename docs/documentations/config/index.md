@@ -1,5 +1,8 @@
 # tinybig.config
 
+::: tinybig.config
+
+---------------------------------------
 ## Base Config
 * [config](config.md)
 

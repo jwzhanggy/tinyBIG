@@ -11,14 +11,14 @@ including identity_expansion, reciprocal_expansion and linear_expansion.
 
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 ####################
 # Basic Expansions #
 ####################
 
 
-class identity_expansion(expansion):
+class identity_expansion(transformation):
     r"""
     The identity data expansion function.
 
@@ -144,7 +144,7 @@ class identity_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class reciprocal_expansion(expansion):
+class reciprocal_expansion(transformation):
     r"""
     The reciprocal data expansion function.
 
@@ -257,7 +257,7 @@ class reciprocal_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class linear_expansion(expansion):
+class linear_expansion(transformation):
     r"""
     The linear data expansion function.
 

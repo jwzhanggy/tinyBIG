@@ -11,14 +11,14 @@ including combinatorial_expansion, and combinatorial_normal_expansion.
 import torch
 from scipy.special import comb
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 
 ############################
 # Combinatorial Expansions #
 ############################
 
-class combinatorial_expansion(expansion):
+class combinatorial_expansion(transformation):
     r"""
     The combinatorial data expansion function.
 

@@ -1,8 +1,10 @@
 r"""
-This module provides the **data expansion functions** that can be used to build the RPN model within the tinyBIG toolkit.
+This module provides the "data expansion functions" that can be used to build the RPN model within the tinyBIG toolkit.
+
+## Data Expansion Function
 
 Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$ to be learned,
-the **data expansion function** $\kappa$ projects input data into a new space shown as follows:
+the data expansion function $\kappa$ projects input data into a new space shown as follows:
 
 $$ \kappa: {R}^m \to {R}^{D}, $$
 
@@ -11,7 +13,9 @@ where the target dimension vector space dimension $D$ is determined when definin
 In practice, the function $\kappa$ can either expand or compress the input to a higher- or lower-dimensional space.
 The corresponding function, $\kappa$, can also be referred to as the data expansion function (if $D > m$)
 and data compression function (if $D < m$), respectively. Collectively, these can be unified under the term
-"**data transformation functions**".
+"data transformation functions".
+
+## Organization of this Module
 
 This module contains the following categories of expansion functions:
 
@@ -25,8 +29,8 @@ This module contains the following categories of expansion functions:
 * Extended expansion function
 """
 
-from tinybig.module.transformation import (
-    transformation as expansion
+from tinybig.module.base_transformation import (
+    transformation
 )
 
 from tinybig.expansion.basic_expansion import (

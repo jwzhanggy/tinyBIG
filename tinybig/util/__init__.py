@@ -1,3 +1,20 @@
+"""
+This module implements the utility functions and methods that will be used in the tinyBIG toolkit.
+
+The function and methods in this module can be used for very diverse purposes, including random seed setup,
+data processing, model initialization, model component processing, output processing, etc.
+
+## Organization of this Module
+
+This module contains the following categories of learner classes:
+
+* Utility Functions for Project Initialization
+* Utility Functions for RPN Initialization
+* Utility Functions for Data Processing in Expansions
+* Utility Functions for Math Function Dataset Creation
+* Utility Functions for Data and Result Directory Creation
+"""
+
 from tinybig.util.util import (
     get_obj_from_str,
     process_function_list,

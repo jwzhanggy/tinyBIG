@@ -1,5 +1,9 @@
 # tinybig.model
 
+::: tinybig.model
+
+---------------------------------------
+
 ## Base Model
 * [model](model.md)
 

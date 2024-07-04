@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import transforms, Compose, ToTensor, Normalize, Lambda
 from torchvision.datasets import MNIST, CIFAR10, ImageNet
 
-from tinybig.data.dataloader import dataloader
+from tinybig.data.base_data import dataloader
 
 
 class imagenet(dataloader):
@@ -18,10 +18,10 @@ class imagenet(dataloader):
         self.train_batch_size = train_batch_size
         self.test_batch_size = test_batch_size
 
-    @staticmethod
-    def flatten(x):
-        x = torch.flatten(x)
-        return x.view(-1)
+    # @staticmethod
+    # def flatten(x):
+    #     x = torch.flatten(x)
+    #     return x.view(-1)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
         imagenet_transform = transforms.Compose([
@@ -97,8 +97,3 @@ class mnist(dataloader):
             batch_size=self.test_batch_size, shuffle=False)
 
         return {'train_loader': train_loader, 'test_loader': test_loader}
-
-
-if __name__ == "__main__":
-    dataloader = cifar10()
-    dataloader.load()

@@ -10,14 +10,14 @@ including hyperbolic_expansion, arc_hyperbolic_expansion, trigonometric_expansio
 
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 ###################################################
 # Expansions defined with closed-form polynomials #
 ###################################################
 
 
-class hyperbolic_expansion(expansion):
+class hyperbolic_expansion(transformation):
     r"""
     The hyperbolic data expansion function.
 
@@ -125,7 +125,7 @@ class hyperbolic_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class arc_hyperbolic_expansion(expansion):
+class arc_hyperbolic_expansion(transformation):
     r"""
     The arc hyperbolic data expansion function.
 
@@ -234,7 +234,7 @@ class arc_hyperbolic_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class trigonometric_expansion(expansion):
+class trigonometric_expansion(transformation):
     r"""
     The trigonometric data expansion function.
 
@@ -342,7 +342,7 @@ class trigonometric_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class arc_trigonometric_expansion(expansion):
+class arc_trigonometric_expansion(transformation):
     r"""
     The arc trigonometric data expansion function.
 

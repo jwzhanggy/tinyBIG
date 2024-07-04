@@ -13,14 +13,14 @@ import warnings
 import torch
 import torch.nn as nn
 
-from tinybig.reconciliation import reconciliation
+from tinybig.reconciliation import fabrication
 
 
 ###########################
 # Hypernet reconciliation #
 ###########################
 
-class hypernet_reconciliation(reconciliation):
+class hypernet_reconciliation(fabrication):
     r"""
     The hypernet based parameter reconciliation function.
 

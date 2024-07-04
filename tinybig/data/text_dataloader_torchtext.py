@@ -5,7 +5,6 @@
 from abc import abstractmethod
 
 import torch, torchtext
-from torch.utils.data import Dataset
 from torchtext.datasets import SST2, IMDB, AG_NEWS
 from torchtext import transforms
 from torch.hub import load_state_dict_from_url
@@ -13,28 +12,7 @@ from torch.utils.data import DataLoader
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from tinybig.data.dataloader import dataloader
-
-
-class text_dataset_template(Dataset):
-    def __init__(self, X, y, encoder=None, *args, **kwargs):
-        super().__init__()
-        self.X = X
-        self.y = y
-        self.encoder = encoder
-
-    def __len__(self):
-        return len(self.X)
-
-    def __getitem__(self, idx, *args, **kwargs):
-        if self.encoder is None:
-            sample = self.X[idx]
-            target = self.y[idx]
-            return sample, target
-        else:
-            sample = self.encoder(torch.unsqueeze(self.X[idx], 0))
-            target = self.y[idx]
-            return torch.squeeze(sample, dim=0), target
+from tinybig.data.base_data import dataloader, dataset_template
 
 
 class text_dataloader(dataloader):
@@ -107,8 +85,14 @@ class text_dataloader(dataloader):
     def load_embedding(self, *args, **kwargs):
         return self.load(load_type='embedding', *args, **kwargs)
 
-    def load(self, cache_dir='./data/', load_type: str = 'tfidf',
-             max_seq_len: int = None, xy_reversed: bool = False, *args, **kwargs):
+    def load(
+            self,
+            cache_dir='./data/',
+            load_type: str = 'tfidf',
+            max_seq_len: int = None,
+            xy_reversed: bool = False,
+            *args, **kwargs
+    ):
         max_seq_len = max_seq_len if max_seq_len is not None else self.max_seq_len
         train_datapipe, test_datapipe = self.load_datapipe(cache_dir=cache_dir)
         transform = self.load_transform(max_seq_len=max_seq_len)
@@ -118,6 +102,7 @@ class text_dataloader(dataloader):
             X = []
             Y = []
             if load_type in ['text', 'tfidf']:
+                # for text and tfidf, no transform is needed
                 for x, y in datapipe:
                     if not xy_reversed:
                         X.append(x)
@@ -127,6 +112,7 @@ class text_dataloader(dataloader):
                         Y.append(idx_to_label[x])
                 return X, Y
             else:
+                # for token and embedding, the transform is applied
                 for x, y in datapipe:
                     if not xy_reversed:
                         X.append(transform(x).tolist())
@@ -139,24 +125,20 @@ class text_dataloader(dataloader):
         X_train, y_train = collect_data(train_datapipe)
         X_test, y_test = collect_data(test_datapipe)
 
-        if load_type == 'embedding':
-            encoder = self.load_encoder(cache_dir=cache_dir)
-            train_dataset = text_dataset_template(X=X_train, y=y_train, encoder=encoder)
-            test_dataset = text_dataset_template(X=X_test, y=y_test, encoder=encoder)
+        if load_type in ['text', 'token', 'embedding']:
+            # for load_type = 'embedding', the encoder needs to be loaded from the cache dir
+            encoder = self.load_encoder(cache_dir=cache_dir) if load_type == 'embedding' else None
+            train_dataset = dataset_template(X=X_train, y=y_train, encoder=encoder)
+            test_dataset = dataset_template(X=X_test, y=y_test, encoder=encoder)
         elif load_type == 'tfidf':
             vectorizer = self.load_tfidf_vectorizer()
             X_train = torch.tensor(vectorizer.fit_transform(X_train).toarray(), dtype=torch.float32)
             X_test = torch.tensor(vectorizer.transform(X_test).toarray(), dtype=torch.float32)
-            train_dataset = text_dataset_template(X_train, y_train)
-            test_dataset = text_dataset_template(X_test, y_test)
-        elif load_type == 'text':
-            train_dataset = text_dataset_template(X_train, y_train)
-            test_dataset = text_dataset_template(X_test, y_test)
-        elif load_type == 'token':
-            train_dataset = text_dataset_template(X_train, y_train)
-            test_dataset = text_dataset_template(X_test, y_test)
+            train_dataset = dataset_template(X_train, y_train)
+            test_dataset = dataset_template(X_test, y_test)
         else:
             raise ValueError('Unrecognized load type {}, current text data loader can only load raw text, token, tfidf, and embeddings...'.format(load_type))
+
         train_loader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
         test_loader = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
         return {'train_loader': train_loader, 'test_loader': test_loader}
@@ -266,6 +248,7 @@ class agnews(text_dataloader):
             3: 2,
             4: 3,
         }
+
 
 if __name__ == '__main__':
     import time

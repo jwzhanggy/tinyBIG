@@ -14,14 +14,14 @@ import warnings
 import numpy as np
 import torch.nn
 
-from tinybig.expansion import expansion
+from tinybig.expansion import transformation
 
 ###################################################
 # Expansions defined with closed-form polynomials #
 ###################################################
 
 
-class taylor_expansion(expansion):
+class taylor_expansion(transformation):
     r"""
     The taylor's data expansion function.
 
@@ -159,7 +159,7 @@ class taylor_expansion(expansion):
         return self.post_process(x=expansion, device=device)
 
 
-class fourier_expansion(expansion):
+class fourier_expansion(transformation):
     r"""
     The fourier data expansion function.
 

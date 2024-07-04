@@ -1,3 +1,3 @@
 # model
 
-::: tinybig.model.model.model
+::: tinybig.model.base_model.model

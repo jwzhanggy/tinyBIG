@@ -1,2 +1,2 @@
 # prediction
-::: tinybig.output.result.prediction
+::: tinybig.output.prediction

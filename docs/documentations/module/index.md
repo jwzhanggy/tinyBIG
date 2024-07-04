@@ -1,5 +1,9 @@
 # tinybig.module
 
+::: tinybig.module
+
+---------------------------------------
+
 ## Data Transformation Function
 * [transformation](transformation.md)
 

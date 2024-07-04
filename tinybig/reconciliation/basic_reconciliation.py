@@ -12,14 +12,14 @@ masking_reconciliation, and duplicated_padding_reconciliation.
 
 import torch
 
-from tinybig.reconciliation import reconciliation
+from tinybig.reconciliation import fabrication
 
 
 #####################
 # Basic reconciliation #
 #####################
 
-class constant_reconciliation(reconciliation):
+class constant_reconciliation(fabrication):
     r"""
     The constant parameter reconciliation function.
 
@@ -228,7 +228,7 @@ class one_reconciliation(constant_reconciliation):
         super().__init__(name=name, c=1.0, *args, **kwargs)
 
 
-class constant_eye_reconciliation(reconciliation):
+class constant_eye_reconciliation(fabrication):
     r"""
     The constant eye parameter reconciliation function.
 
@@ -349,7 +349,7 @@ class constant_eye_reconciliation(reconciliation):
         return torch.eye(n=n, m=D).to(device)
 
 
-class identity_reconciliation(reconciliation):
+class identity_reconciliation(fabrication):
     r"""
     The identity parameter reconciliation function.
 
@@ -475,7 +475,7 @@ class identity_reconciliation(reconciliation):
         return w.view(n, D).to(device)
 
 
-class masking_reconciliation(reconciliation):
+class masking_reconciliation(fabrication):
     r"""
     The masking parameter reconciliation function.
 
@@ -643,7 +643,7 @@ class masking_reconciliation(reconciliation):
         return w.view(n, D) * self.mask_matrix.to(device)
 
 
-class duplicated_padding_reconciliation(reconciliation):
+class duplicated_padding_reconciliation(fabrication):
     r"""
     The duplicated padding based parameter reconciliation function.
 

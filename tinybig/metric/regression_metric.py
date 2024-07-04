@@ -8,7 +8,7 @@ This module contains the evaluation metrics for regression results, including ms
 """
 
 from sklearn.metrics import mean_squared_error
-from tinybig.metric.metric import metric
+from tinybig.metric.base_metric import metric
 
 
 class mse(metric):

@@ -1,2 +1,2 @@
 # metric
-::: tinybig.metric.metric.metric
+::: tinybig.metric.base_metric.metric

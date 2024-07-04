@@ -11,7 +11,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split, KFold
 
-from tinybig.data.dataloader import dataloader, dataset_template
+from tinybig.data.base_data import dataloader, dataset_template
 
 
 # we preprocess data into a unified format

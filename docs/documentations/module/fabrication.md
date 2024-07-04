@@ -1,3 +1,3 @@
 # fabrication
 
-::: tinybig.module.fabrication.fabrication
+::: tinybig.module.base_fabrication.fabrication
