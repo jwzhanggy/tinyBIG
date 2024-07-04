@@ -6,8 +6,8 @@ copyright: Copyright &copy; 2024  <a href="https://www.ifmlab.org/">IFM Lab</a>.
 
 theme:
   name: material
-  logo: assets/logo_white.png
-  favicon: assets/logo.png
+  logo: assets/img/logo_white.png
+  favicon: assets/img/logo.png
   icon:
     repo: fontawesome/brands/github
   font:
