@@ -42,7 +42,8 @@ setup(
         "reconciled polynomial network",
     ],
 
-    url="https://github.com/jwzhanggy/tinyBIG",
+    url="https://www.tinybig.org",
+    download_url="https://github.com/jwzhanggy/tinyBIG",
     packages=find_packages(include=["tinybig", "tinybig.*"]),
 
     license="MIT License",
