@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
-import tinybig
 
-__version__ = tinybig.__version__
+__version__ = '0.1.0.post2'
 
 requirements = [
     "pip>=23.3",

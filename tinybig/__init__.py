@@ -6,7 +6,7 @@ Modules implemented in this package:
 - TBD
 """
 
-__version__ = '0.1.0.post1'
+__version__ = '0.1.0.post2'
 
 from . import model, module, config
 from . import remainder, expansion, compression, reconciliation
