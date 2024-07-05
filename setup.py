@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages
+import tinybig
 
-__version__ = '0.1.0'
+__version__ = tinybig.__version__
 
 requirements = [
     "pip>=23.3",
@@ -52,7 +53,7 @@ setup(
         "Operating System :: OS Independent",
     ],
 
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     install_requires=requirements,
 
     test_suite="tests",
