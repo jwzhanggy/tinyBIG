@@ -6,6 +6,8 @@ Modules implemented in this package:
 - TBD
 """
 
+__version__ = '0.1.0'
+
 from . import model, module, config
 from . import remainder, expansion, compression, reconciliation
 from . import learner, data, output, metric, koala
@@ -27,5 +29,3 @@ __all__ = [
     'visual',
     'util'
 ]
-
-__version__ = '0.1.0'
