@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.1.0.post2'
+__version__ = '0.1.0'
 
 requirements = [
     "pip>=23.3",
