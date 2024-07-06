@@ -1,11 +1,27 @@
 # Quickstart
 
+<!--[![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)-->
+
 Author: Jiawei Zhang <br>
 (Released: July 4, 2024; 1st Revision: July 6, 2024.)
 
-In this quickstart tutorial, we will walk you through the APIs for common tasks in deep function learning with {{toolkit}}.
+In this quickstart tutorial, we will walk you through the MNIST image classification task with {{our}} 
+built based on the Taylor's expansion and dual lphm reconciliation functions via the APIs provided by {{toolkit}}.
+
 We assume you have correctly installed the latest `tinybig` and its dependency packages already.
-If you haven't installed them yet please refer to the [installation page](installation.md) for more detailed guidance.
+If you haven't installed them yet, please refer to the [installation](installation.md) page for the guidance.
+
+-------------------------
+
+## Environment Setup
+
+This tutorial was written on a mac with apple silicon, and we will use `mps` as the device here, 
+and you can change it to `cpu` or `cuda` according to the device you are using now.
+```python
+from tinybig.util import set_random_seed
+set_random_seed(random_seed=1234)
+DEVICE = 'mps' # or 'cpu', or 'cuda'
+```
 
 ## Loading Datasets
 
@@ -68,7 +84,7 @@ testing sets as follows:
 
 ```python
 for X, y in train_loader:
-    print('X shape:', X.shape, 'y.shape', y.shape)
+    print('X shape:', X.shape, 'y.shape:', y.shape)
     print('X', X)
     print('y', y)
     break
@@ -76,7 +92,8 @@ for X, y in train_loader:
 
 ???+ quote "Data batch printing outputs"
     ```
-    X shape: torch.Size([64, 784]) y.shape torch.Size([64])
+    X shape: torch.Size([64, 784]) y.shape: torch.Size([64])
+
     X tensor([[-0.4242, -0.4242, -0.4242,  ..., -0.4242, -0.4242, -0.4242],
             [-0.4242, -0.4242, -0.4242,  ..., -0.4242, -0.4242, -0.4242],
             [-0.4242, -0.4242, -0.4242,  ..., -0.4242, -0.4242, -0.4242],
@@ -89,16 +106,15 @@ for X, y in train_loader:
             9, 4, 4, 8, 0, 3, 2, 8, 0, 7, 3, 4, 9, 4, 0, 5])
     ```
 
-Note that images loaded with the `tinybig.data.mnist` will flatten and normalize the MNIST images of size $28 \times 28$ 
-into vectors of length $784$ via `torchvision.transforms`:
-
-```python
-transform = torchvision.transforms.Compose([
-    transforms.ToTensor(),
-    Normalize((0.1307,), (0.3081,)),
-    torch.flatten
-])
-```
+???+ note "Built-in image data transformation"
+    Note: the images loaded with the `tinybig.data.mnist` will have a built-in method to flatten and normalize the MNIST images from tensors of size $28 \times 28$ into vectors of length $784$ via `torchvision.transforms`:
+    ```python
+    transform = torchvision.transforms.Compose([
+        transforms.ToTensor(),
+        Normalize((0.1307,), (0.3081,)),
+        torch.flatten
+    ])
+    ```
 
 ## Creating the RPN Model
 
@@ -128,7 +144,7 @@ Taylor's expansion function as an example to illustrate how data expansion works
 ```python
 from tinybig.expansion import taylor_expansion
 
-exp_func = taylor_expansion(name='taylor_expansion', d=2, postprocess_functions='layer_norm')
+exp_func = taylor_expansion(name='taylor_expansion', d=2, postprocess_functions='layer_norm', device=DEVICE)
 x = X[0:1,:]
 x = X[0:1,:]
 D = exp_func.calculate_D(m=x.size(1))
@@ -148,10 +164,10 @@ In the above code, we define a Taylor's expansion function of order $2$, with `l
 By applying the expansion function to a data batch with one single data instance, we print output the expansion dimensions
 as $D = 784 \times (784 + 1)$.
 
-(Note: the expansion function will accept batch inputs as 2D tensors, e.g., `X[0:1,:]` or `X`. 
-If we feed list, array or 1D tensor, e.g., `X[0,:]`, to the expansion function, it will report errors).
+???+ note "Expansion function input shapes"
+    Note: the expansion function will accept batch inputs as 2D tensors, e.g., `X[0:1,:]` or `X`. If we feed list, array or 1D tensor, e.g., `X[0,:]`, to the expansion function, it will report errors).
 
-All the expansion functions in {{toolkit}} has a method `taylor_expansion(m:int)`, which can automatically calculates the
+All the expansion functions in {{toolkit}} has a method `calculate_D(m:int)`, which can automatically calculates the
 target expansion space dimension $D$ based on the input space dimension, i.e., the parameter $m$. The calculated $D$ will
 be used later in the reconciliation functions.
 
@@ -166,7 +182,7 @@ Assuming we need to build a {{our}} layer with the output dimension $n=64$ here:
 ```python
 from tinybig.reconciliation import identity_reconciliation
 
-rec_func = dual_lphm_reconciliation(name='dual_lphm_reconciliation', p=8, q=784, r=5)
+rec_func = dual_lphm_reconciliation(name='dual_lphm_reconciliation', p=8, q=784, r=5, device=DEVICE)
 l = rec_func.calculate_l(n=64, D=D)
 print('Required learnable parameter number:', l)
 ```
@@ -177,9 +193,13 @@ print('Required learnable parameter number:', l)
     ```
 
 For the parameters, we need to make sure $p$ divides $n$ and $q$ divides $D$. As to the rank parameter $r$, 
-it is decided by how many parameters we plan to define for the model.
+it is defined depending on how many parameters we plan to use for the model. 
 
-We will not create parameters here, which can be automatically created in the {{our}} head to be introduced later.
+We use `r=5` here, but you can also try other rank values, e.g., `r=2`, 
+which will further reduce the number of parameters but still achieve decent performance.
+
+???+ note "Automatic parameter creation"
+    We will not create parameters here, which can be automatically created in the {{our}} head to be introduced later.
 
 ### Remainder Function
 
@@ -188,7 +208,7 @@ By default, we will use the zero remainder in this tutorial, which will not crea
 ```python
 from tinybig.remainder import zero_remainder
 
-rem_func = zero_remainder(name='zero_remainder', require_parameters=False, enable_bias=False)
+rem_func = zero_remainder(name='zero_remainder', require_parameters=False, enable_bias=False, device=DEVICE)
 ```
 
 ### RPN Head
@@ -199,7 +219,7 @@ define the {{our}} head first, which will be used to compose the layers of {{our
 ```python
 from tinybig.module import rpn_head
 
-head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parameter_fabrication=rec_func, remainder=rem_func)
+head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parameter_fabrication=rec_func, remainder=rem_func, device=DEVICE)
 ```
 
 Here, we build a rpn head with one channel of parameters. The parameter `data_transformation` is a general name of 
@@ -214,7 +234,7 @@ The above head can be used to build the first {{our}} layer of {{our}}:
 ```python
 from tinybig.module import rpn_layer
 
-layer_1 = rpn_layer(m=784, n=64, heads=[head])
+layer_1 = rpn_layer(m=784, n=64, heads=[head], device=DEVICE)
 ```
 
 ### Deep RPN Model with Multi-Layers
@@ -226,22 +246,26 @@ layer_2 = rpn_layer(
     m=64, n=64, heads=[
         rpn_head(
             m=64, n=64, channel_num=1,
-            data_transformation=taylor_expansion(d=2, postprocess_functions='layer_norm'),
-            parameter_fabrication=dual_lphm_reconciliation(p=8, q=64, r=5),
-            remainder=zero_remainder()
+            data_transformation=taylor_expansion(d=2, postprocess_functions='layer_norm', device=DEVICE),
+            parameter_fabrication=dual_lphm_reconciliation(p=8, q=64, r=5, device=DEVICE),
+            remainder=zero_remainder(device=DEVICE),
+            device=DEVICE
         )
-    ]
+    ],
+    device=DEVICE
 )
 
 layer_3 = rpn_layer(
     m=64, n=10, heads=[
         rpn_head(
             m=64, n=10, channel_num=1,
-            data_transformation=taylor_expansion(d=2, postprocess_functions='layer_norm'),
-            parameter_fabrication=dual_lphm_reconciliation(p=2, q=64, r=5),
-            remainder=zero_remainder()
+            data_transformation=taylor_expansion(d=2, postprocess_functions='layer_norm', device=DEVICE),
+            parameter_fabrication=dual_lphm_reconciliation(p=2, q=64, r=5, device=DEVICE),
+            remainder=zero_remainder(device=DEVICE),
+            device=DEVICE
         )
-    ]
+    ],
+    device=DEVICE
 )
 ```
 
@@ -250,7 +274,7 @@ By staking these three layers on top of each other, we can build a deep {{our}} 
 ```python
 from tinybig.model import rpn
 
-model = rpn(name='3_layer_rpn_model', layers = [layer_1, layer_2, layer_3])
+model = rpn(name='3_layer_rpn_model', layers = [layer_1, layer_2, layer_3], device=DEVICE)
 ```
 
 Later on, in the tutorial on `rpn_config`, we will introduce an easier way to define the model architecture directly 
@@ -260,7 +284,7 @@ with the configuration file instead.
 
 Below we will show the code on how to train the model with the loaded MNIST `train_loader`.
 
-### Learner Setups
+### Learner Setup
 
 {{toolkit}} provides a built-in leaner module, which can train the input model with the provided optimizer. Below, we will
 set up the learner with `torch.nn.CrossEntropyLoss` as the loss function, `torch.optim.AdamW` as the optimizer, and 
@@ -290,7 +314,7 @@ from tinybig.metric import accuracy
 print('parameter num: ', sum([parameter.numel() for parameter in model.parameters()]))
 
 metric = accuracy(name='accuracy_metric')
-learner.train(model=model, data_loader=mnist_loaders, metric=metric)
+training_records = learner.train(model=model, data_loader=mnist_loaders, metric=metric, device=DEVICE)
 ```
 
 We count the total number of learnable parameters involved in the {{our}} model built above and 
@@ -319,7 +343,7 @@ Furthermore, by applying the trained model to the testing set, we can obtain the
 as follows:
 
 ```python
-test_result = learner.test(model=model, test_loader=mnist_loaders['test_loader'], metric=metric)
+test_result = learner.test(model=model, test_loader=mnist_loaders['test_loader'], metric=metric, device=DEVICE)
 print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y_pred=test_result['y_pred'], y_score=test_result['y_score'], ))
 ```
 
@@ -327,3 +351,6 @@ print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y
     ```
     accuracy 0.9714
     ```
+
+The above results indicate that {{our}} with a 3-layer architecture will achieve a decent testing accuracy score of `0.9714`, 
+also it only uses `9330` learnable parameters, much less than that of MLP and KAN with similar architectures.

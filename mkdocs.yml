@@ -1,7 +1,8 @@
 site_name: tinyBIG by IFM Lab
 site_url: https://www.tinybig.org/
 repo_url: https://github.com/jwzhanggy/tinyBIG
-#repo_name: Edit on Github
+edit_uri: blob/main/docs/
+repo_name: Edit on Github
 copyright: Copyright &copy; 2024  <a href="https://www.ifmlab.org/">IFM Lab</a>. All rights reserved.
 
 theme:
@@ -49,8 +50,8 @@ theme:
     #- header.autohide
     - announce.dismiss
     # code features
-    #- content.action.edit
-    #- content.action.view
+    - content.action.edit
+    - content.action.view
     - content.code.copy
     - content.code.select
     - content.code.annotate
@@ -101,7 +102,8 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
-  generator: false
+  # the footnote generator notice, copyright
+  #generator: false
   toolkit: 'tinyBIG'
   our: 'RPN'
   author: 'Jiawei Zhang'
@@ -134,7 +136,7 @@ nav:
   - Get Started:
     - guides/index.md
     - Installation: guides/installation.md
-    - Quick Start: guides/quick_start.md
+    - Quickstart: guides/quick_start.md
   - Docs:
     - documentations/index.md
     - tinybig:

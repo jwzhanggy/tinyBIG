@@ -45,7 +45,6 @@ After downloading the requirement.txt, you can install all the dependencies via 
 
 === "requirement.txt"
     ``` yaml linenums="1"
-    pip>=23.3
     torch==2.2.2
     numpy==1.26.3
     pyyaml==6.0.1

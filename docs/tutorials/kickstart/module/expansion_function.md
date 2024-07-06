@@ -62,6 +62,8 @@ where
 
 ### 7.2 Post-processing functions
 
+## Expansion Function Instantiation with Configs
+
 ## 8. Conclusion
 
 ## References

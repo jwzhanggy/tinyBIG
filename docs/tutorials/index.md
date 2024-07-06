@@ -1,9 +1,16 @@
 # Tutorials
 
-The tutorials are organized into two sections.
-Users may start from the kickstart tutorials first to get familiar with the {{ our }} model and the {{ toolkit }} toolkit. 
-After finishing the basic kickstart tutorials, then the readers may check the advanced tutorials, which cover more 
+Prior to reading this tutorial, you may need check the [Get Started](../guides) tab to follow the 
+[Installation](../guides/installation.md) guidance to install the latest `tinybig` and its dependency packages. 
+Also you are recommended to first read the [Quickstart Tutorial](../guides/quick_start.md) to get familiar 
+with the basic modules and models provided in the {{toolkit}} toolkit.
+
+The tutorials in this tab are organized into two sections.
+Users may start from the **Kickstart Tutorials** first to get familiar with the {{ our }} model and the {{ toolkit }} toolkit. 
+After finishing the basic kickstart tutorials, then the readers may check the **Advanced Tutorials**, which cover more 
 advanced materials to use {{ our }} and {{ toolkit }} to address the state-of-the-art deep function learning tasks.
+
+----------------------------
 
 ## Kickstart Tutorials
 

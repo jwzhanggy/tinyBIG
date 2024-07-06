@@ -10,7 +10,6 @@
 |    [Tutorial 4](./module/remainder_function.md)     |         Remainder Functions         |     TBD      | To Be Provided  |
 | [Tutorial 5](./module/data_processing_function.md)  |      Data Processing Functions      |     TBD      | To Be Provided  |
 
-<!-- [![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/) |-->
 
 ## Tutorials on {{ our }} Model Architecture
 
