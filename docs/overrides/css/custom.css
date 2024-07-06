@@ -67,3 +67,11 @@
         max-width: 30%;
     }
 }
+
+.md-main__inner {
+    margin-top: 0;
+}
+
+html {
+  overflow-y: scroll;
+}

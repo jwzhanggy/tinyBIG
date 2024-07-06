@@ -34,24 +34,33 @@ theme:
 
   features:
     # navigation features
-    - navigation.indexes
-    - navigation.instant
-    - navigation.instant.progress
-    - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.indexes
-    - navigation.top
     - navigation.footer
-    #- navigation.sections
-    #- toc.follow
-    - header.autohide
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    #- navigation.instant
+    #- navigation.instant.progress
+    #- navigation.tracking
+    #- navigation.tabs.sticky
+    #- navigation.path
+    # header features
+    #- header.autohide
     - announce.dismiss
     # code features
+    #- content.action.edit
+    #- content.action.view
     - content.code.copy
     - content.code.select
     - content.code.annotate
-    - navigation.path
+    - content.tooltips
+    # search features
+    - search.highlight
+    - search.share
+    - search.suggest
+    # toc features
+    - toc.follow
 
 markdown_extensions:
   - tables
