@@ -1,6 +1,8 @@
-import pytest
+#import pytest
+import torch
 from tinybig.config import rpn_config
 from tinybig.util import set_random_seed
+from tinybig.learner import backward_learner
 
 config_obj = rpn_config(name='test_rpn_config.yaml')
 config = config_obj.load_yaml(cache_dir='./configs', config_file='test_rpn_config.yaml')
@@ -20,6 +22,13 @@ print(object_dict)
 data_obj, model_obj, learner_obj, metric_obj, result_obj = [object_dict[name] for name in
                                                             ['data', 'model', 'learner', 'metric',
                                                              'result']]
+
+optimizer = torch.optim.AdamW(lr=0.001, params=model_obj.parameters())
+
+learner_obj = backward_learner(n_epochs=100, optimizer=optimizer,
+                           loss=torch.nn.CrossEntropyLoss(),
+                           lr_scheduler=torch.optim.lr_scheduler.ExponentialLR(gamma=0.99, optimizer=optimizer))
+
 print('parameter num: ', sum([parameter.numel() for parameter in model_obj.parameters()]))
 # ---- objection initialization setction -----
 

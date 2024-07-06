@@ -186,14 +186,14 @@ class backward_learner(learner):
             optimizer = get_obj_from_str(self.optimizer)(**self.optimizer_parameters)
         else:
             assert self.optimizer is not None
-            optimizer = self.optimizer(params=model.parameters())
+            optimizer = self.optimizer
 
         if type(self.lr_scheduler) is str:
             self.lr_scheduler_parameters['optimizer'] = optimizer
             lr_scheduler = get_obj_from_str(self.lr_scheduler)(**self.lr_scheduler_parameters)
         else:
             if self.lr_scheduler is not None:
-                lr_scheduler = self.optimizer(optimizer=optimizer)
+                lr_scheduler = self.lr_scheduler
             else:
                 lr_scheduler = None
         # ----------------------------
