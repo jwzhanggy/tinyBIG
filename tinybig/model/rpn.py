@@ -107,6 +107,7 @@ class rpn(model):
         if layers is not None:
             # initialize layers from the layers parameter directly
             self.layers.extend(layers)
+            depth = len(self.layers)
         elif layer_configs is None:
             raise ValueError("Both layers and layer_configs are None, the model cannot be initialized...")
         else:

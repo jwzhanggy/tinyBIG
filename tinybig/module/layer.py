@@ -134,6 +134,7 @@ class rpn_layer(torch.nn.Module):
         if heads is not None:
             # initialize heads from the provided head parameter directly
             self.heads.extend(heads)
+            width = len(self.heads)
         elif head_configs is None:
             raise ValueError("Both heads and head_configs are None, this layer cannot be initialized...")
         else:

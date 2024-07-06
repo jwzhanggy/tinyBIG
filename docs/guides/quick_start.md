@@ -195,10 +195,31 @@ By default, we will use the zero remainder in this tutorial, which will not crea
 Based on the above component functions, we can combine them together to define the {{our}} mode. Below, we will first
 define the {{our}} head first, which will be used to compose the layers of {{our}}.
 ```python
+>>> from tinybig.module import rpn_head
+>>> 
+>>> head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parameter_fabrication=rec_func, remainder=rem_func)
+```
+Here, we build a rpn head with one channel of parameters. The parameter `data_transformation` is a general name of 
+`data_expansion`, and `parameter_fabrication` can be viewed as equivalent to `parameter_reconciliation`.
+We use the names `data_transformation` and `parameter_fabrication` here, just to provide {{toolkit}} with more possibility
+to handle other different learning problems.
+
+### RPN Layer
+
+The above head can be used to build the first {{our}} layer of {{our}}: 
+```python
+>>> from tinybig.module import rpn_layer
+>>> 
+>>> layer_1 = rpn_layer(m=784, n=64, heads=[head])
+```
+
+Via a similar process, we can also define two more {{our}} layers:
+```python
 
 ```
 
 ### Deep RPN Model with Multi-Layers
+
 
 ## Training Models
 
