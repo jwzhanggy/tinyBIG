@@ -1,6 +1,6 @@
 # Tutorials
 
-Prior to reading this tutorial, you may need check the [Get Started](../guides) tab to follow the 
+Prior to reading this tutorial, you may need check the [Get Started](../guides/index.md) tab to follow the 
 [Installation](../guides/installation.md) guidance to install the latest `tinybig` and its dependency packages. 
 Also you are recommended to first read the [Quickstart Tutorial](../guides/quick_start.md) to get familiar 
 with the basic modules and models provided in the {{toolkit}} toolkit.
