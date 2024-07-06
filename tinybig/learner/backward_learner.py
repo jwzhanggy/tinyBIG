@@ -117,7 +117,7 @@ class backward_learner(learner):
         # initialize the loss function
         if loss is not None:
             self.loss = loss
-        if loss_configs is not None:
+        elif loss_configs is not None:
             loss_class = loss_configs['loss_class']
             parameters = loss_configs['loss_parameters'] if 'loss_parameters' in loss_configs else {}
             self.loss = get_obj_from_str(loss_class)(**parameters)

@@ -213,25 +213,50 @@ The above head can be used to build the first {{our}} layer of {{our}}:
 >>> layer_1 = rpn_layer(m=784, n=64, heads=[head])
 ```
 
-Via a similar process, we can also define two more {{our}} layers:
-```python
-
-```
-
 ### Deep RPN Model with Multi-Layers
 
+Via a similar process, we can also define two more {{our}} layers:
+```python
+>>> layer_2 = rpn_layer(
+...     m=64, n=64, heads=[
+...         rpn_head(
+...             m=64, n=64, channel_num=1,
+...             data_transformation=taylor_expansion(d=2),
+...             parameter_fabrication=lorr_reconciliation(r=1),
+...             remainder=zero_remainder()
+...         )
+...     ]
+... )
 
-## Training Models
+>>> layer_3 = rpn_layer(
+...     m=64, n=10, heads=[
+...         rpn_head(
+...             m=64, n=10, channel_num=1,
+...             data_transformation=taylor_expansion(d=2),
+...             parameter_fabrication=lorr_reconciliation(r=1),
+...             remainder=zero_remainder()
+...         )
+...     ]
+... )
+```
 
-### Training Setups
+By staking these three layers on top of each other, we can build a deep {{our}} model:
+```python
+>>> from tinybig.model import rpn
+>>> 
+>>> model = rpn(name='3_layer_rpn_model', layers = [layer_1, layer_2, layer_3])
+```
+
+## Training
+
+Below we will show the code on how to train the model with the loaded MNIST `train_loader`.
+
+### Learner Setups
+
+{{toolkit}} provides a built-in leaner module, which can train the input model on the provided dataset. Below, we will
+set up the learner with `torch.nn.CrossEntropyLoss` as the loss function and `torch.optim.AdamW` as the learner:
 
 ### Training
 
-### Testing
 
-## Saving and Loading Models
-
-## Evaluating and Saving Results
-
-## Using Configs for Learning Pipeline Creation
 
