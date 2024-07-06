@@ -1,4 +1,4 @@
-# Quickstart Tutorial
+# Quickstart
 
 Author: Jiawei Zhang <br>
 (Released: July 4, 2024; 1st Revision: July 6, 2024.)
@@ -9,29 +9,10 @@ If you haven't installed them yet please refer to the [installation page](instal
 
 ## Loading Datasets
 
-### Base Dataloaders and Dataset
-
-{{toolkit}} offers two base primitives to work with data: `dataloader` and `dataset`, both defined by module `tinybig.data.base_data` 
-in the package. 
-`dataset` stores the data instances (including features, labels, and optional encoders for feature embedding), and
-`dataloader` wraps an iterable around the `dataset`.
-
-Based on `dataloader` and `dataset`, several dataloaders for specific data modalities have been created:
-
-```python
-import tinybig as tb
-from tinybig.data import dataloader, dataset
-from tinybig.data import function_dataloader, vision_dataloader, text_dataloader, tabular_dataloader
-```
-
-Built based on torchvision and torchtext, {{toolkit}} can load many real-world vision data, like MNIST and CIFAR10, and
-text data, like IMDB, SST2 and AGNews, for model training and evaluation. In addition, {{toolkit}} also offers a variety
-of other well-known datasets by itself, including continuous function datasets, like Elementary, Composite and Feynman functions,
-and classic tabular datasets, like Iris, Diabetes and Banknote.
-
 ### MNIST Dataloader
 
 In this quickstart tutorial, we will take the MNIST dataset as an example to illustrate how {{toolkit}} loads data:
+
 ```python
 from tinybig.data import mnist
 
@@ -40,6 +21,7 @@ mnist_loaders = mnist_data.load(cache_dir='./data/')
 train_loader = mnist_loaders['train_loader']
 test_loader = mnist_loaders['test_loader']
 ```
+
 ??? quote "Data downloading outputs"
     ```
     Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
@@ -78,9 +60,11 @@ test_loader = mnist_loaders['test_loader']
     100%|██████████| 4542/4542 [00:00<00:00, 2221117.96it/s]
     Extracting ./data/MNIST/raw/t10k-labels-idx1-ubyte.gz to ./data/MNIST/raw
     ```
-The above code will download mnist from torchvision to a local directory `'./data/'`.
 
-With the `train_loader` and `test_loader`, we can access the MNIST image and label data mini-batches as follows:
+The `mnist_data.load(cache_dir='./data/')` method will download mnist from torchvision to a local directory `'./data/'`.
+
+With the `train_loader` and `test_loader`, we can access the MNIST image and label mini-batches in the training and 
+testing sets as follows:
 
 ```python
 for X, y in train_loader:
@@ -105,8 +89,9 @@ for X, y in train_loader:
             9, 4, 4, 8, 0, 3, 2, 8, 0, 7, 3, 4, 9, 4, 0, 5])
     ```
 
-Note that images loaded via the `tinybig.data.mnist` will flat and normalize the MNIST images of size $28 \times 28$ into
-vectors of length $784$ via the following `torchvision.transforms` code:
+Note that images loaded with the `tinybig.data.mnist` will flatten and normalize the MNIST images of size $28 \times 28$ 
+into vectors of length $784$ via `torchvision.transforms`:
+
 ```python
 transform = torchvision.transforms.Compose([
     transforms.ToTensor(),
@@ -115,7 +100,7 @@ transform = torchvision.transforms.Compose([
 ])
 ```
 
-## Creating RPN Models
+## Creating the RPN Model
 
 To model the underlying data distribution mapping $f: R^m \to R^n$, the {{our}} model disentangle the input data from 
 model parameters into three component functions:
@@ -139,6 +124,7 @@ where for any input data instance $\mathbf{x} \in R^m$.
 
 Various data expansion functions have been implemented in {{toolkit}} already. In this tutorial, we will use the 
 Taylor's expansion function as an example to illustrate how data expansion works.
+
 ```python
 from tinybig.expansion import taylor_expansion
 
@@ -151,6 +137,7 @@ print('D:', D)
 kappa_x = exp_func(x=x)
 print('x.shape', x.shape, 'kappa_x.shape', kappa_x.shape)
 ```
+
 ???+ quote "Data expansion printing outputs"
     ```
     Expansion space dimension: 615440
@@ -175,6 +162,7 @@ dual lphm to illustrate how parameter reconciliation works. Several other reconc
 be introduced in the tutorial articles.
 
 Assuming we need to build a {{our}} layer with the output dimension $n=64$ here:
+
 ```python
 from tinybig.reconciliation import identity_reconciliation
 
@@ -182,6 +170,7 @@ rec_func = dual_lphm_reconciliation(name='dual_lphm_reconciliation', p=8, q=784,
 l = rec_func.calculate_l(n=64, D=D)
 print('Required learnable parameter number:', l)
 ```
+
 ???+ quote "Lorr parameter reconciliation printing outputs"
     ```
     Required learnable parameter number: 7925
@@ -195,6 +184,7 @@ We will not create parameters here, which can be automatically created in the {{
 ### Remainder Function
 
 By default, we will use the zero remainder in this tutorial, which will not create any learnable parameters:
+
 ```python
 from tinybig.remainder import zero_remainder
 
@@ -205,11 +195,13 @@ rem_func = zero_remainder(name='zero_remainder', require_parameters=False, enabl
 
 Based on the above component functions, we can combine them together to define the {{our}} mode. Below, we will first
 define the {{our}} head first, which will be used to compose the layers of {{our}}.
+
 ```python
 from tinybig.module import rpn_head
 
 head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parameter_fabrication=rec_func, remainder=rem_func)
 ```
+
 Here, we build a rpn head with one channel of parameters. The parameter `data_transformation` is a general name of 
 `data_expansion`, and `parameter_fabrication` can be viewed as equivalent to `parameter_reconciliation`.
 We use the names `data_transformation` and `parameter_fabrication` here, just to provide {{toolkit}} with more possibility
@@ -218,6 +210,7 @@ to handle other different learning problems.
 ### RPN Layer
 
 The above head can be used to build the first {{our}} layer of {{our}}: 
+
 ```python
 from tinybig.module import rpn_layer
 
@@ -227,6 +220,7 @@ layer_1 = rpn_layer(m=784, n=64, heads=[head])
 ### Deep RPN Model with Multi-Layers
 
 Via a similar process, we can also define two more {{our}} layers:
+
 ```python
 layer_2 = rpn_layer(
     m=64, n=64, heads=[
@@ -252,6 +246,7 @@ layer_3 = rpn_layer(
 ```
 
 By staking these three layers on top of each other, we can build a deep {{our}} model:
+
 ```python
 from tinybig.model import rpn
 
@@ -270,6 +265,7 @@ Below we will show the code on how to train the model with the loaded MNIST `tra
 {{toolkit}} provides a built-in leaner module, which can train the input model with the provided optimizer. Below, we will
 set up the learner with `torch.nn.CrossEntropyLoss` as the loss function, `torch.optim.AdamW` as the optimizer, and 
 `torch.optim.lr_scheduler.ExponentialLR` as the learning rate scheduler:
+
 ```python
 import torch
 from tinybig.learner import backward_learner
@@ -279,6 +275,7 @@ lr_scheduler=torch.optim.lr_scheduler.ExponentialLR(gamma=0.95, optimizer=optimi
 loss = torch.nn.CrossEntropyLoss()
 learner = backward_learner(n_epochs=3, optimizer=optimizer, loss=loss, lr_scheduler=lr_scheduler)
 ```
+
 Here, we train the model for just 3 epochs to quickly assess its performance. 
 You can increase the number of epochs to train the model until convergence.
 
@@ -286,6 +283,7 @@ You can increase the number of epochs to train the model until convergence.
 
 With the previously loaded MNIST `mnist_loaders`, we can train the {{our}} model built above with the `learner`. 
 To monitor the learning performance, we also pass an evaluation metric to the learner to record the training scores:
+
 ```python
 from tinybig.metric import accuracy
 
@@ -294,8 +292,10 @@ print('parameter num: ', sum([parameter.numel() for parameter in model.parameter
 metric = accuracy(name='accuracy_metric')
 learner.train(model=model, data_loader=mnist_loaders, metric=metric)
 ```
+
 We count the total number of learnable parameters involved in the {{our}} model built above and 
 provide the training records as follows:
+
 ???+ quote "Model training records"
     ```
     parameter num:  9330
@@ -317,10 +317,12 @@ provide the training records as follows:
 
 Furthermore, by applying the trained model to the testing set, we can obtain the prediction results obtained by the model
 as follows:
+
 ```python
 test_result = learner.test(model=model, test_loader=mnist_loaders['test_loader'], metric=metric)
 print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y_pred=test_result['y_pred'], y_score=test_result['y_score'], ))
 ```
+
 ???+ quote "Model testing results"
     ```
     accuracy 0.9714
