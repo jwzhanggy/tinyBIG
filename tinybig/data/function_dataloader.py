@@ -9,7 +9,7 @@ import torch
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 
-from tinybig.data.base_data import dataloader, dataset_template
+from tinybig.data.base_data import dataloader, dataset
 from tinybig.util.util import string_to_function
 
 
@@ -115,8 +115,8 @@ class function_dataloader(dataloader):
             random_state=random_state, shuffle=shuffle
         )
 
-        train_dataset = dataset_template(X_train, torch.unsqueeze(y_train, 1))
-        test_dataset = dataset_template(X_test, torch.unsqueeze(y_test, 1))
+        train_dataset = dataset(X_train, torch.unsqueeze(y_train, 1))
+        test_dataset = dataset(X_test, torch.unsqueeze(y_test, 1))
         train_loader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
         test_loader = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
         return {'train_loader': train_loader, 'test_loader': test_loader}

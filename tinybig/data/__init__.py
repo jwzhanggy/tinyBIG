@@ -15,25 +15,25 @@ This module contains the following categories of learner classes:
 
 from .base_data import (
     dataloader,
-    dataset_template
+    dataset
 )
 
 from .vision_dataloader import (
+    vision_dataloader,
     mnist,
     cifar10,
     imagenet
 )
 
 from .text_dataloader_torchtext import (
-    text_dataloader
-)
-from .text_dataloader_torchtext import (
+    text_dataloader,
     imdb,
     sst2,
     agnews
 )
 
 from .graph_dataloader import (
+    graph_dataloader,
     cora,
     citeseer,
     pubmed

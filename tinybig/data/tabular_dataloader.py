@@ -11,7 +11,7 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split, KFold
 
-from tinybig.data.base_data import dataloader, dataset_template
+from tinybig.data.base_data import dataloader, dataset
 
 
 # we preprocess data into a unified format
@@ -169,8 +169,8 @@ class tabular_dataloader(dataloader):
                 train_size=int(train_percentage * len(X)),
                 random_state=random_state, shuffle=shuffle
             )
-            train_dataset = dataset_template(X_train, torch.unsqueeze(y_train, 1))
-            test_dataset = dataset_template(X_test, torch.unsqueeze(y_test, 1))
+            train_dataset = dataset(X_train, torch.unsqueeze(y_train, 1))
+            test_dataset = dataset(X_test, torch.unsqueeze(y_test, 1))
             train_loader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
             test_loader = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
         elif split_type in ['KFold', 'cross_validation']:
@@ -179,8 +179,8 @@ class tabular_dataloader(dataloader):
             for i, (train_index, test_index) in enumerate(kf.split(X)):
                 X_train, y_train = X[train_index], y[train_index]
                 X_test, y_test = X[test_index], y[test_index]
-                train_dataset = dataset_template(X_train, torch.unsqueeze(y_train, 1))
-                test_dataset = dataset_template(X_test, torch.unsqueeze(y_test, 1))
+                train_dataset = dataset(X_train, torch.unsqueeze(y_train, 1))
+                test_dataset = dataset(X_test, torch.unsqueeze(y_test, 1))
                 train_loader[i] = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
                 test_loader[i] = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
         return train_loader, test_loader

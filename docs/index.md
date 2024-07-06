@@ -1,3 +1,4 @@
-# {{ toolkit }}.py
-
-
+---
+title: Welcome to tinyBIG!
+template: home.html
+---

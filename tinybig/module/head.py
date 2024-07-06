@@ -180,7 +180,6 @@ class rpn_head(torch.nn.Module):
 
         if parameter_fabrication is not None:
             self.parameter_fabrication = parameter_fabrication
-            assert self.parameter_fabrication.channel_number == self.channel_num
         elif parameter_fabrication_configs is not None:
             parameter_fabrication_class = parameter_fabrication_configs['parameter_fabrication_class']
             parameters = parameter_fabrication_configs['parameter_fabrication_parameters'] if 'parameter_fabrication_parameters' in parameter_fabrication_configs else {}

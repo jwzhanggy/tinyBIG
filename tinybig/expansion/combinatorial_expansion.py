@@ -373,8 +373,13 @@ class combinatorial_normal_expansion(combinatorial_expansion):
 
 if __name__ == "__main__":
     import time
-    start_time = time.time()
+    #start_time = time.time()
+    #a = torch.Tensor([1, 2, 3, 4])
+    #b = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
+    #rcf = combinatorial_normal_expansion(d=4)#, postprocess_functions='layer_norm', postprocess_functions_parameters={'dim': 1})
+    #print(rcf(b, device='mps'), time.time()-start_time)
+
+    #a = torch.Tensor(['SepalLengthCm_float', 'SepalWidthCm_float', 'PetalLengthCm_float', 'PetalWidthCm_float'])
     a = torch.Tensor([1, 2, 3, 4])
-    b = torch.Tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
-    rcf = combinatorial_normal_expansion(d=4)#, postprocess_functions='layer_norm', postprocess_functions_parameters={'dim': 1})
-    print(rcf(b, device='mps'), time.time()-start_time)
+    exp_func = combinatorial_expansion(d=4)
+    print(exp_func(x=a))

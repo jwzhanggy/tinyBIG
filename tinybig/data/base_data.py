@@ -2,9 +2,9 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 """
-The base dataloader and dataset_template classes.
+The base dataloader and dataset classes.
 
-This module implements the base dataloader class and dataset_template class,
+This module implements the base dataloader class and dataset class,
 which can be used for loading datasets for RPN model training and testing in tinyBIG toolkit.
 """
 from abc import abstractmethod
@@ -60,9 +60,9 @@ class dataloader:
         pass
 
 
-class dataset_template(Dataset):
+class dataset(Dataset):
     """
-    The dataset_template base class.
+    The dataset base class.
 
     It defines the template of the dataset, composed of X, y and optional encoder of the features.
 
@@ -78,7 +78,7 @@ class dataset_template(Dataset):
     Methods
     ----------
     __init__
-        The dataset_template initialization method.
+        The dataset initialization method.
 
     __len__
         The size method of the input data batch.
@@ -88,9 +88,9 @@ class dataset_template(Dataset):
     """
     def __init__(self, X, y, encoder=None, *args, **kwargs):
         """
-        The initialization method of the base dataset_template class.
+        The initialization method of the base dataset class.
 
-        It initializes the dataset_template class object,
+        It initializes the dataset class object,
         involving the input features X, output labels y and the optional encoder.
 
         Parameters
@@ -105,7 +105,7 @@ class dataset_template(Dataset):
         Returns
         ----------
         object
-            The initialized object of the base dataset_template.
+            The initialized object of the base dataset.
         """
         super().__init__()
         self.X = X

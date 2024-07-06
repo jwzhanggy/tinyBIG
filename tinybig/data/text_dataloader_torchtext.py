@@ -12,12 +12,12 @@ from torch.utils.data import DataLoader
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from tinybig.data.base_data import dataloader, dataset_template
+from tinybig.data.base_data import dataloader, dataset
 
 
 class text_dataloader(dataloader):
 
-    def __init__(self, name='sst2', train_batch_size=64, test_batch_size=64, max_seq_len=256):
+    def __init__(self, name='text_dataloader', train_batch_size=64, test_batch_size=64, max_seq_len=256):
         super().__init__(name=name)
         self.train_batch_size = train_batch_size
         self.test_batch_size = test_batch_size
@@ -128,14 +128,14 @@ class text_dataloader(dataloader):
         if load_type in ['text', 'token', 'embedding']:
             # for load_type = 'embedding', the encoder needs to be loaded from the cache dir
             encoder = self.load_encoder(cache_dir=cache_dir) if load_type == 'embedding' else None
-            train_dataset = dataset_template(X=X_train, y=y_train, encoder=encoder)
-            test_dataset = dataset_template(X=X_test, y=y_test, encoder=encoder)
+            train_dataset = dataset(X=X_train, y=y_train, encoder=encoder)
+            test_dataset = dataset(X=X_test, y=y_test, encoder=encoder)
         elif load_type == 'tfidf':
             vectorizer = self.load_tfidf_vectorizer()
             X_train = torch.tensor(vectorizer.fit_transform(X_train).toarray(), dtype=torch.float32)
             X_test = torch.tensor(vectorizer.transform(X_test).toarray(), dtype=torch.float32)
-            train_dataset = dataset_template(X_train, y_train)
-            test_dataset = dataset_template(X_test, y_test)
+            train_dataset = dataset(X_train, y_train)
+            test_dataset = dataset(X_test, y_test)
         else:
             raise ValueError('Unrecognized load type {}, current text data loader can only load raw text, token, tfidf, and embeddings...'.format(load_type))
 

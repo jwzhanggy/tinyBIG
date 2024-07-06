@@ -2,6 +2,8 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+from abc import abstractmethod
+
 import torch
 from torch.utils.data import DataLoader
 
@@ -11,7 +13,16 @@ from torchvision.datasets import MNIST, CIFAR10, ImageNet
 from tinybig.data.base_data import dataloader
 
 
-class imagenet(dataloader):
+class vision_dataloader(dataloader):
+    def __init__(self, name='vision_dataloader', *args, **kwargs):
+        super().__init__(name=name)
+
+    @abstractmethod
+    def load(self):
+        pass
+
+
+class imagenet(vision_dataloader):
 
     def __init__(self, name='imagenet', train_batch_size=64, test_batch_size=64):
         super().__init__(name=name)
@@ -44,7 +55,7 @@ class imagenet(dataloader):
         return {'train_loader': train_loader, 'test_loader': test_loader}
 
 
-class cifar10(dataloader):
+class cifar10(vision_dataloader):
 
     def __init__(self, name='cifar10', train_batch_size=64, test_batch_size=64):
         super().__init__(name=name)
@@ -73,7 +84,7 @@ class cifar10(dataloader):
         return {'train_loader': train_loader, 'test_loader': test_loader, 'classes': classes}
 
 
-class mnist(dataloader):
+class mnist(vision_dataloader):
 
     def __init__(self, name='mnist', train_batch_size=64, test_batch_size=64):
         super().__init__(name=name)

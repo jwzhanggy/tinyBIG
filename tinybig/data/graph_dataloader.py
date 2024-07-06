@@ -8,11 +8,15 @@ from tinybig.data.base_data import dataloader
 
 #https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid
 
-class cora(dataloader):
+
+class graph_dataloader(dataloader):
     pass
 
-class citeseer(dataloader):
+class cora(graph_dataloader):
     pass
 
-class pubmed(dataloader):
+class citeseer(graph_dataloader):
+    pass
+
+class pubmed(graph_dataloader):
     pass

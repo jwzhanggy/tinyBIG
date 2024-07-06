@@ -6,7 +6,7 @@
 
 ## Base Data
 * [base dataloader](dataloader.md)
-* [dataset_template](dataset_template.md)
+* [dataset](dataset.md)
 
 ## Function Data
 * [function_dataloader](function_dataloader.md)

@@ -12,6 +12,7 @@ theme:
     repo: fontawesome/brands/github
   font:
     text: Roboto
+  custom_dir: docs/overrides
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -73,6 +74,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - attr_list
+  - md_in_html
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -83,6 +86,7 @@ extra_javascript:
 
 extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
+  - overrides/css/custom.css
 
 extra:
   social:
@@ -196,7 +200,7 @@ nav:
       - documentations/learner/forward_learner.md
     - tinybig.data:
       - documentations/data/index.md
-      - documentations/data/dataset_template.md
+      - documentations/data/dataset.md
       - documentations/data/dataloader.md
       - documentations/data/function_dataloader.md
       - documentations/data/elementary_function.md
