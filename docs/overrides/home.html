@@ -94,22 +94,17 @@
         </div>
       </div>
     </div>
-  <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI"></script>
-  <a href="http://www.clustrmaps.com/map/Tinybig.org" title="Visit tracker for Tinybig.org"><img src="//www.clustrmaps.com/map_v2.png?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI" /></a>
 </section>
 <!-- Feature End -->
 {% endblock %}
 
 {% block content %}
+{% if page.is_homepage %}
+<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI"></script>
+{% endif %}
 {% endblock %}
 {% block site_nav %}
 {% endblock %}
 {% block container %}
-{% endblock %}
-
-{% block footer %}
-{{ super() }}
-<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI"></script>
-<a href="http://www.clustrmaps.com/map/Tinybig.org" title="Visit tracker for Tinybig.org"><img src="//www.clustrmaps.com/map_v2.png?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI" /></a>
 {% endblock %}
 
