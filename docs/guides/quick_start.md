@@ -17,7 +17,7 @@ If you haven't installed them yet, please refer to the [installation](installati
 
 This tutorial was written on a mac with apple silicon, and we will use `mps` as the device here, 
 and you can change it to `cpu` or `cuda` according to the device you are using now.
-```python
+```python linenums="1"
 from tinybig.util import set_random_seed
 set_random_seed(random_seed=1234)
 DEVICE = 'mps' # or 'cpu', or 'cuda'
@@ -29,7 +29,7 @@ DEVICE = 'mps' # or 'cpu', or 'cuda'
 
 In this quickstart tutorial, we will take the MNIST dataset as an example to illustrate how {{toolkit}} loads data:
 
-```python
+```python linenums="1"
 from tinybig.data import mnist
 
 mnist_data = mnist(name='mnist', train_batch_size=64, test_batch_size=64)
@@ -82,7 +82,7 @@ The `mnist_data.load(cache_dir='./data/')` method will download mnist from torch
 With the `train_loader` and `test_loader`, we can access the MNIST image and label mini-batches in the training and 
 testing sets as follows:
 
-```python
+```python linenums="1"
 for X, y in train_loader:
     print('X shape:', X.shape, 'y.shape:', y.shape)
     print('X', X)
@@ -108,7 +108,7 @@ for X, y in train_loader:
 
 ???+ note "Built-in image data transformation"
     Note: the images loaded with the `tinybig.data.mnist` will have a built-in method to flatten and normalize the MNIST images from tensors of size $28 \times 28$ into vectors of length $784$ via `torchvision.transforms`:
-    ```python
+    ```python linenums="1"
     transform = torchvision.transforms.Compose([
         transforms.ToTensor(),
         Normalize((0.1307,), (0.3081,)),
@@ -141,7 +141,7 @@ where for any input data instance $\mathbf{x} \in R^m$.
 Various data expansion functions have been implemented in {{toolkit}} already. In this tutorial, we will use the 
 Taylor's expansion function as an example to illustrate how data expansion works.
 
-```python
+```python linenums="1"
 from tinybig.expansion import taylor_expansion
 
 exp_func = taylor_expansion(name='taylor_expansion', d=2, postprocess_functions='layer_norm', device=DEVICE)
@@ -179,7 +179,7 @@ be introduced in the tutorial articles.
 
 Assuming we need to build a {{our}} layer with the output dimension $n=64$ here:
 
-```python
+```python linenums="1"
 from tinybig.reconciliation import identity_reconciliation
 
 rec_func = dual_lphm_reconciliation(name='dual_lphm_reconciliation', p=8, q=784, r=5, device=DEVICE)
@@ -205,7 +205,7 @@ which will further reduce the number of parameters but still achieve decent perf
 
 By default, we will use the zero remainder in this tutorial, which will not create any learnable parameters:
 
-```python
+```python linenums="1"
 from tinybig.remainder import zero_remainder
 
 rem_func = zero_remainder(name='zero_remainder', require_parameters=False, enable_bias=False, device=DEVICE)
@@ -216,7 +216,7 @@ rem_func = zero_remainder(name='zero_remainder', require_parameters=False, enabl
 Based on the above component functions, we can combine them together to define the {{our}} mode. Below, we will first
 define the {{our}} head first, which will be used to compose the layers of {{our}}.
 
-```python
+```python linenums="1"
 from tinybig.module import rpn_head
 
 head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parameter_fabrication=rec_func, remainder=rem_func, device=DEVICE)
@@ -231,7 +231,7 @@ to handle other different learning problems.
 
 The above head can be used to build the first {{our}} layer of {{our}}: 
 
-```python
+```python linenums="1"
 from tinybig.module import rpn_layer
 
 layer_1 = rpn_layer(m=784, n=64, heads=[head], device=DEVICE)
@@ -241,7 +241,7 @@ layer_1 = rpn_layer(m=784, n=64, heads=[head], device=DEVICE)
 
 Via a similar process, we can also define two more {{our}} layers:
 
-```python
+```python linenums="1"
 layer_2 = rpn_layer(
     m=64, n=64, heads=[
         rpn_head(
@@ -271,7 +271,7 @@ layer_3 = rpn_layer(
 
 By staking these three layers on top of each other, we can build a deep {{our}} model:
 
-```python
+```python linenums="1"
 from tinybig.model import rpn
 
 model = rpn(name='3_layer_rpn_model', layers = [layer_1, layer_2, layer_3], device=DEVICE)
@@ -290,7 +290,7 @@ Below we will show the code on how to train the model with the loaded MNIST `tra
 set up the learner with `torch.nn.CrossEntropyLoss` as the loss function, `torch.optim.AdamW` as the optimizer, and 
 `torch.optim.lr_scheduler.ExponentialLR` as the learning rate scheduler:
 
-```python
+```python linenums="1"
 import torch
 from tinybig.learner import backward_learner
 
@@ -308,7 +308,7 @@ You can increase the number of epochs to train the model until convergence.
 With the previously loaded MNIST `mnist_loaders`, we can train the {{our}} model built above with the `learner`. 
 To monitor the learning performance, we also pass an evaluation metric to the learner to record the training scores:
 
-```python
+```python linenums="1"
 from tinybig.metric import accuracy
 
 print('parameter num: ', sum([parameter.numel() for parameter in model.parameters()]))
@@ -342,7 +342,7 @@ provide the training records as follows:
 Furthermore, by applying the trained model to the testing set, we can obtain the prediction results obtained by the model
 as follows:
 
-```python
+```python linenums="1"
 test_result = learner.test(model=model, test_loader=mnist_loaders['test_loader'], metric=metric, device=DEVICE)
 print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y_pred=test_result['y_pred'], y_score=test_result['y_score'], ))
 ```

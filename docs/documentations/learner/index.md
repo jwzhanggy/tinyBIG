@@ -1,4 +1,4 @@
-# tinybig.learnaer
+# tinybig.learner
 
 ::: tinybig.learner
 

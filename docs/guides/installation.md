@@ -94,6 +94,11 @@ After entering the downloaded source code directory, tinybig can be installed wi
 python setup.py install
 ```
 
+If you don't have `setuptools` installed locally, please consider to first install `setuptools`:
+```shell
+pip install setuptools 
+```
+
 --------------------
 
 ## Verification

@@ -5,6 +5,79 @@
 
 {% block tabs %}
 {{ super() }}
+<style>
+
+.tx-container {
+    position: relative;
+    min-height: 100vh;
+    background-image: url('./img/background4.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.tx-hero {
+    width: 100%;
+    padding: 2rem;
+}
+
+.tx-hero h1 {
+    margin-bottom: 1rem;
+    color: currentColor;
+    font-weight: 700;
+}
+
+.tx-hero__content {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button {
+    margin-top: .5rem;
+    margin-right: .5rem;
+    color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button--primary {
+    background-color: var(--md-primary-bg-color);
+    color: hsla(280deg, 37%, 48%, 1);
+    border-color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button:focus,
+.tx-hero .md-button:hover {
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-default-bg-color);
+    border-color: var(--md-accent-fg-color);
+}
+
+/* Media queries for responsiveness */
+@media screen and (min-width: 768px) {
+    .tx-hero__content {
+        position: absolute;
+        bottom: 5rem;
+        left: 10%;
+        max-width: 40%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .tx-hero__content {
+        left: 10rem;
+        max-width: 30%;
+    }
+}
+</style>
+
 <!-- Main site Entry button descriptions -->
 <section class="tx-container">
     <div class="md-grid md-typeset">

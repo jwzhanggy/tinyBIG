@@ -6,15 +6,15 @@ Also you are recommended to first read the [Quickstart Tutorial](../guides/quick
 with the basic modules and models provided in the {{toolkit}} toolkit.
 
 The tutorials in this tab are organized into two sections.
-Users may start from the **Kickstart Tutorials** first to get familiar with the {{ our }} model and the {{ toolkit }} toolkit. 
-After finishing the basic kickstart tutorials, then the readers may check the **Advanced Tutorials**, which cover more 
+Users may start from the **Beginner's Tutorials** first to get familiar with the {{ our }} model and the {{ toolkit }} toolkit. 
+After finishing the basic beginner's tutorials, then the readers may check the **Advanced Tutorials**, which cover more 
 advanced materials to use {{ our }} and {{ toolkit }} to address the state-of-the-art deep function learning tasks.
 
 ----------------------------
 
-## Kickstart Tutorials
+## Beginner's Tutorials
 
-The [Kickstart Tutorials](./kickstart/index.md) focus on the fundamental concepts, components, modules, models 
+The [Beginner's Tutorials](./beginner/index.md) focus on the fundamental concepts, components, modules, models 
 and tasks about the {{ our }} model. They will be organized as follows:
 
 * Tutorials on component functions in {{ our }}.
