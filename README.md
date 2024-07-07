@@ -4,7 +4,7 @@
 
 ### Introduction
 
-`tinybig` is a Python package developed by the IFM Lab for deep function learning model designing and building.
+`tinybig` is a Python library developed by the IFM Lab for deep function learning model designing and building.
 
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
