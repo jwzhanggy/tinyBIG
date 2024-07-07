@@ -12,7 +12,7 @@
 
 ### Citation
 
-* The RPN Paper (local version): https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf
+* The RPN Paper: https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf
 
 * The RPN Paper at arXiv: TBD
 
