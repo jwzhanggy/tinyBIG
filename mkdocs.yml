@@ -93,6 +93,7 @@ extra_javascript:
   - javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js
   - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+  - https://clustrmaps.com/globe.js
 
 extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
@@ -102,6 +103,9 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
+    - icon: fontawesome/regular/map
+      link: https://www.clustrmaps.com/map/Tinybig.org
+
   # the footnote generator notice, copyright
   #generator: false
   toolkit: 'tinyBIG'
