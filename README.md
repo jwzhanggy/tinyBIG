@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ```
 
 
-### `tinybig` Organizations
+### tinybig Organizations
 
 | Components                                                                             | Descriptions                                                                                  |
 |:---------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------|
@@ -76,7 +76,7 @@ pip install -r requirements.txt
 | [`tinybig.metric`](https://www.tinybig.org/documentations/metric/)                     | a library providing the  metrics that can be used for RPN model performance evaluation        |
 | [`tinybig.util`](https://www.tinybig.org/documentations/util/)                         | a library of utility functions for RPN model design, implementation and learning              | 
 
-### `tinybig` Tutorials
+### tinybig Tutorials
 
 |                                      Tutorial ID                                      |           Tutorial Title           |      Last Update       |
 |:-------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
@@ -88,5 +88,5 @@ pip install -r requirements.txt
 
 Copyright © 2024 [IFM Lab](https://www.ifmlab.org/). All rights reserved.
 
-* `tinybig` source code is published under the terms of the MIT License. 
-* `tinybig`'s documentation is licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)). 
+* tinybig source code is published under the terms of the MIT License. 
+* tinybig's documentation is licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License ([CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)). 
