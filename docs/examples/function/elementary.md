@@ -1,5 +1,5 @@
 # Elementary function approximation task
-([elemetary_example.ipynb](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/examples/notes/elementary_example.ipynb), [elementary_configs.yaml](../configs/elementary_configs.yaml))
+([elemetary_example.ipynb](../notes/elementary_example.ipynb), [elementary_configs.yaml](../configs/elementary_configs.yaml))
 
 In this example, we will build a {{our}} model for the elementary function approximation task.
 
