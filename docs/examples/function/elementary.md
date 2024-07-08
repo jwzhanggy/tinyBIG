@@ -1,5 +1,5 @@
 # Elementary function approximation task
-([elemetary_example.ipynb](../notes/elementary_example.ipynb), [elementary_configs.yaml](../configs/elementary_configs.yaml))
+([elemetary_example.ipynb](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/examples/notes/elementary_example.ipynb), [elementary_configs.yaml](../configs/elementary_configs.yaml))
 
 In this example, we will build a {{our}} model for the elementary function approximation task.
 
@@ -38,7 +38,7 @@ By running the following `script.py` on the `configs.yaml` file, we will train a
 continuous function approximation task. Both the code and configuration files can be downloaded via the links
 provided at the very beginning of this page.
 
-=== "elementary_example.ipynb"
+=== "elementary_example.py"
     ``` python linenums="1"
     from tinybig.config import rpn_config
     from tinybig.util import set_random_seed
