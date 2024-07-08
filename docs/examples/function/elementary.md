@@ -1,8 +1,27 @@
 # Elementary function approximation task
-([Jupyter Note](../notes/elementary_example.ipynb), [Configuration File](../configs/elementary_configs.yaml))
 
-Author: Jiawei Zhang <br>
-(Released: July 7, 2024; 1st Revision: July 8, 2024.)<br>
+<div style="display: flex; justify-content: space-between;">
+<span style="text-align: left;">
+    Author: Jiawei Zhang <br>
+    (Released: July 7, 2024; 1st Revision: July 8, 2024.)<br>
+</span>
+<span style="text-align: right;">
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/elementary_configs.yaml">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
+    </a>
+
+</span>
+</div>
+
 -------------------------
 
 In this example, we will build a {{our}} model for the elementary function approximation task.
