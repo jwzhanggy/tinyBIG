@@ -4,14 +4,14 @@ This module implements the output classes, which can be used for the RPN model o
 Specifically, this module will implement a base output class, together with a prediction output class.
 Several fundamental output processing, saving and loading functions will be implemented in these classes.
 
-## Organization of this Module
+## Classes in this Module
 
-This module contains the following categories of learner classes:
+This module contains the following categories of output processing classes:
 
 * Base Output Template
-* Prediction Output
+* RPN Output
 
 """
 
 from tinybig.output.base_output import output
-from tinybig.output.prediction_output import prediction
+from tinybig.output.rpn_output import rpn_output

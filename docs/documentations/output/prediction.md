@@ -1,2 +1,0 @@
-# prediction
-::: tinybig.output.prediction

@@ -3,9 +3,7 @@
 ::: tinybig.model
 
 ---------------------------------------
+## Organization of this Module
 
-## Base Model
 * [model](model.md)
-
-## RPN Model
 * [rpn](rpn.md)

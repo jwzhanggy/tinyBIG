@@ -1,6 +1,6 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
-# Affiliation: IFM Lab, UC Davis
+# Affiliatoutputn: IFM Lab, UC Davis
 """
 The base output class.
 
@@ -27,7 +27,7 @@ class output:
     Methods
     ----------
     __init__
-        The initialization method of the base output class.
+        The initializatoutputn method of the base output class.
 
     save
         The output saving method of the output class.
@@ -39,7 +39,7 @@ class output:
     """
     def __init__(self, name='base_output', *args, **kwargs):
         """
-        The base output class initialization method.
+        The base output class initializatoutputn method.
 
         It initializes the base output class object for handling the output saving and loading.
 

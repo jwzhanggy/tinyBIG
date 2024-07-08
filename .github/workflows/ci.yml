@@ -27,5 +27,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mkdocs-macros-plugin mkdocs-jupyter mkdocs-autorefs mkdocs-rss-plugin mkdocstrings mkdocstrings-python
+      - run: pip install mkdocs-material mkdocs-macros-plugin mkdocs-jupyter mkdocs-autorefs mkdocs-rss-plugin mkdocstrings mkdocstrings-python neoteroi-mkdocs mkdocs-glightbox
       - run: mkdocs gh-deploy --force

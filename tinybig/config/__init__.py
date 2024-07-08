@@ -60,7 +60,7 @@ parameters = configs["object_parameters"]
 obj = get_obj_from_str(class_name)(**parameters)
 ```
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of config classes:
 

@@ -3,15 +3,16 @@
 ::: tinybig.metric
 
 ---------------------------------------
+## Organization of this Module
 
-## Base Metric
+### Base Metric
 * [base_metric](metric.md)
 
-## Classification Metrics
+### Classification Metrics
 * [accuracy](accuracy.md)
 * [f1](f1.md) 
 
-## Regression Metrics
+### Regression Metrics
 * [mse](mse.md)
 
 

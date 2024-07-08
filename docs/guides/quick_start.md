@@ -1,22 +1,31 @@
-# Quickstart
+# Quickstart Tutorial ([Jupyter Note](../notes/quickstart_tutorial.ipynb))
 
 <!--[![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)-->
 
 Author: Jiawei Zhang <br>
-(Released: July 4, 2024; 1st Revision: July 6, 2024.)
+(Released: July 4, 2024; 1st Revision: July 6, 2024.)<br>
+-------------------------
 
 In this quickstart tutorial, we will walk you through the MNIST image classification task with {{our}} 
-built based on the Taylor's expansion and dual lphm reconciliation functions via the APIs provided by {{toolkit}}.
+built based on the Taylor's expansion and dual lphm reconciliation functions via the APIs provided by `tinybig`.
 
 We assume you have correctly installed the latest `tinybig` and its dependency packages already.
 If you haven't installed them yet, please refer to the [installation](installation.md) page for the guidance.
+
+This quickstart tutorial is prepared based on 
+[the RPN paper](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf) `[1]`. 
+We also recommend reading that paper first for detailed technical information about the {{our}} model and {{toolkit}} toolkit. 
+
+**Reference**
+
+`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN.`
 
 -------------------------
 
 ## Environment Setup
 
-This tutorial was written on a mac with apple silicon, and we will use `mps` as the device here, 
-and you can change it to `cpu` or `cuda` according to the device you are using now.
+This tutorial was written on a mac with apple silicon, and we will use `'mps'` as the device here, 
+and you can change it to `'cpu'` or `'cuda'` according to the device you are using now.
 ```python linenums="1"
 from tinybig.util import set_random_seed
 set_random_seed(random_seed=1234)
@@ -27,7 +36,7 @@ DEVICE = 'mps' # or 'cpu', or 'cuda'
 
 ### MNIST Dataloader
 
-In this quickstart tutorial, we will take the MNIST dataset as an example to illustrate how {{toolkit}} loads data:
+In this quickstart tutorial, we will take the MNIST dataset as an example to illustrate how `tinybig` loads data:
 
 ```python linenums="1"
 from tinybig.data import mnist
@@ -77,10 +86,10 @@ test_loader = mnist_loaders['test_loader']
     Extracting ./data/MNIST/raw/t10k-labels-idx1-ubyte.gz to ./data/MNIST/raw
     ```
 
-The `mnist_data.load(cache_dir='./data/')` method will download mnist from torchvision to a local directory `'./data/'`.
+The `mnist_data.load(cache_dir='./data/')` method will download the MNIST dataset from torchvision to a local directory `'./data/'`.
 
 With the `train_loader` and `test_loader`, we can access the MNIST image and label mini-batches in the training and 
-testing sets as follows:
+testing sets:
 
 ```python linenums="1"
 for X, y in train_loader:
@@ -107,7 +116,7 @@ for X, y in train_loader:
     ```
 
 ???+ note "Built-in image data transformation"
-    Note: the images loaded with the `tinybig.data.mnist` will have a built-in method to flatten and normalize the MNIST images from tensors of size $28 \times 28$ into vectors of length $784$ via `torchvision.transforms`:
+    Note: the `tinybig.data.mnist` has a built-in method to flatten and normalize the MNIST images from tensors of size $28 \times 28$ into vectors of length $784$ via `torchvision.transforms`:
     ```python linenums="1"
     transform = torchvision.transforms.Compose([
         transforms.ToTensor(),
@@ -118,7 +127,7 @@ for X, y in train_loader:
 
 ## Creating the RPN Model
 
-To model the underlying data distribution mapping $f: R^m \to R^n$, the {{our}} model disentangle the input data from 
+To model the underlying data distribution mapping $f: R^m \to R^n$, the {{our}} model disentangles the input data from 
 model parameters into three component functions:
 
 * **Data Expansion Function**: $\kappa: R^m \to R^D$,
@@ -138,7 +147,7 @@ where for any input data instance $\mathbf{x} \in R^m$.
 
 ### Data Expansion Function
 
-Various data expansion functions have been implemented in {{toolkit}} already. In this tutorial, we will use the 
+Various data expansion functions have been implemented in `tinybig` already. In this tutorial, we will use the 
 Taylor's expansion function as an example to illustrate how data expansion works.
 
 ```python linenums="1"
@@ -160,20 +169,21 @@ print('x.shape', x.shape, 'kappa_x.shape', kappa_x.shape)
     x.shape torch.Size([1, 784]) kappa_x.shape torch.Size([1, 615440])
     ```
 
-In the above code, we define a Taylor's expansion function of order $2$, with `layer_norm` as the post-processing function.
+In the above code, we define a Taylor's expansion function of order `d=2` and `'layer_norm'` as the post-processing function.
 By applying the expansion function to a data batch with one single data instance, we print output the expansion dimensions
-as $D = 784 \times (784 + 1)$.
+as $D = 784 + 784 \times 784 = 615440$.
 
 ???+ note "Expansion function input shapes"
-    Note: the expansion function will accept batch inputs as 2D tensors, e.g., `X[0:1,:]` or `X`. If we feed list, array or 1D tensor, e.g., `X[0,:]`, to the expansion function, it will report errors).
+    Note: the expansion function will accept batch inputs as 2D tensors of shape `(B, m)`, with `B` and `m` denote the batch size and input dimension,
+    such as, `X[0:1,:]` or `X`. If we feed list, array or 1D tensor, e.g., `X[0,:]`, to the expansion function, it will report errors).
 
-All the expansion functions in {{toolkit}} has a method `calculate_D(m:int)`, which can automatically calculates the
+All the expansion functions in `tinybig` has a method `calculate_D(m)`, which can automatically calculates the
 target expansion space dimension $D$ based on the input space dimension, i.e., the parameter $m$. The calculated $D$ will
 be used later in the reconciliation functions.
 
 ### Parameter Reconciliation Function
 
-In {{toolkit}}, we have implemented different categories of parameter reconciliation functions. Below, we will use the
+In `tinybig`, we have implemented different categories of parameter reconciliation functions. Below, we will use the
 dual lphm to illustrate how parameter reconciliation works. Several other reconciliation functions will also
 be introduced in the tutorial articles.
 
@@ -199,7 +209,7 @@ We use `r=5` here, but you can also try other rank values, e.g., `r=2`,
 which will further reduce the number of parameters but still achieve decent performance.
 
 ???+ note "Automatic parameter creation"
-    We will not create parameters here, which can be automatically created in the {{our}} head to be introduced later.
+    We will not create parameters here, which can be automatically created in the {{our}} head to be used below.
 
 ### Remainder Function
 
@@ -224,8 +234,10 @@ head = rpn_head(m=784, n=64, channel_num=1, data_transformation=exp_func, parame
 
 Here, we build a rpn head with one channel of parameters. The parameter `data_transformation` is a general name of 
 `data_expansion`, and `parameter_fabrication` can be viewed as equivalent to `parameter_reconciliation`.
-We use the names `data_transformation` and `parameter_fabrication` here, just to provide {{toolkit}} with more possibility
-to handle other different learning problems.
+
+We use these general `data_transformation` and `parameter_fabrication` names here not only for their current functionality 
+but also to establish a framework that allows for the future expansion of `tinybig`, enabling the addition of new 
+functions and components under these broader categorical names.
 
 ### RPN Layer
 
@@ -282,11 +294,11 @@ with the configuration file instead.
 
 ## {{our}} Training on MNIST
 
-Below we will show the code on how to train the model with the loaded MNIST `train_loader`.
+Below we will train the {{our}} model with the loaded MNIST `train_loader`.
 
 ### Learner Setup
 
-{{toolkit}} provides a built-in leaner module, which can train the input model with the provided optimizer. Below, we will
+`tinybig` provides a built-in leaner module, which can train the input model with the provided optimizer. Below, we will
 set up the learner with `torch.nn.CrossEntropyLoss` as the loss function, `torch.optim.AdamW` as the optimizer, and 
 `torch.optim.lr_scheduler.ExponentialLR` as the learning rate scheduler:
 
@@ -306,7 +318,7 @@ You can increase the number of epochs to train the model until convergence.
 ### Training
 
 With the previously loaded MNIST `mnist_loaders`, we can train the {{our}} model built above with the `learner`. 
-To monitor the learning performance, we also pass an evaluation metric to the learner to record the training scores:
+To monitor the learning performance, we also pass an evaluation metric to the learner to record the training accuracy scores:
 
 ```python linenums="1"
 from tinybig.metric import accuracy
@@ -318,23 +330,24 @@ training_records = learner.train(model=model, data_loader=mnist_loaders, metric=
 ```
 
 We count the total number of learnable parameters involved in the {{our}} model built above and 
-provide the training records as follows:
+provide the `tqdm` training records as follows:
 
 ???+ quote "Model training records"
     ```
     parameter num:  9330
 
-    100%|██████████| 938/938 [02:00<00:00,  7.79it/s, epoch=0/3, loss=0.242, lr=0.002, metric_score=0.938, time=120]  
+    100%|██████████| 938/938 [00:42<00:00, 21.86it/s, epoch=0/3, loss=0.0519, lr=0.002, metric_score=0.969, time=43.1]
     
-    Epoch: 0, Test Loss: 0.14439617561704365, Test Score: 0.9566, Time Cost: 12.605533123016357
+    Epoch: 0, Test Loss: 0.12760563759773874, Test Score: 0.9621, Time Cost: 3.982516050338745
     
-    100%|██████████| 938/938 [02:13<00:00,  7.05it/s, epoch=1/3, loss=0.053, lr=0.0019, metric_score=0.969, time=266] 
+    100%|██████████| 938/938 [00:43<00:00, 21.74it/s, epoch=1/3, loss=0.0112, lr=0.0019, metric_score=1, time=90.2]    
     
-    Epoch: 1, Test Loss: 0.1188583715394685, Test Score: 0.9646, Time Cost: 12.314941883087158
+    Epoch: 1, Test Loss: 0.09334634791371549, Test Score: 0.9717, Time Cost: 4.184643030166626
     
-    100%|██████████| 938/938 [02:03<00:00,  7.57it/s, epoch=2/3, loss=0.454, lr=0.0018, metric_score=0.875, time=402] 
+    100%|██████████| 938/938 [00:42<00:00, 21.90it/s, epoch=2/3, loss=0.0212, lr=0.0018, metric_score=1, time=137]     
     
-    Epoch: 2, Test Loss: 0.08927642312167794, Test Score: 0.9714, Time Cost: 12.573006868362427
+    Epoch: 2, Test Loss: 0.08378902525169431, Test Score: 0.9749, Time Cost: 4.574808120727539
+
     ```
 
 ### Testing
@@ -349,8 +362,8 @@ print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y
 
 ???+ quote "Model testing results"
     ```
-    accuracy 0.9714
+    accuracy 0.9749
     ```
 
-The above results indicate that {{our}} with a 3-layer architecture will achieve a decent testing accuracy score of `0.9714`, 
+The above results indicate that {{our}} with a 3-layer architecture will achieve a decent testing accuracy score of `0.9749`, 
 also it only uses `9330` learnable parameters, much less than that of MLP and KAN with similar architectures.

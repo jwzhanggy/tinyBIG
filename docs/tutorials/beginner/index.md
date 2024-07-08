@@ -1,22 +1,14 @@
 # Beginner's Tutorials
 
-The beginner's tutorials in this section are primarily based on [1]. We recommend reading that paper first for detailed 
-information about the {{our}} model and {{toolkit}} toolkit. 
 
-This page will be updated as new tutorials are added, so please check back regularly.
-
-**Reference**:
-
-`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network Towards Unifying PGMs, Kernel SVMs, MLP and KAN.`
-
-------------------------------------
+This page will be updated as new tutorials are posted, so please check back regularly.
 
 ## Tutorial Organization
 
-|                     Tutorial ID                      |       Tutorial Title        |      Last Update      |       Colab Link        |
-|:----------------------------------------------------:|:---------------------------:|:---------------------:|:-----------------------:|
-|      [Tutorial 0](../../guides/quick_start.md)       |     Quickstart Tutorial     |     July 6, 20204     |     To Be Provided      |
-|     [Tutorial 1](./module/expansion_function.md)     |  Data Expansion Functions   |     July 7, 2024      |     To Be Provided      |
+|                     Tutorial ID                      |       Tutorial Title        |      Last Update      |                 Jupyter Notebook Code                  |
+|:----------------------------------------------------:|:---------------------------:|:---------------------:|:------------------------------------------------------:|
+|      [Tutorial 0](../../guides/quick_start.md)       |     Quickstart Tutorial     |     July 6, 20204     | [Jupyter Notes](../../notes/quickstart_tutorial.ipynb) |
+|     [Tutorial 1](./module/expansion_function.md)     |  Data Expansion Functions   |     July 7, 2024      | [Jupyter Notes](../../notes/expansion_tutorial.ipynb)  |
 
 [//]: # (| [Tutorial 2]&#40;./module/extended_nested_expansion.md&#41; | Extended and Nested Data Expansions |     TBD      | To Be Provided  |)
 

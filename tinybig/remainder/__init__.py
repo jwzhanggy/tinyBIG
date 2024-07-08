@@ -15,7 +15,7 @@ However, in practice, we also allow $\pi$ to include learnable parameters for ou
 In such cases, it should be rewritten as $\pi(\mathbf{x} | \mathbf{w}')$, where $\mathbf{w}'$ is one extra fraction of the
 model's learnable parameters.
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of remainder functions:
 

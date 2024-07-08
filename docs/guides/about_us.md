@@ -1,18 +1,21 @@
-![tinybig.png](docs/assets/img/tinybig.png)
+# About us
 
---------------------------------------------------------------------------------
+{{toolkit}} is a website hosting the documentations, tutorials, examples and the latest updates about the `tinybig` library.
 
-### Introduction
+## What is `tinybig`?
 
-`tinybig` is a Python library developed by the IFM Lab for deep function learning model designing and building.
+`tinybig` is a Python library developed by the [IFM Lab](https://www.ifmlab.org/) for deep function learning model building.
 
-* Official Website: https://www.tinybig.org/
-* PyPI: https://pypi.org/project/tinybig/
+* Official Website: [https://www.tinybig.org/](https://www.tinybig.org/)
+* Github Repository: [https://github.com/jwzhanggy/tinyBIG](https://github.com/jwzhanggy/tinyBIG)
+* PyPI Package: [https://pypi.org/project/tinybig/](https://pypi.org/project/tinybig/)
+* IFM Lab [https://www.ifmlab.org/](https://www.ifmlab.org/)
 
+## Citing Us
 
-### Citation
+`tinybig` is developed based on the RPN paper from IFM Lab, which can be downloaded via the following links:
 
-* The RPN Paper: https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf
+* The RPN Paper: [PDF Link](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf)
 
 * The RPN Paper at arXiv: TBD
 
@@ -27,40 +30,7 @@ If you find `tinybig` and RPN useful in your work, please cite the RPN paper as 
 }
 ```
 
-### Installation
-
-#### Pip
-
-```shell
-pip install tinybig
-```
-
-#### Source
-
-```shell
-git clone https://github.com/jwzhanggy/tinyBIG.git
-```
-
-After entering the downloaded source code directory, tinybig can be installed with the following command:
-
-```shell
-python setup.py install
-```
-
-If you don't have `setuptools` installed locally, please consider to first install `setuptools`:
-```shell
-pip install setuptools 
-```
-
-#### Dependency
-
-Please download the [requirements.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) file, and install all the dependency packages:
-```shell
-pip install -r requirements.txt
-```
-
-
-### Library Organizations
+## Library Organization
 
 | Components                                                                              | Descriptions                                                                                   |
 |:----------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
@@ -77,18 +47,10 @@ pip install -r requirements.txt
 | [`tinybig.metric`](https://www.tinybig.org/documentations/metric/)                      | a library providing the  metrics that can be used for RPN model performance evaluation         |
 | [`tinybig.util`](https://www.tinybig.org/documentations/util/)                          | a library of utility functions for RPN model design, implementation and learning               | 
 
-### Tutorials
 
-|                                      Tutorial ID                                      |           Tutorial Title           |      Last Update       |
-|:-------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
-|               [Tutorial 0](https://www.tinybig.org/guides/quick_start/)               |        Quickstart Tutorial         |     July 6, 20204      |
-| [Tutorial 1](https://www.tinybig.org/tutorials/kickstart/module/expansion_function/)  |      Data Expansion Functions      |      July 7, 2024      |
-|                                      Tutorial 2                                       | Extended and Nested Data Expansion |          TBD           |
-
-### License & Copyright
+## License & Copyright
 
 Copyright © 2024 [IFM Lab](https://www.ifmlab.org/). All rights reserved.
 
 * `tinybig` source code is published under the terms of the MIT License. 
 * `tinybig`'s documentation and the RPN papers are licensed under a Creative Commons Attribution-Share Alike 4.0 Unported License ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)). 
-

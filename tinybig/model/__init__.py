@@ -3,7 +3,7 @@ This module provides the deep RPN model build by stacking multiple RPN layers on
 
 ## Deep RPN model
 
-The multi-head multi-channel RPN layer provides {\our} with greater capabilities
+The multi-head multi-channel RPN layer provides RPN with greater capabilities
 for approximating functions with diverse expansions concurrently.
 However, such shallow architectures can be insufficient for modeling complex functions.
 The RPN model can also be designed with a deep architecture by stacking multiple RPN layers on top of each other.
@@ -27,9 +27,9 @@ In the above equation, the subscripts used above denote the layer index. The dim
 can be represented as a list $[d_0, d_1, \cdots, d_{K-1}, d_K]$, where $d_0 = m$ and $d_K = n$
 denote the input and the desired output dimensions, respectively.
 Therefore, if the component functions at each layer of our model have been predetermined, we can just use the dimension 
-list $[d_0, d_1, \cdots, d_{K-1}, d_K]$ to represent the architecture of the {\our} model.
+list $[d_0, d_1, \cdots, d_{K-1}, d_K]$ to represent the architecture of the RPN model.
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of RPN models:
 

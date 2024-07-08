@@ -18,7 +18,7 @@ parameter matrix, i.e., $l > n \times D$.
 To unify these different cases, the data reconciliation function can also be referred to as the
 "parameter fabrication function", and these function names will be used interchangeably.
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of parameter reconciliation functions:
 

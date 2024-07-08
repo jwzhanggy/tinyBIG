@@ -37,7 +37,7 @@ theme:
     # navigation features
     - navigation.footer
     - navigation.indexes
-    - navigation.sections
+    #- navigation.sections
     - navigation.tabs
     - navigation.top
     - navigation.tracking
@@ -67,6 +67,10 @@ markdown_extensions:
   - tables
   - def_list
   - admonition
+  - md_in_html
+  - neoteroi.timeline
+  - neoteroi.cards
+  - neoteroi.projects
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight:
@@ -85,12 +89,14 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - attr_list
-  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 extra_javascript:
-  - javascripts/mathjax.js
+  - overrides/javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-  - javascripts/katex.js
+  - overrides/javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js
   - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
   - https://clustrmaps.com/globe.js
@@ -98,13 +104,12 @@ extra_javascript:
 extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
   - overrides/css/custom.css
+  - overrides/css/neoteroi-mkdocs.css
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
-    - icon: fontawesome/regular/map
-      link: https://www.clustrmaps.com/map_v2.png?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI
 
   # the footnote generator notice, copyright
   #generator: false
@@ -116,6 +121,7 @@ extra:
 plugins:
   - search
   - macros
+  #- glightbox
   - mkdocs-jupyter
   - blog:
       #authors_profiles: true
@@ -139,12 +145,20 @@ nav:
   - Home: index.md
   - Get Started:
     - guides/index.md
+    - About us: guides/about_us.md
     - Installation: guides/installation.md
     - Quickstart: guides/quick_start.md
   - Docs:
     - documentations/index.md
     - tinybig:
       - documentations/tinybig/index.md
+    - tinybig.module:
+      - documentations/module/index.md
+      - documentations/module/transformation.md
+      - documentations/module/fabrication.md
+      - documentations/module/remainder.md
+      - documentations/module/rpn_head.md
+      - documentations/module/rpn_layer.md
     - tinybig.expansion:
       - documentations/expansion/index.md
       - documentations/expansion/identity_expansion.md
@@ -193,13 +207,6 @@ nav:
       - documentations/remainder/identity_remainder.md
       - documentations/remainder/linear_remainder.md
       - documentations/remainder/bspline_remainder.md
-    - tinybig.module:
-      - documentations/module/index.md
-      - documentations/module/transformation.md
-      - documentations/module/fabrication.md
-      - documentations/module/remainder.md
-      - documentations/module/rpn_head.md
-      - documentations/module/rpn_layer.md
     - tinybig.model:
       - documentations/model/index.md
       - documentations/model/model.md
@@ -236,7 +243,7 @@ nav:
     - tinybig.output:
       - documentations/output/index.md
       - documentations/output/output.md
-      - documentations/output/prediction.md
+      - documentations/output/rpn_output.md
     - tinybig.metric:
       - documentations/metric/index.md
       - documentations/metric/metric.md
@@ -295,15 +302,14 @@ nav:
       - blog/index.md
   - News:
       - news/index.md
-      - news/about_us.md
-      - news/toolkit.md
-      - news/research.md
-      - news/product.md
+      - Research News: news/research.md
+      #- New Products: news/product.md
+      - Library Updates: news/toolkit.md
   - Contact us:
       - contact/index.md
       - contact/sponsors.md
       - contact/contributing.md
-      - contact/privacy.md
+      #- contact/privacy.md
       - contact/license.md
-      - contact/certificate.md
+      #- contact/certificate.md
 #===========================================

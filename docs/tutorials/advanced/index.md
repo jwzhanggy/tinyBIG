@@ -1,13 +1,9 @@
 # Advanced Tutorials
 
-### Tutorials on Advanced Component Functions
+The advanced tutorials are still in development, and please check back later.
 
-| Advanced Tutorial ID  |        Tutorial Title        | Release Date  |   Colab Link    |
-|:---------------------:|:----------------------------:|:------------:|:---------------:|
-| [Advanced Tutorial 1] | Advanced Component Functions |     TBD      | To Be Provided  |
+## Tutorial Organization
 
-### Tutorials on Advanced RPN Models
-
-| Advanced Tutorial ID  |         Tutorial Title          | Release Date |   Colab Link    |
-|:---------------------:|:-------------------------------:|:-----------:|:---------------:|
-| [Advanced Tutorial 1] | Advanced RPN Model Architecture |     TBD     | To Be Provided  |
+| Advanced Tutorial ID  |        Tutorial Title        | Release Date  | Jupyter Notebook Code  |
+|:---------------------:|:----------------------------:|:-------------:|:----------------------:|
+| [Advanced Tutorial 1] | Advanced Component Functions |      TBD      |         Notes          |

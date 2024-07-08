@@ -5,7 +5,7 @@ Specifically, this module will introduce a base learner as a template, based on 
 several other learning algorithms are implemented, including the famous "error back propagation algorithm"
 and the recent "forward-forward algorithm".
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of learner classes:
 

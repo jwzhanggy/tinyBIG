@@ -1,7 +1,8 @@
-# Tutorial on Data Expansion Functions
+# Tutorial on Data Expansion Functions ([Jupyter Note](../../../notes/expansion_tutorial.ipynb))
 
 Author: Jiawei Zhang <br>
 (Released: July 6, 2024; Latest Revision: July 7, 2024.)
+----------------------------------------
 
 In this tutorial, you will learn
 
@@ -116,7 +117,7 @@ configurations.
 For instance, the data expansion function defined in the previous subsection can also be instantiated from its configs 
 `data_transformation_configs` as follows:
 
-``` python linenums="1"
+```python linenums="1"
 data_transformation_configs = {
     'data_transformation_class': 'tinybig.expansion.taylor_expansion',
     'data_transformation_parameters':{
@@ -160,7 +161,7 @@ normalization functions. You can also define your customized pre-processing func
 
 Below, we provide an example to add the `layer-norm` as a pre-processing function to the Taylor's expansion function:
 
-```python
+```python linenums="1"
 from tinybig.expansion import taylor_expansion
 import torch
 
@@ -183,7 +184,7 @@ print(x, kappa_x)
 
 What's more, `tinybig` allows you to add multiple pre-processing functions into the data expansion function definition.
 Below, we show the Taylor's expansion with both sigmoid and layer-norm as the pre-processing functions:
-```python
+```python linenums="1"
 from tinybig.expansion import taylor_expansion
 import torch
 
@@ -280,7 +281,7 @@ Below, we will illustrate the obtained expansion results on real-world MNIST ima
 So, we can compare the data vectors before and after the expansion.
 
 We first define an image display function with `matplotlib` (please install `matplotlib` before running the following code):
-```python
+```python linenums="1"
 import matplotlib.pyplot as plt
 def show_image(X):
     plt.figure(figsize=(8, 8))
@@ -290,7 +291,7 @@ def show_image(X):
 
 As introduced in the previous [Quickstart tutorial](../../../guides/quick_start.md), `tinybig` has a built-in class to load
 the mnist dataset (after flattening and normalization):
-```python
+```python linenums="1"
 from tinybig.data import mnist
 mnist_data = mnist(name='mnist', train_batch_size=64, test_batch_size=64)
 mnist_loaders = mnist_data.load(cache_dir='./data/')
@@ -304,7 +305,7 @@ print(x.shape)
     ```
 
 By feeding the image data `x` to the `taylor_expansion` function, we can obtain the Taylor's expansion results
-```python
+```python linenums="1"
 from tinybig.expansion import taylor_expansion
 
 exp_func = taylor_expansion(name='taylor_expansion_for_mnist', d=2)
@@ -319,23 +320,24 @@ print(raw_image.shape, expansion_image.shape)
 
 By feeding the image data `raw_image` and `expansion_image` to the `show_image` function, we can display the image before 
 and after the expansion as follows:
-```python
+```python linenums="1"
 show_image(raw_image.view(28, 28))
 ```
-???+ quote "MNIST image display"
+???+ quote "MNIST raw image display"
     ![mnist_raw_data_vector.png](../../img/mnist_raw_data_vector.png)
 
-```python
+```python linenums="1"
 show_image(expansion_image.view(784, 784))
 ```
-???+ quote "MNIST image display"
+???+ quote "MNIST expansion image display"
     ![mnist_raw_data_vector.png](../../img/mnist_expansion_data.png)
 
-Compared with the raw image, the expansion image is less readable, which makes it hard to interpret the expansion results.
+Compared with the raw image, the above expansion image visualization is less readable, which makes it hard to interpret 
+the expansion results.
 
-Below, we will introduce the `reshape_expansion` function to re-organize the expansion image of size $784 \times 784$ into 
+Below, we will use the `reshape_expansion` function to re-organize the expansion image of size $784 \times 784$ into 
 $28 \times 28$ small-sized images, where each image has a size of $28 \times 28$.
-```python
+```python linenums="1"
 def reshape_expansions(expansion):
     grid28x28 = expansion.reshape(28, 28, 28, 28)
     reshaped_expansion = grid28x28.permute(0, 2, 1, 3).reshape(784, 784)
@@ -343,16 +345,16 @@ def reshape_expansions(expansion):
 ```
 
 With the above reshape function, we can process and display the expansion image as follows:
-```python
+```python linenums="1"
 reshaped_expansion_image = reshape_expansions(expansion_image)
 print(reshaped_expansion_image.shape)
 show_image(reshaped_expansion_image)
 ```
-???+ quote "MNIST image display"
+???+ quote "MNIST reshaped expansion image display"
     ![mnist_raw_data_vector.png](../../img/mnist_expansion_data_reshape.png)
 
 The above image visualization illustrates the expansion effects of each pixel in the image to the whole raw image,
-and there are $28 \times 28$ sub-images in the expansion results. 
+and there are $28 \times 28$ sub-images in the expansion results.
 
 These high-order expansions actually provide some important features about the input data. 
 We will discuss more about this in the following tutorials on the {{our}} model and the parameter reconciliation.

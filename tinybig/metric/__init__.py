@@ -3,9 +3,9 @@
 This module provides the evaluation metrics that can be used within the tinyBIG toolkit.
 
 
-## Organization of this Module
+## Classes in this Module
 
-This module contains the following categories of learner classes:
+This module contains the following categories of evaluation metric classes:
 
 * metric: The base evaluation metric defining the class template.
 

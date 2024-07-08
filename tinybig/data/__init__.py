@@ -1,9 +1,9 @@
 """
 This module defines several frequently used dataset, which can be used for training the RPN model in the tinyBIG toolkit.
 
-## Organization of this Module
+## Classes in this Module
 
-This module contains the following categories of learner classes:
+This module contains the following categories of dataloader classes:
 
 * Base Data
 * Function Data

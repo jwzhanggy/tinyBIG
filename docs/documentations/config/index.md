@@ -3,8 +3,7 @@
 ::: tinybig.config
 
 ---------------------------------------
-## Base Config
-* [config](config.md)
+## Organization of this Module
 
-## RPN Config
+* [config](config.md)
 * [rpn_config](rpn_config.md)

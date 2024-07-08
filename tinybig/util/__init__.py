@@ -4,9 +4,9 @@ This module implements the utility functions and methods that will be used in th
 The function and methods in this module can be used for very diverse purposes, including random seed setup,
 data processing, model initialization, model component processing, output processing, etc.
 
-## Organization of this Module
+## Functions in this Module
 
-This module contains the following categories of learner classes:
+This module contains the following categories of utility functions:
 
 * Utility Functions for Project Initialization
 * Utility Functions for RPN Initialization

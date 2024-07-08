@@ -46,7 +46,7 @@ $$
     \end{equation}
 $$
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of component functions and modules:
 

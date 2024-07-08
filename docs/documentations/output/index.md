@@ -4,8 +4,7 @@
 
 ---------------------------------------
 
-## Base Output
-* [result](output.md)
+## Organization of this Module
 
-## Prediction Output
-* [prediction_output](prediction.md)
+* [output](output.md)
+* [rpn_output](rpn_output.md)

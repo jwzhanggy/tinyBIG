@@ -1,4 +1,4 @@
-# Installation of the {{ toolkit }} Toolkit
+# Installation of the {{ toolkit }} Library
 
 ## Prerequisites
 
@@ -9,11 +9,12 @@ from the [python official website](https://www.python.org/downloads/).
 
 ### Package Manager
 
-To install the tinybig binaries, you will need to use pip. 
+To install the `tinybig` binaries, you will need to use pip. 
 
 #### pip
 
 If you installed Python via Homebrew or the Python website, pip (or pip3) was installed with it.
+
 To install pip, you can refer to the [pip official website](https://pip.pypa.io/en/stable/installation/).
 
 To upgrade your pip, you can use the following command:
@@ -32,11 +33,11 @@ To install Anaconda, you can download graphical installer provided at the
 
 ## Dependency
 
-The tinybig toolkit is developed based on several prior packages. 
-The updated dependency [requirement.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) of tinybig
+The `tinybig` library is developed based on several dependency packages. 
+The updated dependency [requirement.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) of `tinybig`
 can be downloaded from the [project github repository](https://github.com/jwzhanggy/tinyBIG).
 
-After downloading the requirement.txt, you can install all the dependencies via pip with the following command:
+After downloading the requirement.txt, you can install all these dependencies with the pip command:
 
 === "install command"
     ```shell
@@ -60,11 +61,11 @@ After downloading the requirement.txt, you can install all the dependencies via 
 
 ## Installation
 
-The tinybig toolkit has been published at both PyPI and the project github repository.
+The `tinybig` library has been published at both PyPI and the project github repository.
 
 ### Install from PyPI
 
-To install tinybig from PyPI, use the following command:
+To install `tinybig` from PyPI, use the following command:
 
 ```shell
 pip install tinybig
@@ -80,7 +81,7 @@ caonda install tinybig
 -->
 ### Install from Source Code
 
-You can also install tinybig from the source code, which has been released at the 
+You can also install `tinybig` from the source code, which has been released at the 
 [project github repository](https://github.com/jwzhanggy/tinyBIG). 
 
 You can download the public repository either from the project github webpage or via the following command:
@@ -88,7 +89,7 @@ You can download the public repository either from the project github webpage or
 git clone https://github.com/jwzhanggy/tinyBIG.git
 ```
 
-After entering the downloaded source code directory, tinybig can be installed with the following command:
+After entering the downloaded source code directory, `tinybig` can be installed with the following command:
 
 ```shell
 python setup.py install
@@ -103,9 +104,9 @@ pip install setuptools
 
 ## Verification
 
-If you have successfully installed both tinybig and the dependency packages, now you can use tinybig in your projects.
+If you have successfully installed both `tinybig` and the dependency packages, now you can use `tinybig` in your projects.
 
-To ensure that tinybig was installed correctly, we can verify the installation by running sample python code as follows:
+To ensure that `tinybig` was installed correctly, we can verify the installation by running the sample python code as follows:
 
 ```python
 >>> import torch

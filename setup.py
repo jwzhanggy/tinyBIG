@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 __version__ = '0.1.0.post8'
 
 requirements = [
-    "pip>=23.3",
     "torch==2.2.2",
     "numpy==1.26.3",
     "pyyaml==6.0.1",
@@ -36,8 +35,8 @@ setup(
         "tinybig",
         "rpn",
         "deep function learning",
-        "data expansion function",
-        "parameter reconciliation function",
+        "expansion function",
+        "reconciliation function",
         "remainder function",
         "reconciled polynomial network",
     ],

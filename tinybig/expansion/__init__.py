@@ -15,7 +15,7 @@ The corresponding function, $\kappa$, can also be referred to as the data expans
 and data compression function (if $D < m$), respectively. Collectively, these can be unified under the term
 "data transformation functions".
 
-## Organization of this Module
+## Classes in this Module
 
 This module contains the following categories of expansion functions:
 

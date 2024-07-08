@@ -4,10 +4,12 @@
 
 ---------------------------------------
 
-## Parameter Reconciliation/Fabrication
+## Organization of this Module
+
+### Parameter Reconciliation/Fabrication
 * [fabrication](../module/fabrication.md) (defined in the tinybig.module directory)
 
-## Basic Reconciliation
+### Basic Reconciliation
 * [constant_reconciliation](constant_reconciliation.md)
 * [zero_reconciliation](zero_reconciliation.md)
 * [one_reconciliation](one_reconciliation.md)
@@ -16,11 +18,11 @@
 * [masking_reconciliation](masking_reconciliation.md)
 * [duplicated_padding_reconciliation](duplicated_padding_reconciliation.md)
 
-## Low-Rank Reconciliation
+### Low-Rank Reconciliation
 * [lorr_reconciliation](lorr_reconciliation.md)
 * [hm_reconciliation](hm_reconciliation.md)
 * [lphm_reconciliation](lphm_reconciliation.md)
 * [dual_lphm_reconciliation](dual_lphm_reconciliation.md)
 
-## Hypernet Expansions
+### Hypernet Expansions
 * [hypernet_reconciliation](hypernet_reconciliation.md)
