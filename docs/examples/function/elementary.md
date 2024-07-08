@@ -61,6 +61,15 @@ which are further partitioned into the training and testing sets according to th
 Based on the above task description, we can compose the `elementary_configs.yaml` file to design the configurations of the 
 modules, components and models used for the task, which is provided as follows.
 
+After downloading the script code and the config yaml file, please organize them as follows:
+
+```shell
+└─ Your current working directory/
+    └─ elementary_example.py
+    └─ configs/
+        └─ elementary_configs.yaml
+```
+
 By running the following `elementary_example.py` code on the `elementary_configs.yaml` file, we will train a {{our}} model to address the 
 continuous function approximation task. Both the code and configuration files can be downloaded via the links
 provided at the very beginning of this page.

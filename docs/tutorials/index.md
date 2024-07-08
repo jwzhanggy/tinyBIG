@@ -29,7 +29,7 @@ The tutorials in this tab are organized into two sections.
         <li>Tutorials on component functions.</li>
         <li>Tutorials on {{ our }} model building.</li>
         <li>Tutorials on the datasets.</li>
-        <li>Tutorials on deep function learning.</li>
+        <li>Tutorials on function learning tasks.</li>
     </ol>
 
     [:octicons-arrow-right-24: Get started](./beginner/index.md)
