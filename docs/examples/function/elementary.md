@@ -8,15 +8,15 @@
 <span style="text-align: right;">
 
     <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb">
-    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
-    </a>
-
-    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb">
     <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
     </a>
 
     <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/elementary_configs.yaml">
     <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.py">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
     </a>
 
 </span>

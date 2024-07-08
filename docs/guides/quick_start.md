@@ -1,15 +1,20 @@
 # Quickstart Tutorial
 
 <div style="display: flex; justify-content: space-between;">
-<span style="text-align: left;">Author: Jiawei Zhang</span>
+<span style="text-align: left;">
+    Author: Jiawei Zhang <br>
+    (Released: July 4, 2024; latest Revision: July 8, 2024.)
+</span>
 <span style="text-align: right;">
     <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/quickstart_tutorial.ipynb">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/quickstart_tutorial.py">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
     </a>
 </span>
 </div>
-
-(Released: July 4, 2024; latest Revision: July 8, 2024.)
 
 -------------------------
 

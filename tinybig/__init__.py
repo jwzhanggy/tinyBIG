@@ -87,7 +87,7 @@ The **learning correctness** of RPN is fundamentally determined by the compositi
 
 ## Learning Cost of RPN: Space, Time and Parameter Number
 
-To analyze the learning costs of RPN, we can take a batch input $\mathbf{X} \in \mathbbm{R}^{B \times m}$ of batch size $B$ as an example, which will be fed to the RPN model with $K$ layers, each with $H$ heads and each head has $C$ channels. Each head will project the data instance from a vector of length $m$ to an expanded vector of length $D$ and then further projected to the desired output of length $n$. Each channel reconciles parameters from length $l$ to the sizes determined by both the expansion space and output space dimensions, {\ie} $n \times D$.
+To analyze the learning costs of RPN, we can take a batch input $\mathbf{X} \in R^{B \times m}$ of batch size $B$ as an example, which will be fed to the RPN model with $K$ layers, each with $H$ heads and each head has $C$ channels. Each head will project the data instance from a vector of length $m$ to an expanded vector of length $D$ and then further projected to the desired output of length $n$. Each channel reconciles parameters from length $l$ to the sizes determined by both the expansion space and output space dimensions, {\ie} $n \times D$.
 
 Based on the above hyper-parameters, assuming the input and output dimensions at each layer are comparable to $m$ and $n$, then the space, time costs and the number of involved parameters in learning the RPN model are calculated as follows:
 

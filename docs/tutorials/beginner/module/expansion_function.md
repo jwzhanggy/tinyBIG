@@ -1,9 +1,26 @@
 # Tutorial on Data Expansion Functions 
 
-([Jupyter Note](../../../notes/expansion_tutorial.ipynb))
+<div style="display: flex; justify-content: space-between;">
+<span style="text-align: left;">
+    Author: Jiawei Zhang <br>
+    (Released: July 6, 2024; Latest Revision: July 7, 2024.)<br>
+</span>
+<span style="text-align: right;">
 
-Author: Jiawei Zhang <br>
-(Released: July 6, 2024; Latest Revision: July 7, 2024.)
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.ipynb">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/expansion_function_postprocessing.yaml">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
+    </a>
+
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.py">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
+    </a>
+
+</span>
+</div>
 ----------------------------------------
 
 In this tutorial, you will learn
