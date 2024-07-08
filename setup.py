@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.1.0.post8'
+__version__ = '0.1.0.post9'
 
 requirements = [
     "torch==2.2.2",
