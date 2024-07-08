@@ -1,0 +1,120 @@
+configurations:
+  device: mps
+  random_seed: 123
+
+  data_configs:
+    data_class: tinybig.data.elementary_function
+    data_parameters:
+      name: elementary_function
+      train_batch_size: 100
+      test_batch_size: 100
+      equation_index: 14
+
+  learner_configs:
+    learner_class: tinybig.learner.backward_learner
+    learner_parameters:
+      name: error_backward_propagation
+      n_epochs: 2000
+      optimizer_configs:
+        optimizer_class: torch.optim.AdamW
+        optimizer_parameters:
+          lr: 3.0e-03
+          weight_decay: 1.0e-04
+      lr_scheduler_configs:
+        lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
+        lr_scheduler_parameters:
+          gamma: 0.999
+      loss_configs:
+        loss_class: torch.nn.MSELoss
+        loss_parameters:
+          reduction: mean
+
+  model_configs:
+    model_class: tinybig.model.rpn
+    model_parameters:
+      name: reconciled_polynomial_network
+      depth: 2
+      depth_alloc: [1, 1]
+      layer_configs:
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 2
+            n: 2
+            width: 1
+            width_alloc: [1]
+            fusion_strategy: average
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.extended_expansion
+                    data_transformation_parameters:
+                      name: extended_expansion
+                      expansion_function_configs:
+                        - expansion_class: tinybig.expansion.bspline_expansion
+                          expansion_parameters:
+                            name: bspline_expansion
+                        - expansion_class: tinybig.expansion.taylor_expansion
+                          expansion_parameters:
+                            name: taylor_expansion
+                            d: 2
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.lorr_reconciliation
+                    parameter_fabrication_parameters:
+                      name: lorr_reconciliation
+                      r: 1
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.zero_remainder
+                    remainder_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 2
+            n: 1
+            width: 1
+            width_alloc: [ 1 ]
+            fusion_strategy: average
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.extended_expansion
+                    data_transformation_parameters:
+                      name: extended_expansion
+                      expansion_function_configs:
+                        - expansion_class: tinybig.expansion.bspline_expansion
+                          expansion_parameters:
+                            name: bspline_expansion
+                        - expansion_class: tinybig.expansion.taylor_expansion
+                          expansion_parameters:
+                            name: taylor_expansion
+                            d: 2
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.lorr_reconciliation
+                    parameter_fabrication_parameters:
+                      name: lorr_reconciliation
+                      r: 1
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.zero_remainder
+                    remainder_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+
+  metric_configs:
+    metric_class: tinybig.metric.mse
+    metric_parameters:
+      name: mse
+
+  result_configs:
+    result_class: tinybig.output.rpn_output
+    result_parameters:
+      name: rpn_output

@@ -126,7 +126,7 @@ class rpn(model):
         # initialize the model parameters
         self.initialize_parameters()
 
-    def get_depthber(self):
+    def get_depth(self):
         """
         RPN model name retrieval method.
 

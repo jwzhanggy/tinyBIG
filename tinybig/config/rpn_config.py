@@ -71,18 +71,13 @@ class rpn_config(config):
         for config in configs:
             if '_configs' not in config: continue
             object_name_stem = config.split('_configs')[0]
-            print(object_name_stem)
             if "{}_class".format(object_name_stem) in configs[config]:
                 class_name = configs[config]["{}_class".format(object_name_stem)]
                 parameters = configs[config]["{}_parameters".format(object_name_stem)]
-                print(class_name, parameters)
                 obj = get_obj_from_str(class_name)(**parameters)
-                print(obj)
             else:
-                print(config, 'not found!')
                 obj = None
             object_dict[object_name_stem] = obj
-            print(config, 'finished!')
         return object_dict
 
     @staticmethod

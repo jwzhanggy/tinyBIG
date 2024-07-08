@@ -418,7 +418,7 @@ def create_directory_if_not_exists(complete_file_path):
     directory_path = os.path.dirname(complete_file_path)
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
-        print(f"Directory '{directory_path}' created successfully.")
+        print(f"Directory '{directory_path}' doesn't exit, and it was created...")
 
 
 def set_random_seed(random_seed: int = 0):

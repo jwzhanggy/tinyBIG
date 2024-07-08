@@ -50,7 +50,7 @@ class function_dataloader(dataloader):
                     'var_low': var_low,
                     'var_high': var_high
                 }
-            return processed_equation
+            return processed_equation, str_equation
 
     def load_all_equations(self):
         processed_equations = {}
@@ -100,7 +100,7 @@ class function_dataloader(dataloader):
             raise ValueError('The equation_index needs to be an integer from 0 to {}, '
                              'its current value {} is out of range...'.format(len(self.function_list)-1, equation_index))
 
-        processed_equation = self.load_equation(index=equation_index)
+        processed_equation, str_equation = self.load_equation(index=equation_index)
 
         X, y = self.generate_data(
             formula=processed_equation['equ_formula'],
@@ -119,7 +119,7 @@ class function_dataloader(dataloader):
         test_dataset = dataset(X_test, torch.unsqueeze(y_test, 1))
         train_loader = DataLoader(train_dataset, batch_size=self.train_batch_size, shuffle=True)
         test_loader = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
-        return {'train_loader': train_loader, 'test_loader': test_loader}
+        return {'train_loader': train_loader, 'test_loader': test_loader, 'str_equation': str_equation}
 
 # The list of elementary functions for continuous function fitting evaluation
 Elementary_Function_Equations = (

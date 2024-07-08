@@ -1,5 +1,11 @@
 # Examples
 
+In this tab, we will provide a list of example code to use the {{our}} model to address 
+several different deep function learning tasks with the `tinybig` library.
+
+We assume you have read the PRN paper, as well as the provided tutorials already.
+Therefore, we will not explain the technical details for the model components in the example anymore.
+
 ## Examples of {{our}} for Continuous Function Approximation
 
 |              Example ID               |           Example Title           | Release Date |   Colab Link    |
