@@ -29,5 +29,5 @@ RPN model in terms of effectiveness, efficiency, and learning algorithms.
 After testing and evaluating these new methods, modules, and models, we will gradually incorporate them into the `tinybig` library. 
 Mature models developed from the `tinybig` projects will be commercialized and published subsequently.
 
-We estimate that RPN v2.0 will be released by September 2024, with RPN v3.0 following by the end of 2024.
+We estimate that RPN v2.0 and `tinybig` v0.2.0 will be released before the end of 2024.
 
