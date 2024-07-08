@@ -1,4 +1,4 @@
-# Elementary function approximation task
+# Elementary Function Approximation
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
@@ -30,11 +30,13 @@ As mentioned before, we assume you have worked on the quickstart tutorial and th
 Therefore, we will not introduce the technical details for the model components in this example anymore.
 
 Since this is the first deep function learning task example, we will briefly describe the configurations of the {{our}} 
-model, data, learner and evaluation metric as follows, which will be used to design the `config.yaml` file later.
+model, data, learner and evaluation metric as follows, which will be used to design the model with the `config.yaml` file later.
+
+-------------------------
 
 ## Configuration Descriptions
 
-* **Data**: `elementary_function` with ID E.14, i.e.,
+* **Data**: `elementary_function` formula with ID E.14, i.e.,
 $$
     f(x, y) = \arcsin(x+y), 
 $$
@@ -51,6 +53,8 @@ which are further partitioned into the training and testing sets according to th
     * lr_scheduler: `torch.optim.lr_scheduler.ExponentialLR` with `gamma`: `0.999`.
 * **Output**: `rpn_output`
 * **Metric**: `mse`
+
+-------------------------
 
 ## Python Code and Model Configurations
 

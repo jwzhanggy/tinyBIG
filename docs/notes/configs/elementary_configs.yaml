@@ -1,5 +1,5 @@
 configurations:
-  device: mps
+  device: cpu
   random_seed: 123
 
   data_configs:

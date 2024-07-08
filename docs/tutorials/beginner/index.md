@@ -5,10 +5,15 @@ This page will be updated as new tutorials are posted, so please check back regu
 
 ## Tutorial Organization
 
-|                     Tutorial ID                      |       Tutorial Title        |      Last Update      |                 Jupyter Notebook Code                  |
-|:----------------------------------------------------:|:---------------------------:|:---------------------:|:------------------------------------------------------:|
-|      [Tutorial 0](../../guides/quick_start.md)       |     Quickstart Tutorial     |     July 6, 20204     | [Jupyter Notes](../../notes/quickstart_tutorial.ipynb) |
-|     [Tutorial 1](./module/expansion_function.md)     |  Data Expansion Functions   |     July 7, 2024      | [Jupyter Notes](../../notes/expansion_tutorial.ipynb)  |
+{% set quickstart_tutorial_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/quickstart_tutorial.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a>  <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/quickstart_tutorial.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set expansion_tutorial_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/expansion_function_postprocessing.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.py"> <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"> </a>{% endset %}
+
+
+|                     Tutorial ID                      |       Tutorial Title        |  Last Update  |         Related Files          |
+|:----------------------------------------------------:|:---------------------------:|:-------------:|:------------------------------:|
+|      [Tutorial 0](../../guides/quick_start.md)       |     Quickstart Tutorial     | July 6, 20204 | {{quickstart_tutorial_files}}  |
+|     [Tutorial 1](./module/expansion_function.md)     |  Data Expansion Functions   | July 7, 20204 |  {{expansion_tutorial_files}}  |
+
 
 [//]: # (| [Tutorial 2]&#40;./module/extended_nested_expansion.md&#41; | Extended and Nested Data Expansions |     TBD      | To Be Provided  |)
 
