@@ -29,9 +29,7 @@ To install Anaconda, you can download graphical installer provided at the
 [Anaconda official website](https://www.anaconda.com/download/success). 
 -->
 
---------------------
-
-## Dependency
+### Dependency Packages
 
 The `tinybig` library is developed based on several dependency packages. 
 The updated dependency [requirement.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) of `tinybig`
