@@ -1,6 +1,6 @@
-# Quickstart Tutorial ([Jupyter Note](../notes/quickstart_tutorial.ipynb))
+# Quickstart Tutorial 
 
-<!--[![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)-->
+([Jupyter Note](../notes/quickstart_tutorial.ipynb))
 
 Author: Jiawei Zhang <br>
 (Released: July 4, 2024; 1st Revision: July 6, 2024.)<br>

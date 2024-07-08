@@ -1,5 +1,9 @@
 # Elementary function approximation task
-([elemetary_example.ipynb](../notes/elementary_example.ipynb), [elementary_configs.yaml](../configs/elementary_configs.yaml))
+([Jupyter Note](../notes/elementary_example.ipynb), [Configuration File](../configs/elementary_configs.yaml))
+
+Author: Jiawei Zhang <br>
+(Released: July 7, 2024; 1st Revision: July 8, 2024.)<br>
+-------------------------
 
 In this example, we will build a {{our}} model for the elementary function approximation task.
 
@@ -31,10 +35,10 @@ which are further partitioned into the training and testing sets according to th
 
 ## Python Code and Model Configurations
 
-Based on the above task description, we can compose the `config.yaml` file to design the configurations of the 
+Based on the above task description, we can compose the `elementary_configs.yaml` file to design the configurations of the 
 modules, components and models used for the task, which is provided as follows.
 
-By running the following `script.py` on the `configs.yaml` file, we will train a {{our}} model to address the 
+By running the following `elementary_example.py` code on the `elementary_configs.yaml` file, we will train a {{our}} model to address the 
 continuous function approximation task. Both the code and configuration files can be downloaded via the links
 provided at the very beginning of this page.
 

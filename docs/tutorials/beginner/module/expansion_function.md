@@ -1,4 +1,6 @@
-# Tutorial on Data Expansion Functions ([Jupyter Note](../../../notes/expansion_tutorial.ipynb))
+# Tutorial on Data Expansion Functions 
+
+([Jupyter Note](../../../notes/expansion_tutorial.ipynb))
 
 Author: Jiawei Zhang <br>
 (Released: July 6, 2024; Latest Revision: July 7, 2024.)
