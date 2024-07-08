@@ -4,7 +4,7 @@ Contributions are welcome, and they are greatly appreciated! Every little bit he
 
 ## Report Bugs
 
-Report bugs at [https://github.com/jwzhanggy/tinyBIG/issues](https://github.com/jwzhanggy/tinyBIG/issues).
+Report bugs at the [project gitHub issue page](https://github.com/jwzhanggy/tinyBIG/issues).
 
 If you are reporting a bug, please also include information about:
 
@@ -14,7 +14,7 @@ If you are reporting a bug, please also include information about:
 
 ## Fix Bugs and Add New Features
 
-You may look through the [GitHub issue page]((https://github.com/jwzhanggy/tinyBIG/issues) for potential problems to help with. 
+You may look through the [project gitHub issue page](https://github.com/jwzhanggy/tinyBIG/issues) for potential problems to help with. 
 
 * Anything tagged with "bug" and "help wanted" is open to whoever wants to implement it.
 * Anything tagged with "enhancement" and "help wanted" is open to whoever wants to implement it.
@@ -27,7 +27,7 @@ in docstrings, or even on the web in blog posts, articles, and such.
 
 ## Send Feedbacks
 
-The best way to send feedback is to file an issue at [https://github.com/jwzhanggy/tinyBIG/issues](https://github.com/jwzhanggy/tinyBIG/issues).
+The best way to send feedback is to file an issue at the [project gitHub issue page](https://github.com/jwzhanggy/tinyBIG/issues).
 We will check and solve the reported issues periodically.
 
 If you are proposing a feature to be potentially added into `tinybig`:

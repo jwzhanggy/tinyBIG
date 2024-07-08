@@ -1,7 +1,7 @@
 # Library Updates
 
 - 2024-05-03: `tinybig` project launched.
-- 2024-07-01: [`tinybig` v0.1.0]() released.
+- 2024-07-01: `tinybig` v0.1.0 released.
 
 -----------------------
 
