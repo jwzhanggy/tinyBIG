@@ -23,19 +23,26 @@ Therefore, we will not explain the technical details for the model components in
 
 ## Examples of {{our}} for Image Classification
 
-|  Example ID   |                   Example Title                    | Released Date |  Related Files   |
-|:-------------:|:--------------------------------------------------:|:-------------:|:----------------:|
-| [Example 4]() | MNIST Classification with Identity Reconciliation  | July 8, 2024  |  To Be Provided  |
-| [Example 5]() | MNIST Classification with Dual LPHM Reconciliation | July 8, 2024  |  To Be Provided  |
-| [Example 5]() |         CIFAR10 Object Detection in Images         |      TBD      |  To Be Provided  |
+{% set mnist_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set mnist_dual_lphm_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_dual_lphm_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set cifar10_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/cifar10_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+
+
+|               Example ID                |                   Example Title                    | Released Date  |           Related Files           |
+|:---------------------------------------:|:--------------------------------------------------:|:--------------:|:---------------------------------:|
+|      [Example 4](./image/mnist.md)      | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |      {{mnist_example_files}}      |
+| [Example 5](./image/mnist_dual_lphm.md) | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  | {{mnist_dual_lphm_example_files}} |
+|     [Example 6](./image/cifar10.md)     |         CIFAR10 Object Detection in Images         |  July 8, 2024  |     {{cifar10_example_files}}     |
+
 
 ## Examples of {{our}} for Text Classification
 
-|  Example ID   |         Example Title          | Released Date |   Related Files    |
-|:-------------:|:------------------------------:|:------------:|:---------------:|
-| [Example 6]() |   IMDB Review Classification   |     TBD      | To Be Provided  |
-| [Example 7]() |  AGNews Topic Classification   |     TBD      | To Be Provided  |
-| [Example 8]() | SST-2 Sentiment Classification |     TBD      | To Be Provided  |
+|   Example ID   |          Example Title          | Released Date |  Related Files   |
+|:--------------:|:-------------------------------:|:-------------:|:----------------:|
+| [Example 7]()  |  Failure of KAN on Sparse Data  |      TBD      |  To Be Provided  |
+| [Example 8]()  |   IMDB Review Classification    |      TBD      |  To Be Provided  |
+| [Example 9]()  |   AGNews Topic Classification   |      TBD      |  To Be Provided  |
+| [Example 10]() | SST-2 Sentiment Classification  |      TBD      |  To Be Provided  |
 
 ## Examples of {{our}} for Probabilistic Relationship Inference
 

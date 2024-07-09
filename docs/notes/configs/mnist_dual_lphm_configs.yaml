@@ -13,7 +13,7 @@ configurations:
     learner_class: tinybig.learner.backward_learner
     learner_parameters:
       name: error_backward_propagation
-      n_epochs: 50
+      n_epochs: 20
       optimizer_configs:
         optimizer_class: torch.optim.AdamW
         optimizer_parameters:

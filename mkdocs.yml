@@ -291,7 +291,9 @@ nav:
       - Composite Function Approximation: examples/function/composite.md
       - Feynman Function Approximation: examples/function/feynman.md
       - MNIST Classification: examples/image/mnist.md
+      - MNIST with Dual LPHM: examples/image/mnist_dual_lphm.md
       - CIFAR10 Classification: examples/image/cifar10.md
+      - Failure of KAN: examples/text/kan.md
       - IMDB Classification: examples/text/imdb.md
       - AGNews Classification: examples/text/agnews.md
       - SST2 Classification: examples/text/sst2.md
