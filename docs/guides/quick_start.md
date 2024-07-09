@@ -167,7 +167,6 @@ from tinybig.expansion import taylor_expansion
 
 exp_func = taylor_expansion(name='taylor_expansion', d=2, postprocess_functions='layer_norm', device=DEVICE)
 x = X[0:1,:]
-x = X[0:1,:]
 D = exp_func.calculate_D(m=x.size(1))
 print('D:', D)
 
