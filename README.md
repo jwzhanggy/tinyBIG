@@ -1,4 +1,4 @@
-![tinybig.png](docs/assets/img/tinybig.png)
+![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png){height=200}
 
 --------------------------------------------------------------------------------
 
@@ -13,17 +13,17 @@
 ### Citation
 
 * The RPN Paper: https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf
-
-* The RPN Paper at arXiv: TBD
+* The RPN Paper at arXiv: https://arxiv.org/abs/2407.04819
 
 If you find `tinybig` and RPN useful in your work, please cite the RPN paper as follows:
 ```
 @article{Zhang2024RPN,
-  title={RPN: Reconciled Polynomial Network Towards Unifying PGMs, Kernel SVMs, MLP and KAN},
-  author={Jiawei Zhang},
-  journal={ArXiv},
-  year={2024},
-  volume={},
+    title={RPN: Reconciled Polynomial Network Towards Unifying PGMs, Kernel SVMs, MLP and KAN},
+    author={Jiawei Zhang},
+    year={2024},
+    eprint={2407.04819},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
 }
 ```
 
