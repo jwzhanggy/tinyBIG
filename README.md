@@ -65,7 +65,7 @@ pip install -r requirements.txt
 |                                      Tutorial ID                                      |           Tutorial Title           |      Last Update       |
 |:-------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
 |               [Tutorial 0](https://www.tinybig.org/guides/quick_start/)               |        Quickstart Tutorial         |     July 6, 20204      |
-| [Tutorial 1](https://www.tinybig.org/tutorials/kickstart/module/expansion_function/)  |      Data Expansion Functions      |      July 7, 2024      |
+| [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)  |      Data Expansion Functions      |      July 7, 2024      |
 |                                      Tutorial 2                                       | Extended and Nested Data Expansion |          TBD           |
 
 ### Examples

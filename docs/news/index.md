@@ -9,7 +9,7 @@
 
 - content: The tinyBIG library v0.1.0 was released.
   icon: ':fontawesome-solid-gem:'
-  sub_title: 2024-July-3
+  sub_title: 2024-July-1
   title: Library Release
 
 - content: The {{toolkit}} project launch.
