@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.1.0.post9'
+__version__ = '0.1.1'
 
 requirements = [
     "torch==2.2.2",
@@ -28,7 +28,7 @@ setup(
     author="Jiawei Zhang",
     author_email="jiawei@ifmlab.org",
 
-    description="Deep function learning with reconciled polynomial network",
+    description="tinybig library for deep function learning",
     long_description=long_description,
     long_description_content_type=long_description_type,
     keywords=[

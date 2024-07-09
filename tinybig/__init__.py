@@ -100,7 +100,7 @@ Based on the above hyper-parameters, assuming the input and output dimensions at
 """
 
 
-__version__ = '0.1.0.post9'
+__version__ = '0.1.1'
 
 from . import model, module, config
 from . import remainder, expansion, compression, reconciliation

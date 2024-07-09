@@ -29,13 +29,15 @@ If you find `tinybig` and RPN useful in your work, please cite the RPN paper as 
 
 ### Installation
 
-#### Pip
+You can install `tinybig` either via `pip` or directly from the github source code.
+
+#### Install via Pip
 
 ```shell
 pip install tinybig
 ```
 
-#### Source
+#### Install from Source
 
 ```shell
 git clone https://github.com/jwzhanggy/tinyBIG.git
@@ -52,7 +54,7 @@ If you don't have `setuptools` installed locally, please consider to first insta
 pip install setuptools 
 ```
 
-#### Dependency
+### Dependency
 
 Please download the [requirements.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) file, and install all the dependency packages:
 ```shell
@@ -71,12 +73,12 @@ pip install -r requirements.txt
 
 |              Example ID               |           Example Title           | Released Date |
 |:-------------------------------------:|:---------------------------------:|:-------------:|
-| [Example 1](./function/elementary.md) | Elementary Function Approximation | July 7, 2024  |
-| [Example 2](./function/composite.md)  | Composite Function Approximation  | July 8, 2024  |
-|  [Example 3](./function/feynman.md)   |  Feynman Function Approximation   | July 8, 2024  |
-|      [Example 4](./image/mnist.md)      | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |
-| [Example 5](./image/mnist_dual_lphm.md) | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  |
-|     [Example 6](./image/cifar10.md)     |         CIFAR10 Object Detection in Images         |  July 8, 2024  |
+| [Example 1](https://www.tinybig.org/examples/function/elementary/) | Elementary Function Approximation | July 7, 2024  |
+| [Example 2](https://www.tinybig.org/examples/function/composite/)  | Composite Function Approximation  | July 8, 2024  |
+|  [Example 3](https://www.tinybig.org/examples/function/feynman/)   |  Feynman Function Approximation   | July 8, 2024  |
+|      [Example 4](https://www.tinybig.org/examples/image/mnist/)      | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |
+| [Example 5](https://www.tinybig.org/examples/image/mnist_dual_lphm/) | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  |
+|     [Example 6](https://www.tinybig.org/examples/image/cifar10/)     |         CIFAR10 Object Detection in Images         |  July 8, 2024  |
 
 
 ### Library Organizations
