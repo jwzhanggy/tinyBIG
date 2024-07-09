@@ -1,4 +1,4 @@
-![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png){height=200}
+![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png)
 
 --------------------------------------------------------------------------------
 
@@ -59,6 +59,32 @@ Please download the [requirements.txt](https://github.com/jwzhanggy/tinyBIG/blob
 pip install -r requirements.txt
 ```
 
+### Tutorials
+
+|                                      Tutorial ID                                      |           Tutorial Title           |      Last Update       |
+|:-------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
+|               [Tutorial 0](https://www.tinybig.org/guides/quick_start/)               |        Quickstart Tutorial         |     July 6, 20204      |
+| [Tutorial 1](https://www.tinybig.org/tutorials/kickstart/module/expansion_function/)  |      Data Expansion Functions      |      July 7, 2024      |
+|                                      Tutorial 2                                       | Extended and Nested Data Expansion |          TBD           |
+
+### Examples
+
+{% set elementary_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/elementary_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set composite_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/composite_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/composite_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/composite_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set feynman_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/feynman_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/feynman_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/feynman_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set mnist_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set mnist_dual_lphm_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_dual_lphm_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set cifar10_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/cifar10_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+
+|              Example ID               |           Example Title           | Released Date |         Related Files         |
+|:-------------------------------------:|:---------------------------------:|:-------------:|:-----------------------------:|
+| [Example 1](./function/elementary.md) | Elementary Function Approximation | July 7, 2024  | {{elementary_example_files}}  |
+| [Example 2](./function/composite.md)  | Composite Function Approximation  | July 8, 2024  |  {{composite_example_files}}  |
+|  [Example 3](./function/feynman.md)   |  Feynman Function Approximation   | July 8, 2024  |   {{feynman_example_files}}   |
+|      [Example 4](./image/mnist.md)      | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |      {{mnist_example_files}}      |
+| [Example 5](./image/mnist_dual_lphm.md) | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  | {{mnist_dual_lphm_example_files}} |
+|     [Example 6](./image/cifar10.md)     |         CIFAR10 Object Detection in Images         |  July 8, 2024  |     {{cifar10_example_files}}     |
+
 
 ### Library Organizations
 
@@ -77,13 +103,6 @@ pip install -r requirements.txt
 | [`tinybig.metric`](https://www.tinybig.org/documentations/metric/)                      | a library providing the  metrics that can be used for RPN model performance evaluation         |
 | [`tinybig.util`](https://www.tinybig.org/documentations/util/)                          | a library of utility functions for RPN model design, implementation and learning               | 
 
-### Tutorials
-
-|                                      Tutorial ID                                      |           Tutorial Title           |      Last Update       |
-|:-------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
-|               [Tutorial 0](https://www.tinybig.org/guides/quick_start/)               |        Quickstart Tutorial         |     July 6, 20204      |
-| [Tutorial 1](https://www.tinybig.org/tutorials/kickstart/module/expansion_function/)  |      Data Expansion Functions      |      July 7, 2024      |
-|                                      Tutorial 2                                       | Extended and Nested Data Expansion |          TBD           |
 
 ### License & Copyright
 

@@ -101,7 +101,8 @@ def special_function_process(func_class, func_parameters, device='cpu', *args, *
         The tuple of processed function class, and function parameters.
     """
     if func_class in ['torch.nn.BatchNorm1d', 'torch.nn.BatchNorm2d', 'torch.nn.BatchNorm3d']:
-        func_parameters['device'] = device
+        if 'device' not in func_parameters:
+            func_parameters['device'] = device
     return func_class, func_parameters
 
 
