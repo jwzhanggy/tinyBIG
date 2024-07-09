@@ -12,8 +12,7 @@
 
 ### Citation
 
-* The RPN Paper: https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf
-* The RPN Paper at arXiv: https://arxiv.org/abs/2407.04819
+The RPN Paper at arXiv: https://arxiv.org/abs/2407.04819
 
 If you find `tinybig` and RPN useful in your work, please cite the RPN paper as follows:
 ```
