@@ -2,10 +2,11 @@
 
 <style>
     .full-img .nt-card .nt-card-image img {
-        height: 100%;
+        height: 300px; /* or whatever height suits your design */
     }
     .full-img .nt-card .nt-card-image {
         min-height: 100%;
+        /*aspect-ratio: 16 / 9;  adjust to your needs */
     }
 </style>
 
