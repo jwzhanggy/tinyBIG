@@ -1,4 +1,4 @@
-![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png)
+[![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png)](https://www.tinybig.org)
 
 --------------------------------------------------------------------------------
 
