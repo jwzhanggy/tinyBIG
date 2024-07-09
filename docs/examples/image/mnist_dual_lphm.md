@@ -1,4 +1,4 @@
-# MNIST with Dual LPHM Reconciliation
+# MNIST Classification with Dual LPHM Reconciliation Function
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
