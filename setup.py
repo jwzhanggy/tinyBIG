@@ -8,10 +8,12 @@ requirements = [
     "pyyaml==6.0.1",
     "scipy==1.13.1",
     "tqdm==4.66.4",
+    "torchdata==0.7.1",
     "torchvision==0.17.2",
     "torchtext==0.17.2",
     "scikit-learn==1.5.1",
     "matplotlib==3.9.1",
+    "portalocker==2.10.0",
 ]
 
 test_requirements = [

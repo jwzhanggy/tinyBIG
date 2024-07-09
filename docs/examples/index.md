@@ -37,12 +37,15 @@ Therefore, we will not explain the technical details for the model components in
 
 ## Examples of {{our}} for Text Classification
 
-|   Example ID   |          Example Title          | Released Date |  Related Files   |
-|:--------------:|:-------------------------------:|:-------------:|:----------------:|
-| [Example 7]()  |  Failure of KAN on Sparse Data  |      TBD      |  To Be Provided  |
-| [Example 8]()  |   IMDB Review Classification    |      TBD      |  To Be Provided  |
-| [Example 9]()  |   AGNews Topic Classification   |      TBD      |  To Be Provided  |
-| [Example 10]() | SST-2 Sentiment Classification  |      TBD      |  To Be Provided  |
+{% set kan_failure_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/kan_failure_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/kan_failure_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/kan_failure_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+
+
+|         Example ID         |          Example Title          | Released Date |         Related Files         |
+|:--------------------------:|:-------------------------------:|:-------------:|:-----------------------------:|
+| [Example 7](./text/kan.md) |  Failure of KAN on Sparse Data  | July 9, 2024  | {{kan_failure_example_files}} |
+|       [Example 8]()        |   IMDB Review Classification    |      TBD      |        To Be Provided         |
+|       [Example 9]()        |   AGNews Topic Classification   |      TBD      |        To Be Provided         |
+|       [Example 10]()       | SST-2 Sentiment Classification  |      TBD      |        To Be Provided         |
 
 ## Examples of {{our}} for Probabilistic Relationship Inference
 

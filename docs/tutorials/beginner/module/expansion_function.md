@@ -232,7 +232,7 @@ Below, we will define the Taylor's expansion functions with post-processing func
 Meanwhile, slightly different from the above manual function definition, we propose to define the function 
 configuration in a separate file, and load it with `tinybig` for the expansion function instantiation.
 
-Please save the following `expansion_function_postprocessing.yml` to the directory `./configs/` that your code can access:
+Please save the following `expansion_function_postprocessing.yaml` to the directory `./configs/` that your code can access:
 === "Expansion Function in Python"
     ```python linenums="1"
     from tinybig.config import config
@@ -250,7 +250,7 @@ Please save the following `expansion_function_postprocessing.yml` to the directo
     print(x, kappa_x)
     ```
 
-=== "./configs/expansion_function_postprocessing.yml"
+=== "./configs/expansion_function_postprocessing.yaml"
     ```yaml linenums="1"
     data_transformation_configs:
       data_transformation_class: tinybig.expansion.taylor_expansion

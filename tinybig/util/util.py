@@ -66,6 +66,9 @@ def process_function_list(functions: list = None, function_configs: list = None,
         func_list = functions
     elif function_configs is not None:
         func_list = []
+        # if input function_configs contains one single function config, and is not a list
+        if isinstance(function_configs, dict) and 'function_class' in function_configs:
+            function_configs = [function_configs]
         for func_config in function_configs:
             function_class = func_config['function_class']
             if 'function_parameters' in func_config:
