@@ -3,7 +3,7 @@
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
     Author: Jiawei Zhang <br>
-    (Released: July 8, 2024; latest Revision: July 8, 2024.)<br>
+    (Released: July 9, 2024; latest Revision: July 9, 2024.)<br>
 </span>
 <span style="text-align: right;">
 
