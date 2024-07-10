@@ -4,9 +4,8 @@
 {% extends "main.html" %}
 
 {% block tabs %}
-{{ super() }}
-<style>
 
+<style>
 .tx-container {
     position: relative;
     min-height: 100vh;
@@ -84,7 +83,7 @@
     z-index: 1000;
 }
 </style>
-{{ nav.tabs }}
+
 <!-- Main site Entry button descriptions -->
 <section class="tx-container">
     <div class="md-grid md-typeset">
@@ -106,12 +105,13 @@
     </div>
 </section>
 <!-- Feature End -->
+
+{{ super() }}
 {% endblock %}
 
 {% block content %}
 {% endblock %}
 {% block site_nav %}
-{{ nav.tabs }}
 {% endblock %}
 {% block container %}
 {% endblock %}
