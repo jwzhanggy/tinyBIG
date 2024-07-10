@@ -115,10 +115,10 @@ plugins:
         - categories
         - tags
   # comment this at deployment
-  - exclude:
-      glob:
-        - 'notes/*.py'
-        - 'notes/*.ipynb'
+#  - exclude:
+#      glob:
+#        - 'notes/*.py'
+#        - 'notes/*.ipynb'
 
 extra_javascript:
   - overrides/javascripts/mathjax.js
