@@ -30,6 +30,7 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
+    device: *device
     model_parameters:
       name: reconciled_polynomial_network
       depth: 3

@@ -1,0 +1,70 @@
+configurations:
+  device: &device mps
+  random_seed: 1234
+
+  data_configs:
+    data_class: tinybig.data.banknote
+    data_parameters:
+      name: banknote
+      train_batch_size: 2000
+      test_batch_size: 1000
+
+  learner_configs:
+    learner_class: tinybig.learner.backward_learner
+    learner_parameters:
+      name: error_backward_propagation
+      n_epochs: 1500
+      optimizer_configs:
+        optimizer_class: torch.optim.AdamW
+        optimizer_parameters:
+          lr: 1.0e-02
+          weight_decay: 1.0e-05
+      loss_configs:
+        loss_class: torch.nn.MSELoss
+        loss_parameters:
+          reduction: mean
+
+  model_configs:
+    model_class: tinybig.model.rpn
+    device: *device
+    model_parameters:
+      name: reconciled_polynomial_network
+      depth: 1
+      depth_alloc: [1]
+      layer_configs:
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 4
+            n: 1
+            width: 1
+            fusion_strategy: average
+            width_alloc: [1]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    data_transformation_class: tinybig.expansion.combinatorial_normal_expansion
+                    data_transformation_parameters:
+                      name: combinatorial_normal_expansion
+                      d: 2
+                  parameter_fabrication_configs:
+                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
+                    parameter_fabrication_parameters:
+                      name: identity_reconciliation
+                  remainder_configs:
+                    remainder_class: tinybig.remainder.linear_remainder
+                    remainder_parameters:
+                      name: linear_remainder
+                      require_parameters: True
+  metric_configs:
+    metric_class: tinybig.metric.mse
+    metric_parameters:
+      name: mse
+
+  result_configs:
+    result_class: tinybig.output.rpn_output
+    result_parameters:
+      name: prediction_output

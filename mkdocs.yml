@@ -93,6 +93,33 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
+plugins:
+  - search
+  - macros
+  #- glightbox
+  - mkdocs-jupyter
+  - blog:
+      #authors_profiles: true
+      enabled: true
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            heading_level: 3
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+  # comment this at deployment
+  - exclude:
+      glob:
+        - 'notes/*.py'
+        - 'notes/*.ipynb'
+
 extra_javascript:
   - overrides/javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
@@ -117,27 +144,6 @@ extra:
   author: 'Jiawei Zhang'
   affiliation: 'IFM Lab'
 
-plugins:
-  - search
-  - macros
-  #- glightbox
-  - mkdocs-jupyter
-  - blog:
-      #authors_profiles: true
-      enabled: true
-  - mkdocstrings:
-      handlers:
-        python:
-          options:
-            docstring_style: numpy
-            heading_level: 3
-  - rss:
-      match_path: blog/posts/.*
-      date_from_meta:
-        as_creation: date
-      categories:
-        - categories
-        - tags
 
 #===========================================
 nav:
@@ -286,19 +292,27 @@ nav:
         - tutorials/advanced/index.md
   - Examples:
       - examples/index.md
-      - Elementary Function Approximation: examples/function/elementary.md
-      - Composite Function Approximation: examples/function/composite.md
-      - Feynman Function Approximation: examples/function/feynman.md
-      - MNIST Classification: examples/image/mnist.md
-      - MNIST with Dual LPHM: examples/image/mnist_dual_lphm.md
-      - CIFAR10 Classification: examples/image/cifar10.md
-      - Failure of KAN on Sparse Data: examples/text/kan.md
-      - IMDB Classification: examples/text/imdb.md
-      - AGNews Classification: examples/text/agnews.md
-      - SST2 Classification: examples/text/sst2.md
-      - Iris Species Inference: examples/tabular/iris.md
-      - Diabetes Diagnosis Inference: examples/tabular/diabetes.md
-      - Banknote Authentication Inference: examples/tabular/banknote.md
+      - tinybig for Functions:
+          - examples/function/index.md
+          - Elementary Function: examples/function/elementary.md
+          - Composite Function: examples/function/composite.md
+          - Feynman Function: examples/function/feynman.md
+      - tinybig for Vision:
+          - examples/image/index.md
+          - MNIST Classification: examples/image/mnist.md
+          - MNIST with Dual LPHM: examples/image/mnist_dual_lphm.md
+          - CIFAR10 Classification: examples/image/cifar10.md
+      - tinybig for Language:
+          - examples/text/index.md
+          - Failure of KAN: examples/text/kan.md
+          - IMDB Classification: examples/text/imdb.md
+          - AGNews Classification: examples/text/agnews.md
+          - SST2 Classification: examples/text/sst2.md
+      - tinybig for Tabular:
+          - examples/tabular/index.md
+          - Iris Species Inference: examples/tabular/iris.md
+          - Diabetes Diagnosis: examples/tabular/diabetes.md
+          - Banknote Authentication: examples/tabular/banknote.md
   - Blogs:
       - blog/index.md
   - News:
@@ -313,4 +327,5 @@ nav:
       #- contact/privacy.md
       - contact/license.md
       #- contact/certificate.md
+
 #===========================================

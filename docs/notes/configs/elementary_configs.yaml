@@ -1,5 +1,5 @@
 configurations:
-  device: cpu
+  device: &device mps
   random_seed: 123
 
   data_configs:
@@ -31,6 +31,7 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
+    device: *device
     model_parameters:
       name: reconciled_polynomial_network
       depth: 2

@@ -1,61 +1,85 @@
-# Examples
+# Deep Function Learning Examples
 
-In this tab, we will provide a list of example code to use the {{our}} model to address 
-several different deep function learning tasks with the `tinybig` library.
+## Before You Begin
 
-We assume you have read the PRN paper, as well as the provided tutorials already.
-Therefore, we will not explain the technical details for the model components in the example anymore.
+This tab presents example code for using the {{our}} model to tackle various 
+deep function learning tasks with the `tinybig` library. 
 
-## Examples of {{our}} for Continuous Function Approximation
+We assume you have already read the PRN paper and completed the provided tutorials, 
+so we won't repeat technical information about model components. Instead, we'll provide runnable 
+code and model configurations that directly address these deep function learning problems.
 
-{% set elementary_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/elementary_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/elementary_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set composite_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/composite_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/composite_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/composite_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set feynman_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/feynman_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/feynman_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/feynman_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+-------------------------
 
+## Example Organization
 
-|              Example ID               |           Example Title           | Released Date |         Related Files         |
-|:-------------------------------------:|:---------------------------------:|:-------------:|:-----------------------------:|
-| [Example 1](./function/elementary.md) | Elementary Function Approximation | July 7, 2024  | {{elementary_example_files}}  |
-| [Example 2](./function/composite.md)  | Composite Function Approximation  | July 8, 2024  |  {{composite_example_files}}  |
-|  [Example 3](./function/feynman.md)   |  Feynman Function Approximation   | July 8, 2024  |   {{feynman_example_files}}   |
+The examples are organized according to the data modalities into different sections.
 
-<!-- [![Colab Badge](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/) |-->
+<div class="grid cards" markdown>
 
-## Examples of {{our}} for Image Classification
+-   :material-function-variant:{ .middle } __Examples of Continuous Functions__
 
-{% set mnist_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set mnist_dual_lphm_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/mnist_dual_lphm_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/mnist_dual_lphm_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set cifar10_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/cifar10_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/cifar10_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+    ---
+    Examples to use `tinybig` library for continuous function approximation.
 
+    <img src="../assets/img/function.png" alt="function_data" style="height: 200px; aspect-ratio: 16/9; object-fit: cover;">
 
-|               Example ID                |                   Example Title                    | Released Date  |           Related Files           |
-|:---------------------------------------:|:--------------------------------------------------:|:--------------:|:---------------------------------:|
-|      [Example 4](./image/mnist.md)      | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |      {{mnist_example_files}}      |
-| [Example 5](./image/mnist_dual_lphm.md) | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  | {{mnist_dual_lphm_example_files}} |
-|     [Example 6](./image/cifar10.md)     |         CIFAR10 Object Detection in Images         |  July 8, 2024  |     {{cifar10_example_files}}     |
+    Examples include
 
+    * Elementary function approximation
+    * Composite function approximation
+    * Feynman function approximation
+    * etc.
 
-## Examples of {{our}} for Text Classification
+    [:octicons-arrow-right-24: Get started](./function/index.md)
 
-{% set kan_failure_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/kan_failure_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/kan_failure_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/kan_failure_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set imdb_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/imdb_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/imdb_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/imdb_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set sst2_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/sst2_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/sst2_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/sst2_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
-{% set agnews_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/agnews_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/agnews_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/agnews_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+-   :fontawesome-regular-images:{ .lg .middle } __Examples of Vision Processing__
 
+    ---
+    Examples to use `tinybig` library for vision data processing.
+    
+    <img src="../assets/img/image.png" alt="image_data" style="height: 200px; aspect-ratio: 16/9; object-fit: cover;">
 
-|          Example ID           |          Example Title          | Released Date  |         Related Files         |
-|:-----------------------------:|:-------------------------------:|:--------------:|:-----------------------------:|
-|  [Example 7](./text/kan.md)   |  Failure of KAN on Sparse Data  |  July 9, 2024  | {{kan_failure_example_files}} |
-|  [Example 8](./text/imdb.md)  |   IMDB Review Classification    |  July 9, 2024  |    {{imdb_example_files}}     |
-| [Example 9](./text/agnews.md) |   AGNews Topic Classification   |  July 9, 2024  |    {{sst2_example_files}}     |
-| [Example 10](./text/sst2.md)  | SST-2 Sentiment Classification  |  July 9, 2024  |   {{agnews_example_files}}    |
+    Examples include
 
-## Examples of {{our}} for Probabilistic Relationship Inference
+    * MNIST hand-written digit classification
+    * CIFAR10 image object detection
+    * etc.
 
-|   Example ID   |           Example Title           | Released Date |   Related Files    |
-|:--------------:|:---------------------------------:|:------------:|:---------------:|
-| [Example 9]()  |      Iris Species Inference       |     TBD      | To Be Provided  |
-| [Example 10]() |   Diabetes Diagnosis Inference    |     TBD      | To Be Provided  |
-| [Example 11]() | Banknote Authentication Inference |     TBD      | To Be Provided  |
+    [:octicons-arrow-right-24: More information...](./image/index.md)
 
+-   :fontawesome-solid-language:{ .lg .middle } __Examples of Language Processing__
 
+    ---
+
+    Examples to use `tinybig` library for language data processing.
+    
+    <img src="../assets/img/language.jpg" alt="language_data" style="height: 200px; aspect-ratio: 16/9; object-fit: cover;">
+    
+    Examples include
+
+    * IMDB review polarity classification
+    * AGNews news topic inference
+    * SST2 text sentiment prediction
+    * etc.
+
+    [:octicons-arrow-right-24: More information...](./text/index.md)
+
+-   :fontawesome-solid-table:{ .lg .middle } __Examples of Tabular Processing__
+
+    ---
+
+    Examples to use `tinybig` library for tabular data processing.
+
+    <img src="../assets/img/tabular.png" alt="tabular_data" style="height: 200px; aspect-ratio: 16/9; object-fit: cover;">
+
+    Examples include
+
+    * Iris species prediction
+    * Diabetes disease diagnosis 
+    * Banknote authentication inference
+    * etc.
+
+    [:octicons-arrow-right-24: More information...](./tabular/index.md)
+
+</div>

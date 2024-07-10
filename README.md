@@ -1,18 +1,20 @@
-[![tinybig.png](https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png)](https://www.tinybig.org)
-
+<div style="text-align: center;">
+  <a href="https://www.tinybig.org">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png" alt="function_data" style="height: 200px;">
+  </a>
+</div>
 --------------------------------------------------------------------------------
 
 ### Introduction
 
 `tinybig` is a Python library developed by the IFM Lab for deep function learning model designing and building.
 
+* Foundation RPN Paper: https://arxiv.org/abs/2407.04819
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
-
+* IFM Lab: https://www.ifmlab.org/index.html
 
 ### Citation
-
-The RPN Paper at arXiv: https://arxiv.org/abs/2407.04819
 
 If you find `tinybig` and RPN useful in your work, please cite the RPN paper as follows:
 ```
@@ -53,11 +55,28 @@ If you don't have `setuptools` installed locally, please consider to first insta
 pip install setuptools 
 ```
 
-### Dependency
+### Install Dependency
 
 Please download the [requirements.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) file, and install all the dependency packages:
 ```shell
 pip install -r requirements.txt
+```
+
+### Verification
+
+If you have successfully installed both `tinybig` and the dependency packages, now you can use `tinybig` in your projects.
+
+To ensure that `tinybig` was installed correctly, we can verify the installation by running the sample python code as follows:
+
+```python
+>>> import torch
+>>> import tinybig as tb
+>>> expansion_func = tb.expansion.taylor_expansion()
+>>> expansion_func(torch.Tensor([[1, 2]]))
+```
+The output should be something like:
+```python
+tensor([[1., 2., 1., 2., 2., 4.]])
 ```
 
 ### Tutorials

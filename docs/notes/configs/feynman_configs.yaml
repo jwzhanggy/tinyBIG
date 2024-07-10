@@ -1,6 +1,6 @@
 # three-layer rpn for Newton's law of universal gravitation function approximation
 configurations:
-  device: cpu
+  device: &device mps
   random_seed: 4567
 
   data_configs:
@@ -32,6 +32,7 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
+    device: *device
     model_parameters:
       name: reconciled_polynomial_network
       depth: 3

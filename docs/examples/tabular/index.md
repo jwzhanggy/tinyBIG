@@ -1,0 +1,17 @@
+# Examples of Tabular Data Processing
+
+In this section, we will provide some examples of tabular data processing with {{our}} based on the `tinybig` library.
+
+{% set iris_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/iris_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/iris_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/iris_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set diabetes_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/diabetes_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/diabetes_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/diabetes_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+{% set banknote_example_files %}<a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/banknote_example.ipynb"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/banknote_configs.yaml"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;"></a> <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/banknote_example.py"><img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;"></a>{% endset %}
+
+
+|             Example ID             |                 Example Title                 | Released Date  |        Related Files         |
+|:----------------------------------:|:---------------------------------------------:|:--------------:|:----------------------------:|
+|   [Tabular Example 1](./iris.md)   | Iris Species Inference (Naive Probabilistic)  |  July 9, 2024  |    {{iris_example_files}}    |
+| [Tabular Example 2](./diabetes.md) |   Diabetes Diagnosis (Comb. Probabilistic)    |  July 9, 2024  |  {{diabetes_example_files}}  |
+| [Tabular Example 3](./banknote.md) | Banknote Authentication (Comb. Probabilistic) |  July 9, 2024  |  {{banknote_example_files}}  |
+
+
+

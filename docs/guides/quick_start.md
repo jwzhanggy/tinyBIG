@@ -305,7 +305,7 @@ with the configuration file instead.
 
 ## {{our}} Training on MNIST
 
-Below we will train the {{our}} model with the loaded MNIST `train_loader`.
+Below we will train the {{our}} model with the loaded MNIST `mnist_loaders`.
 
 ### Learner Setup
 

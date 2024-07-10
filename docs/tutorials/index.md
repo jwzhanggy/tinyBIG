@@ -12,10 +12,11 @@ The tutorials in this tab are primarily prepared based on
 [the RPN paper](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf). 
 We recommend reading that paper first for detailed technical information about the {{our}} model and {{toolkit}} toolkit. 
 
+-------------------------
 
 ## Tutorial Organization
 
-The tutorials in this tab are organized into two sections.
+The tutorials are organized into two sections.
 
 <div class="grid cards" markdown>
 
@@ -34,9 +35,9 @@ The tutorials in this tab are organized into two sections.
 
     [:octicons-arrow-right-24: Get started](./beginner/index.md)
 
-  -   :fontawesome-solid-table-list:{ .lg .middle } __Advanced Tutorials__
+-   :fontawesome-solid-table-list:{ .lg .middle } __Advanced Tutorials__
 
-      ---
+    ---
 
     The Advanced Tutorials focus on more advanced topics about {{ our }} related to the 
     state-of-the-art deep function learning techniques and tasks.

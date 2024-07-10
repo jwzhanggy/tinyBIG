@@ -1,5 +1,5 @@
 configurations:
-  device: mps
+  device: &device mps
   random_seed: 1234
 
   data_configs:
@@ -22,7 +22,7 @@ configurations:
       lr_scheduler_configs:
         lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
         lr_scheduler_parameters:
-          gamma: 0.5
+          gamma: 0.35
       loss_configs:
         loss_class: torch.nn.CrossEntropyLoss
         loss_parameters:
@@ -30,6 +30,7 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
+    device: *device
     model_parameters:
       name: reconciled_polynomial_network
       depth: 3
@@ -48,6 +49,10 @@ configurations:
                 head_parameters:
                   l: null
                   channel_num: 1
+                  output_process_function_configs:
+                    function_class: torch.nn.Dropout
+                    function_parameters:
+                      p: 0.4
                   data_transformation_configs:
                     data_transformation_class: tinybig.expansion.identity_expansion
                     data_transformation_parameters:
@@ -56,7 +61,7 @@ configurations:
                     parameter_fabrication_class: tinybig.reconciliation.lorr_reconciliation
                     parameter_fabrication_parameters:
                       name: lorr_reconciliation
-                      r: 2
+                      r: 5
                   remainder_configs:
                     remainder_class: tinybig.remainder.zero_remainder
                     remainder_parameters:
@@ -76,6 +81,10 @@ configurations:
                 head_parameters:
                   l: null
                   channel_num: 1
+                  output_process_function_configs:
+                    function_class: torch.nn.Dropout
+                    function_parameters:
+                      p: 0.4
                   data_transformation_configs:
                     data_transformation_class: tinybig.expansion.identity_expansion
                     data_transformation_parameters:
@@ -84,7 +93,7 @@ configurations:
                     parameter_fabrication_class: tinybig.reconciliation.lorr_reconciliation
                     parameter_fabrication_parameters:
                       name: lorr_reconciliation
-                      r: 2
+                      r: 5
                   remainder_configs:
                     remainder_class: tinybig.remainder.zero_remainder
                     remainder_parameters:
@@ -109,9 +118,10 @@ configurations:
                     data_transformation_parameters:
                       name: identity_expansion
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
+                    parameter_fabrication_class: tinybig.reconciliation.lorr_reconciliation
                     parameter_fabrication_parameters:
-                      name: identity_reconciliation
+                      name: lorr_reconciliation
+                      r: 5
                   remainder_configs:
                     remainder_class: tinybig.remainder.zero_remainder
                     remainder_parameters:
