@@ -1,8 +1,8 @@
-<div style="text-align: center;">
+<p align="center">
   <a href="https://www.tinybig.org">
-    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png" alt="function_data" style="height: 200px;">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png" alt="function_data" height="200">
   </a>
-</div>
+</p>
 
 --------------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@
 
 `tinybig` is a Python library developed by the IFM Lab for deep function learning model designing and building.
 
-* Foundation RPN Paper: https://arxiv.org/abs/2407.04819
+* RPN Paper: https://arxiv.org/abs/2407.04819
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
