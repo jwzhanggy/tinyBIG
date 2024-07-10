@@ -1,4 +1,4 @@
-# SST2 Sentiment Prediction
+# SST2 Sentiment Classification
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
