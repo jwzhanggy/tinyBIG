@@ -9,24 +9,25 @@
 
 ## 文章, 网站, 和源码链接
 
-* RPN Paper: https://arxiv.org/abs/2407.04819
-* Official Website: https://www.tinybig.org/
-* Github Repository: https://github.com/jwzhanggy/tinyBIG
-* PyPI: https://pypi.org/project/tinybig/
+* **RPN Paper**: [https://arxiv.org/abs/2407.04819](https://arxiv.org/abs/2407.04819)
+* **Official Website**: [https://www.tinybig.org/](https://www.tinybig.org/)
+* **Github Repository**: [https://github.com/jwzhanggy/tinyBIG](https://github.com/jwzhanggy/tinyBIG)
+* **PyPI Package**: [https://pypi.org/project/tinybig/](https://pypi.org/project/tinybig/)
 
 ## 背景介绍
 
 ![history.png](history.png)
 
 在过去的70年里，人工智能领域在研究的问题和使用的模型方面都经历了巨大的变化。随着新学习任务的出现，各种基于不同先验假设的机器学习模型被提出以解决这些问题。
+
 在上图中，我们展示了过去50年里主导人工智能领域的三种类型的机器学习模型，包括概率图模型、支持向量机、和深度神经网络。
 随着技术上的重要突破，这些模型各自有其辉煌时期，并在当今的数据科学和机器学习相关的各种研究和应用任务中得到了广泛的探索和利用。
 
 区别于以往的基础机器学习模型，在本文中，我们提出了**Function Learning Task**这个概念。
-具体来说， **Function Learning Task**这个任务名称中提到的“**Function**”不仅指构成我们提出的 RPN 模型中的**Component Functions**，还指我们提出的模型作为智能系统将输入信号与期望输出响应关联的**Cognitive Functions**。
-长期以来，**Function Learning** 基本被简单视为等同于连续函数拟合和回归任务。但其实在心理学和认知科学中，研究者们也使用**Function Learning**的概念来模拟人类和其他智能主体的刺激-反应关系的心理诱导过程，其过程涉及知识获取、信息处理和推理等一系列复杂的过程。
+具体来说， **Function Learning Task**这个任务名称中提到的“**Function**”不仅指构成我们提出的 **RPN** 模型中的**Component Functions**，还指我们提出的模型作为智能系统将输入信号与期望输出响应关联的**Cognitive Functions**。
+长期以来，**Function Learning** 基本被简单等同于连续函数拟合和回归任务。但其实在心理学和认知科学中，研究者们也使用**Function Learning**的概念来模拟人类和其他智能主体的刺激-反应关系的心理诱导过程，其过程涉及知识获取、信息处理和推理等一系列复杂的过程。
 
-在本文中，**Function Learning** 被视为是智能模型学习中最基本的任务，涵盖了多种学习任务，包括但不限于：
+在本文中，**Function Learning** 被视为是智能模型学习中最基本的任务，涵盖了基于多模态数据的多种学习任务，包括但不限于：
 
 * 连续函数近似
 * 离散视觉和语言数据的识别与预测
@@ -39,27 +40,26 @@
 
 为了解决上面提到的**Function Learning**包括的各种复杂任务，本文将介绍一种新型深度函数学习模型 (deep function learning)，即 “**Reconciled Polynomial Network**" (**RPN**).
 
-在模型架构方面，如上图所示，RPN 由三个组成函数构成：数据扩展函数(data expansion function）、参数调和函数(parameter reconciliation function)、和余项函数(remainder function)。
+在模型架构方面，如上图所示，**RPN** 由三个组成函数构成：**数据扩展函数(data expansion function）**、**参数调和函数(parameter reconciliation function)**、和**余项函数(remainder function)**。
 受泰勒定理启发，RPN 将输入数据与模型参数分离，并将目标函数近似为数据扩展函数与参数调和函数的内积，然后加上余项函数。
 
 * **数据扩展函数**：根据数据扩展函数的定义，RPN将数据向量从输入空间投射到中间隐层（更高维度）空间，投射后的数据将由新空间中的新的基向量表示。
 * **参数调和函数**：为了应对数据扩展带来的“维度灾难”问题，RPN中的参数调和函数将一组减少的参数合成为一个高阶参数矩阵。 这些扩展的数据向量通过与这些生成的调和参数的内积进行多项式集成，从而将这些扩展的数据向量投射回所需的低维输出空间。
 * **余项函数**：此外，余数函数为RPN提供了额外的补充信息，以进一步减少潜在的近似误差。
 
-RPN中的所有组成函数都具有具体的物理意义。这些函数与简单内积和求和操作的直接应用相结合，使RPN相比于其他现有基础模型具有更大的可解释性。
+相比现有的深度学习模型，RPN中的所有组成函数都具有具体的物理意义。这些函数与简单内积和求和操作的直接应用相结合，使RPN相比于其他现有基础模型具有更大的可解释性。
 
-## “广度”和“深度” RPN 模型结构
+## 具有“广度”和“深度” 的 RPN 模型结构
 
 ![architecture.png](architecture.png)
 
-RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和完整度的模型。
-本文中，为了在设计上提供更大的建模能力，我们使RPN能够结合多头、多通道（在每一层中）以及多层的，兼具“广度”和“深度”的 RPN 模型结构：
+RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和完整度的模型。本文中，为了在设计上提供更大的建模能力，我们通过结合多头（Multi-Head）、多通道（Multi-Channel）、以及多层（Multi-Layer)的基础结构，来构造兼具“广度”和“深度”的 RPN 模型架构：
 
 * **广度模型结构**：RPN 提供了 Multi-Channel 和 Multi-Head 的模型结构构建机制，允许用户扩展模型的广度，使得模型能够有更加广泛的数据扩展能力和更大的模型容量。
 * **深度模型结构**：RPN 也提供了 Multi-Layer 的模型结构构建机制，允许用户构建多层的深度模型结构，使得模型能够通过多层函数嵌套变换，能够学习更加复杂数据分布。
 
 此外，如下图所示，我们还通过嵌套和扩展的数据扩展函数（extended and nested data expansion functions），
-为构建具有类似上述“广度”和“深度”能力的 RPN 模型提供了更适应性和轻量级的机制。
+为构建具有类似上述“广度”和“深度”能力的 RPN 模型提供了更具适应性和轻量级的构造机制。
 
 ![depth_width.png](depth_width.png)
 
@@ -75,7 +75,7 @@ RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和�
 ## 基础模型的统一表示： PGM, kernels SVM, MLP 和 KAN
 
 RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合使用上述功能函数，RPN不仅可以构建功能强大的模型结构，
-并且可以统一现有基础模型的表示，包括 PGMs, kernel SVM, MLP 和最近的 KAN：
+并且可以统一现有基础模型的表示，包括 PGMs, kernel SVM, MLP 和最近的 KAN。
 
 ![non_deep.png](non_deep.png)
 
@@ -83,19 +83,32 @@ RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合�
 
 ## 实验验证
 
-为了验证提出模型的有效性，本文通过大量的实验结果和分析，证明了 RPN 在多种**Function Learning Task**上的有效性。
-通过使用远远低于现有模型的参数量，RPN 可以获得比现有模型更好的学习效果。
+为了验证提出的RPN模型的有效性，本文通过大量的实验结果和分析，证明了 RPN 在多种**Function Learning Task**上的有效性。
+并且通过使用远远低于现有模型的参数量，RPN 就可以获得比现有模型更好的学习效果，这可以大大降低现有模型训练和测试时所需的计算时间和显存空间。
 
-具体的实验任务包括：连续函数拟合，离散图片和文本分类，以及概率关系预测等。
+在本文中，具体的实验任务包括：连续函数拟合，离散图片和文本分类，以及概率关系预测等。
 
 ### 连续函数拟合
 
-RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函数数据集来比较 RPN 和 MLP以及KAN在连续函数拟合上的表现。
-在绝大多数的连续函数上 RPN 都可以获得 x10^{-1} 深圳 x10^{-2} 更低的拟合误差。
+RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函数数据集来测试 RN在连续函数拟合上的表现。我们使用了三类连续函数数据集，包括
+
+* 基础函数（elementary function)
+* 复合函数（composite function）
+* 费曼函数（Feynman function).
+
+如下图在费曼函数上的结果显示，在绝大多数的连续函数上 RPN 都可以获得比MLP和KAN至少低x10^{-1}甚至x10^{-2}的拟合误差。
 
 ![approximation.png](approximation.png)
 
 ### 离散图片和文本分类
+
+除了连续函数以外，我们也在离散图片和文本数据集上测试了RPN的实验效果，包括
+
+* MNIST 图片数据集
+* CIFAR10 图片数据集
+* IMDB 文本数据集
+* SST2 文本数据集
+* AGNews 文本数据集
 
 通过数据扩展函数(data expansion function），RPN可以把输入的数据扩展到更高维度的空间，如下图所示：
 
@@ -110,9 +123,17 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 除上面结果之外，通过使用概率数据扩展函数(probabilistic data expansion function），RPN也可以有效的预测输入数据变量之间的依赖关系，其可以
 有效的增强 RPN 在概率和统计方面的可解释性。
 
+我们在几个传统的 tabular 数据集上测试了 RPN 在概率关系预测上的表现，其中数据集包括
+
+* Iris Species 数据集
+* Pima Indians Diabetes 数据集
+* Banknote Authentication 数据集
+
+下图我们展示了 RPN 在 Iris 数据集上预测出来的变量依赖关系的图示。相比其他概率模型，RPN 预测出来的变量依赖关系更加符合现实情况：
+
 ![probabilistic.png](probabilistic.png)
 
-## RPN 的解释性
+## RPN 的解释性和构造动机
 
 本文也通过从“机器学习”和“生物神经科学”等多个角度讨论我们 RPN 模型设计的解释。通过这些讨论，我们旨在阐明 RPN 模型设计的动机和优势。
 
@@ -189,21 +210,21 @@ RPN提供了一个将几种有影响力的基础模型统一到一个标准表�
 ## `tinybig`工具包和网站介绍
 
 ### github 源码和 PyPI 项目页面
-为了促进 RPN 的使用和实验，我们发布了 基于 python 工具包 `tinybig`。
+
 `tinybig` 提供了一个丰富的预实现函数库，包括25类数据扩展函数、10类参数调和函数和5类余项函数，以及完整的模型框架和优化的模型训练管道。
 这个集成工具包使研究人员能够快速设计、定制和部署 RPN 模型，覆盖广泛的深度函数学习任务。
 
 关于 `tinybig` 的具体信息，欢迎查看官方网站和项目在github的主页。
 
-* Github Repository: https://github.com/jwzhanggy/tinyBIG
-* PyPI page: https://pypi.org/project/tinybig/
+* **Github Repository**: [https://github.com/jwzhanggy/tinyBIG](https://github.com/jwzhanggy/tinyBIG)
+* **PyPI Package**: [https://pypi.org/project/tinybig/](https://pypi.org/project/tinybig/)
 
-### 网站网站
+### 项目网站
 
 除此之外，我们还问这个项目搭建了完整的项目网站，网站中包含了完整的项目文档，代码示例，和入门教程。
 网站链接和部分网站页面如下所示：
 
-* Official Website: https://www.tinybig.org/
+* **Official Website**: [https://www.tinybig.org/](https://www.tinybig.org/)
 
 #### 网站主页
 ![website.png](website.png)
@@ -218,4 +239,4 @@ RPN提供了一个将几种有影响力的基础模型统一到一个标准表�
 
 #### 代码示例列表
 
-![examples.png](examples.png)
+![examples.png](examples.png)![](![]())
