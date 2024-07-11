@@ -78,19 +78,6 @@ RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合�
 
 ![deep.png](deep.png)
 
-## `tinybig`工具包和网站介绍介绍
-
-为了促进 RPN 的使用、实施和实验，我们发布了 基于 python 工具包 `tinybig`。
-`tinybig` 提供了一个丰富的预实现函数库，包括25类数据扩展函数、10类参数调和函数和5类余项函数，以及完整的模型框架和优化的模型训练管道。
-这个集成工具包使研究人员能够快速设计、定制和部署 RPN 模型，覆盖广泛的深度函数学习任务。
-
-关于 `tinybig` 的具体信息，欢迎查看官方网站和项目在github的主页。
-
-* Official Website: https://www.tinybig.org/
-* Github Repository: https://github.com/jwzhanggy/tinyBIG
-
-![website.png](website.png)
-
 ## 实验验证
 
 为了验证提出模型的有效性，本文通过大量的实验结果和分析，证明了 RPN 在多种**Function Learning Task**上的有效性。
@@ -193,3 +180,16 @@ RPN提供了一个将几种有影响力的基础模型统一到一个标准表�
 
 为了促进RPN的采用、实施和实验，本文发布了一个名为`tinybig`的综合工具包。`tinybig`工具包提供了本文介绍的预实现组成函数的丰富库，
 允许研究人员快速设计、定制和有效部署RPN模型用于各种学习任务。
+
+## `tinybig`工具包和网站介绍
+
+为了促进 RPN 的使用和实验，我们发布了 基于 python 工具包 `tinybig`。
+`tinybig` 提供了一个丰富的预实现函数库，包括25类数据扩展函数、10类参数调和函数和5类余项函数，以及完整的模型框架和优化的模型训练管道。
+这个集成工具包使研究人员能够快速设计、定制和部署 RPN 模型，覆盖广泛的深度函数学习任务。
+
+关于 `tinybig` 的具体信息，欢迎查看官方网站和项目在github的主页。
+
+* Official Website: https://www.tinybig.org/
+* Github Repository: https://github.com/jwzhanggy/tinyBIG
+
+![website.png](website.png)
