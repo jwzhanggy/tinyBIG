@@ -14,6 +14,7 @@
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
+* Project Description in Chinese: [项目中文介绍](./中文简介)
 
 ### Citation
 
