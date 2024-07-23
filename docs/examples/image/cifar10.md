@@ -1,4 +1,4 @@
-# CIFAR10 Object Detection
+# CIFAR10 Object Recognition
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">

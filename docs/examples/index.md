@@ -43,7 +43,7 @@ The examples are organized according to the data modalities into different secti
     Examples include
 
     * MNIST hand-written digit classification
-    * CIFAR10 image object detection
+    * CIFAR10 image classification
     * etc.
 
     [:octicons-arrow-right-24: More information...](./image/index.md)
