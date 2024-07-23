@@ -133,6 +133,9 @@ extra_css:
   - overrides/css/neoteroi-mkdocs.css
 
 extra:
+  meta:
+    - name: robots
+      content: index, follow
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jwzhanggy/tinyBIG
