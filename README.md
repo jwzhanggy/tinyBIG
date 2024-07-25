@@ -91,21 +91,21 @@ tensor([[1., 2., 1., 2., 2., 4.]])
 
 ### Examples
 
-|                              Example ID                               |                    Example Title                    | Released Date  |
-|:---------------------------------------------------------------------:|:---------------------------------------------------:|:--------------:|
-|        [Example 0](https://www.tinybig.org/examples/text/kan/)        |            Failure of KAN on Sparse Data            |  July 9, 2024  |
-|  [Example 1](https://www.tinybig.org/examples/function/elementary/)   |          Elementary Function Approximation          |  July 7, 2024  |
-|   [Example 2](https://www.tinybig.org/examples/function/composite/)   |          Composite Function Approximation           |  July 8, 2024  |
-|    [Example 3](https://www.tinybig.org/examples/function/feynman/)    |           Feynman Function Approximation            |  July 8, 2024  |
-|      [Example 4](https://www.tinybig.org/examples/image/mnist/)       |  MNIST Classification with Identity Reconciliation  |  July 8, 2024  |
-| [Example 5](https://www.tinybig.org/examples/image/mnist_dual_lphm/)  | MNIST Classification with Dual LPHM Reconciliation  |  July 8, 2024  |
-|     [Example 6](https://www.tinybig.org/examples/image/cifar10/)      |         CIFAR10 Object Detection in Images          |  July 8, 2024  |
-|       [Example 7](https://www.tinybig.org/examples/text/imdb/)        |             IMDB Review Classification              |  July 9, 2024  |
-|      [Example 8](https://www.tinybig.org/examples/text/agnews/)       |             AGNews Topic Classification             |  July 9, 2024  |
-|       [Example 9](https://www.tinybig.org/examples/text/sst2/)        |           SST-2 Sentiment Classification            |  July 9, 2024  |
-|     [Example 10](https://www.tinybig.org/examples/tabular/iris/)      |    Iris Species Inference (Naive Probabilistic)     |  July 9, 2024  |
-|   [Example 11](https://www.tinybig.org/examples/tabular/diabetes/)    |      Diabetes Diagnosis (Comb. Probabilistic)       |  July 9, 2024  |
-|   [Example 12](https://www.tinybig.org/examples/tabular/banknote/)    |   Banknote Authentication (Comb. Probabilistic)	    |  July 9, 2024  |
+|                              Example ID                               |                   Example Title                    | Released Date  |
+|:---------------------------------------------------------------------:|:--------------------------------------------------:|:--------------:|
+|        [Example 0](https://www.tinybig.org/examples/text/kan/)        |           Failure of KAN on Sparse Data            |  July 9, 2024  |
+|  [Example 1](https://www.tinybig.org/examples/function/elementary/)   |         Elementary Function Approximation          |  July 7, 2024  |
+|   [Example 2](https://www.tinybig.org/examples/function/composite/)   |          Composite Function Approximation          |  July 8, 2024  |
+|    [Example 3](https://www.tinybig.org/examples/function/feynman/)    |           Feynman Function Approximation           |  July 8, 2024  |
+|      [Example 4](https://www.tinybig.org/examples/image/mnist/)       | MNIST Classification with Identity Reconciliation  |  July 8, 2024  |
+| [Example 5](https://www.tinybig.org/examples/image/mnist_dual_lphm/)  | MNIST Classification with Dual LPHM Reconciliation |  July 8, 2024  |
+|     [Example 6](https://www.tinybig.org/examples/image/cifar10/)      |          CIFAR10 Image Object Recognition          |  July 8, 2024  |
+|       [Example 7](https://www.tinybig.org/examples/text/imdb/)        |             IMDB Review Classification             |  July 9, 2024  |
+|      [Example 8](https://www.tinybig.org/examples/text/agnews/)       |            AGNews Topic Classification             |  July 9, 2024  |
+|       [Example 9](https://www.tinybig.org/examples/text/sst2/)        |           SST-2 Sentiment Classification           |  July 9, 2024  |
+|     [Example 10](https://www.tinybig.org/examples/tabular/iris/)      |    Iris Species Inference (Naive Probabilistic)    |  July 9, 2024  |
+|   [Example 11](https://www.tinybig.org/examples/tabular/diabetes/)    |      Diabetes Diagnosis (Comb. Probabilistic)      |  July 9, 2024  |
+|   [Example 12](https://www.tinybig.org/examples/tabular/banknote/)    |   Banknote Authentication (Comb. Probabilistic)	   |  July 9, 2024  |
 
 ### Library Organizations
 

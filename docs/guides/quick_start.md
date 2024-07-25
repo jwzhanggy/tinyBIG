@@ -201,14 +201,14 @@ be introduced in the tutorial articles.
 Assuming we need to build a {{our}} layer with the output dimension $n=64$ here:
 
 ```python linenums="1"
-from tinybig.reconciliation import identity_reconciliation
+from tinybig.reconciliation import dual_lphm_reconciliation
 
 rec_func = dual_lphm_reconciliation(name='dual_lphm_reconciliation', p=8, q=784, r=5, device=DEVICE)
 l = rec_func.calculate_l(n=64, D=D)
 print('Required learnable parameter number:', l)
 ```
 
-???+ quote "Lorr parameter reconciliation printing outputs"
+???+ quote "Dual lphm parameter reconciliation printing outputs"
     ```
     Required learnable parameter number: 7925
     ```

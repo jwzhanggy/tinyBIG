@@ -1,4 +1,4 @@
-# CIFAR10 Object Detection
+# CIFAR10 Object Recognition
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
@@ -25,7 +25,7 @@
 -------------------------
 
 In this example, we will build a 3-layer {{our}} model with `identity_expansion`, `identity_reconciliation` and `zero_remainder`
-functions for the object detection task from the CIFAR10 dataset.
+functions for the object recognition task from the CIFAR10 dataset.
 
 We will use `mps` as the device in the config file.
 
