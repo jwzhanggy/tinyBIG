@@ -25,8 +25,8 @@ We assume you have correctly installed the latest `tinybig` and its dependency p
 If you haven't installed them yet, please refer to the [installation](installation.md) page for the guidance.
 
 This quickstart tutorial is prepared based on 
-[the RPN paper](https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf) `[1]`. 
-We also recommend reading that paper first for detailed technical information about the {{our}} model and {{toolkit}} toolkit. 
+[the RPN paper](https://arxiv.org/abs/2407.04819) `[1]`. 
+We also recommend reading that paper first for detailed technical information about the {{our}} model and {{toolkit}} toolkit.
 
 **Reference**
 
@@ -378,3 +378,8 @@ print(metric.__class__.__name__, metric.evaluate(y_true=test_result['y_true'], y
 
 The above results indicate that {{our}} with a 3-layer architecture will achieve a decent testing accuracy score of `0.9749`, 
 also it only uses `9330` learnable parameters, much less than that of MLP and KAN with similar architectures.
+
+## What is the Next?
+
+After finishing this quickstart tutorial, you may also check the [Tutorials tab](../tutorials/index.md) and the [Examples tab](../examples/index.md) of this website
+for more in-depth tutorial articles and code examples developed based on the `tinybig` library.
