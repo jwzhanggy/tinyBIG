@@ -12,5 +12,5 @@ In this section, we will provide some examples of language data processing with 
 |:---------------------------------:|:-------------------------------:|:--------------:|:-----------------------------:|
 |  [Language Example 1](./kan.md)   |  Failure of KAN on Sparse Data  |  July 9, 2024  | {{kan_failure_example_files}} |
 |  [Language Example 2](./imdb.md)  |   IMDB Review Classification    |  July 9, 2024  |    {{imdb_example_files}}     |
-| [Language Example 3](./agnews.md) |   AGNews Topic Classification   |  July 9, 2024  |    {{sst2_example_files}}     |
-|  [Language Example 4](./sst2.md)  | SST-2 Sentiment Classification  |  July 9, 2024  |   {{agnews_example_files}}    |
+| [Language Example 3](./agnews.md) |   AGNews Topic Classification   |  July 9, 2024  |    {{agnews_example_files}}     |
+|  [Language Example 4](./sst2.md)  | SST-2 Sentiment Classification  |  July 9, 2024  |   {{sst2_example_files}}    |
