@@ -21,7 +21,7 @@ You may look through the [project gitHub issue page](https://github.com/jwzhangg
 
 ## Write Documentation
 
-We provide the preliminary version of the documentation at the {{toolkit}} website.
+We provide the preliminary version of the documentation at the tinyBIG website.
 `tinybig` could always use more documentation, whether as part of the official `tinybig` docs, 
 in docstrings, or even on the web in blog posts, articles, and such.
 
