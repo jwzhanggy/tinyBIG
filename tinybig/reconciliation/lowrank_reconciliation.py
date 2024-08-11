@@ -333,7 +333,7 @@ class lphm_reconciliation(fabrication):
     length $l$ can be calculated as follows:
     $$
         \begin{equation}
-            l = p \times q + r( \frac{n}{p} + \frac{D}{p} ).
+            l = p \times q + r( \frac{n}{p} + \frac{D}{q} ).
         \end{equation}
     $$
 
