@@ -406,7 +406,7 @@ class lphm_reconciliation(fabrication):
         $p$, $q$ and $r$, which can be represented as follows:
         $$
             \begin{equation}
-                l = p \times q + r( \frac{n}{p} + \frac{D}{p} ).
+                l = p \times q + r( \frac{n}{p} + \frac{D}{q} ).
             \end{equation}
         $$
 
@@ -507,7 +507,7 @@ class dual_lphm_reconciliation(fabrication):
     length $l$ can be calculated as follows:
     $$
         \begin{equation}
-            l = r( p + q + \frac{n}{p} + \frac{D}{p} ).
+            l = r( p + q + \frac{n}{p} + \frac{D}{q} ).
         \end{equation}
     $$
 
@@ -580,7 +580,7 @@ class dual_lphm_reconciliation(fabrication):
         $p$, $q$ and $r$, which can be represented as follows:
         $$
             \begin{equation}
-                l = r( p + q + \frac{n}{p} + \frac{D}{p} ).
+                l = r( p + q + \frac{n}{p} + \frac{D}{q} ).
             \end{equation}
         $$
 
