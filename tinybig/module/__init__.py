@@ -60,6 +60,9 @@ This module contains the following categories of component functions and modules
 from tinybig.module.base_transformation import (
     transformation
 )
+from tinybig.module.base_interdependence import (
+    interdependence
+)
 from tinybig.module.base_fabrication import (
     fabrication
 )
