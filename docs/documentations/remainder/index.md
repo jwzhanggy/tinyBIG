@@ -13,4 +13,3 @@
 * [linear_remainder](linear_remainder.md)
 
 ### Expansion Remainder
-* [bspline_remainder](bspline_remainder.md)
