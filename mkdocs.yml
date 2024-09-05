@@ -214,7 +214,6 @@ nav:
       - documentations/remainder/one_remainder.md
       - documentations/remainder/identity_remainder.md
       - documentations/remainder/linear_remainder.md
-      - documentations/remainder/bspline_remainder.md
     - tinybig.model:
       - documentations/model/index.md
       - documentations/model/model.md
