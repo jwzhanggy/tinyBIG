@@ -34,4 +34,4 @@ from tinybig.remainder.basic_remainder import (
     linear_remainder
 )
 
-from tinybig.remainder.expansion_remainder import bspline_remainder
+from tinybig.remainder.bspline_remainder import bspline_remainder

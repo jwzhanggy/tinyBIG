@@ -215,3 +215,7 @@ class hypernet_reconciliation(fabrication):
         if self.net is None:
             self.initialize_hypernet(l=self.calculate_l(n, D), n=n, D=D, hidden_dim=self.hidden_dim, static=self.static, device=device)
         return self.net(w).view(n, D)
+
+
+class random_matrix_hypernet_reconciliation(fabrication):
+    pass

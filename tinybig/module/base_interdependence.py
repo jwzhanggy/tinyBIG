@@ -16,20 +16,20 @@ class interdependence(torch.nn.Module):
 
     def __init__(
             self,
-            name='base_interdependency',
-            require_parameters=False,
-            enable_bias=False,
+            name: str = 'base_interdependency',
+            require_parameters: bool = False,
             preprocess_functions=None,
             postprocess_functions=None,
             preprocess_function_configs=None,
             postprocess_function_configs=None,
-            device='cpu',
+            device: str = 'cpu',
             *args, **kwargs
     ):
         super().__init__()
         self.name = name
+        self.o = None
+        self.o_prime = None
         self.require_parameters = require_parameters
-        self.enable_bias = enable_bias
         self.preprocess_functions = process_function_list(preprocess_functions, preprocess_function_configs, device=self.device)
         self.postprocess_functions = process_function_list(postprocess_functions, postprocess_function_configs, device=self.device)
         self.device = device
@@ -46,9 +46,11 @@ class interdependence(torch.nn.Module):
     def __call__(self, *args, **kwargs):
         return self.forward(*args, **kwargs)
 
-    @abstractmethod
     def calculate_o_prime(self, o: int):
-        pass
+        if self.o_prime is None:
+            return self.o_prime
+        else:
+            return o
 
     @abstractmethod
     def forward(self, *args, **kwargs):

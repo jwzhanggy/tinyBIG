@@ -349,6 +349,9 @@ class linear_remainder(remainder):
         """
         super().__init__(name=name, require_parameters=require_parameters, enable_bias=enable_bias, *args, **kwargs)
 
+    def calculate_l(self, n: int, D: int):
+        return n*D
+
     def forward(self, x: torch.Tensor, w: torch.nn.Parameter, b: torch.nn.Parameter = None, device='cpu', *args, **kwargs):
         r"""
         The forward method of the linear remainder function.

@@ -48,4 +48,11 @@ from tinybig.reconciliation.lowrank_reconciliation import (
     dual_lphm_reconciliation,
 )
 
-from tinybig.reconciliation.hypernet_reconciliation import hypernet_reconciliation
+from tinybig.reconciliation.hypernet_reconciliation import (
+    hypernet_reconciliation,
+    random_matrix_hypernet_reconciliation
+)
+
+from tinybig.reconciliation.random_matrix_reconciliation import (
+    random_matrix_adaption_reconciliation
+)

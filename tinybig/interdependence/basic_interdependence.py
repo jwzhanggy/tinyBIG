@@ -3,32 +3,62 @@
 # Affiliation: IFM Lab, UC Davis
 
 #########################
-# Basic Interdependency #
+# Basic Interdependence #
 #########################
 
 import torch
-import torch.nn.functional as F
 
 from tinybig.interdependence import interdependence
 
 
 class constant_interdependence(interdependence):
 
-    def __init__(self, name: str='constant_interdependence', o: int=None, o_prime: int=None, matrix_A: torch.Tensor=None, *args, **kwargs):
+    def __init__(self, A: torch.Tensor, name: str = 'constant_interdependence', *args, **kwargs):
         super().__init__(name=name, *args, **kwargs)
-        self.matrix_A = matrix_A
-        assert self.matrix_A is not None
+        self.A = A
+        if self.A is None or self.A.ndim != 2:
+            print('The parameter matrix A is required and should have ndim: 2 by default')
+        assert self.A is not None and self.A.ndim == 2
 
-        if o is not None:
-            assert o == self.matrix_A.size(0)
-        self.o = self.matrix_A.size(0)
+        self.o = self.A.size(0)
+        self.o_prime = self.A.size(1)
 
-        if o_prime is not None:
-            assert o_prime == self.matrix_A.size(1)
-        self.o_prime = self.matrix_A.size(1)
+    def update_A(self, A: torch.Tensor):
+        self.A = A
+        if self.A is None or self.A.ndim != 2:
+            print('The parameter matrix A is required and should have ndim: 2 by default')
+        assert self.A is not None and self.A.ndim == 2
 
-    def calculate_o_prime(self, o: int):
-        return self.o_prime
+        self.o = self.A.size(0)
+        self.o_prime = self.A.size(1)
 
-    def forward(self, device='cpu', *args, **kwargs):
-        pass
+    def forward(self, x: torch.Tensor = None, device: str = 'cpu', *args, **kwargs):
+        assert self.A.shape == (self.o, self.o_prime)
+        return self.post_process(x=self.A, device=device)
+
+
+class constant_c_interdependence(constant_interdependence):
+
+    def __init__(self, c: float | int, o: int, o_prime: int, name: str = 'constant_c_interdependence', *args, **kwargs):
+        self.c = c
+        A = self.c * torch.ones((o, o_prime))
+        super().__init__(A=A, name=name, *args, **kwargs)
+
+
+class zero_interdependence(constant_c_interdependence):
+
+    def __init__(self, o: int, o_prime: int, name: str = 'zero_interdependence', *args, **kwargs):
+        super().__init__(c=0.0, o=o, o_prime=o_prime, name=name, *args, **kwargs)
+
+
+class one_interdependence(constant_c_interdependence):
+
+    def __init__(self, o: int, o_prime: int, name: str = 'one_interdependence', *args, **kwargs):
+        super().__init__(c=1.0, o=o, o_prime=o_prime, name=name, *args, **kwargs)
+
+
+class identity_interdependence(constant_interdependence):
+
+    def __init__(self, o: int, o_prime: int, name: str = 'identity_interdependence', *args, **kwargs):
+        A = torch.eye(o, o_prime)
+        super().__init__(A=A, name=name, *args, **kwargs)
