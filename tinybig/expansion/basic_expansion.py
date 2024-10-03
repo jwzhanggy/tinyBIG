@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+#############################
+# Basic Expansion Functions #
+#############################
+
 """
 Basic data expansion functions.
 
@@ -12,10 +16,6 @@ including identity_expansion, reciprocal_expansion and linear_expansion.
 import torch.nn
 
 from tinybig.expansion import transformation
-
-####################
-# Basic Expansions #
-####################
 
 
 class identity_expansion(transformation):
@@ -68,6 +68,11 @@ class identity_expansion(transformation):
         ----------
         name: str, default = 'identity_expansion'
             The name of the identity expansion function.
+
+        Returns
+        ----------
+        transformation
+            The identity expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -139,8 +144,12 @@ class identity_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         expansion = x
+
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -199,6 +208,11 @@ class reciprocal_expansion(transformation):
         ----------
         name: str, default = 'reciprocal_expansion'
             The name of the reciprocal expansion function.
+
+        Returns
+        ----------
+        transformation
+            The reciprocal expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -250,10 +264,14 @@ class reciprocal_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         x[torch.logical_and(x>=0, x<=1e-6)] = 1e-6
         x[torch.logical_and(x<0, x>=-1e-6)] = -1e-6
         expansion = torch.reciprocal(x)
+
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -317,6 +335,11 @@ class linear_expansion(transformation):
             The $\mathbf{C}_{pre}$ matrix of the linear expansion.
         post_C: torch.Tensor, default = None
             The $\mathbf{C}_{post}$ matrix of the linear expansion.
+
+        Returns
+        ----------
+        transformation
+            The linear expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.c = c
@@ -378,6 +401,7 @@ class linear_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
 
         c = c if c is not None else self.c
@@ -395,4 +419,5 @@ class linear_expansion(transformation):
         else:
             expansion = x
 
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)

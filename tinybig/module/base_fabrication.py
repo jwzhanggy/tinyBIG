@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+##############################
+# Parameter Fabrication Base #
+##############################
+
 """
 Base fabrication function for parameters.
 
@@ -12,12 +16,11 @@ The parameter reconciliation functions are all defined based on this fabrication
 from abc import abstractmethod
 import torch
 
-##############################
-# Parameter Fabrication Base #
-##############################
+from torch.nn import Module
+from tinybig.module.base_functions import function
 
 
-class fabrication(torch.nn.Module):
+class fabrication(Module, function):
     r"""
     The base class of the parameter fabrication function in the tinyBIG toolkit.
 
@@ -71,12 +74,12 @@ class fabrication(torch.nn.Module):
         The build-in callable method of the parameter fabrication function.
     """
     def __init__(
-            self,
-            name: str = 'base_fabrication',
-            require_parameters: bool = True,
-            enable_bias: bool = False,
-            device: str = 'cpu',
-            *args, **kwargs
+        self,
+        name: str = 'base_fabrication',
+        require_parameters: bool = True,
+        enable_bias: bool = False,
+        device: str = 'cpu',
+        *args, **kwargs
     ):
         """
         The initialization method of the base parameter fabrication function.
@@ -99,9 +102,9 @@ class fabrication(torch.nn.Module):
         object
             The parameter fabrication function object.
         """
-        super().__init__()
-        self.name = name
-        self.device = device
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
+
         self.require_parameters = require_parameters
         self.enable_bias = enable_bias
 
@@ -140,20 +143,6 @@ class fabrication(torch.nn.Module):
             The number of required learnable parameters l.
         """
         pass
-
-    def __call__(self, *args, **kwargs):
-        """
-        The re-implementation of the callable method.
-
-        It applies the parameter reconciliation operation to the input parameter of length l,
-        and returns the reconciled parameter matrix of shape (n, D) by calling the "forward" method.
-
-        Returns
-        ----------
-        torch.Tensor
-            The reconciled parameter matrix of shape (n, D).
-        """
-        return self.forward(*args, **kwargs)
 
     @abstractmethod
     def forward(self, n: int, D: int, w: torch.nn.Parameter, *args, **kwargs):

@@ -17,10 +17,8 @@ from tinybig.data.base_data import dataloader, dataset
 
 class text_dataloader(dataloader):
 
-    def __init__(self, name='text_dataloader', train_batch_size=64, test_batch_size=64, max_seq_len=256):
-        super().__init__(name=name)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+    def __init__(self, train_batch_size: int, test_batch_size: int, name='text_dataloader', max_seq_len=256):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
         self.max_seq_len = max_seq_len
 
     @abstractmethod

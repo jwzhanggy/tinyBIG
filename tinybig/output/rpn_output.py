@@ -7,10 +7,7 @@ The rpn output class.
 This class implements the class for the RPN rpn output result saving and loading.
 """
 
-import pickle
-
 from tinybig.output.base_output import output
-from tinybig.util.util import create_directory_if_not_exists
 
 
 class rpn_output(output):

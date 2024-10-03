@@ -9,6 +9,7 @@ This module contains the base evaluation metric class definition.
 """
 
 from abc import abstractmethod
+from tinybig.config.base_config import config
 
 
 class metric:
@@ -50,6 +51,24 @@ class metric:
             The metric object.
         """
         self.name = name
+
+    @staticmethod
+    def from_config(configs: dict):
+        if configs is None:
+            raise ValueError("configs cannot be None")
+        assert 'metric_class' in configs
+        class_name = configs['metric_class']
+        parameters = configs['metric_parameters'] if 'metric_parameters' in configs else {}
+        return config.get_obj_from_str(class_name)(**parameters)
+
+    def to_config(self):
+        class_name = self.__class__.__name__
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+
+        return {
+            "metric_class": class_name,
+            "metric_parameters": attributes
+        }
 
     @abstractmethod
     def evaluate(self, *args, **kwargs):

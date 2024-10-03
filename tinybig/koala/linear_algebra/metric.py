@@ -2,132 +2,115 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
-#######################
-# Statistical Metrics #
-#######################
+#####################
+# Numerical Metrics #
+#####################
 
 import torch
-
+import numpy as np
 from typing import Union, Any
 
 
-def inner_product(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    assert x1.ndim == 1 and x1.shape == x2.shape
+def metric(
+    x: torch.Tensor,
+    metric_name: str,
+    *args, **kwargs
+):
+    assert x is not None and metric_name is not None
 
-    dot_product = torch.dot(x1, x2)
+    match metric_name:
+        case 'norm': return norm(x=x, *args, **kwargs)
+        case 'batch_norm': return batch_norm(x=x, *args, **kwargs)
+        case 'l2_norm': return l2_norm(x=x)
+        case 'batch_l2_norm': return batch_l2_norm(x=x, *args, **kwargs)
+        case 'l1_norm': return l1_norm(x=x)
+        case 'batch_l1_norm': return batch_l1_norm(x=x, *args, **kwargs)
+        case 'max': return max(x=x)
+        case 'batch_max': return batch_max(x=x, *args, **kwargs)
+        case 'min': return min(x=x)
+        case 'batch_min': return batch_min(x=x, *args, **kwargs)
+        case 'sum': return sum(x=x)
+        case 'batch_sum': return batch_sum(x=x, *args, **kwargs)
+        case 'prod': return prod(x=x)
+        case 'batch_prod': return batch_prod(x=x, *args, **kwargs)
+        case _: raise ValueError(f'Unknown metric name: {metric_name}...')
 
-    return dot_product
 
-
-def batch_inner_product(X: torch.Tensor, centered: bool = False) -> torch.Tensor:
-    assert X.ndim == 2
-    b, o = X.shape
-
-    if centered:
-        X = X - X.mean(dim=0, keepdim=True)
-    inner_product_matrix = torch.matmul(X.T, X)
-
-    assert inner_product_matrix.shape == (o, o)
-    return inner_product_matrix
-
-
-def cosine_similarity(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    assert x1.ndim == 1 and x1.shape == x2.shape
-
-    dot_product = torch.dot(x1, x2)
-    norm_x1 = torch.norm(x1, p=2)
-    norm_x2 = torch.norm(x2, p=2)
-
-    if norm_x1 == 0 or norm_x2 == 0:
-        return torch.tensor(0.0)
+def norm(x: torch.Tensor, p: Union[int, float, str, Any]):
+    assert x.ndim == 1
+    if p == 'nuc':
+        raise ValueError(f'the {p}-norm cannot be applied to 1d tensor inputs...')
     else:
-        cosine_sim = dot_product / (norm_x1 * norm_x2)
-        return cosine_sim
+        return torch.norm(x, p=p)
 
 
-def batch_cosine_similarity(X: torch.Tensor, centered: bool = False) -> torch.Tensor:
-    assert X.ndim == 2
-    b, o = X.shape
-
-    if centered:
-        X = X - X.mean(dim=0, keepdim=True)
-    X_norm = torch.norm(X, p=2, dim=0, keepdim=True)
-    X_norm[X_norm == 0] = 1.0
-    X_normalized = X / X_norm
-    similarity_matrix = torch.matmul(X_normalized.T, X_normalized)
-
-    assert similarity_matrix.shape == (o, o)
-    return similarity_matrix
+def batch_norm(x: torch.Tensor, p: Union[int, float, str, Any], dim: int = 1):
+    assert x.ndim == 2 and dim in [0, 1, None]
+    if p == 'nuc':
+        return torch.norm(x, p='nuc')
+    else:
+        return torch.norm(x, p=p, dim=dim)
 
 
-def minkowski_distance(x1: torch.Tensor, x2: torch.Tensor, p: Union[int, float, str, Any]) -> torch.Tensor:
-    assert x1.ndim == 1 and x1.shape == x2.shape
-
-    distance = torch.norm(x1 - x2, p=p)
-
-    return distance
+def l1_norm(x: torch.Tensor):
+    return norm(x, p=1)
 
 
-def batch_minkowski_distance(X: torch.Tensor, p: Union[int, float, str, Any], centered: bool = False) -> torch.Tensor:
-    assert X.ndim == 2
-    b, o = X.shape
-
-    if centered:
-        X = X - X.mean(dim=0, keepdim=True)
-    X_expanded_1 = X.unsqueeze(2)
-    X_expanded_2 = X.unsqueeze(1)
-    distance_matrix = torch.norm(X_expanded_1 - X_expanded_2, p=p, dim=0)
-
-    assert distance_matrix.shape == (o, o)
-    return distance_matrix
+def batch_l1_norm(x: torch.Tensor, dim: int = 1):
+    return batch_norm(x, p=1, dim=dim)
 
 
-def manhattan_distance(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    return minkowski_distance(x1=x1, x2=x2, p=1)
+def l2_norm(x: torch.Tensor):
+    return norm(x, p=2)
 
 
-def batch_manhattan_distance(X: torch.Tensor, centered: bool = False) -> torch.Tensor:
-    return batch_minkowski_distance(X=X, p=1, centered=centered)
+def batch_l2_norm(x: torch.Tensor, dim: int = 1):
+    return batch_norm(x, p=2, dim=dim)
 
 
-def euclidean_distance(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    return minkowski_distance(x1=x1, x2=x2, p=2)
+def sum(x: torch.Tensor):
+    assert x.ndim == 1
+    return torch.sum(x)
 
 
-def batch_euclidean_distance(X: torch.Tensor, centered: bool = False) -> torch.Tensor:
-    return batch_minkowski_distance(X=X, p=2, centered=centered)
+def batch_sum(x: torch.Tensor, dim: int = 1):
+    assert x.ndim == 2 and dim in [0, 1]
+    return torch.sum(x, dim=dim)
 
 
-def chebyshev_distance(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    return minkowski_distance(x1=x1, x2=x2, p=torch.inf)
+def prod(x: torch.Tensor):
+    assert x.ndim == 1
+    return torch.prod(x)
 
 
-def batch_chebyshev_distance(X: torch.Tensor, centered: bool = False) -> torch.Tensor:
-    return batch_minkowski_distance(X=X, p=torch.inf, centered=centered)
+def batch_prod(x: torch.Tensor, dim: int = 1):
+    assert x.ndim == 2 and dim in [0, 1]
+    return torch.prod(x, dim=dim)
 
 
-def canberra_distance(x1: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:
-    assert x1.ndim == 1 and x1.shape == x2.shape
-
-    numerator = torch.abs(x1 - x2)
-    denominator = torch.abs(x1) + torch.abs(x2)
-    canberra_dist = torch.sum(numerator / (denominator + 1e-10))
-
-    return canberra_dist
+def max(x: torch.Tensor):
+    assert x.ndim == 1
+    return torch.max(x)
 
 
-def batch_canberra_distance(X: torch.Tensor) -> torch.Tensor:
-    assert X.ndim == 2
-    b, o = X.shape
-
-    X_expanded_1 = X.unsqueeze(2)
-    X_expanded_2 = X.unsqueeze(1)
-
-    numerator = torch.abs(X_expanded_1 - X_expanded_2)
-    denominator = torch.abs(X_expanded_1) + torch.abs(X_expanded_2)
-    canberra_dist_matrix = torch.sum(numerator / (denominator + 1e-10), dim=0)
-
-    assert canberra_dist_matrix.shape == (o, o)
-    return canberra_dist_matrix
+def batch_max(x: torch.Tensor, dim: int = 1):
+    assert x.ndim == 2 and dim in [0, 1]
+    return torch.max(x, dim=dim).values
 
 
+def min(x: torch.Tensor):
+    assert x.ndim == 1
+    return torch.min(x)
+
+
+def batch_min(x: torch.Tensor, dim: int = 1):
+    assert x.ndim == 2 and dim in [0, 1]
+    return torch.min(x, dim=dim).values
+
+
+if __name__ == '__main__':
+
+    x = torch.tensor([[1, 2], [3, 4]])
+    print(batch_min(x, dim=0), batch_min(x, dim=1), batch_max(x, dim=0), batch_max(x, dim=1))
+    y = torch.tensor([1, 2, 3])
+    print(min(y), max(y))

@@ -1,6 +1,9 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+########################
+# Basic reconciliation #
+########################
 
 """
 Basic parameter reconciliation functions.
@@ -14,10 +17,6 @@ import torch
 
 from tinybig.reconciliation import fabrication
 
-
-#####################
-# Basic reconciliation #
-#####################
 
 class constant_reconciliation(fabrication):
     r"""
@@ -85,7 +84,7 @@ class constant_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The constant parameter reconciliation function object.
         """
         super().__init__(name=name, require_parameters=False, *args, **kwargs)
@@ -143,7 +142,7 @@ class constant_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        return self.c * torch.ones(n, D).to(device)
+        return self.c * torch.ones(n, D, device=device)
 
 
 class zero_reconciliation(constant_reconciliation):
@@ -181,7 +180,7 @@ class zero_reconciliation(constant_reconciliation):
 
         Returns
         ----------
-        object
+        fabrication
             The zero parameter reconciliation function object.
         """
         super().__init__(name=name, c=0.0, *args, **kwargs)
@@ -222,7 +221,7 @@ class one_reconciliation(constant_reconciliation):
 
         Returns
         ----------
-        object
+        fabrication
             The one parameter reconciliation function object.
         """
         super().__init__(name=name, c=1.0, *args, **kwargs)
@@ -288,7 +287,7 @@ class constant_eye_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The constant eye parameter reconciliation function object.
         """
         super().__init__(name=name, require_parameters=False, *args, **kwargs)
@@ -346,7 +345,7 @@ class constant_eye_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        return torch.eye(n=n, m=D).to(device)
+        return torch.eye(n=n, m=D, device=device)
 
 
 class identity_reconciliation(fabrication):
@@ -413,7 +412,7 @@ class identity_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The identity parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -472,6 +471,7 @@ class identity_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
+        assert w.ndim == 2 and w.numel() == self.calculate_l(n=n, D=D)
         return w.view(n, D).to(device)
 
 
@@ -550,7 +550,7 @@ class masking_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The masking parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -585,7 +585,7 @@ class masking_reconciliation(fabrication):
         """
         return n * D
 
-    def generate_masking_matrix(self, n, D):
+    def generate_masking_matrix(self, n, D, device: str = 'cpu'):
         """
         The masking matrix generation method.
 
@@ -605,7 +605,7 @@ class masking_reconciliation(fabrication):
         torch.Tensor
             The binary masking matrix of shape (n, D).
         """
-        self.mask_matrix = torch.rand(n, D) < self.p
+        self.mask_matrix = torch.rand(n, D, device=device) < self.p
 
     def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
@@ -636,10 +636,10 @@ class masking_reconciliation(fabrication):
             The reconciled parameter matrix of shape (n, D).
         """
         if not self.fixed_mask:
-            self.generate_masking_matrix(n=n, D=D)
+            self.generate_masking_matrix(n=n, D=D, device=device)
         else:
             if self.mask_matrix is None:
-                self.generate_masking_matrix(n=n, D=D)
+                self.generate_masking_matrix(n=n, D=D, device=device)
         return w.view(n, D) * self.mask_matrix.to(device)
 
 
@@ -721,7 +721,7 @@ class duplicated_padding_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The masking parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -791,7 +791,22 @@ class duplicated_padding_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n / self.p), int(D / self.q)
-        A = torch.ones(self.p, self.q).view(1, -1).to(device)
+        A = torch.ones(self.p, self.q, device=device).view(1, -1)
         return torch.einsum('pq,st->psqt', A, w).view(self.p*s, self.q*t).to(device)
+
+
+class duplicated_diagonal_padding_reconciliation(duplicated_padding_reconciliation):
+    def __init__(self, name='duplicated_diagonal_padding_reconciliation', *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
+
+    def forward(self, n: int, D: int, w: torch.nn.Parameter, device: str = 'cpu', *args, **kwargs):
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        assert self.p == n and self.q * self.calculate_l(n=n, D=D) == D
+        W = torch.block_diag(*[w]*self.p).view(n, D)
+        if device == 'mps':
+            return W.to(device)
+        else:
+            return W.to_sparse_coo().to(device)
+

@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+###################################################
+# Expansions defined with closed-form polynomials #
+###################################################
+
 """
 Polynomial data expansion functions.
 
@@ -9,16 +13,11 @@ This module contains the polynomial data expansion functions,
 including taylor_expansion and fourier_expansion.
 """
 
-
 import warnings
 import numpy as np
 import torch.nn
 
 from tinybig.expansion import transformation
-
-###################################################
-# Expansions defined with closed-form polynomials #
-###################################################
 
 
 class taylor_expansion(transformation):
@@ -85,6 +84,11 @@ class taylor_expansion(transformation):
             The name of the taylor's expansion function.
         d: int, default = 2
             The max degree of the taylor's expansion.
+
+        Returns
+        ----------
+        transformation
+            The taylor's expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -146,8 +150,9 @@ class taylor_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
-
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         x_powers = torch.ones(size=[x.size(0), 1]).to(device)
         expansion = torch.Tensor([]).to(device)
 
@@ -155,7 +160,7 @@ class taylor_expansion(transformation):
             x_powers = torch.einsum('ba,bc->bac', x_powers.clone(), x).view(x_powers.size(0), x_powers.size(1)*x.size(1))
             expansion = torch.cat((expansion, x_powers), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -217,6 +222,11 @@ class fourier_expansion(transformation):
             The period parameter of the expansion.
         N: int, default = 5
             The harmonic number of the expansion.
+
+        Returns
+        ----------
+        transformation
+            The fourier expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.P = P
@@ -268,13 +278,16 @@ class fourier_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         expansion = torch.Tensor([]).to(device)
         for n in range(1, self.N+1):
             cos = torch.cos(2 * np.pi * (n / self.P) * x)
             sin = torch.sin(2 * np.pi * (n / self.P) * x)
             expansion = torch.cat((expansion, cos, sin), dim=1)
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 

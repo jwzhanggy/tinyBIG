@@ -11,9 +11,10 @@ from tqdm import tqdm
 import time
 import torch
 
-from tinybig.util.util import get_obj_from_str
+from tinybig.config.base_config import config
+from tinybig.module.base_functions import function
 from tinybig.learner.base_learner import learner
-from tinybig.model.base_model import model as tinybig_model
+from tinybig.module.base_model import model as tinybig_model
 from tinybig.data.base_data import dataloader as tinybig_dataloader
 from tinybig.metric.base_metric import metric as tinybig_metric
 
@@ -120,9 +121,34 @@ class backward_learner(learner):
         elif loss_configs is not None:
             loss_class = loss_configs['loss_class']
             parameters = loss_configs['loss_parameters'] if 'loss_parameters' in loss_configs else {}
-            self.loss = get_obj_from_str(loss_class)(**parameters)
+            self.loss = config.get_obj_from_str(loss_class)(**parameters)
         else:
             self.loss = None
+
+    @staticmethod
+    def from_config(configs: dict):
+        if configs is None:
+            raise ValueError("configs cannot be None")
+        assert 'function_class' in configs
+        class_name = configs['learner_class']
+        parameters = configs['learner_parameters'] if 'learner_parameters' in configs else {}
+        return config.get_obj_from_str(class_name)(**parameters)
+
+    def to_config(self):
+        class_name = self.__class__.__name__
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+        attributes.pop('lr_scheduler')
+        attributes.pop('optimizer')
+        attributes.pop('loss')
+
+        attributes['lr_scheduler_configs'] = function.function_to_config(self.lr_scheduler, class_name='lr_scheduler_class', parameter_name='lr_scheduler_parameters')
+        attributes['optimizer_configs'] = function.function_to_config(self.optimizer, class_name='optimizer_class', parameter_name='optimizer_parameters')
+        attributes['loss_configs'] = function.function_to_config(self.loss, class_name='loss_class', parameter_name='loss_parameters')
+
+        return {
+            "function_class": class_name,
+            "function_parameters": attributes
+        }
 
     def train(
             self,
@@ -183,14 +209,14 @@ class backward_learner(learner):
         # ----------------------------
         if type(self.optimizer) is str:
             self.optimizer_parameters['params'] = model.parameters()
-            optimizer = get_obj_from_str(self.optimizer)(**self.optimizer_parameters)
+            optimizer = config.get_obj_from_str(self.optimizer)(**self.optimizer_parameters)
         else:
             assert self.optimizer is not None
             optimizer = self.optimizer
 
         if type(self.lr_scheduler) is str:
             self.lr_scheduler_parameters['optimizer'] = optimizer
-            lr_scheduler = get_obj_from_str(self.lr_scheduler)(**self.lr_scheduler_parameters)
+            lr_scheduler = config.get_obj_from_str(self.lr_scheduler)(**self.lr_scheduler_parameters)
         else:
             if self.lr_scheduler is not None:
                 lr_scheduler = self.lr_scheduler
@@ -261,12 +287,12 @@ class backward_learner(learner):
         return training_record_dict
 
     def test(
-            self,
-            model: tinybig_model,
-            test_loader: tinybig_dataloader,
-            device: str = 'cpu',
-            metric: tinybig_metric = None,
-            return_full_result: bool = True
+        self,
+        model: tinybig_model,
+        test_loader: tinybig_dataloader,
+        device: str = 'cpu',
+        metric: tinybig_metric = None,
+        return_full_result: bool = True
     ):
         """
         The testing method of the backward learning for RPN performance testing.

@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+#########################
+#  Transformation Base  #
+#########################
+
 """
 Base transformation function for data.
 
@@ -12,14 +16,13 @@ The data expansion and compression functions are all defined based on this trans
 from abc import abstractmethod
 import torch
 
-from tinybig.util import func_x, process_function_list, register_function_parameters
+from torch.nn import Module
 
-#########################
-#  Transformation Base  #
-#########################
+from tinybig.module.base_functions import function
+from tinybig.config import config
 
 
-class transformation(torch.nn.Module):
+class transformation(Module, function):
     r"""
     The base class of the data transformation function in the tinyBIG toolkit.
 
@@ -81,14 +84,14 @@ class transformation(torch.nn.Module):
     """
 
     def __init__(
-            self,
-            name='base_transformation',
-            preprocess_functions=None,
-            postprocess_functions=None,
-            preprocess_function_configs=None,
-            postprocess_function_configs=None,
-            device='cpu',
-            *args, **kwargs
+        self,
+        name='base_transformation',
+        preprocess_functions=None,
+        postprocess_functions=None,
+        preprocess_function_configs=None,
+        postprocess_function_configs=None,
+        device='cpu',
+        *args, **kwargs
     ):
         """
         The initialization method of the base data transformation function.
@@ -115,11 +118,11 @@ class transformation(torch.nn.Module):
         object
             The base data transformation function object.
         """
-        super().__init__()
-        self.name = name
-        self.device = device
-        self.preprocess_functions = process_function_list(preprocess_functions, preprocess_function_configs, device=self.device)
-        self.postprocess_functions = process_function_list(postprocess_functions, postprocess_function_configs, device=self.device)
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
+
+        self.preprocess_functions = config.instantiation_functions(preprocess_functions, preprocess_function_configs, device=self.device)
+        self.postprocess_functions = config.instantiation_functions(postprocess_functions, postprocess_function_configs, device=self.device)
         # register_function_parameters(self, self.preprocess_functions)
         # register_function_parameters(self, self.postprocess_functions)
 
@@ -158,7 +161,7 @@ class transformation(torch.nn.Module):
         Tensor
             It returns the data vector after the pre-processing.
         """
-        return func_x(x, self.preprocess_functions, device=device)
+        return function.func_x(x, self.preprocess_functions, device=device)
 
     def post_process(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         """
@@ -182,7 +185,23 @@ class transformation(torch.nn.Module):
         Tensor
             It returns the data vector after the post-processing.
         """
-        return func_x(x, self.postprocess_functions, device=device)
+        return function.func_x(x, self.postprocess_functions, device=device)
+
+    def to_config(self):
+        class_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+        attributes.pop('preprocess_functions')
+        attributes.pop('postprocess_functions')
+
+        if self.preprocess_functions is not None:
+            attributes['preprocess_function_configs'] = function.functions_to_configs(self.preprocess_functions)
+        if self.postprocess_functions is not None:
+            attributes['postprocess_function_configs'] = function.functions_to_configs(self.postprocess_functions)
+
+        return {
+            "function_class": class_name,
+            "function_parameters": attributes
+        }
 
     @abstractmethod
     def calculate_D(self, m: int):

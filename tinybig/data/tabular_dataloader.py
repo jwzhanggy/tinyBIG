@@ -21,9 +21,7 @@ class tabular_dataloader(dataloader):
 
     def __init__(self, name='tabular_dataloader', data_contents: list | tuple = None,
                  train_batch_size=64, test_batch_size=64, *args, **kwargs):
-        super().__init__(name=name, *args, **kwargs)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, *args, **kwargs)
         self.data_contents = data_contents
 
     def load_file(self, cache_dir: str = None, filename: str = None):

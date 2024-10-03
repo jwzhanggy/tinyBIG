@@ -38,7 +38,8 @@ from tinybig.reconciliation.basic_reconciliation import (
     constant_eye_reconciliation,
     identity_reconciliation,
     masking_reconciliation,
-    duplicated_padding_reconciliation
+    duplicated_padding_reconciliation,
+    duplicated_diagonal_padding_reconciliation,
 )
 
 from tinybig.reconciliation.lowrank_reconciliation import (
@@ -50,9 +51,10 @@ from tinybig.reconciliation.lowrank_reconciliation import (
 
 from tinybig.reconciliation.hypernet_reconciliation import (
     hypernet_reconciliation,
-    random_matrix_hypernet_reconciliation
 )
 
 from tinybig.reconciliation.random_matrix_reconciliation import (
-    random_matrix_adaption_reconciliation
+    random_matrix_adaption_reconciliation,
+    random_matrix_hypernet_reconciliation
 )
+

@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+############################
+# Low-rank reconciliations #
+############################
+
 """
 Low-rank parameter reconciliation functions.
 
@@ -12,12 +16,8 @@ including lorr_reconciliation, hm_reconciliation, lphm_reconciliation, and dual_
 import torch
 import torch.nn.functional as F
 
+from tinybig.koala.algebra.numbers import find_close_factors
 from tinybig.reconciliation import fabrication
-
-
-############################
-# Low-rank reconciliations #
-############################
 
 
 class lorr_reconciliation(fabrication):
@@ -84,7 +84,7 @@ class lorr_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The low-rank parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -147,7 +147,7 @@ class lorr_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         A, B = torch.split(w, [self.r*n, self.r*D], dim=1)
         return F.linear(A.view(n, self.r), B.view(D, self.r))
 
@@ -210,7 +210,7 @@ class hm_reconciliation(fabrication):
     forward
         It implements the abstract forward method declared in the base reconciliation class.
     """
-    def __init__(self, name='hypercomplex_multiplication_reconciliation', p=2, q=None, *args, **kwargs):
+    def __init__(self, name='hypercomplex_multiplication_reconciliation', p: int = None, q: int = None, *args, **kwargs):
         """
         The initialization method of the hypercomplex multiplication based parameter reconciliation function.
 
@@ -229,12 +229,12 @@ class hm_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The hypercomplex multiplication based parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
         self.p = p
-        self.q = q if q is not None else p
+        self.q = q
 
     def calculate_l(self, n: int, D: int):
         r"""
@@ -261,8 +261,14 @@ class hm_reconciliation(fabrication):
         int
             The number of required learnable parameters.
         """
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
         if n % self.p != 0 or D % self.q != 0:
             raise ValueError('The input dimensions {} and {} cannot be divided by parameter p {} and q {}'.format(n, D, self.p, self.q))
+
         s, t = int(n / self.p), int(D / self.q)
         assert (self.p * self.q * s * t == n * D)
         return self.p * self.q + s * t
@@ -297,7 +303,12 @@ class hm_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n/self.p), int(D/self.q)
         A, B = torch.split(w, [self.p*self.q, s*t], dim=1)
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
@@ -368,7 +379,7 @@ class lphm_reconciliation(fabrication):
     forward
         It implements the abstract forward method declared in the base reconciliation class.
     """
-    def __init__(self, name='lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
+    def __init__(self, name='lphm_reconciliation', p: int = None, q: int = None, r: int = 2, *args, **kwargs):
         """
         The initialization method of the LPHM parameter reconciliation function.
 
@@ -389,12 +400,12 @@ class lphm_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The LPHM parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
         self.p = p
-        self.q = q if q is not None else p
+        self.q = q
         self.r = r
 
     def calculate_l(self, n: int, D: int):
@@ -432,6 +443,12 @@ class lphm_reconciliation(fabrication):
         int
             The number of required learnable parameters.
         """
+
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
         if n % self.p != 0 or D % self.q != 0:
             raise ValueError('The input dimensions {} and {} cannot be divided by parameter p {} and q {}'.format(n, D, self.p, self.q))
         s, t = int(n / self.p), int(D / self.q)
@@ -470,7 +487,12 @@ class lphm_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n/self.p), int(D/self.q)
         A, S, T = torch.split(w, [self.p*self.q, s*self.r, t*self.r], dim=1)
         B = F.linear(S.view(s, -1), T.view(t, -1)).view(1, -1)
@@ -542,7 +564,7 @@ class dual_lphm_reconciliation(fabrication):
     forward
         It implements the abstract forward method declared in the base reconciliation class.
     """
-    def __init__(self, name='dual_lphm_reconciliation', p=2, q=None, r=2, *args, **kwargs):
+    def __init__(self, name='dual_lphm_reconciliation', p: int = None, q: int = None, r=2, *args, **kwargs):
         """
         The initialization method of the Dual-LPHM parameter reconciliation function.
 
@@ -563,12 +585,12 @@ class dual_lphm_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The Dual-LPHM parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
         self.p = p
-        self.q = q if q is not None else p
+        self.q = q
         self.r = r
 
     def calculate_l(self, n: int, D: int):
@@ -606,6 +628,11 @@ class dual_lphm_reconciliation(fabrication):
         int
             The number of required learnable parameters.
         """
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
         if n % self.p != 0 or D % self.q != 0:
             raise ValueError('The input dimensions {} and {} cannot be divided by parameter p {} and q {}'.format(n, D, self.p, self.q))
         s, t = int(n / self.p), int(D / self.q)
@@ -644,7 +671,13 @@ class dual_lphm_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+
+        if self.p is None:
+            self.p = find_close_factors(n)
+        if self.q is None:
+            self.q = find_close_factors(D)
+
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n/self.p), int(D/self.q)
         P, Q, S, T = torch.split(w, [self.p*self.r, self.q*self.r, s*self.r, t*self.r], dim=1)
         A = F.linear(P.view(self.p, -1), Q.view(self.q, -1)).view(1, -1)

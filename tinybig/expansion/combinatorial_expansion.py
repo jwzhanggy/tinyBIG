@@ -98,6 +98,11 @@ class combinatorial_expansion(transformation):
             The order of random combinations.
         with_replacement: bool, default = False
             The replacement boolean tag.
+
+        Returns
+        ----------
+        transformation
+            The combinatorial expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -289,6 +294,11 @@ class combinatorial_normal_expansion(combinatorial_expansion):
             The order of random combinations.
         with_replacement: bool, default = False
             The replacement boolean tag.
+
+        Returns
+        ----------
+        transformation
+            The combinatorial normal probabilistic expansion function.
         """
         print('combinatorial_normal_expansion initialization')
         super().__init__(name=name, d=d, with_replacement=with_replacement, *args, **kwargs)
@@ -340,7 +350,9 @@ class combinatorial_normal_expansion(combinatorial_expansion):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         expansion_shape = list(x.size())
         expansion_shape[-1] = self.calculate_D(m=expansion_shape[-1])
 
@@ -367,7 +379,10 @@ class combinatorial_normal_expansion(combinatorial_expansion):
             degree_batch_log_likelihood = distribution_dict[r].log_prob(value=degree_batch_expansion)
             result[:, current_index:current_index+tuple_count] = degree_batch_log_likelihood
             current_index += tuple_count
-        return self.post_process(x=result.view(*expansion_shape), device=device).to(device)
+
+        expansion = result.view(*expansion_shape)
+        assert expansion.shape == (b, self.calculate_D(m=m))
+        return self.post_process(x=expansion, device=device).to(device)
 
 
 

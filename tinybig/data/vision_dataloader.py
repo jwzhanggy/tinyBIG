@@ -14,8 +14,8 @@ from tinybig.data.base_data import dataloader
 
 
 class vision_dataloader(dataloader):
-    def __init__(self, name='vision_dataloader', *args, **kwargs):
-        super().__init__(name=name)
+    def __init__(self, train_batch_size: int, test_batch_size: int,  name: str = 'vision_dataloader', *args, **kwargs):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     @abstractmethod
     def load(self):
@@ -24,10 +24,8 @@ class vision_dataloader(dataloader):
 
 class imagenet(vision_dataloader):
 
-    def __init__(self, name='imagenet', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+    def __init__(self, name='imagenet', train_batch_size: int = 64, test_batch_size: int = 64):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     # @staticmethod
     # def flatten(x):
@@ -57,10 +55,8 @@ class imagenet(vision_dataloader):
 
 class cifar10(vision_dataloader):
 
-    def __init__(self, name='cifar10', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+    def __init__(self, name='cifar10', train_batch_size: int = 64, test_batch_size: int = 64):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
         transform = Compose([
@@ -86,10 +82,8 @@ class cifar10(vision_dataloader):
 
 class mnist(vision_dataloader):
 
-    def __init__(self, name='mnist', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+    def __init__(self, name='mnist', train_batch_size: int = 64, test_batch_size: int = 64):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
         transform = Compose([

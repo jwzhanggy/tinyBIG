@@ -89,7 +89,7 @@ class hypernet_reconciliation(fabrication):
 
         Returns
         ----------
-        object
+        fabrication
             The hypernet parameter reconciliation function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -157,7 +157,7 @@ class hypernet_reconciliation(fabrication):
 
         Returns
         -------
-        None
+        fabrication
             This function initialize the self.net parameter and doesn't have any return values.
         """
         self.net = nn.Sequential(
@@ -211,11 +211,7 @@ class hypernet_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-        assert w.dim() == 2 and w.size(1) == self.calculate_l(n=n, D=D)
+        assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         if self.net is None:
             self.initialize_hypernet(l=self.calculate_l(n, D), n=n, D=D, hidden_dim=self.hidden_dim, static=self.static, device=device)
         return self.net(w).view(n, D)
-
-
-class random_matrix_hypernet_reconciliation(fabrication):
-    pass

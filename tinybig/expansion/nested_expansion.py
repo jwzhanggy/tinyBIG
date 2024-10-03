@@ -12,7 +12,7 @@ for defining more complex data expansions.
 import torch.nn
 
 from tinybig.expansion import transformation
-from tinybig.util.util import get_obj_from_str
+from tinybig.config.base_config import config
 
 #####################
 # Nested Expansions #
@@ -62,8 +62,8 @@ class nested_expansion(transformation):
     def __init__(
             self,
             name='nested_expansion',
-            expansion_functions: list = None,
-            expansion_function_configs: list | dict = None,
+            composition_functions: list = None,
+            composition_function_configs: list | dict = None,
             *args, **kwargs
     ):
         r"""
@@ -81,16 +81,20 @@ class nested_expansion(transformation):
         expansion_function_configs: list | dict, default = None
             The list or dictionary of the expansion function configurations.
 
+        Returns
+        ----------
+        transformation
+            The nested data expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
-        self.expansion_functions = []
-        if expansion_functions is not None and expansion_functions != []:
-            self.expansion_functions = expansion_functions
-        elif expansion_function_configs is not None:
-            for expansion_config in expansion_function_configs:
-                expansion_class = expansion_config['expansion_class']
-                expansion_parameters = expansion_config['expansion_parameters']
-                self.expansion_functions.append(get_obj_from_str(expansion_class)(**expansion_parameters))
+        self.composition_functions = []
+        if composition_functions is not None and composition_functions != []:
+            self.composition_functions = composition_functions
+        elif composition_function_configs is not None:
+            for function_config in composition_function_configs:
+                function_class = function_config['function_class']
+                function_parameters = function_config['function_parameters']
+                self.composition_functions.append(config.get_obj_from_str(function_class)(**function_parameters))
 
     def calculate_D(self, m: int):
         r"""
@@ -112,8 +116,8 @@ class nested_expansion(transformation):
             The dimension of the expansion space.
         """
         D = m
-        for expansion_func in self.expansion_functions:
-            D = expansion_func.calculate_D(m=D)
+        for func in self.composition_functions:
+            D = func.calculate_D(m=D)
         return D
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
@@ -142,7 +146,12 @@ class nested_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
+        x = self.pre_process(x=x)
+
         expansion = x
-        for expansion_func in self.expansion_functions:
-            expansion = expansion_func(x=expansion, device=device)
-        return expansion
+        for func in self.composition_functions:
+            expansion = func(x=expansion, device=device)
+
+        assert expansion.shape == (b, self.calculate_D(m=m))
+        return self.post_process(x=expansion, device=device)

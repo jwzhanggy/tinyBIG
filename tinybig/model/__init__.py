@@ -37,5 +37,10 @@ This module contains the following categories of RPN models:
 * Deep RPN Model with Multiple RPN-Layers.
 """
 
-from .base_model import model
-from .rpn import rpn
+from tinybig.model.rpn import rpn
+from tinybig.model.rpn_mlp import mlp
+from tinybig.model.rpn_kan import kan
+from tinybig.model.rpn_pgm import pgm
+from tinybig.model.rpn_naive_bayes import naive_bayes
+from tinybig.model.rpn_svm import svm
+from tinybig.model.rpn_cnn import cnn, resnet

@@ -33,5 +33,3 @@ from tinybig.remainder.basic_remainder import (
     identity_remainder,
     linear_remainder
 )
-
-from tinybig.remainder.bspline_remainder import bspline_remainder

@@ -9,7 +9,8 @@ It will also be used as the template for other future different task output proc
 """
 
 import pickle
-from tinybig.util.util import create_directory_if_not_exists
+from tinybig.util.utility import create_directory_if_not_exists
+from tinybig.config.base_config import config
 
 
 class output:
@@ -49,6 +50,24 @@ class output:
             Name of the base output class object.
         """
         self.name = name
+
+    @staticmethod
+    def from_config(configs: dict):
+        if configs is None:
+            raise ValueError("configs cannot be None")
+        assert 'output_class' in configs
+        class_name = configs['output_class']
+        parameters = configs['output_parameters'] if 'output_parameters' in configs else {}
+        return config.get_obj_from_str(class_name)(**parameters)
+
+    def to_config(self):
+        class_name = self.__class__.__name__
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+
+        return {
+            "output_class": class_name,
+            "output_parameters": attributes
+        }
 
     @staticmethod
     def save(result, cache_dir='./result', output_file='output', *args, **kwargs):

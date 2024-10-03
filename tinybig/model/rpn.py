@@ -1,6 +1,11 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+
+#################################
+# Reconciled Polynomial Network #
+#################################
+
 """
 Deep RPN model with multiple RPN layers.
 
@@ -9,8 +14,8 @@ This module contains the implementation of the RPN model composed of multiple RP
 """
 import torch
 
-from tinybig.util.util import get_obj_from_str, process_num_alloc_configs
-from tinybig.model.base_model import model
+from tinybig.config.model_config import model_config
+from tinybig.module.base_model import model
 
 
 class rpn(model):
@@ -58,14 +63,13 @@ class rpn(model):
         The forward method of the RPN model. It will generate the outputs based on the input data.
     """
     def __init__(
-            self,
-            name='Reconciled_Polynomial_Network',
-            layers: list = None,
-            layer_configs: dict | list = None,
-            depth: int = None,
-            depth_alloc: int | list = None,
-            device='cpu',
-            *args, **kwargs
+        self,
+        name='Reconciled_Polynomial_Network',
+        layers: list = None,
+        depth: int = None,
+        depth_alloc: int | list = None,
+        layer_configs: dict | list = None,
+        device: str = 'cpu', *args, **kwargs
     ):
         """
         The initialization method of the RPN model with multiple RPN layers.
@@ -98,21 +102,15 @@ class rpn(model):
             The initialized RPN model object.
         """
         # initialize the base model class with the name
-        super().__init__(name=name, *args, **kwargs)
+        super().__init__(name=name, device=device, *args, **kwargs)
 
-        # the model layers are initialized as an empty modulelist
         self.layers = torch.nn.ModuleList()
-        self.device = device
 
         if layers is not None:
-            # initialize layers from the layers parameter directly
             self.layers.extend(layers)
             depth = len(self.layers)
-        elif layer_configs is None:
-            raise ValueError("Both layers and layer_configs are None, the model cannot be initialized...")
-        else:
-            # initialize layers from the layer configs
-            depth, depth_alloc, layer_configs = process_num_alloc_configs(depth, depth_alloc, layer_configs)
+        elif layer_configs is not None:
+            depth, depth_alloc, layer_configs = model_config.process_num_alloc_configs(depth, depth_alloc, layer_configs)
             assert len(depth_alloc) == len(layer_configs) and depth == sum(depth_alloc)
 
             for layer_repeat_time, layer_config in zip(depth_alloc, layer_configs):
@@ -120,10 +118,12 @@ class rpn(model):
                     class_name = layer_config['layer_class']
                     parameters = layer_config['layer_parameters'] if 'layer_parameters' in layer_config else {}
                     parameters['device'] = device
-                    layer = get_obj_from_str(class_name)(**parameters)
+                    layer = model_config.get_obj_from_str(class_name)(**parameters)
                     self.layers.append(layer)
+        else:
+            raise ValueError("Both layers and layer_configs are None, the model cannot be initialized...")
+
         assert len(self.layers) == depth
-        # initialize the model parameters
         self.initialize_parameters()
 
     def get_depth(self):
@@ -153,6 +153,19 @@ class rpn(model):
         """
         for layer in self.layers:
             layer.initialize_parameters()
+
+    def to_config(self):
+        model_class = f"tinybig.model.{self.__class__.__name__}"
+        model_parameters = {
+            'name': self.name,
+            'device': self.device,
+            'layer_configs': [layer.to_config() for layer in self.layers] if self.layers else [],
+        }
+
+        return {
+            "model_class": model_class,
+            "model_parameters": model_parameters
+        }
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""

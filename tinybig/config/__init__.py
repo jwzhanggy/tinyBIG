@@ -1,3 +1,11 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+############################################
+# Function, Head, Layer, and Model Configs #
+############################################
+
 """
 This module defines the configurations of the RPN model.
 
@@ -68,5 +76,41 @@ This module contains the following categories of config classes:
 * RPN Model Config
 """
 
-from tinybig.config.base_config import config
-from tinybig.config.rpn_config import rpn_config
+from tinybig.config.base_config import (
+    config
+)
+
+from tinybig.config.function_configs import (
+    function_configs,
+    function_list_configs,
+)
+
+from tinybig.config.transformation_configs import (
+    identity_expansion_configs,
+    taylor_expansion_configs,
+)
+
+from tinybig.config.reconciliation_configs import (
+    identity_reconciliation_configs,
+    lorr_reconciliation_configs,
+)
+
+from tinybig.config.remainder_configs import (
+    zero_remainder_configs,
+    linear_remainder_configs,
+)
+
+from tinybig.config.head_configs import (
+    head_configs,
+    perceptron_head_configs,
+)
+
+from tinybig.config.layer_configs import (
+    layer_configs,
+    perceptron_layer_configs,
+)
+
+from tinybig.config.model_config import (
+    model_config,
+    mlp_model_config,
+)

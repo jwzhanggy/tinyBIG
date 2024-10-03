@@ -1,3 +1,11 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+####################
+# tinybig Datasets #
+####################
+
 """
 This module defines several frequently used dataset, which can be used for training the RPN model in the tinyBIG toolkit.
 

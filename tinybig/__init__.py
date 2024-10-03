@@ -102,24 +102,39 @@ Based on the above hyper-parameters, assuming the input and output dimensions at
 
 __version__ = '0.1.1'
 
-from . import model, module, config
-from . import remainder, expansion, compression, reconciliation, interdependence
-from . import learner, data, output, metric, koala
-from . import visual, util
+from . import module, head, layer, config, model
+from . import expansion, compression, transformation, reconciliation, remainder, interdependence, fusion
+from . import koala
+from . import data, output
+from . import loss, metric, learner
+from . import visual
+from . import util
 
 __all__ = [
     'model',
     'module',
     'config',
-    'remainder',
+    'head',
+    'layer',
+
     'expansion',
     'compression',
+    'transformation',
     'reconciliation',
-    'learner',
+    'remainder',
+    'interdependence',
+    'fusion',
+
+    'koala',
+
     'data',
     'output',
+
+    'loss',
     'metric',
-    'koala',
+    'learner',
+
     'visual',
+
     'util'
 ]

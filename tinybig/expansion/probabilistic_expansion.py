@@ -1,6 +1,11 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+
+############################################################
+# Expansions defined with pure probabilistic distributions #
+############################################################
+
 """
 naive probabilistic data expansion functions.
 
@@ -13,10 +18,6 @@ import torch
 import torch.nn.functional as F
 
 from tinybig.expansion import transformation
-
-############################################################
-# Expansions defined with pure probabilistic distributions #
-############################################################
 
 
 class naive_normal_expansion(transformation):
@@ -77,6 +78,11 @@ class naive_normal_expansion(transformation):
         ----------
         name: str, default = 'naive_normal_expansion'
             The name of the naive normal expansion function.
+
+        Returns
+        ----------
+        transformation
+            The naive normal probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -125,7 +131,7 @@ class naive_normal_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
-
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -134,7 +140,7 @@ class naive_normal_expansion(transformation):
 
         expansion = normal_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -146,6 +152,7 @@ class normal_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -169,7 +176,7 @@ class normal_expansion(transformation):
 
         expansion = torch.cat((normal_x_1, normal_x_2, normal_x_3, normal_x_4, normal_x_5, normal_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -231,6 +238,12 @@ class naive_cauchy_expansion(transformation):
         ----------
         name: str, default = 'naive_cauchy_expansion'
             The name of the naive cauchy expansion function.
+
+
+        Returns
+        ----------
+        transformation
+            The naive cauchy probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -279,6 +292,7 @@ class naive_cauchy_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -287,7 +301,7 @@ class naive_cauchy_expansion(transformation):
 
         expansion = cauchy_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -299,6 +313,7 @@ class cauchy_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -322,7 +337,7 @@ class cauchy_expansion(transformation):
 
         expansion = torch.cat((cauchy_x_1, cauchy_x_2, cauchy_x_3, cauchy_x_4, cauchy_x_5, cauchy_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -384,6 +399,11 @@ class naive_chi2_expansion(transformation):
         ----------
         name: str, default = 'naive_chi2_expansion'
             The name of the naive chi2 expansion function.
+
+        Returns
+        ----------
+        transformation
+            The naive chi2 probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -432,6 +452,7 @@ class naive_chi2_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
         x = F.sigmoid(x)+0.001
@@ -441,7 +462,7 @@ class naive_chi2_expansion(transformation):
 
         expansion = chi2_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -453,6 +474,7 @@ class chi2_expansion(transformation):
         return m * 2
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
         x = F.sigmoid(x)+0.001
@@ -465,7 +487,7 @@ class chi2_expansion(transformation):
 
         expansion = torch.cat((chi2_x_1, chi2_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -527,6 +549,11 @@ class naive_gamma_expansion(transformation):
         ----------
         name: str, default = 'naive_gamma_expansion'
             The name of the naive gamma expansion function.
+
+        Returns
+        ----------
+        transformation
+            The naive gamma probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -575,6 +602,7 @@ class naive_gamma_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -585,7 +613,7 @@ class naive_gamma_expansion(transformation):
 
         expansion = gamma_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -597,6 +625,7 @@ class gamma_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -622,7 +651,7 @@ class gamma_expansion(transformation):
 
         expansion = torch.cat((gamma_x_1, gamma_x_2, gamma_x_3, gamma_x_4, gamma_x_5, gamma_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -684,6 +713,11 @@ class naive_laplace_expansion(transformation):
         ----------
         name: str, default = 'naive_laplace_expansion'
             The name of the naive laplace expansion function.
+
+        Returns
+        ----------
+        transformation
+            The naive laplace probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -732,6 +766,7 @@ class naive_laplace_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -740,7 +775,7 @@ class naive_laplace_expansion(transformation):
 
         expansion = laplace_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -752,6 +787,7 @@ class laplace_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -775,7 +811,7 @@ class laplace_expansion(transformation):
 
         expansion = torch.cat((laplace_x_1, laplace_x_2, laplace_x_3, laplace_x_4, laplace_x_5, laplace_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -840,6 +876,11 @@ class naive_exponential_expansion(transformation):
         ----------
         name: str, default = 'naive_exponential_expansion'
             The name of the naive exponential expansion function.
+
+        Returns
+        ----------
+        transformation
+            The naive exponential probabilistic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -888,6 +929,7 @@ class naive_exponential_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -898,7 +940,7 @@ class naive_exponential_expansion(transformation):
 
         expansion = exponential_x_1
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -910,6 +952,7 @@ class exponential_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = x.to('cpu')
@@ -935,7 +978,7 @@ class exponential_expansion(transformation):
 
         expansion = torch.cat((exponential_x_1, exponential_x_2, exponential_x_3, exponential_x_4, exponential_x_5, exponential_x_6), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)
 
 
@@ -947,6 +990,7 @@ class hybrid_probabilistic_expansion(transformation):
         return m * 6
 
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         x = x.to('cpu')
 
@@ -970,5 +1014,5 @@ class hybrid_probabilistic_expansion(transformation):
 
         expansion = torch.cat((normal_x, cauchy_x, chi_x, gamma_x, laplace_x, exponential_x), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device).to(device)

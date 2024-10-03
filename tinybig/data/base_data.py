@@ -11,6 +11,7 @@ from abc import abstractmethod
 
 import torch
 from torch.utils.data import Dataset
+from tinybig.config.base_config import config
 
 
 class dataloader:
@@ -32,7 +33,7 @@ class dataloader:
     load
         The load method for loading the data from file.
     """
-    def __init__(self, name='base_dataloader', *args, **kwargs):
+    def __init__(self, train_batch_size: int, test_batch_size: int, name: str = 'base_dataloader', *args, **kwargs):
         """
         The initialization method of base dataloader.
 
@@ -47,6 +48,26 @@ class dataloader:
             The initialized object of the base dataloader class.
         """
         self.name = name
+        self.train_batch_size = train_batch_size
+        self.test_batch_size = test_batch_size
+
+    @staticmethod
+    def from_config(configs: dict):
+        if configs is None:
+            raise ValueError("configs cannot be None")
+        assert 'data_class' in configs
+        class_name = configs['data_class']
+        parameters = configs['data_parameters'] if 'data_parameters' in configs else {}
+        return config.get_obj_from_str(class_name)(**parameters)
+
+    def to_config(self):
+        class_name = self.__class__.__name__
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+
+        return {
+            "data_class": class_name,
+            "data_parameters": attributes
+        }
 
     @abstractmethod
     def load(self, *args, **kwargs):

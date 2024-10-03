@@ -57,6 +57,10 @@ This module contains the following categories of component functions and modules
 * RPN Head with Multi-Channel
 """
 
+from tinybig.module.base_functions import (
+    function
+)
+
 from tinybig.module.base_transformation import (
     transformation
 )
@@ -69,9 +73,13 @@ from tinybig.module.base_fabrication import (
 from tinybig.module.base_remainder import (
     remainder
 )
-from tinybig.module.head import (
+from tinybig.module.base_fusion import (
+    fusion
+)
+from tinybig.module.base_head import (
     rpn_head
 )
-from tinybig.module.layer import (
+from tinybig.module.base_layer import (
     rpn_layer
 )
+

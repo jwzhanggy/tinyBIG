@@ -1,3 +1,11 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+############################
+# Data Expansion Functions #
+############################
+
 r"""
 This module provides the "data expansion functions" that can be used to build the RPN model within the tinyBIG toolkit.
 
@@ -76,6 +84,33 @@ from tinybig.expansion.recursive_expansion import (
     bspline_expansion,
     chebyshev_expansion,
     jacobi_expansion,
+)
+
+from tinybig.expansion.geometric_expansion import (
+    geometric_expansion,
+    cuboid_patch_based_geometric_expansion,
+    cylinder_patch_based_geometric_expansion,
+    sphere_patch_based_geometric_expansion,
+)
+
+from tinybig.expansion.orthogonal_polynomial_expansion import (
+    hermite_expansion,
+    laguerre_expansion,
+    legendre_expansion,
+    gegenbauer_expansion,
+    bessel_expansion,
+    reverse_bessel_expansion,
+    fibonacci_expansion,
+    lucas_expansion,
+)
+
+from tinybig.expansion.wavelet_expansion import (
+    meyer_wavelet_expansion,
+    ricker_wavelet_expansion,
+    shannon_wavelet_expansion,
+    beta_wavelet_expansion,
+    harr_wavelet_expansion,
+    dog_wavelet_expansion
 )
 
 from tinybig.expansion.combinatorial_expansion import (

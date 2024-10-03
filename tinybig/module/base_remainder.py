@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+##################
+# Remainder Base #
+##################
+
 """
 Base remainder function.
 
@@ -12,14 +16,13 @@ The other remainder functions included in the remainder directory are all define
 from abc import abstractmethod
 import torch
 
-from tinybig.util import process_function_list, func_x
+from torch.nn import Module
 
-##################
-# Remainder Base #
-##################
+from tinybig.module.base_functions import function
+from tinybig.config import config
 
 
-class remainder(torch.nn.Module):
+class remainder(Module, function):
     r"""
     The base class of the remainder function in the tinyBIG toolkit.
 
@@ -45,9 +48,9 @@ class remainder(torch.nn.Module):
     ----------
     name: str, default = 'base_remainder'
         Name of the remainder function.
-    require_parameters: bool, default = False
+    require_remainder_parameters: bool, default = False
         Boolean tag of whether the function requires parameters.
-    enable_bias: bool, default = False
+    enable_remainder_bias: bool, default = False
         Boolean tag of whether the bias is enabled or not.
     activation_functions: list, default = None
         The list of activation functions that can be applied in the remainder function.
@@ -74,14 +77,14 @@ class remainder(torch.nn.Module):
         The build-in callable method of the remainder function.
     """
     def __init__(
-            self,
-            name='base_remainder',
-            require_parameters=False,
-            enable_bias=False,
-            activation_functions=None,
-            activation_function_configs=None,
-            device='cpu',
-            *args, **kwargs
+        self,
+        name='base_remainder',
+        require_parameters=False,
+        enable_bias=False,
+        activation_functions=None,
+        activation_function_configs=None,
+        device='cpu',
+        *args, **kwargs
     ):
         """
         The initialization method of the base remainder function.
@@ -92,9 +95,9 @@ class remainder(torch.nn.Module):
         ----------
         name: str, default = 'base_remainder'
             Name of the remainder function.
-        require_parameters: bool, default = False
+        require_remainder_parameters: bool, default = False
             Boolean tag of whether the function requires parameters.
-        enable_bias: bool, default = False
+        enable_remainder_bias: bool, default = False
             Boolean tag of whether the bias is enabled or not.
         activation_functions: list, default = None
             The list of activation functions that can be applied in the remainder function.
@@ -108,13 +111,12 @@ class remainder(torch.nn.Module):
         object
             The remainder function object.
         """
-        super().__init__()
-        self.name = name
-        self.device = device
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
+
         self.require_parameters = require_parameters
         self.enable_bias = enable_bias
-        self.activation_functions = process_function_list(activation_functions, activation_function_configs, device=self.device)
-        #register_function_parameters(self, self.activation_functions)
+        self.activation_functions = config.instantiation_functions(activation_functions, activation_function_configs, device=self.device)
 
     def get_name(self):
         """
@@ -148,7 +150,20 @@ class remainder(torch.nn.Module):
         Tensor
             It returns the updated remainder term processed by the activation functions.
         """
-        return func_x(x, self.activation_functions, device=device)
+        return function.func_x(x, self.activation_functions, device=device)
+
+    def to_config(self):
+        class_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
+        attributes = {attr: getattr(self, attr) for attr in self.__dict__}
+        attributes.pop('activation_functions')
+
+        if self.activation_functions is not None:
+            attributes['activation_function_configs'] = function.functions_to_configs(self.activation_functions)
+
+        return {
+            "function_class": class_name,
+            "function_parameters": attributes
+        }
 
     def __call__(self, *args, **kwargs):
         """

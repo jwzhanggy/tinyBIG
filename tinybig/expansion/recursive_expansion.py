@@ -103,7 +103,7 @@ class bspline_expansion(transformation):
         It implements the abstract forward method declared in the base expansion class.
 
     """
-    def __init__(self, name='bspline_expansion', grid_range=(-1, 1), t=5, d=3, *args, **kwargs):
+    def __init__(self, name: str = 'bspline_expansion', grid_range=(-1, 1), t: int = 5, d: int = 3, *args, **kwargs):
         r"""
         The initialization method of bspline expansion function.
 
@@ -123,7 +123,7 @@ class bspline_expansion(transformation):
 
         Returns
         -------
-        object
+        transformation
             The bspline expansion function object.
         """
         super().__init__(name=name, *args, **kwargs)
@@ -215,6 +215,7 @@ class bspline_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         if self.grid is None:
             self.initialize_grid(m=x.size(1), device=device, *args, **kwargs)
@@ -226,7 +227,7 @@ class bspline_expansion(transformation):
                      ((self.grid[:, k + 1:] - x) / (self.grid[:, k + 1:] - self.grid[:, 1:(-k)]) * bases[:, :, 1:]))
         expansion = bases.contiguous().view(x.size(0), -1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -289,7 +290,7 @@ class chebyshev_expansion(transformation):
         It implements the abstract forward method declared in the base expansion class.
 
     """
-    def __init__(self, name='chebyshev_polynomial_expansion', d=5, *args, **kwargs):
+    def __init__(self, name: str = 'chebyshev_polynomial_expansion', d: int = 2, *args, **kwargs):
         r"""
         The initialization method of chebyshev expansion function.
 
@@ -302,6 +303,11 @@ class chebyshev_expansion(transformation):
             The name of the chebyshev expansion function.
         d: int, default = 5
             The degree of the chebyshev expansion function.
+
+        Returns
+        ----------
+        transformation
+            The chebyshev expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -328,7 +334,7 @@ class chebyshev_expansion(transformation):
         """
         return m * self.d
 
-    def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+    def forward(self, x: torch.Tensor, device: str = 'cpu', *args, **kwargs):
         r"""
         The forward method of the data expansion function.
 
@@ -353,7 +359,7 @@ class chebyshev_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
-
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         expansion = torch.ones(size=[x.size(0), x.size(1), self.d+1]).to(device)
         if self.d > 0:
@@ -361,7 +367,8 @@ class chebyshev_expansion(transformation):
         for n in range(2, self.d+1):
             expansion[:, :, n] = 2 * x * expansion[:, :, n-1].clone() - expansion[:, :, n-2].clone()
         expansion = expansion[:, :, 1:].contiguous().view(x.size(0), -1)
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -412,7 +419,7 @@ class jacobi_expansion(transformation):
     ----------
     name: str, default = 'jacobi_polynomial_expansion'
         Name of the expansion function.
-    d: int, default = 5
+    d: int, default = 2
         Degree of jacobi expansion.
     alpha: float, default = 1.0
         Parameter of jacobi polynomial representation.
@@ -430,7 +437,7 @@ class jacobi_expansion(transformation):
         It implements the abstract forward method declared in the base expansion class.
 
     """
-    def __init__(self, name='jacobi_polynomial_expansion', d=5, alpha=1.0, beta=1.0, *args, **kwargs):
+    def __init__(self, name: str = 'jacobi_polynomial_expansion', d: int = 2, alpha: float = 1.0, beta: float = 1.0, *args, **kwargs):
         r"""
         The initialization method of jacobi expansion function.
 
@@ -447,6 +454,11 @@ class jacobi_expansion(transformation):
             Parameter of jacobi polynomial representation.
         beta: float, default = 1.0
             Parameter of jacobi polynomial representation.
+
+        Returns
+        ----------
+        transformation
+            The jacobi expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.d = d
@@ -500,7 +512,9 @@ class jacobi_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
+
         expansion = torch.ones(size=[x.size(0), x.size(1), self.d+1]).to(device)
         if self.d > 0:
             expansion[:,:,1] = ((self.alpha-self.beta) + (self.alpha+self.beta+2) * x) / 2
@@ -512,6 +526,6 @@ class jacobi_expansion(transformation):
             expansion[:,:,n] = ((coeff_2/coeff_1)*x + coeff_3/coeff_1)*expansion[:,:,n-1].clone() - (coeff_4/coeff_1)*expansion[:,:,n-2].clone()
         expansion = expansion[:, :, 1:].contiguous().view(x.size(0), -1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 

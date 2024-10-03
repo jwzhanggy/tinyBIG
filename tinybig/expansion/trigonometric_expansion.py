@@ -68,6 +68,11 @@ class hyperbolic_expansion(transformation):
         ----------
         name: str, default = 'hyperbolic_expansion'
             The name of the hyperbolic expansion function.
+
+        Returns
+        ----------
+        transformation
+            The hyperbolic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -115,13 +120,14 @@ class hyperbolic_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         sinh = torch.sinh(x)
         cosh = torch.cosh(x)
         tanh = torch.tanh(x)
         expansion = torch.cat((sinh, cosh, tanh), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -175,6 +181,11 @@ class arc_hyperbolic_expansion(transformation):
         ----------
         name: str, default = 'arc_hyperbolic_expansion'
             The name of the arc hyperbolic expansion function.
+
+        Returns
+        ----------
+        transformation
+            The arc hyperbolic expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -222,6 +233,7 @@ class arc_hyperbolic_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = torch.nn.functional.sigmoid(x)
@@ -230,7 +242,7 @@ class arc_hyperbolic_expansion(transformation):
         arctanh = torch.arctanh(0.99*x)
         expansion = torch.cat((arcsinh, arccosh, arctanh), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -285,6 +297,11 @@ class trigonometric_expansion(transformation):
         ----------
         name: str, default = 'trigonometric_expansion'
             The name of the trigonometric expansion function.
+
+        Returns
+        ----------
+        transformation
+            The trigonometric expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -332,13 +349,14 @@ class trigonometric_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         sin = torch.sin(x)
         cos = torch.cos(x)
         tan = torch.tan(x)
         expansion = torch.cat((sin, cos, tan), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)
 
 
@@ -392,6 +410,11 @@ class arc_trigonometric_expansion(transformation):
         ----------
         name: str, default = 'arc_trigonometric_expansion'
             The name of the arc trigonometric expansion function.
+
+        Returns
+        ----------
+        transformation
+            The arc trigonometric expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 
@@ -439,6 +462,7 @@ class arc_trigonometric_expansion(transformation):
         torch.Tensor
             The expanded data vector of the input.
         """
+        b, m = x.shape
         x = self.pre_process(x=x, device=device)
         # pre-normalize the input to range [0, 1]
         x = torch.nn.functional.sigmoid(x)
@@ -447,5 +471,5 @@ class arc_trigonometric_expansion(transformation):
         arctan = torch.arctan(x)
         expansion = torch.cat((arcsin, arccos, arctan), dim=1)
 
-        assert self.calculate_D(m=x.size(1)) == expansion.size(1)
+        assert expansion.shape == (b, self.calculate_D(m=m))
         return self.post_process(x=expansion, device=device)

@@ -10,16 +10,13 @@ from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 
 from tinybig.data.base_data import dataloader, dataset
-from tinybig.util.util import string_to_function
+from tinybig.module.base_functions import function
 
 
 class function_dataloader(dataloader):
 
-    def __init__(self, name='function_dataloader', function_list: list = [],
-                 equation_index: int = 0, train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name)
-        self.train_batch_size = train_batch_size
-        self.test_batch_size = test_batch_size
+    def __init__(self, name='function_dataloader', function_list: list = [], equation_index: int = 0, train_batch_size=64, test_batch_size=64):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
         self.equation_index = equation_index
         self.function_list = function_list
 
@@ -73,7 +70,7 @@ class function_dataloader(dataloader):
         X = []
         y = []
         variables = ' '.join(var_name_list)
-        func = string_to_function(formula, variables)
+        func = function.string_to_function(formula, variables)
         for var_values in zip(*var_value_space):
             X.append(var_values)
             y.append(func(*var_values))
