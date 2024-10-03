@@ -64,6 +64,9 @@ class config:
         name: str, default = 'base_config'
             Name of the base config object.
 
+        configs: dict, default = None
+            Dictionary of configuration parameters.
+
         Returns
         ----------
         object
@@ -129,8 +132,6 @@ class config:
 
         Parameters
         ----------
-        configs: dict
-            The model configuration in the dictionary data structure
         cache_dir: str, default = './configs'
             Directory of the configuration yaml file.
         config_file: str, default = 'config.yaml'
@@ -175,8 +176,6 @@ class config:
 
         Parameters
         ----------
-        configs: dict
-            The model configuration in the dictionary data structure
         cache_dir: str, default = './configs'
             Directory of the configuration json file.
         config_file: str, default = 'configs.json'

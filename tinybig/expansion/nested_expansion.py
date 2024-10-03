@@ -76,9 +76,9 @@ class nested_expansion(transformation):
         ----------
         name: str, default = 'nested_expansion'
             The name of the nested expansion function.
-        expansion_functions: list, default = None
+        composition_functions: list, default = None
             The list of data expansion functions to be nested.
-        expansion_function_configs: list | dict, default = None
+        composition_function_configs: list | dict, default = None
             The list or dictionary of the expansion function configurations.
 
         Returns

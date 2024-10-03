@@ -18,6 +18,7 @@ import math
 
 from tinybig.config import config
 from tinybig.fusion.metric_fusion import mean_fusion
+from tinybig.module.base_fusion import fusion
 
 
 class rpn_layer(torch.nn.Module):
@@ -49,8 +50,8 @@ class rpn_layer(torch.nn.Module):
         The output dimension of the layer.
     heads: torch.nn.ModuleList, default = torch.nn.ModuleList()
         The list of RPN heads involved in the layer.
-    fusion_strategy: str, default = "average"
-        The fusion strategy of the outputs learned by multi-heads.
+    head_fusion: fusion, default = None
+        The fusion function of the outputs learned by multi-heads.
     device: str, default = 'cpu'
             The device for hosting the RPN layer.
 
@@ -116,8 +117,10 @@ class rpn_layer(torch.nn.Module):
             RPN allows the heads with different configurations, instead of listing such configurations one by one,
             it also allows the listing of each configuration types together with the repeating numbers for
             each of them, which are specified by this optional head number allocation parameter.
-        fusion_strategy: str, default = "average"
-            The fusion strategy of the outputs learned by multi-heads.
+        head_fusion: fusion, default = None
+            The fusion function of the outputs learned by multi-heads.
+        head_fusion_configs: dict, default = None
+            The fusion function configurations of the outputs learned by multi-heads.
         device: str, default = 'cpu'
             The device for hosting the RPN layer.
 

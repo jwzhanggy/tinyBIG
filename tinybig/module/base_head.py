@@ -160,7 +160,7 @@ class rpn_head(torch.nn.Module):
         remainder: object, default = None
             The remainder function the head. The remainder can be initialized directly
             with this parameter or with the remainder_config parameter.
-        output_processing_functions: object, default = None
+        output_process_functions: object, default = None
             The output processing functions. The output processing function can be initialized directly
             with this parameter or with the output_processing_function_configs parameter.
         data_transformation_configs: dict, default = None
@@ -169,7 +169,7 @@ class rpn_head(torch.nn.Module):
             The parameter fabrication function configuration.
         remainder_configs: dict, default = None
             The remainder function configuration.
-        output_processing_function_configs: dict, default = None
+        output_process_function_configs: dict, default = None
             The output processing function configuration.
         device: str, default = 'cpu'
             The device for hosting the head.

@@ -1,3 +1,3 @@
 # rpn_config
 
-::: tinybig.config.rpn_config.rpn_config
+::: tinybig.config.model_config.model_config

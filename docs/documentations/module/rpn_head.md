@@ -1,3 +1,3 @@
 # rpn_head
 
-::: tinybig.module.head.rpn_head
+::: tinybig.module.base_head.rpn_head

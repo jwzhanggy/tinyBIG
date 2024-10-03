@@ -1,3 +1,3 @@
 # model
 
-::: tinybig.model.base_model.model
+::: tinybig.model.rpn.rpn

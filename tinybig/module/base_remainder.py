@@ -95,9 +95,9 @@ class remainder(Module, function):
         ----------
         name: str, default = 'base_remainder'
             Name of the remainder function.
-        require_remainder_parameters: bool, default = False
+        require_parameters: bool, default = False
             Boolean tag of whether the function requires parameters.
-        enable_remainder_bias: bool, default = False
+        enable_bias: bool, default = False
             Boolean tag of whether the bias is enabled or not.
         activation_functions: list, default = None
             The list of activation functions that can be applied in the remainder function.
