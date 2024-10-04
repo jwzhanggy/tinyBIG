@@ -149,7 +149,7 @@ class lorr_reconciliation(fabrication):
         """
         assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         A, B = torch.split(w, [self.r*n, self.r*D], dim=1)
-        return F.linear(A.view(n, self.r), B.view(D, self.r))
+        return torch.matmul(A.view(n, self.r), B.view(self.r, D))
 
 
 class hm_reconciliation(fabrication):
@@ -495,7 +495,7 @@ class lphm_reconciliation(fabrication):
         assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n/self.p), int(D/self.q)
         A, S, T = torch.split(w, [self.p*self.q, s*self.r, t*self.r], dim=1)
-        B = F.linear(S.view(s, -1), T.view(t, -1)).view(1, -1)
+        B = torch.matmul(S.view(s, -1), T.view(-1, t)).view(1, -1)
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)
 
 
@@ -671,7 +671,6 @@ class dual_lphm_reconciliation(fabrication):
         torch.Tensor
             The reconciled parameter matrix of shape (n, D).
         """
-
         if self.p is None:
             self.p = find_close_factors(n)
         if self.q is None:
@@ -680,6 +679,6 @@ class dual_lphm_reconciliation(fabrication):
         assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         s, t = int(n/self.p), int(D/self.q)
         P, Q, S, T = torch.split(w, [self.p*self.r, self.q*self.r, s*self.r, t*self.r], dim=1)
-        A = F.linear(P.view(self.p, -1), Q.view(self.q, -1)).view(1, -1)
-        B = F.linear(S.view(s, -1), T.view(t, -1)).view(1, -1)
+        A = torch.matmul(P.view(self.p, -1), Q.view(-1, self.q)).view(1, -1)
+        B = torch.matmul(S.view(s, -1), T.view(-1, t)).view(1, -1)
         return torch.einsum('pq,st->psqt', A, B).view(self.p*s, self.q*t)

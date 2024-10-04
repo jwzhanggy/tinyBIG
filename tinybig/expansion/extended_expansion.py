@@ -76,9 +76,9 @@ class extended_expansion(transformation):
         ----------
         name: str, default = 'extended_expansion'
             The name of the extended expansion function.
-        expansion_functions: list, default = None
+        composition_functions: list, default = None
             The list of data expansion functions to be extended.
-        expansion_function_configs: list | dict, default = None
+        composition_function_configs: list | dict, default = None
             The list or dictionary of the expansion function configurations.
 
         Returns

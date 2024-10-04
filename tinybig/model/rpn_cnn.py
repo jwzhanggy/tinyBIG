@@ -66,7 +66,7 @@ class cnn(rpn):
                 with_batch_norm=with_batch_norm,
                 with_relu=with_relu,
                 with_residual=with_residual,
-                enable_bias=False,
+                enable_bias=enable_bias,
                 with_dual_lphm=with_dual_lphm,
                 with_lorr=with_lorr, r=r,
                 device=device, *args, **kwargs
