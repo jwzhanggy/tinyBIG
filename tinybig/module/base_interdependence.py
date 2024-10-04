@@ -59,6 +59,21 @@ class interdependence(Module, function):
             raise ValueError(f"Invalid value for my_string. Allowed values are: {allowed_values}")
         self._interdependence_type = value
 
+    def check_A_shape_validity(self, A: torch.Tensor):
+        if A is None:
+            raise ValueError("A must be provided")
+
+        assert self.interdependence_type is not None and isinstance(self.interdependence_type, str)
+
+        if self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
+            assert self.b is not None
+            assert A.shape == (self.b, self.calculate_b_prime(b=self.b))
+        elif self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
+            assert self.m is not None
+            assert A.shape == (self.m, self.calculate_m_prime(m=self.m))
+        else:
+            raise ValueError("The interdependence type {self.interdependence_type} is not supported...}")
+
     def get_name(self):
         return self.name
 
@@ -97,6 +112,21 @@ class interdependence(Module, function):
             "function_parameters": attributes
         }
 
+    def calculate_l(self):
+        return 0
+
+    def calculate_b_prime(self, b: int = None):
+        b = b if b is not None else self.b
+        if self.interdependence_type not in ['row', 'left', 'instance', 'instance_interdependence']:
+            warnings.warn("The interdependence_type is not about the instances, its b dimension will not be changed...")
+        return b
+
+    def calculate_m_prime(self, m: int = None):
+        m = m if m is not None else self.m
+        if self.interdependence_type not in ['column', 'right', 'attribute', 'attribute_interdependence']:
+            warnings.warn("The interdependence_type is not about the attributes, its m dimension will not be changed...")
+        return m
+
     def forward(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, kappa_x: torch.Tensor = None, device: str = 'cpu', *args, **kwargs):
         if self.require_data:
             assert x is not None and x.ndim == 2
@@ -106,7 +136,7 @@ class interdependence(Module, function):
         data_x = kappa_x if kappa_x is not None else x
         if self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
             # A shape: b * b'
-            A = self.calculate_A(x.transpose(0, 1), w, device)
+            A = self.calculate_A(x.transpose(0, 1), w, device=device)
             assert A is not None and A.size(0) == data_x.size(0)
             if data_x.is_sparse or A.is_sparse:
                 xi_x = torch.sparse.mm(A.t(), data_x)
@@ -125,20 +155,6 @@ class interdependence(Module, function):
         else:
             raise ValueError(f"Invalid interdependence type: {self.interdependence_type}")
 
-    def calculate_l(self):
-        return 0
-
-    def calculate_b_prime(self, b: int = None):
-        b = b if b is not None else self.b
-        if self.interdependence_type not in ['row', 'left', 'instance', 'instance_interdependence']:
-            warnings.warn("The interdependence_type is not about the instances, its b dimension will not be changed...")
-        return b
-
-    def calculate_m_prime(self, m: int = None):
-        m = m if m is not None else self.m
-        if self.interdependence_type not in ['column', 'right', 'attribute', 'attribute_interdependence']:
-            warnings.warn("The interdependence_type is not about the attributes, its m dimension will not be changed...")
-        return m
 
     @abstractmethod
     def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):

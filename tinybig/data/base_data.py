@@ -8,9 +8,11 @@ This module implements the base dataloader class and dataset class,
 which can be used for loading datasets for RPN model training and testing in tinyBIG toolkit.
 """
 from abc import abstractmethod
+import numpy as np
 
 import torch
 from torch.utils.data import Dataset
+
 from tinybig.config.base_config import config
 
 
@@ -68,6 +70,13 @@ class dataloader:
             "data_class": class_name,
             "data_parameters": attributes
         }
+
+    @staticmethod
+    def encode_onehot(labels, device: str = 'cpu'):
+        classes = set(labels)
+        classes_dict = {c: np.identity(len(classes))[i, :] for i, c in enumerate(classes)}
+        labels_onehot = torch.tensor(list(map(classes_dict.get, labels)), dtype=torch.int32, device=device)
+        return labels_onehot
 
     @abstractmethod
     def load(self, *args, **kwargs):

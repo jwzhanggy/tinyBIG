@@ -20,4 +20,10 @@ class graph(base_topology):
     def dfs(self, start=None, goal=None):
         pass
 
+    def radius(self):
+        pass
+
+    def shortest_path(self, start=None, goal=None):
+        pass
+
 

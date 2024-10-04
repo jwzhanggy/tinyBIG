@@ -87,7 +87,7 @@ class parameterized_rpn_interdependence(interdependence):
             D = self.data_transformation.calculate_D(m=d)
             phi_w = self.parameter_fabrication(w=w, n=d_prime, D=D, device=device)
 
-            A = F.linear(kappa_x, phi_w, bias=None)
+            A = torch.matmul(kappa_x, phi_w.T)
 
             A = self.post_process(x=A, device=device)
 

@@ -70,37 +70,6 @@ def accumulative_matrix_power(mx: torch.Tensor, n: int) -> torch.Tensor:
     return ac_mx_power
 
 
-def sparse_matrix_to_torch_sparse_tensor(sparse_mx: Union[sp.spmatrix, torch.Tensor], dtype=torch.float32, device: str = 'cpu'):
-    """
-    Convert a SciPy sparse matrix to a PyTorch sparse tensor.
-
-    Parameters
-    ----------
-    sparse_mx: sp.spmatrix
-        The SciPy sparse matrix to be converted.
-    dtype: torch.dtype
-        The desired data type of the resulting PyTorch sparse tensor.
-
-    Returns
-    -------
-    torch.sparse.Tensor
-        The PyTorch sparse tensor.
-    """
-    if not isinstance(sparse_mx, sp.spmatrix):
-        return sparse_mx if isinstance(sparse_mx, torch.Tensor) else torch.tensor(sparse_mx)
-    else:
-        if device == 'mps':
-            mx = sparse_mx.todense()
-            return torch.tensor(mx, dtype=dtype, device=device)
-        else:
-            if isinstance(sparse_mx, (sp.csr_matrix, sp.csc_matrix)):
-                sparse_mx = sparse_mx.tocoo()
-            indices = torch.tensor(np.vstack((sparse_mx.row, sparse_mx.col)), dtype=torch.long, device=device)
-            values = torch.tensor(sparse_mx.data, dtype=dtype, device=device)
-            shape = torch.Size(sparse_mx.shape)
-            return torch.sparse_coo_tensor(indices, values, shape, dtype=dtype, device=device)
-
-
 def degree_based_normalize_matrix(mx: torch.Tensor, mode: str = "row") -> torch.Tensor:
     """
     Degree-based normalization of the matrix.

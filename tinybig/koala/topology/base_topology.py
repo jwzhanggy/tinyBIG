@@ -8,9 +8,10 @@
 
 import warnings
 import torch
+import pickle
 
 from tinybig.koala.linear_algebra import degree_based_normalize_matrix
-
+from tinybig.util import create_directory_if_not_exists
 
 class base_topology:
 
@@ -34,6 +35,8 @@ class base_topology:
             self.nodes = {}
         elif isinstance(nodes, list):
             self.nodes = {node: index for index, node in enumerate(nodes)}
+        else:
+            raise TypeError('nodes must be a list...')
 
         self.out_neighbors, self.in_neighbors = self.links_to_neighbors(links, self.nodes)
 
@@ -43,6 +46,46 @@ class base_topology:
         self.link_labels = link_labels
 
         self.device = device
+
+    def save(self, complete_path: str = None, cache_dir='./data', output_file='data_screenshot', *args, **kwargs):
+        path = complete_path if complete_path is not None else f'{cache_dir}/{output_file}'
+        create_directory_if_not_exists(path)
+        data = {
+            'name': self.name,
+            'directed': self.directed,
+            'nodes': self.nodes,
+            'out_neighbors': self.out_neighbors,
+            'in_neighbors': self.in_neighbors,
+            'node_attributes': self.node_attributes,
+            'node_labels': self.node_labels,
+            'link_attributes': self.link_attributes,
+            'link_labels': self.link_labels,
+            'device': self.device,
+        }
+        with open(path, 'wb') as f:
+            pickle.dump(data, f)
+        return path
+
+    @staticmethod
+    def load(complete_path: str = None, cache_dir: str = './data', output_file: str = 'graph_screenshot_data', *args, **kwargs):
+        path = complete_path if complete_path is not None else f'{cache_dir}/{output_file}'
+        with open(path, 'rb') as f:
+            data = pickle.load(f)
+
+        topology_structure = base_topology()
+        topology_structure.name = data['name']
+        topology_structure.directed = data['directed']
+        topology_structure.nodes = data['nodes']
+        topology_structure.out_neighbors = data['out_neighbors']
+        topology_structure.in_neighbors = data['in_neighbors']
+        topology_structure.node_attributes = data['node_attributes']
+        topology_structure.node_labels = data['node_labels']
+        topology_structure.link_attributes = data['link_attributes']
+        topology_structure.link_labels = data['link_labels']
+        topology_structure.device = data['device']
+
+        return topology_structure
+
 
     @staticmethod
     def links_to_neighbors(links: list, node_dict: dict):
@@ -202,7 +245,7 @@ class base_topology:
             mx = torch.sparse_coo_tensor(torch.tensor([links[:, 0], links[:, 1]]), values=torch.ones(links.shape[0]), size=(len(node_id_index_map), len(node_id_index_map)), device=device)
         else:
             mx = torch.zeros((len(node_id_index_map), len(node_id_index_map)), device=device)
-            mx[links[:, 0], links[:, 1]] = torch.tensor(torch.ones(links.shape[0]), device=device)
+            mx[links[:, 0], links[:, 1]] = torch.ones(links.size(0), device=device)
 
         if normalization:
             mx = degree_based_normalize_matrix(mx=mx, mode=normalization_mode)

@@ -40,7 +40,7 @@ class metric_fusion(base_fusion):
         if not all(x[0].shape == t.shape for t in x):
             raise ValueError("The input x must have the same shape.")
 
-        x = torch.stack(x)
+        x = torch.stack(x, dim=0)
         x = self.pre_process(x=x, device=device)
 
         assert self.metric is not None and isinstance(self.metric, Callable)

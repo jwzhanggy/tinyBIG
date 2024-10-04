@@ -101,5 +101,4 @@ from tinybig.koala.linear_algebra.matrix import (
     accumulative_matrix_power,
     degree_based_normalize_matrix,
     operator_based_normalize_matrix,
-    sparse_matrix_to_torch_sparse_tensor,
 )

@@ -102,6 +102,8 @@ class conv_head(rpn_head):
                 device=device,
                 enable_bias=enable_bias
             )
+        # to save computational cost, the n we provide the parameter fabrication function is different from the n of the head,
+        # we need to manually provide the l for the parameter fabrication functions...
         l = parameter_fabrication.calculate_l(
             n=self.out_channel, D=self.in_channel*attribute_interdependence.get_patch_size()
         )
@@ -158,7 +160,7 @@ class conv_head(rpn_head):
     def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device='cpu', *args, **kwargs):
         assert kappa_xi_x.ndim == 2 and phi_w.ndim == 2
         b = kappa_xi_x.size(0)
-        inner_prod = F.linear(kappa_xi_x.view(b, -1, self.get_patch_size() * self.in_channel), phi_w)
+        inner_prod = torch.matmul(kappa_xi_x.view(b, -1, self.get_patch_size() * self.in_channel), phi_w.T)
         inner_prod = inner_prod.permute(0, 2, 1).reshape(b, -1)
         if self.b is not None:
             inner_prod += self.b

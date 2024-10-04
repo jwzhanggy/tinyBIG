@@ -16,4 +16,5 @@ from tinybig.util.utility import (
     create_directory_if_not_exists,
     async_clear_tensor_memory,
     find_class_in_package,
+    check_directory_exists,
 )

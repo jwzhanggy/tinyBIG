@@ -15,7 +15,6 @@ from tinybig.koala.topology import graph as graph_structure
 from tinybig.koala.linear_algebra import (
     accumulative_matrix_power,
     matrix_power,
-    sparse_matrix_to_torch_sparse_tensor
 )
 
 
@@ -24,7 +23,7 @@ class chain_interdependence(interdependence):
     def __init__(
         self,
         b: int, m: int,
-        interdependence_type: str = 'attribute',
+        interdependence_type: str = 'instance',
         name: str = 'chain_interdependence',
         chain: chain_structure = None,
         links: dict | list = None, length: int = None, bi_directional: bool = False,
@@ -55,16 +54,14 @@ class chain_interdependence(interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
             if self.self_dependence:
-                adj += torch.eye(adj.shape[0])
+                adj += torch.eye(adj.shape[0], device=device)
 
-            A = sparse_matrix_to_torch_sparse_tensor(adj, device=device)
-
-            A = self.post_process(x=A, device=device)
+            A = self.post_process(x=adj, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
                 assert A.shape == (self.m, self.calculate_m_prime())
@@ -88,7 +85,7 @@ class multihop_chain_interdependence(chain_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
@@ -98,9 +95,7 @@ class multihop_chain_interdependence(chain_interdependence):
                 A = matrix_power(adj, self.h)
 
             if self.self_dependence:
-                A += torch.eye(A.shape[0])
-
-            A = sparse_matrix_to_torch_sparse_tensor(A, device=device)
+                A += torch.eye(A.shape[0], device=device)
 
             A = self.post_process(x=A, device=device)
 
@@ -125,18 +120,17 @@ class approx_multihop_chain_interdependence(chain_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
             if self.approx_type == 'reciprocal':
-                A = torch.inverse(torch.eye(adj.shape[0]) - adj)
+                A = torch.inverse(torch.eye(adj.shape[0], device=device) - adj)
             elif self.approx_type == 'exponential':
                 A = torch.matrix_exp(adj)
             else:
                 raise ValueError('Approx type must be either "reciprocal" or "exponential"')
 
-            A = sparse_matrix_to_torch_sparse_tensor(A, device=device)
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
@@ -155,7 +149,7 @@ class graph_interdependence(interdependence):
     def __init__(
         self,
         b: int, m: int,
-        interdependence_type: str = 'attribute',
+        interdependence_type: str = 'instance',
         name: str = 'graph_interdependence',
         graph: graph_structure = None,
         nodes: list = None, links: list = None, directed: bool = True,
@@ -194,15 +188,14 @@ class graph_interdependence(interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
             if self.self_dependence:
-                adj += torch.eye(adj.shape[0])
+                adj += torch.eye(adj.shape[0], device=device)
 
-            A = sparse_matrix_to_torch_sparse_tensor(adj, device=device)
-            A = self.post_process(x=A, device=device)
+            A = self.post_process(x=adj, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
                 assert A.shape == (self.m, self.calculate_m_prime())
@@ -225,7 +218,8 @@ class multihop_graph_interdependence(graph_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
@@ -235,8 +229,8 @@ class multihop_graph_interdependence(graph_interdependence):
                 A = matrix_power(adj, self.h)
 
             if self.self_dependence:
-                A += torch.eye(adj.shape[0])
-            A = sparse_matrix_to_torch_sparse_tensor(A, device=device)
+                A += torch.eye(adj.shape[0], device=device)
+
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
@@ -259,12 +253,12 @@ class pagerank_multihop_graph_interdependence(graph_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode)
+            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
-            A = self.c * torch.inverse((torch.eye(adj.shape[0]) - (1.0 - self.c) * adj))
-            A = sparse_matrix_to_torch_sparse_tensor(A, device=device)
+            A = self.c * torch.inverse((torch.eye(adj.shape[0], device=device) - (1.0 - self.c) * adj))
+
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:

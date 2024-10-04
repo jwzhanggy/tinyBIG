@@ -206,7 +206,7 @@ class rpn_head(torch.nn.Module):
 
         self.channel_fusion = config.instantiation_functions(functions=channel_fusion, function_configs=channel_fusion_configs, device=device)
         if self.channel_num > 1 and self.channel_fusion is None:
-            self.channel_fusion = mean_fusion()
+            self.channel_fusion = mean_fusion(dims=[self.n] * self.channel_num)
 
         # create learnable parameters for parameter fabrication and remainder functions
         self.w = None
@@ -253,9 +253,9 @@ class rpn_head(torch.nn.Module):
             if self.instance_interdependence.require_parameters:
                 assert self.batch_num is not None and self.batch_num >= 1
                 if self.l_instance_interdependence is None:
-                    self.l_instance_interdependence = self.attribute_interdependence.calculate_l()
+                    self.l_instance_interdependence = self.instance_interdependence.calculate_l()
                 self.w_attribute_interdependence = torch.nn.Parameter(torch.rand(self.channel_num, self.l_instance_interdependence, device=self.device))
-            b_prime = self.attribute_interdependence.calculate_b_prime(b=self.batch_num)
+            b_prime = self.instance_interdependence.calculate_b_prime(b=self.batch_num)
 
         # create learnable parameters for parameter_fabrication function
         if self.parameter_fabrication is not None and self.parameter_fabrication.require_parameters:
@@ -514,7 +514,7 @@ class rpn_head(torch.nn.Module):
 
         return kappa_xi_x
 
-    def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device='cpu', *args, **kwargs):
+    def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device: str = 'cpu', *args, **kwargs):
         if phi_w is not None:
             assert kappa_xi_x.ndim == 2 and phi_w.ndim == 2 and kappa_xi_x.size(-1) == phi_w.size(-1)
             if device != 'mps' and (kappa_xi_x.is_sparse or phi_w.is_sparse):
@@ -522,7 +522,9 @@ class rpn_head(torch.nn.Module):
                 if self.b is not None:
                     inner_prod += self.b
             else:
-                inner_prod = F.linear(kappa_xi_x, phi_w, bias=self.b)
+                inner_prod = torch.matmul(kappa_xi_x, phi_w.T)
+                if self.b is not None:
+                    inner_prod += self.b
         else:
             inner_prod = kappa_xi_x
         return inner_prod
@@ -582,7 +584,6 @@ class rpn_head(torch.nn.Module):
 
             # ************** Inner Product Calculation Block **************
             inner_prod = self.calculate_inner_product(kappa_xi_x=kappa_xi_x, phi_w=phi_w, device=device, *args, **kwargs)
-
             inner_products.append(inner_prod)
 
         # ************** Multi-Channel Fusion Block **************

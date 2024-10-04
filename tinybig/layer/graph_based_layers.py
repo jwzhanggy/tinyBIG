@@ -8,46 +8,63 @@
 
 from tinybig.module.base_layer import rpn_layer
 from tinybig.head.graph_based_heads import sgc_head
-
+from tinybig.koala.topology import graph as graph_class
 
 class sgc_layer(rpn_layer):
     def __init__(
         self,
         m: int, n: int,
-        name: str = 'sgc_layer',
+        width: int = 1,
+        name: str = 'sgc_head',
+        channel_num: int = 1,
+        # graph structure parameters
+        graph: graph_class = None,
         graph_file_path: str = None,
         nodes: list = None,
         links: list = None,
-        directed: bool = True,
-        normalization: bool = False,
-        normalization_mode: str = 'row_column',
-        self_dependence: bool = False,
+        directed: bool = False,
+        # graph interdependence function parameters
+        with_multihop: bool = False, h: int = 1, accumulative: bool = False,
+        with_pagerank: bool = False, c: float = 0.15,
         require_data: bool = False,
         require_parameters: bool = False,
-        channel_num: int = 1,
+        # adj matrix processing parameters
+        normalization: bool = True,
+        normalization_mode: str = 'row_column',
+        self_dependence: bool = True,
+        # parameter reconciliation and remainder functions
+        with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
         with_residual: bool = False,
         enable_bias: bool = False,
-        width: int = 1,
+        # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
             sgc_head(
                 m=m, n=n,
+                channel_num=channel_num,
+                # -------------------
+                graph=graph,
                 graph_file_path=graph_file_path,
                 nodes=nodes,
                 links=links,
                 directed=directed,
+                # -------------------
+                with_multihop=with_multihop, h=h, accumulative=accumulative,
+                with_pagerank=with_pagerank, c=c,
+                require_data=require_data,
+                require_parameters=require_parameters,
+                # -------------------
                 normalization=normalization,
                 normalization_mode=normalization_mode,
                 self_dependence=self_dependence,
-                require_data=require_data,
-                require_parameters=require_parameters,
-                channel_num=channel_num,
-                with_lorr=with_lorr,
-                r=r,
+                # -------------------
+                with_dual_lphm=with_dual_lphm,
+                with_lorr=with_lorr, r=r,
                 with_residual=with_residual,
                 enable_bias=enable_bias,
+                # -------------------
                 device=device,
             )
         ] * width

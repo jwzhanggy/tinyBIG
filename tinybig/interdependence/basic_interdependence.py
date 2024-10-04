@@ -31,8 +31,9 @@ class constant_interdependence(interdependence):
             self.A.to(device)
 
     def update_A(self, A: torch.Tensor):
-        if self.A is None or self.A.ndim != 2:
+        if A is None or A.ndim != 2:
             raise ValueError('The parameter matrix A is required and should have ndim: 2 by default')
+        self.check_A_shape_validity(A=A)
         self.A = A
 
     def calculate_b_prime(self, b: int = None):

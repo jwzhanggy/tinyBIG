@@ -178,10 +178,6 @@ class hypernet_reconciliation(fabrication):
             for param in self.net.parameters():
                 param.requires_grad = True
 
-    # def forwardtest(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
-    #     print(w.shape, self.calculate_l(n, D))
-    #     return F.linear(w, torch.ones(n*D, self.calculate_l(n, D)).to(device)).view(n, D).to(device)
-
     def forward(self, n: int, D: int, w: torch.nn.Parameter, device='cpu', *args, **kwargs):
         r"""
         The forward method of the parameter reconciliation function.

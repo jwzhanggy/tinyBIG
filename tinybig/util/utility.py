@@ -14,6 +14,7 @@ import os
 import importlib
 import pkgutil
 import inspect
+import requests
 
 
 def set_random_seed(random_seed: int = 0):
@@ -50,6 +51,11 @@ def set_random_seed(random_seed: int = 0):
     torch.backends.cudnn.benchmark = False
     if torch.backends.mps.is_available():
         torch.mps.manual_seed(random_seed)
+
+
+def check_directory_exists(complete_file_path):
+    directory_path = os.path.dirname(complete_file_path)
+    return os.path.exists(directory_path)
 
 
 def create_directory_if_not_exists(complete_file_path):
@@ -133,4 +139,21 @@ def find_class_in_package(class_name: str, package_name: str = 'tinybig'):
     return f"Class '{class_name}' not found in package '{package_name}'"
 
 
+def download_file_from_github(url_link: str, destination_path: str):
+    create_directory_if_not_exists(destination_path)
 
+    response = requests.get(url_link, stream=True)
+    if response.status_code == 200:
+        with open(destination_path, 'wb') as file:
+            for chunk in response.iter_content(1024):  # Download in chunks
+                file.write(chunk)
+        print(f"File downloaded successfully: {destination_path}")
+    else:
+        print(f"Failed to download file. Status code: {response.status_code}")
+
+
+if __name__ == '__main__':
+    # Example usage:
+    url = "https://raw.githubusercontent.com/jwzhanggy/tinybig_dataset_repo/main/data/graph/cora/node"  # Replace with your file's raw URL
+    destination = "./data/graph/cora/node"  # Specify where to save the file
+    download_file_from_github(url, destination)

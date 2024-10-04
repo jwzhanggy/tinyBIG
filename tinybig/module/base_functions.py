@@ -63,7 +63,6 @@ class function:
         torch.Tensor
             The processed input vector by these functions.
         """
-
         if functions is None or ((isinstance(functions, list) or isinstance(functions, tuple)) and len(functions) == 0):
             return x
         elif isinstance(functions, list) or isinstance(functions, tuple):
