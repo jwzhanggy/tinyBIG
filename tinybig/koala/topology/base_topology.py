@@ -89,6 +89,9 @@ class base_topology:
 
     @staticmethod
     def links_to_neighbors(links: list, node_dict: dict):
+        if links is None or node_dict is None:
+            return {}, {}
+
         out_neighbors = {}
         in_neighbors = {}
         for (n1, n2) in links:

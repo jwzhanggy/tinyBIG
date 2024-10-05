@@ -44,3 +44,4 @@ from tinybig.model.rpn_pgm import pgm
 from tinybig.model.rpn_naive_bayes import naive_bayes
 from tinybig.model.rpn_svm import svm
 from tinybig.model.rpn_cnn import cnn, resnet
+from tinybig.model.rpn_gcn import gcn

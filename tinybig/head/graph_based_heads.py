@@ -47,6 +47,11 @@ class sgc_head(rpn_head):
         with_lorr: bool = False, r: int = 3,
         with_residual: bool = False,
         enable_bias: bool = False,
+        # output processing parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_softmax: bool = True,
+        with_dropout: bool = True, p: float = 0.5,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -133,6 +138,16 @@ class sgc_head(rpn_head):
             remainder = zero_remainder(
                 device=device,
             )
+
+        output_process_functions = []
+        if with_batch_norm:
+            output_process_functions.append(torch.nn.BatchNorm1d(num_features=n, device=device))
+        if with_relu:
+            output_process_functions.append(torch.nn.ReLU())
+        if with_dropout:
+            output_process_functions.append(torch.nn.Dropout(p=p))
+        if with_softmax:
+            output_process_functions.append(torch.nn.Softmax(dim=-1))
 
         super().__init__(
             m=m, n=n, name=name,

@@ -189,6 +189,7 @@ class graph_interdependence(interdependence):
             return self.A
         else:
             adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 

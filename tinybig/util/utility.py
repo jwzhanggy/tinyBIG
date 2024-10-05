@@ -53,6 +53,10 @@ def set_random_seed(random_seed: int = 0):
         torch.mps.manual_seed(random_seed)
 
 
+def check_file_existence(complete_file_path):
+    return os.path.exists(complete_file_path)
+
+
 def check_directory_exists(complete_file_path):
     directory_path = os.path.dirname(complete_file_path)
     return os.path.exists(directory_path)

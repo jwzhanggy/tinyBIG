@@ -9,6 +9,7 @@ which can be used for loading datasets for RPN model training and testing in tin
 """
 from abc import abstractmethod
 import numpy as np
+from typing import Union, List, Tuple
 
 import torch
 from torch.utils.data import Dataset
@@ -72,10 +73,17 @@ class dataloader:
         }
 
     @staticmethod
-    def encode_onehot(labels, device: str = 'cpu'):
+    def encode_str_labels(labels: Union[List, Tuple, np.array], one_hot: bool = False, device: str = 'cpu'):
+        if labels is None or len(labels) == 0:
+            raise ValueError("labels cannot be None")
+
         classes = set(labels)
-        classes_dict = {c: np.identity(len(classes))[i, :] for i, c in enumerate(classes)}
-        labels_onehot = torch.tensor(list(map(classes_dict.get, labels)), dtype=torch.int32, device=device)
+        if one_hot:
+            classes_dict = {c: np.identity(len(classes))[i, :] for i, c in enumerate(classes)}
+        else:
+            classes_dict = {c: i for i, c in enumerate(classes)}
+        encoded_labels = np.array(list(map(classes_dict.get, labels)))
+        labels_onehot = torch.tensor(encoded_labels, dtype=torch.int32, device=device)
         return labels_onehot
 
     @abstractmethod

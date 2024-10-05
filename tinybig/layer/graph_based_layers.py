@@ -10,6 +10,7 @@ from tinybig.module.base_layer import rpn_layer
 from tinybig.head.graph_based_heads import sgc_head
 from tinybig.koala.topology import graph as graph_class
 
+
 class sgc_layer(rpn_layer):
     def __init__(
         self,
@@ -37,6 +38,11 @@ class sgc_layer(rpn_layer):
         with_lorr: bool = False, r: int = 3,
         with_residual: bool = False,
         enable_bias: bool = False,
+        # output processing parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_softmax: bool = True,
+        with_dropout: bool = True, p: float = 0.5,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -64,6 +70,11 @@ class sgc_layer(rpn_layer):
                 with_lorr=with_lorr, r=r,
                 with_residual=with_residual,
                 enable_bias=enable_bias,
+                # -------------------
+                with_batch_norm=with_batch_norm,
+                with_relu=with_relu,
+                with_softmax=with_softmax,
+                with_dropout=with_dropout, p=p,
                 # -------------------
                 device=device,
             )

@@ -151,14 +151,16 @@ class backward_learner(learner):
         }
 
     def train(
-            self,
-            model: tinybig_model,
-            data_loader: tinybig_dataloader,
-            device: str = 'cpu',
-            metric: tinybig_metric = None,
-            test_check: bool = True,
-            disable_tqdm: bool = False,
-            display_step: int = 1
+        self,
+        model: tinybig_model,
+        data_loader: tinybig_dataloader,
+        device: str = 'cpu',
+        metric: tinybig_metric = None,
+        test_check: bool = True,
+        disable_tqdm: bool = False,
+        display_step: int = 1,
+        train_idx: torch.Tensor = None,
+        test_idx: torch.Tensor = None,
     ):
         """
         The backward learner training method for RPN model.
@@ -184,6 +186,10 @@ class backward_learner(learner):
         display_step: int, default = 1
             How often this method will display the training progress information,
             e.g., display_step=10, the training information will be displayed every 10 epochs.
+        train_idx: torch.Tensor, default: None
+            The optional training data index to be used for training.
+        test_idx: torch.Tensor, default: None
+            The optional testing data index to be used for testing.
 
         Returns
         -------
@@ -246,7 +252,13 @@ class backward_learner(learner):
 
                     optimizer.zero_grad()
                     y_score = model(features.to(device), device=device)
+
+                    if train_idx is not None:
+                        y_score = y_score[train_idx]
+                        labels = labels[train_idx]
+
                     y_pred = y_score.argmax(dim=1).tolist()
+
                     loss = criterion(y_score, labels.to(device))
 
                     if metric is not None:
@@ -275,7 +287,7 @@ class backward_learner(learner):
             training_record_dict['training'][epoch]['time_cost'] = time.time() - epoch_start_time
             # ----------------------------
             if test_check:
-                test_result = self.test(model, test_loader, device=device, metric=metric, return_full_result=False)
+                test_result = self.test(model, test_loader, device=device, metric=metric, return_full_result=False, test_idx=test_idx)
                 # ----------------------------
                 training_record_dict['training'][epoch]['test_result'] = test_result
                 # ----------------------------
@@ -292,7 +304,8 @@ class backward_learner(learner):
         test_loader: tinybig_dataloader,
         device: str = 'cpu',
         metric: tinybig_metric = None,
-        return_full_result: bool = True
+        return_full_result: bool = True,
+        test_idx: torch.Tensor = None,
     ):
         """
         The testing method of the backward learning for RPN performance testing.
@@ -327,36 +340,41 @@ class backward_learner(learner):
         criterion = self.loss
 
         test_loss = 0.0
-        y_pred = []
-        y_true = []
-        y_score = []
+        y_pred_list = []
+        y_true_list = []
+        y_score_list = []
         with torch.no_grad():
             for features, labels in test_loader:
-                output = model(features.to(device), device=device)
-                max_class = output.argmax(dim=1).tolist()
+                y_score = model(features.to(device), device=device)
 
-                loss = criterion(output, labels.to(device))
+                if test_idx is not None:
+                    y_score = y_score[test_idx]
+                    labels = labels[test_idx]
+
+                y_pred = y_score.argmax(dim=1).tolist()
+
+                loss = criterion(y_score, labels.to(device))
                 test_loss += loss.item()
 
-                y_pred.extend(max_class)
-                y_true.extend(labels.tolist())
-                y_score.extend(output.tolist())
+                y_pred_list.extend(y_pred)
+                y_true_list.extend(labels.tolist())
+                y_score_list.extend(y_score.tolist())
 
 
         test_loss /= len(test_loader)
 
         if metric is not None:
             metric_name = metric.__class__.__name__
-            score = metric.evaluate(y_pred=y_pred, y_true=y_true, y_score=y_score)
+            score = metric.evaluate(y_pred=y_pred_list, y_true=y_true_list, y_score=y_score_list)
         else:
             metric_name = None
             score = None
 
         if return_full_result:
             return {
-                'y_pred': y_pred,
-                'y_true': y_true,
-                'y_score': y_score,
+                'y_pred': y_pred_list,
+                'y_true': y_true_list,
+                'y_score': y_score_list,
                 'test_loss': test_loss,
                 'test_score': score,
                 'time_cost': time.time()-start_time,

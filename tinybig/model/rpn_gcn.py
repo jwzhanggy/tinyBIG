@@ -38,6 +38,11 @@ class gcn(rpn):
         with_lorr: bool = False, r: int = 3,
         with_residual: bool = False,
         enable_bias: bool = False,
+        # output processing parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_softmax: bool = True,
+        with_dropout: bool = True, p: float = 0.25,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -71,6 +76,11 @@ class gcn(rpn):
                     with_lorr=with_lorr, r=r,
                     with_residual=with_residual,
                     enable_bias=enable_bias,
+                    # ---------------
+                    with_batch_norm=with_batch_norm and n != dims[-1],
+                    with_relu=with_relu and n != dims[-1],
+                    with_dropout=with_dropout and n != dims[-1], p=p,
+                    with_softmax=with_softmax and n == dims[-1],
                     # ---------------
                     device=device,
                 )
