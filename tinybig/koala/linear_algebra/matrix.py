@@ -123,6 +123,7 @@ def degree_based_normalize_matrix(mx: torch.Tensor, mode: str = "row") -> torch.
 
 def operator_based_normalize_matrix(
     mx: torch.Tensor,
+    mask_zeros: bool = False,
     rescale_factor: float = 1.0,
     operator: callable = torch.nn.functional.softmax,
     mode="row"
@@ -153,15 +154,27 @@ def operator_based_normalize_matrix(
 
     mx = mx * rescale_factor
 
+    if mask_zeros:
+        mask = (mx != 0).float()
+        large_negative_value = -1e9
+        masked_mx = mx.clone()
+        masked_mx[mx == 0] = large_negative_value
+    else:
+        masked_mx = mx
+        mask = None
+
     if mode == "row":
-        normalized_mx = operator(mx, dim=1)
+        normalized_mx = operator(masked_mx, dim=1)
     elif mode == 'column':
-        normalized_mx = operator(mx, dim=0)
+        normalized_mx = operator(masked_mx, dim=0)
     elif mode == "row-column":
-        mx = operator(mx, dim=1)
-        normalized_mx = operator(mx, dim=0)
+        masked_mx = operator(masked_mx, dim=1)
+        normalized_mx = operator(masked_mx, dim=0)
     else:
         raise ValueError("Invalid normalization option. Choose 'row', 'column', or 'row-column'.")
+
+    if mask_zeros:
+        normalized_mx = normalized_mx * mask
 
     return normalized_mx
 
