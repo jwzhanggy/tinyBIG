@@ -15,62 +15,99 @@ class rnn(rpn):
     def __init__(
         self,
         chain_length: int,
-        m: int, n: int, d: int,
-        hidden_depth: int = 1,
+        dims: list[int] | tuple[int],
         name: str = 'rpn_rnn',
-        bi_directional: bool = False,
-        normalization: bool = False,
-        normalization_mode: str = 'row_column',
-        self_dependence: bool = False,
-        require_data: bool = False,
-        require_parameters: bool = False,
         channel_num: int = 1,
-        with_lorr: bool = False, r: int = 3,
-        with_residual: bool = True,
-        enable_bias: bool = False,
         width: int = 1,
+        # chain structure interdependence function parameters
+        bi_directional: bool = False,
+        with_multihop: bool = False, h: int = 1, accumulative: bool = False,
+        with_inverse_approx: bool = False,
+        with_exponential_approx: bool = False,
+        # parameter reconciliation function parameters
+        with_dual_lphm: bool = False,
+        with_lorr: bool = False, r: int = 3,
+        with_residual: bool = False,
+        # remainder function parameters
+        enable_bias: bool = False,
+        # output processing parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_softmax: bool = True,
+        with_dropout: bool = False, p: float = 0.25,
+        # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        if dims is None or len(dims) < 2:
+            raise ValueError('dims must not be empty and need to have at least two dimensions...')
+        assert all(isinstance(d, int) and d > 0 for d in dims)
 
+        # input embedding layer
         layers = [
             perceptron_layer(
-                m=m, n=d,
-                enable_bias=enable_bias,
-                with_lorr=with_lorr,
-                r=r,
+                m=dims[0], n=dims[1],
                 channel_num=channel_num,
                 width=width,
+                # -----------------------
+                with_dual_lphm=with_dual_lphm,
+                with_lorr=with_lorr, r=r,
+                enable_bias=enable_bias,
+                with_residual=with_residual,
+                # -----------------------
+                with_batch_norm=with_batch_norm and len(dims) != 2,
+                with_relu=with_relu and len(dims) != 2,
+                with_softmax=with_softmax and len(dims) == 2,
+                with_dropout=with_dropout and len(dims) != 2, p=p,
+                # -----------------------
                 device=device,
             )
         ]
-        for i in range(hidden_depth):
+        if len(dims) > 2:
+            for m, n in zip(dims[1:-2], dims[2:-1]):
+                layers.append(
+                    recurrent_layer(
+                        m=m, n=n,
+                        chain_length=chain_length,
+                        channel_num=channel_num,
+                        width=width,
+                        # -----------------------
+                        bi_directional=bi_directional,
+                        with_multihop=with_multihop, h=h, accumulative=accumulative,
+                        with_inverse_approx=with_inverse_approx,
+                        with_exponential_approx=with_exponential_approx,
+                        # -----------------------
+                        with_dual_lphm=with_dual_lphm,
+                        with_lorr=with_lorr, r=r,
+                        with_residual=with_residual,
+                        # -----------------------
+                        enable_bias=enable_bias,
+                        # -----------------------
+                        with_batch_norm=with_batch_norm,
+                        with_relu=with_relu,
+                        with_softmax=False,
+                        with_dropout=with_dropout, p=p,
+                        # -----------------------
+                        device=device,
+                    )
+                )
             layers.append(
-                recurrent_layer(
-                    m=d, n=d,
-                    chain_length=chain_length,
-                    bi_directional=bi_directional,
-                    normalization=normalization,
-                    normalization_mode=normalization_mode,
-                    self_dependence=self_dependence,
-                    require_data=require_data,
-                    require_parameters=require_parameters,
+                perceptron_layer(
+                    m=dims[-2], n=dims[-1],
                     channel_num=channel_num,
-                    with_lorr=with_lorr, r=r,
-                    with_residual=with_residual,
-                    enable_bias=enable_bias,
                     width=width,
-                    device=device, *args, **kwargs
+                    # -----------------------
+                    with_dual_lphm=with_dual_lphm,
+                    with_lorr=with_lorr, r=r,
+                    enable_bias=enable_bias,
+                    with_residual=with_residual,
+                    # -----------------------
+                    with_batch_norm=False,
+                    with_relu=False,
+                    with_softmax=with_softmax,
+                    with_dropout=False, p=p,
+                    # -----------------------
+                    device=device,
                 )
             )
-        layers.append(
-            perceptron_layer(
-                m=d, n=n, device=device,
-                enable_bias=enable_bias,
-                with_lorr=with_lorr,
-                r=r,
-                channel_num=channel_num,
-                width=width,
-            )
-        )
         super().__init__(name=name, layers=layers, device=device, *args, **kwargs)
 

@@ -6,12 +6,21 @@
 # Graph Based Head Modules #
 ############################
 
-import pickle
+import math
+from functools import partial
 import torch
 
 from tinybig.module.base_head import rpn_head
-from tinybig.interdependence.topological_interdependence import graph_interdependence, pagerank_multihop_graph_interdependence, multihop_graph_interdependence
-from tinybig.interdependence.parameterized_bilinear_interdependence import lowrank_parameterized_bilinear_interdependence
+from tinybig.interdependence.topological_interdependence import (
+    graph_interdependence,
+    pagerank_multihop_graph_interdependence,
+    multihop_graph_interdependence
+)
+from tinybig.interdependence import (
+    parameterized_bilinear_interdependence,
+    lowrank_parameterized_bilinear_interdependence,
+    dual_lphm_parameterized_bilinear_interdependence,
+)
 from tinybig.interdependence.hybrid_interdependence import hybrid_interdependence
 from tinybig.expansion.basic_expansion import identity_expansion
 from tinybig.reconciliation.basic_reconciliation import identity_reconciliation
@@ -19,7 +28,13 @@ from tinybig.reconciliation.lowrank_reconciliation import lorr_reconciliation, d
 from tinybig.remainder.basic_remainder import zero_remainder, linear_remainder
 from tinybig.fusion.metric_fusion import prod_fusion
 from tinybig.koala.topology import graph as graph_class
-
+from tinybig.koala.linear_algebra import (
+    degree_based_normalize_matrix,
+    operator_based_normalize_matrix
+)
+from tinybig.koala.algebra import (
+    find_close_factors
+)
 
 class sgc_head(rpn_head):
     def __init__(
@@ -160,7 +175,7 @@ class sgc_head(rpn_head):
         )
 
 
-class gat_head(sgc_head):
+class gat_head(rpn_head):
     def __init__(
         self,
         m: int, n: int,
@@ -171,21 +186,29 @@ class gat_head(sgc_head):
         graph_file_path: str = None,
         nodes: list = None,
         links: list = None,
-        directed: bool = True,
-        # graph interdependence function
+        directed: bool = False,
+        # graph interdependence function parameters
         with_multihop: bool = False, h: int = 1, accumulative: bool = False,
         with_pagerank: bool = False, c: float = 0.15,
         require_data: bool = False,
         require_parameters: bool = False,
         # adj matrix processing parameters
-        normalization: bool = True,
+        normalization: bool = False,
         normalization_mode: str = 'row_column',
-        self_dependence: bool = False,
+        self_dependence: bool = True,
+        # bilinear interdependence function parameters
+        with_dual_lphm_interdependence: bool = False,
+        with_lorr_interdependence: bool = False, r_interdependence: int = 3,
         # parameter reconciliation and remainder functions
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
         with_residual: bool = False,
-        enable_bias: bool = True,
+        enable_bias: bool = False,
+        # output processing parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_softmax: bool = True,
+        with_dropout: bool = True, p: float = 0.5,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -203,28 +226,10 @@ class gat_head(sgc_head):
         else:
             raise ValueError('You must provide a graph_file_path or nodes or links...')
 
-        graph_structure_interdependence = graph_interdependence(
-            b=graph_structure.get_node_num(), m=m,
-            graph=graph_structure,
-            normalization=False,
-            self_dependence=self_dependence,
-            require_data=False,
-            require_parameters=False,
-            device=device
-        )
-
-        bilinear_interdependence = lowrank_parameterized_bilinear_interdependence(
-            r=r,
-            require_data=True,
-            require_parameters=True,
-            postprocess_functions=[torch.nn.Softmax(dim=0)],
-            device=device,
-        )
-
         if with_pagerank:
-            graph_structure_interdependence = pagerank_multihop_graph_interdependence(
+            graph_instance_interdependence = pagerank_multihop_graph_interdependence(
                 b=graph_structure.get_node_num(), m=m,
-                c=c,
+                c=c, # for pagerank
                 interdependence_type='instance',
                 graph=graph_structure,
                 normalization=normalization,
@@ -235,7 +240,7 @@ class gat_head(sgc_head):
                 device=device
             )
         elif with_multihop:
-            graph_structure_interdependence = multihop_graph_interdependence(
+            graph_instance_interdependence = multihop_graph_interdependence(
                 b=graph_structure.get_node_num(), m=m,
                 h=h, accumulative=accumulative,
                 interdependence_type='instance',
@@ -248,7 +253,7 @@ class gat_head(sgc_head):
                 device=device
             )
         else:
-            graph_structure_interdependence = graph_interdependence(
+            graph_instance_interdependence = graph_interdependence(
                 b=graph_structure.get_node_num(), m=m,
                 interdependence_type='instance',
                 graph=graph_structure,
@@ -260,13 +265,52 @@ class gat_head(sgc_head):
                 device=device
             )
 
+        # instance interdependence function
+        if with_lorr_interdependence:
+            bilinear_instance_interdependence = lowrank_parameterized_bilinear_interdependence(
+                b=graph_structure.get_node_num(), m=m,
+                r=r_interdependence,
+                interdependence_type='instance',
+                require_data=True,
+                require_parameters=True,
+                device=device,
+            )
+        elif with_dual_lphm_interdependence:
+            bilinear_instance_interdependence = dual_lphm_parameterized_bilinear_interdependence(
+                b=graph_structure.get_node_num(), m=m,
+                p=find_close_factors(m), r=r_interdependence,
+                interdependence_type='instance',
+                require_data=True,
+                require_parameters=True,
+                device=device,
+            )
+        else:
+            bilinear_instance_interdependence = parameterized_bilinear_interdependence(
+                b=graph_structure.get_node_num(), m=m,
+                interdependence_type='instance',
+                require_data=True,
+                require_parameters=True,
+                device=device,
+            )
+
         instance_interdependence = hybrid_interdependence(
             b=graph_structure.get_node_num(), m=m,
+            interdependence_type='instance',
             interdependence_functions=[
-                graph_structure_interdependence,
-                bilinear_interdependence,
+                graph_instance_interdependence,
+                bilinear_instance_interdependence,
             ],
-            fusion_function=prod_fusion,
+            fusion_function=prod_fusion(dims=[graph_structure.get_node_num()]*2),
+            postprocess_functions=[
+                partial(
+                    operator_based_normalize_matrix,
+                    mask_zeros=True,
+                    rescale_factor=1.0,
+                    operator=torch.nn.functional.softmax,
+                    mode='column'
+                ),
+            ],
+            device=device
         )
 
         data_transformation = identity_expansion(
@@ -300,6 +344,16 @@ class gat_head(sgc_head):
                 device=device,
             )
 
+        output_process_functions = []
+        if with_batch_norm:
+            output_process_functions.append(torch.nn.BatchNorm1d(num_features=n, device=device))
+        if with_relu:
+            output_process_functions.append(torch.nn.ReLU())
+        if with_dropout:
+            output_process_functions.append(torch.nn.Dropout(p=p))
+        if with_softmax:
+            output_process_functions.append(torch.nn.Softmax(dim=-1))
+
         super().__init__(
             m=m, n=n, name=name,
             instance_interdependence=instance_interdependence,
@@ -309,3 +363,4 @@ class gat_head(sgc_head):
             channel_num=channel_num,
             device=device, *args, **kwargs
         )
+

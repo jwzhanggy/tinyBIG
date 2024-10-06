@@ -3,7 +3,7 @@
 # Affiliation: IFM Lab, UC Davis
 
 ###############################
-# Test Topological Interdependence #
+# Test Graph Interdependence #
 ###############################
 
 import pytest
@@ -12,7 +12,6 @@ import numpy as np
 from tinybig.interdependence.topological_interdependence import (
     chain_interdependence,
     multihop_chain_interdependence,
-    approx_multihop_chain_interdependence,
     graph_interdependence,
     multihop_graph_interdependence,
     pagerank_multihop_graph_interdependence

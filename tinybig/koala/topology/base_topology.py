@@ -105,6 +105,9 @@ class base_topology:
                 in_neighbors[n2][n1] = 1
         return out_neighbors, in_neighbors
 
+    def is_directed(self):
+        return self.directed
+
     def get_name(self) -> str:
         return self.name
 

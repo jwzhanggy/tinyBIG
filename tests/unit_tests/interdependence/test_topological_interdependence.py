@@ -11,7 +11,8 @@ import torch
 from tinybig.interdependence.topological_interdependence import (
     chain_interdependence,
     multihop_chain_interdependence,
-    approx_multihop_chain_interdependence,
+    inverse_approx_multihop_chain_interdependence,
+    exponential_approx_multihop_chain_interdependence,
     graph_interdependence,
     multihop_graph_interdependence,
     pagerank_multihop_graph_interdependence
@@ -64,14 +65,27 @@ def test_multihop_chain_interdependence(sample_chain_structure, interdependence_
         assert (A - torch.eye(5)).sum() > 0, "Accumulation should modify the matrix"
 
 
-@pytest.mark.parametrize("approx_type", ['reciprocal', 'exponential'])
-def test_approx_multihop_chain_interdependence(sample_chain_structure, approx_type):
+def test_inverse_approx_multihop_chain_interdependence(sample_chain_structure):
     """
     Test approximate multihop chain interdependence with reciprocal and exponential approximations.
     """
     chain = sample_chain_structure
-    interdep = approx_multihop_chain_interdependence(
-        b=5, m=5, chain=chain, approx_type=approx_type, device='cpu'
+    interdep = inverse_approx_multihop_chain_interdependence(
+        b=5, m=5, chain=chain, device='cpu'
+    )
+
+    A = interdep.calculate_A()
+    assert A is not None, "Matrix A should not be None"
+    assert A.shape == (5, 5), "A shape mismatch"
+
+
+def test_exponential_approx_multihop_chain_interdependence(sample_chain_structure):
+    """
+    Test approximate multihop chain interdependence with reciprocal and exponential approximations.
+    """
+    chain = sample_chain_structure
+    interdep = exponential_approx_multihop_chain_interdependence(
+        b=5, m=5, chain=chain, device='cpu'
     )
 
     A = interdep.calculate_A()
@@ -118,7 +132,7 @@ def test_exceptions():
         chain_interdependence(b=5, m=5, chain=None)
 
     with pytest.raises(ValueError):
-        approx_multihop_chain_interdependence(b=5, m=5, chain=None, approx_type='invalid')
+        inverse_approx_multihop_chain_interdependence(b=5, m=5, chain=None)
 
     with pytest.raises(ValueError):
         graph_interdependence(b=5, m=5, graph=None)

@@ -8,7 +8,6 @@
 
 import torch
 
-from tinybig.koala.algebra.numbers import find_close_factors
 from tinybig.module.base_head import rpn_head
 from tinybig.expansion import (
     identity_expansion,
@@ -34,15 +33,16 @@ class perceptron_head(rpn_head):
     def __init__(
         self, m: int, n: int,
         name: str = 'perceptron_head',
-        enable_bias: bool = True,
-        # optional parameters
-        with_taylor: bool = False,
-        d: int = 2,
-        with_dual_lphm: bool = False,
-        with_lorr: bool = False,
-        r: int = 3,
-        with_residual: bool = False,
         channel_num: int = 1,
+        # data transformation function parameters
+        with_taylor: bool = False, d: int = 2,
+        # parameter reconciliation function parameters
+        with_dual_lphm: bool = False,
+        with_lorr: bool = False, r: int = 3,
+        enable_bias: bool = True,
+        # remainder function parameters
+        with_residual: bool = False,
+        # output processing function parameters
         with_batch_norm: bool = False,
         with_relu: bool = False,
         with_dropout: bool = True, p: float = 0.5,
@@ -95,8 +95,6 @@ class perceptron_head(rpn_head):
             output_process_functions.append(torch.nn.Dropout(p=p))
         if with_softmax:
             output_process_functions.append(torch.nn.Softmax(dim=-1))
-
-        print('perceptron layer', output_process_functions)
 
         super().__init__(
             m=m, n=n, name=name,

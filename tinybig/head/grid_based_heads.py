@@ -29,20 +29,23 @@ class conv_head(rpn_head):
         self,
         h: int, w: int, in_channel: int, out_channel: int,
         d: int = 1, name: str = 'conv_head',
+        # patch structure parameters
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
         p_w: int = None, p_w_prime: int = None,
         p_d: int = 0, p_d_prime: int = None,
         p_r: int = None,
+        # packing parameters
         cd_h: int = None, cd_w: int = None, cd_d: int = 1,
         packing_strategy: str = 'densest_packing',
+        # output processing function parameters
         with_batch_norm: bool = True,
         with_relu: bool = True,
         with_residual: bool = False,
-        enable_bias: bool = False,
         # other parameters
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
+        enable_bias: bool = False,
         device: str = 'cpu', *args, **kwargs
     ):
         if in_channel is None or out_channel is None or in_channel <=0 or out_channel <=0:

@@ -6,8 +6,6 @@
 # RPN based CNN Model #
 #######################
 
-import warnings
-
 from tinybig.model.rpn import rpn
 from tinybig.layer.basic_layers import perceptron_layer
 from tinybig.layer.grid_based_layers import conv_layer, pooling_layer
@@ -25,23 +23,26 @@ class cnn(rpn):
         pooling_metric: str = 'batch_max',
         pooling_layer_gaps: int = 2,
         name: str = 'rpn_cnn',
+        # patch structure parameters
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
         p_w: int = None, p_w_prime: int = None,
         p_d: int = 0, p_d_prime: int = None,
         p_r: int = None,
+        # packing parameters
         cd_h: int = None, cd_w: int = None, cd_d: int = 1,
-        pooling_cd_h: int = None, pooling_cd_w: int = None, pooling_cd_d: int = 1,
         packing_strategy: str = 'densest_packing',
+        pooling_cd_h: int = None, pooling_cd_w: int = None, pooling_cd_d: int = 1,
+        # output processing function parameters
         with_batch_norm: bool = True,
         with_relu: bool = True,
         with_softmax: bool = False,
         with_residual: bool = False,
-        enable_bias: bool = True,
-        # optional parameters
+        with_dropout: bool = True,
+        # parameter reconciliation function parameters
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
-        with_dropout: bool = True,
+        enable_bias: bool = True,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -116,7 +117,7 @@ class cnn(rpn):
                     with_batch_norm=with_batch_norm and n != dims[-1],
                     with_relu=with_relu and n != dims[-1],
                     with_dropout=with_dropout and n != dims[-1],
-                    with_softmax=with_softmax and n == dims[-1],
+                    with_softmax=with_softmax and m == dims[-2] and n == dims[-1],
                     device=device, *args, **kwargs
                 )
             )

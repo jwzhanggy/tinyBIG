@@ -326,7 +326,7 @@ class linear_remainder(remainder):
     forward
         It implements the abstract forward method declared in the base remainder class.
     """
-    def __init__(self, name: str = 'linear_remainder', require_remainder_parameters: bool = True, enable_remainder_bias: bool = False, *args, **kwargs):
+    def __init__(self, name: str = 'linear_remainder', require_parameters: bool = True, enable_bias: bool = False, *args, **kwargs):
         """
         The initialization method of the linear remainder function.
 
@@ -337,9 +337,9 @@ class linear_remainder(remainder):
         ----------
         name: str, default = 'linear_remainder'
             Name of the linear remainder function.
-        require_remainder_parameters: bool, default = False
+        require_parameters: bool, default = False
             Boolean tag of whether the function requires parameters.
-        enable_remainder_bias: bool, default = False
+        enable_bias: bool, default = False
             Boolean tag of whether the bias is enabled or not.
 
         Returns
@@ -347,7 +347,7 @@ class linear_remainder(remainder):
         object
             The linear remainder function object.
         """
-        super().__init__(name=name, require_remainder_parameters=require_remainder_parameters, enable_remainder_bias=enable_remainder_bias, *args, **kwargs)
+        super().__init__(name=name, require_parameters=require_parameters, enable_bias=enable_bias, *args, **kwargs)
 
     def calculate_l(self, n: int, D: int):
         return n*D
@@ -374,7 +374,7 @@ class linear_remainder(remainder):
         w: torch.nn.Parameter
             The linear transformation parameter.
         b: torch.nn.Parameter, default = None
-            The linear transformation bias parameter. It will not be None if attribute "enable_remainder_bias" is assigned with "True" value at initialization.
+            The linear transformation bias parameter. It will not be None if attribute "enable_bias" is assigned with "True" value at initialization.
         device: str, default = 'cpu'
             Device to calculate the remainder function.
 

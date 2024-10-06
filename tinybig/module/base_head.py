@@ -14,13 +14,18 @@ The RPN head will be used to compose the RPN layer module for building deep RPN 
 """
 
 import math
-
 import torch
-import torch.nn.functional as F
 
 from tinybig.config import config
 from tinybig.module.base_functions import function
 from tinybig.fusion.metric_fusion import mean_fusion
+from tinybig.module import (
+    transformation as transformation_class,
+    fabrication as fabrication_class,
+    remainder as remainder_class,
+    interdependence as interdependence_class,
+    fusion as fusion_class,
+)
 
 
 class rpn_head(torch.nn.Module):
@@ -113,12 +118,12 @@ class rpn_head(torch.nn.Module):
         l_channel_fusion: int = None,
 
         input_process_functions=None,
-        data_transformation=None,
-        attribute_interdependence=None,
-        instance_interdependence=None,
-        parameter_fabrication=None,
-        channel_fusion=None,
-        remainder=None,
+        data_transformation: transformation_class = None,
+        attribute_interdependence: interdependence_class = None,
+        instance_interdependence: interdependence_class = None,
+        parameter_fabrication: fabrication_class = None,
+        channel_fusion: fusion_class = None,
+        remainder: remainder_class = None,
         output_process_functions=None,
 
         input_process_function_configs=None,
@@ -243,19 +248,20 @@ class rpn_head(torch.nn.Module):
 
         if self.attribute_interdependence is not None:
             if self.attribute_interdependence.require_parameters:
-                assert self.m is not None and self.m >= 1
                 if self.l_attribute_interdependence is None:
                     self.l_attribute_interdependence = self.attribute_interdependence.calculate_l()
                 self.w_attribute_interdependence = torch.nn.Parameter(torch.rand(self.channel_num, self.l_attribute_interdependence, device=self.device))
+            assert self.m is not None and self.m >= 1
             m_prime = self.attribute_interdependence.calculate_m_prime(m=self.m)
 
         if self.instance_interdependence is not None:
             if self.instance_interdependence.require_parameters:
-                assert self.batch_num is not None and self.batch_num >= 1
                 if self.l_instance_interdependence is None:
                     self.l_instance_interdependence = self.instance_interdependence.calculate_l()
-                self.w_attribute_interdependence = torch.nn.Parameter(torch.rand(self.channel_num, self.l_instance_interdependence, device=self.device))
-            b_prime = self.instance_interdependence.calculate_b_prime(b=self.batch_num)
+                self.w_instance_interdependence = torch.nn.Parameter(torch.rand(self.channel_num, self.l_instance_interdependence, device=self.device))
+            if self.batch_num is not None:
+                assert self.batch_num is not None and self.batch_num >= 1
+                b_prime = self.instance_interdependence.calculate_b_prime(b=self.batch_num)
 
         # create learnable parameters for parameter_fabrication function
         if self.parameter_fabrication is not None and self.parameter_fabrication.require_parameters:

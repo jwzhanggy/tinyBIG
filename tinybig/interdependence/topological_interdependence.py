@@ -15,6 +15,7 @@ from tinybig.koala.topology import graph as graph_structure
 from tinybig.koala.linear_algebra import (
     accumulative_matrix_power,
     matrix_power,
+    degree_based_normalize_matrix
 )
 
 
@@ -26,8 +27,8 @@ class chain_interdependence(interdependence):
         interdependence_type: str = 'instance',
         name: str = 'chain_interdependence',
         chain: chain_structure = None,
-        links: dict | list = None, length: int = None, bi_directional: bool = False,
-        normalization: bool = False, normalization_mode: str = 'row_column', self_dependence: bool = False,
+        length: int = None, bi_directional: bool = False,
+        normalization: bool = False, normalization_mode: str = 'row_column', self_dependence: bool = True,
         require_data: bool = False, require_parameters: bool = False,
         device: str = 'cpu', *args, **kwargs
     ):
@@ -35,13 +36,10 @@ class chain_interdependence(interdependence):
 
         if chain is not None:
             self.chain = chain
-        elif links is not None or length is not None:
-            self.chain = chain_structure(links=links, length=length, bi_directional=bi_directional)
+        elif length is not None:
+            self.chain = chain_structure(length=length, bi_directional=bi_directional)
         else:
-            raise ValueError('Either nodes or links must be provided')
-
-        self.o = self.chain.order()
-        self.o_prime = self.o
+            raise ValueError('Either chain structure of chain length must be provided...')
 
         self.node_id_index_map = None
         self.node_index_id_map = None
@@ -49,6 +47,9 @@ class chain_interdependence(interdependence):
         self.normalization = normalization
         self.normalization_mode = normalization_mode
         self.self_dependence = self_dependence
+
+    def is_bi_directional(self):
+        return not self.chain.is_directed()
 
     def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):
         if not self.require_data and not self.require_parameters and self.A is not None:
@@ -91,6 +92,8 @@ class multihop_chain_interdependence(chain_interdependence):
 
             if self.accumulative:
                 A = accumulative_matrix_power(adj, self.h)
+                if self.is_bi_directional():
+                    A = degree_based_normalize_matrix(A, mode='column')
             else:
                 A = matrix_power(adj, self.h)
 
@@ -110,11 +113,10 @@ class multihop_chain_interdependence(chain_interdependence):
             return A
 
 
-class approx_multihop_chain_interdependence(chain_interdependence):
+class inverse_approx_multihop_chain_interdependence(chain_interdependence):
 
-    def __init__(self, name: str = 'approx_multihop_chain_interdependence', approx_type: str = 'reciprocal', normalization: bool = False, normalization_mode: str = 'row_column', *args, **kwargs):
+    def __init__(self, name: str = 'inverse_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row_column', *args, **kwargs):
         super().__init__(name=name, normalization=normalization, normalization_mode=normalization_mode, *args, **kwargs)
-        self.approx_type = approx_type
 
     def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):
         if not self.require_data and not self.require_parameters and self.A is not None:
@@ -124,12 +126,42 @@ class approx_multihop_chain_interdependence(chain_interdependence):
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
-            if self.approx_type == 'reciprocal':
-                A = torch.inverse(torch.eye(adj.shape[0], device=device) - adj)
-            elif self.approx_type == 'exponential':
-                A = torch.matrix_exp(adj)
+            if self.is_bi_directional():
+                A = accumulative_matrix_power(adj, n=adj.shape[0] - 1)
+                A = degree_based_normalize_matrix(mx=A, mode='column')
             else:
-                raise ValueError('Approx type must be either "reciprocal" or "exponential"')
+                A = torch.inverse(torch.eye(adj.shape[0], device=device) - adj)
+
+            A = self.post_process(x=A, device=device)
+
+            if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
+                assert A.shape == (self.m, self.calculate_m_prime())
+            elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
+                assert A.shape == (self.b, self.calculate_b_prime())
+
+            if not self.require_data and not self.require_parameters and self.A is not None:
+                self.A = A
+
+            return A
+
+
+class exponential_approx_multihop_chain_interdependence(chain_interdependence):
+
+    def __init__(self, name: str = 'exponential_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row_column', *args, **kwargs):
+        super().__init__(name=name, normalization=normalization, normalization_mode=normalization_mode, *args, **kwargs)
+
+    def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):
+        if not self.require_data and not self.require_parameters and self.A is not None:
+            return self.A
+        else:
+            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            self.node_id_index_map = mappings['node_id_index_map']
+            self.node_index_id_map = mappings['node_index_id_map']
+
+            if adj.device.type == 'mps':
+                A = torch.matrix_exp(adj.to('cpu')).to('mps')
+            else:
+                A = torch.matrix_exp(adj)
 
             A = self.post_process(x=A, device=device)
 

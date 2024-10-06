@@ -16,36 +16,43 @@ class perceptron_layer(rpn_layer):
         self,
         m: int, n: int,
         name: str = 'perceptron_layer',
-        enable_bias: bool = True,
-        # optional parameters
-        with_taylor: bool = False,
-        d: int = 2,
-        with_dual_lphm: bool = False,
-        with_lorr: bool = False,
-        r: int = 3,
-        with_residual: bool = False,
         channel_num: int = 1,
-        with_batch_norm: bool = False,
-        with_relu: bool = False,
-        with_softmax: bool = True,
         width: int = 1,
+        # data transformation function parameters
+        with_taylor: bool = False, d: int = 2,
+        # parameter reconciliation function parameters
+        with_dual_lphm: bool = False,
+        with_lorr: bool = False, r: int = 3,
+        enable_bias: bool = True,
+        # remainder function parameters
+        with_residual: bool = False,
+        # output processing function parameters
+        with_batch_norm: bool = False,
+        with_relu: bool = True,
+        with_dropout: bool = True, p: float = 0.5,
+        with_softmax: bool = True,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
             perceptron_head(
                 m=m, n=n,
-                enable_bias=enable_bias,
-                device=device,
-                with_taylor=with_taylor,
-                with_dual_lphm=with_dual_lphm,
-                with_lorr=with_lorr,
-                with_residual=with_residual,
-                d=d, r=r,
                 channel_num=channel_num,
+                # --------------------
+                with_taylor=with_taylor, d=d,
+                # --------------------
+                with_dual_lphm=with_dual_lphm,
+                with_lorr=with_lorr, r=r,
+                enable_bias=enable_bias,
+                # --------------------
+                with_residual=with_residual,
+                # --------------------
                 with_batch_norm=with_batch_norm,
                 with_relu=with_relu,
+                with_dropout=with_dropout, p=p,
                 with_softmax=with_softmax,
+                # --------------------
+                device=device,
                 *args, **kwargs
             )
         ] * width

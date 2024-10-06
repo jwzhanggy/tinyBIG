@@ -62,7 +62,8 @@ from tinybig.interdependence.topological_interdependence import (
     pagerank_multihop_graph_interdependence,
     chain_interdependence,
     multihop_chain_interdependence,
-    approx_multihop_chain_interdependence
+    inverse_approx_multihop_chain_interdependence,
+    exponential_approx_multihop_chain_interdependence
 )
 
 from tinybig.interdependence.geometric_interdependence import (

@@ -11,3 +11,11 @@ from tinybig.head.grid_based_heads import (
     conv_head,
     pooling_head,
 )
+
+from tinybig.head.chain_based_heads import (
+    recurrent_head
+)
+
+from tinybig.head.bilinear_heads import (
+    attention_head
+)

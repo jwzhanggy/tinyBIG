@@ -97,18 +97,18 @@ class hybrid_interdependence(interdependence):
 
             A_list = []
             if w is not None:
-                w_segments = torch.split(w, parameter_numbers)
+                w_segments = torch.split(w, parameter_numbers, dim=-1)
             else:
                 w_segments = [None] * len(parameter_numbers)
+
             for func, w_segment in zip(self.interdependence_functions, w_segments):
-                A = func.forward(x=x, w=w_segment, device=device, *args, **kwargs)
+                A = func.calculate_A(x=x, w=w_segment, device=device, *args, **kwargs)
                 A_list.append(A)
 
             if self.fusion_function.require_parameters:
-                A = self.fusion_function(x=torch.Tensor(A_list), w=w_segments[-1], device=device, *args, **kwargs)
+                A = self.fusion_function(x=A_list, w=w_segments[-1], device=device, *args, **kwargs)
             else:
-                A = self.fusion_function(x=torch.Tensor(A_list), device=device, *args, **kwargs)
-
+                A = self.fusion_function(x=A_list, device=device, *args, **kwargs)
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:

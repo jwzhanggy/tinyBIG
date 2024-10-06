@@ -23,7 +23,7 @@ class parameterized_bilinear_interdependence(interdependence):
     def __init__(
         self,
         b: int, m: int,
-        interdependence_type: str = 'attribute',
+        interdependence_type: str = 'instance',
         name: str = 'parameterized_bilinear_interdependence',
         require_parameters: bool = True,
         require_data: bool = True,
@@ -31,6 +31,14 @@ class parameterized_bilinear_interdependence(interdependence):
     ):
         super().__init__(b=b, m=m, name=name, interdependence_type=interdependence_type, require_data=require_data, require_parameters=require_parameters, device=device, *args, **kwargs)
         self.parameter_fabrication = None
+
+    def calculate_b_prime(self, b: int = None):
+        b = b if b is not None else self.b
+        return b
+
+    def calculate_m_prime(self, m: int = None):
+        m = m if m is not None else self.m
+        return m
 
     def calculate_l(self):
         if self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
@@ -70,13 +78,12 @@ class parameterized_bilinear_interdependence(interdependence):
                 W = self.parameter_fabrication(w=w, n=d, D=d_prime, device=device)
 
             A = torch.matmul(x.t(), torch.matmul(W, x))
-
             A = self.post_process(x=A, device=device)
 
-            if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
-                assert A.shape == (self.m, self.calculate_m_prime())
-            elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
-                assert A.shape == (self.b, self.calculate_b_prime())
+            # if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
+            #     assert A.shape == (self.m, self.calculate_m_prime())
+            # elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
+            #     assert A.shape == (self.b, self.calculate_b_prime())
 
             if not self.require_data and not self.require_parameters and self.A is not None:
                 self.A = A

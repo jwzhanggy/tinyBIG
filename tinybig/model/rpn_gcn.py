@@ -80,7 +80,7 @@ class gcn(rpn):
                     with_batch_norm=with_batch_norm and n != dims[-1],
                     with_relu=with_relu and n != dims[-1],
                     with_dropout=with_dropout and n != dims[-1], p=p,
-                    with_softmax=with_softmax and n == dims[-1],
+                    with_softmax=with_softmax and m == dims[-2] and n == dims[-1],
                     # ---------------
                     device=device,
                 )
