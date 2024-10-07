@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+######################
+# Text Dataloader #
+######################
+
 from abc import abstractmethod
 
 import torch, torchtext

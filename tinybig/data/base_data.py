@@ -1,6 +1,11 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+
+###############################
+# Base Dataset and Dataloader #
+###############################
+
 """
 The base dataloader and dataset classes.
 
@@ -12,10 +17,10 @@ import numpy as np
 from typing import Union, List, Tuple
 
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 
 from tinybig.config.base_config import config
-
+from tinybig.util.utility import download_file_from_github
 
 class dataloader:
     """
@@ -53,6 +58,25 @@ class dataloader:
         self.name = name
         self.train_batch_size = train_batch_size
         self.test_batch_size = test_batch_size
+
+    @staticmethod
+    def download_data(data_profile: dict, cache_dir: str = None, file_name: str = None):
+        if data_profile is None:
+            raise ValueError('The data profile must be provided.')
+
+        if cache_dir is None:
+            cache_dir = './data/'
+
+        if data_profile is None or 'url' not in data_profile:
+            raise ValueError('data_profile must not be None and should contain "url" key...')
+
+        if file_name is None:
+            for file_name in data_profile['url']:
+                download_file_from_github(url_link=data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
+        else:
+            assert file_name in data_profile['url']
+            download_file_from_github(url_link=data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
+
 
     @staticmethod
     def from_config(configs: dict):

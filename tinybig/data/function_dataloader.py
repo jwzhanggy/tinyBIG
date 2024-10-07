@@ -1,10 +1,12 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
-"""
+
+############################
+# Math Function Dataloader #
+############################
 
 
-"""
 import torch
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split

@@ -2,6 +2,11 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+####################
+# Graph Dataloader #
+####################
+
+
 import warnings
 from abc import abstractmethod
 
@@ -14,7 +19,7 @@ from sklearn.model_selection import train_test_split
 
 from tinybig.data.base_data import dataset, dataloader
 from tinybig.koala.topology.graph import graph as graph_class
-from tinybig.util.utility import download_file_from_github, check_file_existence
+from tinybig.util.utility import check_file_existence
 
 
 class graph_dataloader(dataloader):
@@ -25,25 +30,11 @@ class graph_dataloader(dataloader):
         self.data_profile = data_profile
         self.graph = None
 
-    def download_data(self, cache_dir: str = None, file_name: str = None):
-        if cache_dir is None:
-            cache_dir = './data/{}'.format(self.name)
-
-        if self.data_profile is None or 'url' not in self.data_profile:
-            raise ValueError('data_profile must not be None and should contain "url" key...')
-
-        if file_name is None:
-            for file_name in self.data_profile['url']:
-                download_file_from_github(url_link=self.data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
-        else:
-            assert file_name in self.data_profile['url']
-            download_file_from_github(url_link=self.data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
-
     def load_raw(self, cache_dir: str, device: str = 'cpu'):
         if not check_file_existence("{}/node".format(cache_dir)):
-            self.download_data(cache_dir=cache_dir, file_name='node')
+            self.download_data(data_profile=self.data_profile, cache_dir=cache_dir, file_name='node')
         if not check_file_existence("{}/link".format(cache_dir)):
-            self.download_data(cache_dir=cache_dir, file_name='link')
+            self.download_data(data_profile=self.data_profile, cache_dir=cache_dir, file_name='link')
 
         idx_features_labels = np.genfromtxt("{}/node".format(cache_dir), dtype=np.dtype(str))
         X = torch.tensor(sp.csr_matrix(idx_features_labels[:, 1:-1], dtype=np.float32).todense())
