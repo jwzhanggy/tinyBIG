@@ -1,0 +1,10 @@
+data_transformation_configs:
+  data_transformation_class: tinybig.expansion.taylor_expansion
+  data_transformation_parameters:
+    name: taylor_expansion_with_preprocessing
+    d: 2
+    postprocess_function_configs:
+      - function_class: torch.nn.Sigmoid
+      - function_class: torch.nn.LayerNorm
+        function_parameters:
+          normalized_shape: 12
