@@ -21,7 +21,6 @@ This module contains the following categories of dataloader classes:
 """
 
 
-
 from .base_data import (
     dataloader,
     dataset
@@ -63,5 +62,13 @@ from .tabular_dataloader import (
     diabetes,
     iris,
     banknote
+)
+
+from .time_series_dataloader import (
+    time_series_data,
+    etf,
+    stock,
+    traffic_la,
+    traffic_bay
 )
 

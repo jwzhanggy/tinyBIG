@@ -15,6 +15,7 @@ import importlib
 import pkgutil
 import inspect
 import requests
+import zipfile
 
 
 def set_random_seed(random_seed: int = 0):
@@ -154,6 +155,19 @@ def download_file_from_github(url_link: str, destination_path: str):
         print(f"File downloaded successfully: {destination_path}")
     else:
         print(f"Failed to download file. Status code: {response.status_code}")
+
+
+def unzip_file(complete_file_path: str, destination: str = None):
+    if complete_file_path is None or not complete_file_path.endswith('.zip'):
+        raise ValueError('file_name ending with .zip needs to be provided...')
+
+    if destination is None:
+        destination = os.path.dirname(complete_file_path)
+
+    print(f"Unzipping: {complete_file_path}")
+    with zipfile.ZipFile(complete_file_path, 'r') as zip_ref:
+        zip_ref.extractall(destination)
+    print(f"Unzipped: {complete_file_path}")
 
 
 if __name__ == '__main__':

@@ -18,4 +18,6 @@ from tinybig.util.utility import (
     find_class_in_package,
     check_directory_exists,
     check_file_existence,
+    download_file_from_github,
+    unzip_file
 )

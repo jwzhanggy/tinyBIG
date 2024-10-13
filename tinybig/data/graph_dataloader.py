@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 
 from tinybig.data.base_data import dataset, dataloader
 from tinybig.koala.topology.graph import graph as graph_class
-from tinybig.util.utility import check_file_existence
+from tinybig.util.utility import check_file_existence, download_file_from_github
 
 
 class graph_dataloader(dataloader):
@@ -29,6 +29,25 @@ class graph_dataloader(dataloader):
 
         self.data_profile = data_profile
         self.graph = None
+
+    @staticmethod
+    def download_data(data_profile: dict, cache_dir: str = None, file_name: str = None):
+        if data_profile is None:
+            raise ValueError('The data profile must be provided.')
+
+        if cache_dir is None:
+            cache_dir = './data/'
+
+        if data_profile is None or 'url' not in data_profile:
+            raise ValueError('data_profile must not be None and should contain "url" key...')
+
+        if file_name is None:
+            for file_name in data_profile['url']:
+                download_file_from_github(url_link=data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
+        else:
+            assert file_name in data_profile['url']
+            download_file_from_github(url_link=data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
+
 
     def load_raw(self, cache_dir: str, device: str = 'cpu'):
         if not check_file_existence("{}/node".format(cache_dir)):
