@@ -1,10 +1,10 @@
-from tinybig.config import rpn_config
+from tinybig.config import config
 from tinybig.util import set_random_seed
 from tinybig.metric import accuracy
 
 print('loading configs...')
 config_file_name = 'diabetes_configs'
-config_obj = rpn_config()
+config_obj = config()
 config = config_obj.load_yaml(cache_dir='./configs', config_file=config_file_name + '.yaml')
 print(config)
 
@@ -15,9 +15,9 @@ set_random_seed(random_seed)
 print('device: ', device, '; random_seed: ', random_seed)
 
 print('instantiating objects from config...')
-object_dict = config_obj.instantiate_object_from_config(config['configurations'])
-data_obj, model_obj, learner_obj, metric_obj, result_obj = [object_dict[name] for name in ['data', 'model', 'learner', 'metric', 'result']]
+data_obj, model_obj, learner_obj, metric_obj, result_obj = [config_obj.instantiation_from_configs(config['configurations'][f'{stem}_configs'], device=device, class_name=f'{stem}_class', parameter_name=f'{stem}_parameters') for stem in ['data', 'model', 'learner', 'metric', 'output']]
 print('parameter num: ', sum([parameter.numel() for parameter in model_obj.parameters()]))
+
 
 print('loading dataset...')
 data_loader = data_obj.load(train_percentage=0.9, normalize_X=True)

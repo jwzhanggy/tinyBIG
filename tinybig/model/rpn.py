@@ -139,7 +139,7 @@ class rpn(model):
         """
         return len(self.layers)
 
-    def initialize_parameters(self):
+    def initialize_parameters(self, init_type='xavier_uniform', init_bias=True):
         """
         RPN model parameter initialization method.
 
@@ -152,7 +152,7 @@ class rpn(model):
             This method doesn't have any return values.
         """
         for layer in self.layers:
-            layer.initialize_parameters()
+            layer.initialize_parameters(init_type=init_type, init_bias=init_bias)
 
     def to_config(self):
         model_class = f"tinybig.model.{self.__class__.__name__}"

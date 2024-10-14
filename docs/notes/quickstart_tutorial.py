@@ -85,7 +85,7 @@ model = rpn(
 import torch
 from tinybig.learner import backward_learner
 
-optimizer=torch.optim.AdamW(lr=2.0e-03, weight_decay=2.0e-04, params=model.parameters())
+optimizer=torch.optim.AdamW(lr=1.0e-03, weight_decay=1.0e-05, params=model.parameters())
 lr_scheduler=torch.optim.lr_scheduler.ExponentialLR(gamma=0.95, optimizer=optimizer)
 loss = torch.nn.CrossEntropyLoss()
 learner = backward_learner(n_epochs=3, optimizer=optimizer, loss=loss, lr_scheduler=lr_scheduler)

@@ -65,7 +65,7 @@ from .tabular_dataloader import (
 )
 
 from .time_series_dataloader import (
-    time_series_data,
+    time_series_dataloader,
     etf,
     stock,
     traffic_la,

@@ -57,6 +57,7 @@ configurations:
                     function_parameters:
                       name: lorr_reconciliation
                       r: 5
+                      enable_bias: False
                   remainder_configs:
                     function_class: tinybig.remainder.zero_remainder
                     function_parameters:
@@ -84,13 +85,13 @@ configurations:
                     function_class: tinybig.reconciliation.identity_reconciliation
                     function_parameters:
                       name: identity_reconciliation
-                      enable_bias: True
-                  remainder_configs:
-                    function_class: tinybig.remainder.zero_remainder
-                    function_parameters:
-                      name: zero_remainder
-                      require_parameters: False
                       enable_bias: False
+                  remainder_configs:
+                    function_class: tinybig.remainder.linear_remainder
+                    function_parameters:
+                      name: linear_remainder
+                      require_parameters: True
+                      enable_bias: True
 
   metric_configs:
     metric_class: tinybig.metric.accuracy

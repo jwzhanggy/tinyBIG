@@ -30,8 +30,8 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
-    device: *device
     model_parameters:
+      device: *device
       name: reconciled_polynomial_network
       depth: 3
       depth_alloc: [1, 1, 1]
@@ -42,7 +42,6 @@ configurations:
             m: 784
             n: 64
             width: 1
-            fusion_strategy: average
             width_alloc: [1]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -50,25 +49,23 @@ configurations:
                   l: null
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.taylor_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.taylor_expansion
+                    function_parameters:
                       name: taylor_expansion
                       d: 2
-                    postprocess_function_configs:
-                      - function_class: torch.nn.LayerNorm
-                        function_parameters:
-                          normalized_shape: 615440
-                          device: *device
+                      postprocess_function_configs:
+                        - function_class: torch.nn.LayerNorm
+                          function_parameters:
+                            normalized_shape: 615440
+                            device: *device
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
-                      require_parameters: False
-                      enable_bias: False
 
         - layer_class: tinybig.module.rpn_layer
           layer_parameters:
@@ -76,7 +73,6 @@ configurations:
             m: 64
             n: 64
             width:
-            fusion_strategy: average
             width_alloc: [ 1 ]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -84,8 +80,8 @@ configurations:
                   l:
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.taylor_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.taylor_expansion
+                    function_parameters:
                       name: taylor_expansion
                       d: 2
                       postprocess_function_configs:
@@ -94,15 +90,13 @@ configurations:
                             normalized_shape: 4160
                             device: *device
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
-                      require_parameters: False
-                      enable_bias: False
 
         - layer_class: tinybig.module.rpn_layer
           layer_parameters:
@@ -110,7 +104,6 @@ configurations:
             m: 64
             n: 10
             width:
-            fusion_strategy: average
             width_alloc: [ 1 ]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -118,8 +111,8 @@ configurations:
                   l:
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.taylor_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.taylor_expansion
+                    function_parameters:
                       name: taylor_expansion
                       d: 2
                       postprocess_function_configs:
@@ -128,22 +121,20 @@ configurations:
                             normalized_shape: 4160
                             device: *device
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
-                      require_parameters: False
-                      enable_bias: False
 
   metric_configs:
     metric_class: tinybig.metric.accuracy
     metric_parameters:
       name: accuracy
 
-  result_configs:
-    result_class: tinybig.output.rpn_output
-    result_parameters:
+  output_configs:
+    output_class: tinybig.output.rpn_output
+    output_parameters:
       name: prediction_output

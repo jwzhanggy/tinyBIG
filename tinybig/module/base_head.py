@@ -15,6 +15,7 @@ The RPN head will be used to compose the RPN layer module for building deep RPN 
 
 import math
 import torch
+import torch.nn.functional as F
 
 from tinybig.config import config
 from tinybig.module.base_functions import function
@@ -528,9 +529,7 @@ class rpn_head(torch.nn.Module):
                 if self.b is not None:
                     inner_prod += self.b
             else:
-                inner_prod = torch.matmul(kappa_xi_x, phi_w.T)
-                if self.b is not None:
-                    inner_prod += self.b
+                inner_prod = F.linear(kappa_xi_x, phi_w, bias=self.b)
         else:
             inner_prod = kappa_xi_x
         return inner_prod
@@ -605,7 +604,7 @@ class rpn_head(torch.nn.Module):
 
         # ************** Remainder Block **************
         pi_x = self.calculate_pi_x(x=x, device=device, *args, **kwargs)
-        if pi_x is not None and result.shape == pi_x.shape:
+        if pi_x is not None:
             assert pi_x.size(-1) == n
             result += pi_x
 

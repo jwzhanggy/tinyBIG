@@ -6,7 +6,7 @@ configurations:
     data_class: tinybig.data.cifar10
     data_parameters:
       name: mnist
-      train_batch_size: 100
+      train_batch_size: 64
       test_batch_size: 64
 
   learner_configs:
@@ -17,7 +17,7 @@ configurations:
       optimizer_configs:
         optimizer_class: torch.optim.AdamW
         optimizer_parameters:
-          lr: 1.0e-03
+          lr: 1.7e-03
           weight_decay: 1.0e-05
       lr_scheduler_configs:
         lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
@@ -30,8 +30,8 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
-    device: *device
     model_parameters:
+      device: *device
       name: reconciled_polynomial_network
       depth: 3
       depth_alloc: [1, 1, 1]
@@ -42,7 +42,6 @@ configurations:
             m: 3072
             n: 512
             width: 1
-            fusion_strategy: average
             width_alloc: [1]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -50,19 +49,17 @@ configurations:
                   l: null
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.identity_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
                       name: identity_expansion
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
-                      require_parameters: False
-                      enable_bias: False
                   output_process_function_configs:
                     - function_class: torch.nn.GELU
                     - function_class: torch.nn.BatchNorm1d
@@ -76,7 +73,6 @@ configurations:
             m: 512
             n: 256
             width:
-            fusion_strategy: average
             width_alloc: [ 1 ]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -84,16 +80,16 @@ configurations:
                   l:
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.identity_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
                       name: identity_expansion
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
                   output_process_function_configs:
                     - function_class: torch.nn.GELU
@@ -108,7 +104,6 @@ configurations:
             m: 256
             n: 10
             width:
-            fusion_strategy: average
             width_alloc: [ 1 ]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -116,16 +111,16 @@ configurations:
                   l:
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.identity_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
                       name: identity_expansion
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.zero_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
                       name: zero_remainder
 
   metric_configs:
@@ -133,7 +128,7 @@ configurations:
     metric_parameters:
       name: accuracy
 
-  result_configs:
-    result_class: tinybig.output.rpn_output
-    result_parameters:
+  output_configs:
+    output_class: tinybig.output.rpn_output
+    output_parameters:
       name: prediction_output

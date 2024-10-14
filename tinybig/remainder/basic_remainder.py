@@ -103,7 +103,7 @@ class constant_remainder(remainder):
         torch.Tensor
             The remainder term of length $n$.
         """
-        x = self.c * torch.ones(n)
+        x = self.c * torch.ones(n, device=device)
         return self.activation(x=x, device=device)
 
 

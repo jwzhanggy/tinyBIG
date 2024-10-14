@@ -17,7 +17,7 @@ configurations:
       optimizer_configs:
         optimizer_class: torch.optim.AdamW
         optimizer_parameters:
-          lr: 1.0e-02
+          lr: 3.0e-02
           weight_decay: 1.0e-05
       loss_configs:
         loss_class: torch.nn.MSELoss
@@ -26,8 +26,8 @@ configurations:
 
   model_configs:
     model_class: tinybig.model.rpn
-    device: *device
     model_parameters:
+      device: *device
       name: reconciled_polynomial_network
       depth: 1
       depth_alloc: [1]
@@ -38,7 +38,6 @@ configurations:
             m: 4
             n: 1
             width: 1
-            fusion_strategy: average
             width_alloc: [1]
             head_configs:
               - head_class: tinybig.module.rpn_head
@@ -46,17 +45,17 @@ configurations:
                   l: null
                   channel_num: 1
                   data_transformation_configs:
-                    data_transformation_class: tinybig.expansion.combinatorial_normal_expansion
-                    data_transformation_parameters:
+                    function_class: tinybig.expansion.combinatorial_normal_expansion
+                    function_parameters:
                       name: combinatorial_normal_expansion
                       d: 2
                   parameter_fabrication_configs:
-                    parameter_fabrication_class: tinybig.reconciliation.identity_reconciliation
-                    parameter_fabrication_parameters:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
                       name: identity_reconciliation
                   remainder_configs:
-                    remainder_class: tinybig.remainder.linear_remainder
-                    remainder_parameters:
+                    function_class: tinybig.remainder.linear_remainder
+                    function_parameters:
                       name: linear_remainder
                       require_parameters: True
   metric_configs:
@@ -64,7 +63,7 @@ configurations:
     metric_parameters:
       name: mse
 
-  result_configs:
-    result_class: tinybig.output.rpn_output
-    result_parameters:
+  output_configs:
+    output_class: tinybig.output.rpn_output
+    output_parameters:
       name: prediction_output
