@@ -189,7 +189,6 @@ class geometric_interdependence(interdependence):
             raise ValueError(f"Invalid interdependence type: {self.interdependence_type}")
 
 
-
 class cuboid_patch_based_geometric_interdependence(geometric_interdependence):
 
     def __init__(

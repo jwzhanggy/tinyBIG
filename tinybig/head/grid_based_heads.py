@@ -9,7 +9,7 @@
 from functools import partial
 
 import torch
-import torch.nn.functional as F
+
 
 from tinybig.koala.linear_algebra.metric import metric
 from tinybig.koala.algebra import find_close_factors
