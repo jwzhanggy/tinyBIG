@@ -145,7 +145,7 @@ class geometric_interdependence(interdependence):
                 across_universe=across_universe, device=device, *args, **kwargs
             )
             A = self.post_process(x=A, device=device)
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
             return A
 

@@ -13,6 +13,7 @@ This module contains the implementation of RPN head with multiple channels.
 The RPN head will be used to compose the RPN layer module for building deep RPN models.
 """
 
+import time
 import math
 import torch
 import torch.nn.functional as F
