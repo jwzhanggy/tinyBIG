@@ -84,7 +84,7 @@ class pooling_layer(rpn_layer):
         p_d: int = 0, p_d_prime: int = None,
         p_r: int = None,
         cd_h: int = None, cd_w: int = None, cd_d: int = 1,
-        with_dropout: bool = False,
+        with_dropout: bool = False, p: float = 0.5,
         packing_strategy: str = 'densest_packing',
         # other parameters
         device: str = 'cpu', *args, **kwargs
@@ -101,7 +101,7 @@ class pooling_layer(rpn_layer):
                 p_r=p_r,
                 cd_h=cd_h, cd_w=cd_w, cd_d=cd_d,
                 packing_strategy=packing_strategy,
-                with_dropout=with_dropout,
+                with_dropout=with_dropout, p=p,
                 device=device
             )
         ]

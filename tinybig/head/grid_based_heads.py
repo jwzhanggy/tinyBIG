@@ -183,7 +183,7 @@ class pooling_head(rpn_head):
         p_r: int = None,
         cd_h: int = None, cd_w: int = None, cd_d: int = 1,
         packing_strategy: str = 'densest_packing',
-        with_dropout: bool = True, p: float = 0.25,
+        with_dropout: bool = True, p: float = 0.5,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -225,7 +225,7 @@ class pooling_head(rpn_head):
 
         output_process_functions = []
         if with_dropout:
-            output_process_functions.append(torch.nn.Dropout2d(p=p))
+            output_process_functions.append(torch.nn.Dropout(p=p))
 
         print('pooling layer', output_process_functions)
 
