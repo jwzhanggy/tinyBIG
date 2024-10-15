@@ -140,7 +140,7 @@ class grid(geometric_space):
             mx = torch.sparse_coo_tensor(torch.tensor([rows, columns]), values=torch.tensor(data), size=(n, n), device=device)
         return mx
 
-    def to_padding_matrix(self, packed_patch: dict, n: int, to_sparse: bool = False, across_universe: bool = False, device: str = 'cpu', *args, **kwargs):
+    def to_padding_matrix(self, packed_patch: dict, n: int, across_universe: bool = False, device: str = 'cpu', *args, **kwargs):
         universe_num = self.universe_num if across_universe else 1
         all_rows, all_columns, all_data = [], [], []
 
@@ -164,11 +164,11 @@ class grid(geometric_space):
 
         assert len(all_rows) == len(all_columns) == len(all_data)
 
-        if to_sparse and device != 'mps':
-            mx = torch.sparse_coo_tensor(torch.tensor([all_rows, all_columns]), values=torch.tensor(all_data), size=(n, len(all_columns)), device=device)
-        else:
+        if device == 'mps':
             mx = torch.zeros((n, len(all_columns)), device=device)
             mx[torch.tensor(all_rows, device=device), torch.tensor(all_columns, device=device)] = torch.tensor(all_data, device=device)
+        else:
+            mx = torch.sparse_coo_tensor(torch.tensor([all_rows, all_columns]), values=torch.tensor(all_data), size=(n, len(all_columns)), device=device)
         return mx
 
     def to_matrix(

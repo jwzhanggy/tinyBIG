@@ -157,7 +157,7 @@ class geometric_interdependence(interdependence):
 
         data_x = kappa_x if kappa_x is not None else x
         b, m = data_x.shape
-        data_x = data_x.view(b, self.grid.get_universe_num(), -1)
+        data_x = data_x.view(b*self.grid.get_universe_num(), -1)
         if self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
             # A shape: b * b'
             A = self.calculate_A(x.transpose(0, 1), w, device=device)
