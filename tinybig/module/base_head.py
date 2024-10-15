@@ -14,8 +14,6 @@ The RPN head will be used to compose the RPN layer module for building deep RPN 
 """
 import tinybig.remainder
 
-DEBUG_TAG = False
-import time
 import math
 import torch
 import torch.nn.functional as F
@@ -514,29 +512,16 @@ class rpn_head(torch.nn.Module):
 
     # this function checks conditions for faster calculation across multi-channels...
     def calculate_kappa_xi_x(self, x: torch.Tensor, channel_index: int = 0, device='cpu', *args, **kwargs):
-        t_begin = time.time()
 
         # ************** Attribute Interdependence Block **************
         xi_x = self.calculate_attribute_xi_x(x=x, channel_index=channel_index, device=self.device)
-
-        if DEBUG_TAG:
-            print('xi_x', time.time() - t_begin)
-            t_begin = time.time()
 
         # ************** Data Expansion Block **************
         kappa_x = self.calculate_kappa_x(x=xi_x, device=device, *args, **kwargs)
         assert kappa_x.shape[1] == self.data_transformation.calculate_D(m=xi_x.shape[1])
 
-        if DEBUG_TAG:
-            print('kappa_x', time.time() - t_begin)
-            t_begin = time.time()
-
         # ************** Instance Interdependence Block **************
         kappa_xi_x = self.calculate_instance_xi_x(x=x, channel_index=channel_index, kappa_x=kappa_x, device=self.device)
-
-        if DEBUG_TAG:
-            print('kappa_xi_x', time.time() - t_begin)
-            t_begin = time.time()
 
         return kappa_xi_x
 
@@ -580,8 +565,6 @@ class rpn_head(torch.nn.Module):
             The processed output of the head.
         """
         # ************** Input Processing Block **************
-        t_begin = time.time()
-
         if x is None:
             raise ValueError("x cannot be None...")
 
@@ -595,10 +578,6 @@ class rpn_head(torch.nn.Module):
             (self.instance_interdependence is None or not self.instance_interdependence.require_parameters)):
             pre_computed_kappa_xi_x = self.calculate_kappa_xi_x(x=x, channel_index=0, device=device)
 
-        if DEBUG_TAG:
-            print('pre_computed_kappa_xi_x', time.time() - t_begin)
-            t_begin = time.time()
-
         for channel_index in range(self.channel_num):
 
             # ************** Data Transformation Block **************
@@ -609,24 +588,12 @@ class rpn_head(torch.nn.Module):
             else:
                 kappa_xi_x = self.calculate_kappa_xi_x(x=x, channel_index=channel_index, device=device)
 
-            if DEBUG_TAG:
-                print('kappa_xi_x', time.time() - t_begin)
-                t_begin = time.time()
-
             # ************** Parameter Reconciliation Block **************
             phi_w = self.calculate_phi_w(D=kappa_xi_x.size(1), channel_index=channel_index, device=device, *args, **kwargs)
-
-            if DEBUG_TAG:
-                print('phi_w', self.parameter_fabrication, time.time() - t_begin)
-                t_begin = time.time()
 
             # ************** Inner Product Calculation Block **************
             inner_prod = self.calculate_inner_product(kappa_xi_x=kappa_xi_x, phi_w=phi_w, device=device, *args, **kwargs)
             inner_products.append(inner_prod)
-
-            if DEBUG_TAG:
-                print('inner_prod', time.time() - t_begin)
-                t_begin = time.time()
 
         # ************** Multi-Channel Fusion Block **************
         if self.channel_fusion is not None:
@@ -639,20 +606,12 @@ class rpn_head(torch.nn.Module):
             n = self.n
         assert result.size(-1) == n
 
-        if DEBUG_TAG:
-            print('channel_fusion', self.channel_fusion, time.time() - t_begin)
-            t_begin = time.time()
-
         # ************** Remainder Block **************
         pi_x = self.calculate_pi_x(x=x, device=device, *args, **kwargs)
         if pi_x is not None:
             if isinstance(pi_x, torch.Tensor):
                 assert pi_x.ndim == 0 or (pi_x.ndim > 0 and pi_x.size(-1) == n)
             result += pi_x
-
-        if DEBUG_TAG:
-            print('pi_x', self.remainder, time.time() - t_begin)
-            t_begin = time.time()
 
         # ************** Output Processing Block **************
         return function.func_x(x=result, functions=self.output_process_functions, device=self.device)

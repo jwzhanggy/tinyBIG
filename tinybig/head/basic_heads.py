@@ -96,6 +96,8 @@ class perceptron_head(rpn_head):
         if with_softmax:
             output_process_functions.append(torch.nn.Softmax(dim=-1))
 
+        print('perceptron layer', output_process_functions)
+
         super().__init__(
             m=m, n=n, name=name,
             data_transformation=data_transformation,

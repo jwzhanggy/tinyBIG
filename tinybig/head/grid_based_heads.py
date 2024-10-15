@@ -225,7 +225,7 @@ class pooling_head(rpn_head):
 
         output_process_functions = []
         if with_dropout:
-            output_process_functions.append(torch.nn.Dropout(p=p))
+            output_process_functions.append(torch.nn.Dropout2d(p=p))
 
         print('pooling layer', output_process_functions)
 
