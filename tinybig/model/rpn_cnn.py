@@ -84,9 +84,9 @@ class cnn(rpn):
                     channel_num=out_channel,
                     pooling_metric=pooling_metric,
                     patch_shape=patch_shape,
-                    p_h=p_h, p_h_prime=p_h_prime,
-                    p_w=p_w, p_w_prime=p_w_prime,
-                    p_d=p_d, p_d_prime=p_d_prime,
+                    p_h=1, p_h_prime=0,
+                    p_w=1, p_w_prime=0,
+                    p_d=0, p_d_prime=0,
                     p_r=p_r,
                     cd_h=pooling_cd_h, cd_w=pooling_cd_w, cd_d=pooling_cd_d,
                     packing_strategy=packing_strategy,
@@ -96,8 +96,8 @@ class cnn(rpn):
                 h, w, d = layer.get_output_grid_shape()
                 print('pooling out', h, w, d, out_channel)
                 layers.append(layer)
-                p_h = int(p_h/2)
-                p_w = int(p_w/2)
+                p_h = max(int(p_h/2), 1)
+                p_w = max(int(p_w/2), 1)
 
         # perceptron layers
         assert len(layers) >= 1
