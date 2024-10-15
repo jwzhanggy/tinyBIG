@@ -38,7 +38,7 @@ class cnn(rpn):
         with_relu: bool = True,
         with_softmax: bool = False,
         with_residual: bool = False,
-        with_dropout: bool = True, p: float = 0.5,
+        with_dropout: bool = True, p_pooling: float = 0.25, p_fc: float = 0.5,
         # parameter reconciliation function parameters
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
@@ -84,13 +84,13 @@ class cnn(rpn):
                     channel_num=out_channel,
                     pooling_metric=pooling_metric,
                     patch_shape=patch_shape,
-                    p_h=1, p_h_prime=0,
-                    p_w=1, p_w_prime=0,
-                    p_d=0, p_d_prime=0,
+                    p_h=p_h, p_h_prime=p_h_prime,
+                    p_w=p_w, p_w_prime=p_w_prime,
+                    p_d=p_d, p_d_prime=p_d_prime,
                     p_r=p_r,
                     cd_h=pooling_cd_h, cd_w=pooling_cd_w, cd_d=pooling_cd_d,
                     packing_strategy=packing_strategy,
-                    with_dropout=with_dropout, p=p,
+                    with_dropout=with_dropout, p=p_pooling,
                     device=device, *args, **kwargs
                 )
                 h, w, d = layer.get_output_grid_shape()
@@ -116,7 +116,7 @@ class cnn(rpn):
                     width=width,
                     with_batch_norm=with_batch_norm and n != dims[-1],
                     with_relu=with_relu and n != dims[-1],
-                    with_dropout=with_dropout and n != dims[-1], p=p,
+                    with_dropout=with_dropout and n != dims[-1], p=p_fc,
                     with_softmax=with_softmax and m == dims[-2] and n == dims[-1],
                     device=device, *args, **kwargs
                 )

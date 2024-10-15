@@ -9,7 +9,6 @@ This module contains the basic remainder functions, including constant_remainder
 identity_remainder, and linear_remainder.
 """
 
-import time
 import torch
 import torch.nn.functional as F
 
@@ -104,7 +103,7 @@ class constant_remainder(remainder):
         torch.Tensor
             The remainder term of length $n$.
         """
-        x = torch.tensor(self.c, device=device)
+        x = self.c * torch.ones(n, device=device)
         return self.activation(x=x, device=device)
 
 

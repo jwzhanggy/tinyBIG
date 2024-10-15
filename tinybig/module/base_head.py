@@ -278,7 +278,7 @@ class rpn_head(torch.nn.Module):
             self.w_remainder = torch.nn.Parameter(torch.rand(self.n, self.m, device=self.device))
             if self.remainder.enable_bias:
                 self.b_remainder = torch.nn.Parameter(torch.rand(self.n, device=self.device))
-        elif self.m != self.n and not self.remainder.require_parameters and self.remainder.get_name() not in ['zero_remainder', 'constant_remainder']:
+        elif self.m != self.n and not self.remainder.require_parameters and not isinstance(self.remainder, tinybig.remainder.zero_remainder) and not isinstance(self.remainder, tinybig.remainder.constant_remainder):
             raise ValueError('The input and output dimensions {}, {} are different, parameters will be needed '
                              'by the {} to adjust the input dimensions.'.format(self.m, self.n, self.remainder.get_name()))
 
@@ -609,8 +609,7 @@ class rpn_head(torch.nn.Module):
         # ************** Remainder Block **************
         pi_x = self.calculate_pi_x(x=x, device=device, *args, **kwargs)
         if pi_x is not None:
-            if isinstance(pi_x, torch.Tensor):
-                assert pi_x.ndim == 0 or (pi_x.ndim > 0 and pi_x.size(-1) == n)
+            assert pi_x.size(-1) == n
             result += pi_x
 
         # ************** Output Processing Block **************
