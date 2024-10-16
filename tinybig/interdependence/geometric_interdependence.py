@@ -71,6 +71,7 @@ class geometric_interdependence(interdependence):
             raise ValueError('the patch structure is not specified yet...')
 
         self.packing_strategy = packing_strategy
+
         self.cd_h, self.cd_w, self.cd_d = (cd_h, cd_w, cd_d) if (cd_h is not None and cd_w is not None and cd_d is not None) else self.patch.packing_strategy_parameters(packing_strategy=self.packing_strategy)
 
         self.interdependence_matrix_mode = interdependence_matrix_mode

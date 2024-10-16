@@ -96,8 +96,9 @@ class cnn(rpn):
                 h, w, d = layer.get_output_grid_shape()
                 print('pooling out', h, w, d, out_channel)
                 layers.append(layer)
-                p_h = max(int(p_h/2), 1)
-                p_w = max(int(p_w/2), 1)
+
+                # p_h = max(int(p_h/2), 1)
+                # p_w = max(int(p_w/2), 1)
 
         # perceptron layers
         assert len(layers) >= 1

@@ -59,7 +59,7 @@ class cuboid(geometric_space):
             warnings.warn(f'Unknown strategy {packing_strategy}, will use the default densest_packing strategy...')
             cd_h, cd_w, cd_d = 1, 1, 1
 
-        cd_h, cd_w, cd_d = int(max(cd_h, 1)), int(max(cd_w, 1)), int(max(cd_d, 1))
+        cd_h, cd_w, cd_d = max(int(cd_h), 1), max(int(cd_w), 1), max(int(cd_d), 1)
         return cd_h, cd_w, cd_d
 
     def generate_coordinates(self, *args, **kwargs):
