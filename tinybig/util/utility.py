@@ -170,6 +170,16 @@ def unzip_file(complete_file_path: str, destination: str = None):
     print(f"Unzipped: {complete_file_path}")
 
 
+def parameter_scheduler(strategy: str = 'half', parameter_list: list = None, lower_bound: int = 1):
+    if parameter_list is None:
+        raise ValueError("Parameter list must be provided.")
+    if strategy == 'half':
+        result = [max(int(parameter/2), lower_bound) if parameter is not None else None for parameter in parameter_list]
+        return result
+    else:
+        raise ValueError("Parameter strategy not supported.")
+
+
 if __name__ == '__main__':
     # Example usage:
     url = "https://raw.githubusercontent.com/jwzhanggy/tinybig_dataset_repo/main/data/graph/cora/node"  # Replace with your file's raw URL

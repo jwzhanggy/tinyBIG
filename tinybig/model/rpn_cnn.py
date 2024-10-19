@@ -9,6 +9,7 @@
 from tinybig.model.rpn import rpn
 from tinybig.layer.basic_layers import perceptron_layer
 from tinybig.layer.grid_based_layers import conv_layer, pooling_layer
+from tinybig.util import parameter_scheduler
 
 
 class cnn(rpn):
@@ -22,17 +23,24 @@ class cnn(rpn):
         width: int = 1,
         pooling_metric: str = 'batch_max',
         pooling_layer_gaps: int = 2,
+        patch_size_half_after_pooling: bool = False,
         name: str = 'rpn_cnn',
-        # patch structure parameters
+        # patch structure parameters for interdependence
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
         p_w: int = None, p_w_prime: int = None,
         p_d: int = 0, p_d_prime: int = None,
         p_r: int = None,
-        # packing parameters
         cd_h: int = None, cd_w: int = None, cd_d: int = 1,
         packing_strategy: str = 'densest_packing',
-        pooling_cd_h: int = None, pooling_cd_w: int = None, pooling_cd_d: int = 1,
+        # patch structure parameters for compression
+        pooling_patch_shape: str = None,
+        pooling_p_h: int = None, pooling_p_h_prime: int = None,
+        pooling_p_w: int = None, pooling_p_w_prime: int = None,
+        pooling_p_d: int = None, pooling_p_d_prime: int = None,
+        pooling_p_r: int = None,
+        pooling_cd_h: int = None, pooling_cd_w: int = None, pooling_cd_d: int = None,
+        pooling_packing_strategy: str = None,
         # output processing function parameters
         with_batch_norm: bool = True,
         with_relu: bool = True,
@@ -46,9 +54,19 @@ class cnn(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        if pooling_patch_shape is None: pooling_patch_shape = patch_shape
+        if pooling_p_h is None: pooling_p_h = p_h
+        if pooling_p_h_prime is None: pooling_p_h_prime = p_h_prime
+        if pooling_p_w is None: pooling_p_w = p_w
+        if pooling_p_w_prime is None: pooling_p_w_prime = p_w_prime
+        if pooling_p_d is None: pooling_p_d = p_d
+        if pooling_p_d_prime is None: pooling_p_d_prime = p_d_prime
+        if pooling_p_r is None: pooling_p_r = p_r
         if pooling_cd_h is None: pooling_cd_h = cd_h
         if pooling_cd_w is None: pooling_cd_w = cd_w
         if pooling_cd_d is None: pooling_cd_d = cd_d
+        if pooling_packing_strategy is None: pooling_packing_strategy = packing_strategy
+
 
         layers = []
         for in_channel, out_channel in zip(channel_nums, channel_nums[1:]):
@@ -83,13 +101,13 @@ class cnn(rpn):
                     h=h, w=w, d=d,
                     channel_num=out_channel,
                     pooling_metric=pooling_metric,
-                    patch_shape=patch_shape,
-                    p_h=p_h, p_h_prime=p_h_prime,
-                    p_w=p_w, p_w_prime=p_w_prime,
-                    p_d=p_d, p_d_prime=p_d_prime,
-                    p_r=p_r,
+                    patch_shape=pooling_patch_shape,
+                    p_h=pooling_p_h, p_h_prime=pooling_p_h_prime,
+                    p_w=pooling_p_w, p_w_prime=pooling_p_w_prime,
+                    p_d=pooling_p_d, p_d_prime=pooling_p_d_prime,
+                    p_r=pooling_p_r,
                     cd_h=pooling_cd_h, cd_w=pooling_cd_w, cd_d=pooling_cd_d,
-                    packing_strategy=packing_strategy,
+                    packing_strategy=pooling_packing_strategy,
                     with_dropout=with_dropout, p=p_pooling,
                     device=device, *args, **kwargs
                 )
@@ -97,8 +115,9 @@ class cnn(rpn):
                 print('pooling out', h, w, d, out_channel)
                 layers.append(layer)
 
-                # p_h = max(int(p_h/2), 1)
-                # p_w = max(int(p_w/2), 1)
+                if patch_size_half_after_pooling:
+                    p_h, p_h_prime, p_w, p_w_prime, p_d, p_d_prime, p_r = parameter_scheduler(strategy='half', parameter_list=[p_h, p_h_prime, p_w, p_w_prime, p_d, p_d_prime, p_r])
+                    pooling_p_h, pooling_p_h_prime, pooling_p_w, pooling_p_w_prime, pooling_p_d, pooling_p_d_prime, pooling_p_r = parameter_scheduler(strategy='half', parameter_list=[pooling_p_h, pooling_p_h_prime, pooling_p_w, pooling_p_w_prime, pooling_p_d, pooling_p_d_prime, pooling_p_r])
 
         # perceptron layers
         assert len(layers) >= 1
