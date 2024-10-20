@@ -51,6 +51,11 @@ class cnn(rpn):
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
         enable_bias: bool = True,
+        # parameter reconciliation function parameters
+        with_perceptron_residual: bool = None,
+        with_perceptron_dual_lphm: bool = None,
+        with_perceptron_lorr: bool = None, perceptron_r: int = None,
+        enable_perceptron_bias: bool = None,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -67,6 +72,11 @@ class cnn(rpn):
         if pooling_cd_d is None: pooling_cd_d = cd_d
         if pooling_packing_strategy is None: pooling_packing_strategy = packing_strategy
 
+        if with_perceptron_residual is None: with_perceptron_residual = with_residual
+        if with_perceptron_dual_lphm is None: with_perceptron_dual_lphm = with_dual_lphm
+        if with_perceptron_lorr is None: with_perceptron_lorr = with_lorr
+        if perceptron_r is None: perceptron_r = r
+        if enable_perceptron_bias is None: enable_perceptron_bias = enable_bias
 
         layers = []
         for in_channel, out_channel in zip(channel_nums, channel_nums[1:]):
@@ -116,6 +126,7 @@ class cnn(rpn):
                 layers.append(layer)
 
                 if patch_size_half_after_pooling:
+                    print('halving patch size')
                     p_h, p_h_prime, p_w, p_w_prime, p_d, p_d_prime, p_r = parameter_scheduler(strategy='half', parameter_list=[p_h, p_h_prime, p_w, p_w_prime, p_d, p_d_prime, p_r])
                     pooling_p_h, pooling_p_h_prime, pooling_p_w, pooling_p_w_prime, pooling_p_d, pooling_p_d_prime, pooling_p_r = parameter_scheduler(strategy='half', parameter_list=[pooling_p_h, pooling_p_h_prime, pooling_p_w, pooling_p_w_prime, pooling_p_d, pooling_p_d_prime, pooling_p_r])
 
@@ -128,10 +139,10 @@ class cnn(rpn):
             layers.append(
                 perceptron_layer(
                     m=m, n=n,
-                    enable_bias=enable_bias,
-                    with_dual_lphm=with_dual_lphm,
-                    with_lorr=with_lorr, r=r,
-                    with_residual=with_residual,
+                    enable_bias=enable_perceptron_bias,
+                    with_dual_lphm=with_perceptron_dual_lphm,
+                    with_lorr=with_perceptron_lorr, r=perceptron_r,
+                    with_residual=with_perceptron_residual,
                     channel_num=fc_channel_num,
                     width=width,
                     with_batch_norm=with_batch_norm and n != dims[-1],

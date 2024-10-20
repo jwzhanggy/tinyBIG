@@ -138,12 +138,14 @@ class attention_head(rpn_head):
 
         # parameter reconciliation function
         if with_dual_lphm:
+            print('bilinear head', 'with_dual_lphm:', with_dual_lphm, 'r:', r)
             parameter_fabrication = dual_lphm_reconciliation(
                 r=r,
                 enable_bias=enable_bias,
                 device=device
             )
         elif with_lorr:
+            print('bilinear head', 'with_lorr:', with_dual_lphm, 'r:', r)
             parameter_fabrication = lorr_reconciliation(
                 r=r,
                 enable_bias=enable_bias,

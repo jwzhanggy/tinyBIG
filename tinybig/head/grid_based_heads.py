@@ -89,12 +89,14 @@ class conv_head(rpn_head):
         )
 
         if with_dual_lphm:
+            print('grid head', 'with_dual_lphm:', with_dual_lphm, 'r:', r)
             parameter_fabrication = dual_lphm_reconciliation(
                 r=r,
                 device=device,
                 enable_bias=enable_bias,
             )
         elif with_lorr:
+            print('grid head', 'with_lorr:', with_lorr, 'r:', r)
             parameter_fabrication = lorr_reconciliation(
                 r=r,
                 device=device,
