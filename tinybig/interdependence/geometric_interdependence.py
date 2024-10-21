@@ -151,6 +151,7 @@ class geometric_interdependence(interdependence):
             return A
 
     def forward(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, kappa_x: torch.Tensor = None, device: str = 'cpu', *args, **kwargs):
+
         if self.require_data:
             assert x is not None and x.ndim == 2
         if self.require_parameters:
@@ -159,18 +160,22 @@ class geometric_interdependence(interdependence):
         data_x = kappa_x if kappa_x is not None else x
         b, m = data_x.shape
         data_x = data_x.view(b*self.grid.get_universe_num(), -1)
+
         if self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
             # A shape: b * b'
             A = self.calculate_A(x.transpose(0, 1), w, device=device)
+
             assert A is not None and A.size(0) == data_x.size(0)
             if data_x.is_sparse or A.is_sparse:
                 xi_x = torch.sparse.mm(A.t(), data_x)
             else:
                 xi_x = torch.matmul(A.t(), data_x)
+
             return xi_x
         elif self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
             # A shape: m * m'
             A = self.calculate_A(x, w, device=device)
+
             assert A is not None and A.size(0) == data_x.size(-1)
             if data_x.is_sparse or A.is_sparse:
                 xi_x = torch.sparse.mm(data_x, A)
@@ -181,10 +186,12 @@ class geometric_interdependence(interdependence):
                 # shape [b, c, g, p] -> shape [b, g, c, p]
                 xi_x = xi_x.view(b, self.grid.get_universe_num(), self.get_patch_num(), self.get_patch_size())
                 xi_x = xi_x.permute(0, 2, 1, 3)
+
             elif self.interdependence_matrix_mode == 'aggregation':
                 # shape [b, c, g] -> shape [b, g, c]
                 xi_x = xi_x.view(b, self.grid.get_universe_num(), self.get_patch_num())
                 xi_x = xi_x.permute(0, 2, 1)
+
             return xi_x.reshape(b, -1)
         else:
             raise ValueError(f"Invalid interdependence type: {self.interdependence_type}")

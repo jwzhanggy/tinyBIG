@@ -491,7 +491,9 @@ class rpn_head(torch.nn.Module):
                 w_chunks = self.w_attribute_interdependence[channel_index:channel_index+1, :]
             else:
                 w_chunks = None
+
             xi_x = self.attribute_interdependence(x=x, w=w_chunks, kappa_x=kappa_x, device=device)
+
             return xi_x
         else:
             return kappa_x if kappa_x is not None else x
@@ -512,7 +514,6 @@ class rpn_head(torch.nn.Module):
 
     # this function checks conditions for faster calculation across multi-channels...
     def calculate_kappa_xi_x(self, x: torch.Tensor, channel_index: int = 0, device='cpu', *args, **kwargs):
-
         # ************** Attribute Interdependence Block **************
         xi_x = self.calculate_attribute_xi_x(x=x, channel_index=channel_index, device=self.device)
 
