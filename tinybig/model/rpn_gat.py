@@ -31,8 +31,8 @@ class gat(rpn):
         require_data: bool = False,
         require_parameters: bool = False,
         # adj matrix processing parameters
-        normalization: bool = False,
-        normalization_mode: str = 'row_column',
+        normalization: bool = True,
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # bilinear interdependence function parameters
         with_dual_lphm_interdependence: bool = False,
@@ -46,7 +46,7 @@ class gat(rpn):
         with_batch_norm: bool = False,
         with_relu: bool = True,
         with_softmax: bool = True,
-        with_dropout: bool = True, p: float = 0.25,
+        with_dropout: bool = False, p: float = 0.25,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -56,6 +56,7 @@ class gat(rpn):
 
         layers = []
         for m, n in zip(dims[0:], dims[1:]):
+            print('layer: {},'.format(len(layers)), 'm: {}, n: {}'.format(m, n))
             layers.append(
                 gat_layer(
                     m=m, n=n,

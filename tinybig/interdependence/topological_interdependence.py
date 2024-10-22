@@ -28,7 +28,7 @@ class chain_interdependence(interdependence):
         name: str = 'chain_interdependence',
         chain: chain_structure = None,
         length: int = None, bi_directional: bool = False,
-        normalization: bool = False, normalization_mode: str = 'row_column', self_dependence: bool = True,
+        normalization: bool = False, normalization_mode: str = 'row', self_dependence: bool = True,
         require_data: bool = False, require_parameters: bool = False,
         device: str = 'cpu', *args, **kwargs
     ):
@@ -55,12 +55,9 @@ class chain_interdependence(interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            adj, mappings = self.chain.to_matrix(self_dependence=self.self_dependence, normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
-
-            if self.self_dependence:
-                adj += torch.eye(adj.shape[0], device=device)
 
             A = self.post_process(x=adj, device=device)
 
@@ -69,7 +66,7 @@ class chain_interdependence(interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A
@@ -86,7 +83,7 @@ class multihop_chain_interdependence(chain_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            adj, mappings = self.chain.to_matrix(self_dependence=self.self_dependence, normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
@@ -97,9 +94,6 @@ class multihop_chain_interdependence(chain_interdependence):
             else:
                 A = matrix_power(adj, self.h)
 
-            if self.self_dependence:
-                A += torch.eye(A.shape[0], device=device)
-
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
@@ -107,7 +101,7 @@ class multihop_chain_interdependence(chain_interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A
@@ -115,7 +109,7 @@ class multihop_chain_interdependence(chain_interdependence):
 
 class inverse_approx_multihop_chain_interdependence(chain_interdependence):
 
-    def __init__(self, name: str = 'inverse_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row_column', *args, **kwargs):
+    def __init__(self, name: str = 'inverse_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row', *args, **kwargs):
         super().__init__(name=name, normalization=normalization, normalization_mode=normalization_mode, *args, **kwargs)
 
     def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):
@@ -139,7 +133,7 @@ class inverse_approx_multihop_chain_interdependence(chain_interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A
@@ -147,7 +141,7 @@ class inverse_approx_multihop_chain_interdependence(chain_interdependence):
 
 class exponential_approx_multihop_chain_interdependence(chain_interdependence):
 
-    def __init__(self, name: str = 'exponential_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row_column', *args, **kwargs):
+    def __init__(self, name: str = 'exponential_approx_multihop_chain_interdependence', normalization: bool = False, normalization_mode: str = 'row', *args, **kwargs):
         super().__init__(name=name, normalization=normalization, normalization_mode=normalization_mode, *args, **kwargs)
 
     def calculate_A(self, x: torch.Tensor = None, w: torch.nn.Parameter = None, device: str = 'cpu', *args, **kwargs):
@@ -170,7 +164,7 @@ class exponential_approx_multihop_chain_interdependence(chain_interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A
@@ -185,7 +179,7 @@ class graph_interdependence(interdependence):
         name: str = 'graph_interdependence',
         graph: graph_structure = None,
         nodes: list = None, links: list = None, directed: bool = True,
-        normalization: bool = False, normalization_mode: str = 'row_column',
+        normalization: bool = False, normalization_mode: str = 'row',
         self_dependence: bool = False,
         require_data: bool = False, require_parameters: bool = False,
         device: str = 'cpu', *args, **kwargs
@@ -220,13 +214,10 @@ class graph_interdependence(interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            adj, mappings = self.graph.to_matrix(self_dependence=self.self_dependence, normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
 
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
-
-            if self.self_dependence:
-                adj += torch.eye(adj.shape[0], device=device)
 
             A = self.post_process(x=adj, device=device)
 
@@ -235,7 +226,7 @@ class graph_interdependence(interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
             return A
 
@@ -251,7 +242,7 @@ class multihop_graph_interdependence(graph_interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.graph.to_matrix(normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            adj, mappings = self.graph.to_matrix(self_dependence=self.self_dependence, normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
 
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
@@ -261,9 +252,6 @@ class multihop_graph_interdependence(graph_interdependence):
             else:
                 A = matrix_power(adj, self.h)
 
-            if self.self_dependence:
-                A += torch.eye(adj.shape[0], device=device)
-
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
@@ -271,7 +259,7 @@ class multihop_graph_interdependence(graph_interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
             return A
 
@@ -299,6 +287,6 @@ class pagerank_multihop_graph_interdependence(graph_interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
             return A

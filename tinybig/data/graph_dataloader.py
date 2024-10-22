@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 
 from tinybig.data.base_data import dataset, dataloader
 from tinybig.koala.topology.graph import graph as graph_class
+from tinybig.koala.linear_algebra import degree_based_normalize_matrix
 from tinybig.util.utility import check_file_existence, download_file_from_github
 
 
@@ -49,7 +50,7 @@ class graph_dataloader(dataloader):
             download_file_from_github(url_link=data_profile['url'][file_name], destination_path="{}/{}".format(cache_dir, file_name))
 
 
-    def load_raw(self, cache_dir: str, device: str = 'cpu'):
+    def load_raw(self, cache_dir: str, device: str = 'cpu', normalization: bool = True, normalization_mode: str = 'row'):
         if not check_file_existence("{}/node".format(cache_dir)):
             self.download_data(data_profile=self.data_profile, cache_dir=cache_dir, file_name='node')
         if not check_file_existence("{}/link".format(cache_dir)):
@@ -59,10 +60,14 @@ class graph_dataloader(dataloader):
         X = torch.tensor(sp.csr_matrix(idx_features_labels[:, 1:-1], dtype=np.float32).todense())
         y = dataloader.encode_str_labels(labels=idx_features_labels[:, -1], one_hot=False)
 
+        if normalization:
+            print('normalizing features...')
+            X = degree_based_normalize_matrix(mx=X, mode=normalization_mode)
+
         nodes = np.array(idx_features_labels[:, 0], dtype=np.int32).tolist()
         links = np.genfromtxt("{}/link".format(cache_dir), dtype=np.int32).tolist()
         graph = graph_class(
-            nodes=nodes, links=links, directed=False, device=device
+            nodes=nodes, links=links, directed=True, device=device
         )
         return graph, X, y
 
@@ -92,14 +97,14 @@ class graph_dataloader(dataloader):
             normalization_mode='row',
         )
 
-    def load(self, mode: str = 'semi_supervised', cache_dir: str = None, device: str = 'cpu',
+    def load(self, mode: str = 'transductive', cache_dir: str = None, device: str = 'cpu',
              train_percentage: float = 0.5, random_state: int = 1234, shuffle: bool = False, *args, **kwargs):
 
         cache_dir = cache_dir if cache_dir is not None else "./data/{}".format(self.name)
         self.graph, X, y = self.load_raw(cache_dir=cache_dir, device=device)
 
-        if mode == 'semi_supervised':
-            warnings.warn("For semi-supervised settings, the train, test, and val partition will not follow the provided parameters (e.g., train percentage, batch size, etc.)...")
+        if mode == 'transductive':
+            warnings.warn("For transductive settings, the train, test, and val partition will not follow the provided parameters (e.g., train percentage, batch size, etc.)...")
             train_idx, test_idx = self.get_train_test_idx(X=X, y=y)
             complete_dataset = dataset(X, y)
             complete_dataloader = DataLoader(dataset=complete_dataset, batch_size=len(X), shuffle=False)
@@ -170,7 +175,7 @@ class cora(graph_dataloader):
 
     def get_train_test_idx(self, X: torch.Tensor = None, y: torch.Tensor = None, *args, **kwargs):
         train_idx = torch.LongTensor(range(140))
-        test_idx = torch.LongTensor(range(200, 1200))
+        test_idx = torch.LongTensor(range(500, 1500))
         return train_idx, test_idx
 
 

@@ -87,7 +87,7 @@ class dataloader:
         else:
             classes_dict = {c: i for i, c in enumerate(classes)}
         encoded_labels = np.array(list(map(classes_dict.get, labels)))
-        labels_onehot = torch.tensor(encoded_labels, dtype=torch.int32, device=device)
+        labels_onehot = torch.tensor(encoded_labels, dtype=torch.long, device=device)
         return labels_onehot
 
     @abstractmethod

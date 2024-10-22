@@ -138,6 +138,7 @@ class rpn_head(torch.nn.Module):
         output_process_function_configs=None,
 
         create_parameters_at_init: bool = True,
+        parameters_init_method: str = None,
         device='cpu',
         *args, **kwargs
     ):
@@ -224,6 +225,7 @@ class rpn_head(torch.nn.Module):
         self.w_instance_interdependence = None
         self.w_channel_fusion = None
 
+        self.parameters_init_method = parameters_init_method
         if create_parameters_at_init:
             self.create_learnable_parameters()
 
@@ -289,6 +291,7 @@ class rpn_head(torch.nn.Module):
             self.w_channel_fusion = torch.nn.Parameter(torch.rand(1, self.l_channel_fusion, device=self.device))
 
         # initialize the parameter with certain methods...
+        init_type = self.parameters_init_method if self.parameters_init_method is not None else init_type
         if initialize_parameter_at_creation:
             self.initialize_parameters(init_type=init_type, init_bias=init_bias)
 
@@ -312,10 +315,55 @@ class rpn_head(torch.nn.Module):
         None
             This initialization method doesn't have any return values.
         """
+        init_type = self.parameters_init_method if self.parameters_init_method is not None else init_type
+
         if init_type == 'kaiming_uniform':
             self.initialize_parameters_kaiming(init_bias=init_bias, *args, **kwargs)
         elif init_type == 'xavier_uniform':
             self.initialize_parameters_xavier(init_bias=init_bias, *args, **kwargs)
+        elif init_type == 'fanout_std_uniform':
+            self.initialize_parameters_fanout_std_uniform(init_bias=init_bias, *args, **kwargs)
+
+
+    def initialize_parameters_fanout_std_uniform(self, init_bias=True, fan_out: int = None, *args, **kwargs):
+        """
+        The kaiming parameter initialization method.
+
+        It initializes the multi-channel parameters in the head with kaiming_uniform_ method from pytorch.
+
+        Parameters
+        ----------
+        init_bias: bool, default = True
+            The boolean tag of bias initialization.
+
+        Returns
+        -------
+        None
+            This initialization method doesn't have any return values.
+        """
+        fan_out = fan_out if fan_out is not None else self.n
+        if fan_out is None: fan_out = self.m
+        assert fan_out is not None and fan_out > 0
+        std = 1. / math.sqrt(fan_out)
+
+        if self.w_attribute_interdependence is not None:
+            self.w_attribute_interdependence.data.uniform_(-std, std)
+
+        if self.w_instance_interdependence is not None:
+            self.w_instance_interdependence.data.uniform_(-std, std)
+
+        if self.w is not None:
+            self.w.data.uniform_(-std, std)
+            if init_bias and self.b is not None:
+                self.b.data.uniform_(-std, std)
+
+        if self.w_remainder is not None:
+            self.w_remainder.data.uniform_(-std, std)
+            if init_bias and self.b_remainder is not None:
+                self.b_remainder.data.uniform_(-std, std)
+
+        if self.w_channel_fusion is not None:
+            self.w_channel_fusion.data.uniform_(-std, std)
 
     def initialize_parameters_kaiming(self, init_bias=True, *args, **kwargs):
         """
@@ -516,14 +564,12 @@ class rpn_head(torch.nn.Module):
     def calculate_kappa_xi_x(self, x: torch.Tensor, channel_index: int = 0, device='cpu', *args, **kwargs):
         # ************** Attribute Interdependence Block **************
         xi_x = self.calculate_attribute_xi_x(x=x, channel_index=channel_index, device=self.device)
-
         # ************** Data Expansion Block **************
         kappa_x = self.calculate_kappa_x(x=xi_x, device=device, *args, **kwargs)
         assert kappa_x.shape[1] == self.data_transformation.calculate_D(m=xi_x.shape[1])
 
         # ************** Instance Interdependence Block **************
         kappa_xi_x = self.calculate_instance_xi_x(x=x, channel_index=channel_index, kappa_x=kappa_x, device=self.device)
-
         return kappa_xi_x
 
     def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device: str = 'cpu', *args, **kwargs):
@@ -614,5 +660,6 @@ class rpn_head(torch.nn.Module):
             result += pi_x
 
         # ************** Output Processing Block **************
-        return function.func_x(x=result, functions=self.output_process_functions, device=self.device)
+        output = function.func_x(x=result, functions=self.output_process_functions, device=self.device)
+        return output
 

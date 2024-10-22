@@ -86,9 +86,11 @@ def degree_based_normalize_matrix(mx: torch.Tensor, mode: str = "row") -> torch.
     torch.Tensor
         The normalized matrix.
     """
+    sparse_tag = False
     if mx.is_sparse:
         # Convert sparse matrix to dense
         mx = mx.to_dense()
+        sparse_tag = True
 
     assert mx is not None and mx.ndim == 2
 
@@ -118,6 +120,8 @@ def degree_based_normalize_matrix(mx: torch.Tensor, mode: str = "row") -> torch.
     else:
         raise ValueError("Invalid normalization option. Choose 'row', 'column', or 'row_column'.")
 
+    if sparse_tag:
+        normalized_mx = normalized_mx.to_sparse_coo()
     return normalized_mx
 
 
@@ -179,6 +183,13 @@ def operator_based_normalize_matrix(
     return normalized_mx
 
 
-
+def sparse_mx_to_torch_sparse_tensor(sparse_mx):
+    """Convert a scipy sparse matrix to a torch sparse tensor."""
+    sparse_mx = sparse_mx.tocoo().astype(np.float32)
+    indices = torch.from_numpy(
+        np.vstack((sparse_mx.row, sparse_mx.col)).astype(np.int64))
+    values = torch.from_numpy(sparse_mx.data)
+    shape = torch.Size(sparse_mx.shape)
+    return torch.sparse.FloatTensor(indices, values, shape)
 
 

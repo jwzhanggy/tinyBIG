@@ -9,8 +9,10 @@
 import warnings
 import torch
 import pickle
+import numpy as np
+import scipy.sparse as sp
 
-from tinybig.koala.linear_algebra import degree_based_normalize_matrix
+from tinybig.koala.linear_algebra import degree_based_normalize_matrix, sparse_mx_to_torch_sparse_tensor
 from tinybig.util import create_directory_if_not_exists
 
 class base_topology:
@@ -239,19 +241,26 @@ class base_topology:
             warnings.warn("The link doesn't exist in the link list or link label dictionary...")
             return None
 
-    def to_matrix(self, normalization: bool = False, normalization_mode: str = 'row_column', to_sparse: bool = False, device: str = 'cpu', *args, **kwargs):
+    def to_matrix(self, normalization: bool = False, self_dependence: bool = False, normalization_mode: str = 'row_column', device: str = 'cpu', *args, **kwargs):
         node_id_index_map = self.nodes
         node_index_id_map = {index: node for node, index in node_id_index_map.items()}
 
         links = self.get_links()
 
-        links = torch.tensor(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), device=device)
-
-        if to_sparse and device != 'mps':
-            mx = torch.sparse_coo_tensor(torch.tensor([links[:, 0], links[:, 1]]), values=torch.ones(links.shape[0]), size=(len(node_id_index_map), len(node_id_index_map)), device=device)
+        if device != 'mps':
+            links = np.array(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), dtype=np.int32)
+            mx = sp.coo_matrix((np.ones(links.shape[0]), (links[:, 0], links[:, 1])), shape=(len(node_id_index_map), len(node_id_index_map)), dtype=np.float32)
+            mx = mx + mx.T.multiply(mx.T > mx) - mx.multiply(mx.T > mx)
+            if self_dependence:
+                mx = mx + sp.eye(mx.shape[0])
+            mx = sparse_mx_to_torch_sparse_tensor(mx)
         else:
+            links = torch.tensor(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), device=device)
             mx = torch.zeros((len(node_id_index_map), len(node_id_index_map)), device=device)
             mx[links[:, 0], links[:, 1]] = torch.ones(links.size(0), device=device)
+            mx = mx + mx.T * (mx.T > mx).float() - mx * (mx.T > mx).float()
+            if self_dependence:
+                mx += torch.eye(mx.shape[0], device=device)
 
         if normalization:
             mx = degree_based_normalize_matrix(mx=mx, mode=normalization_mode)

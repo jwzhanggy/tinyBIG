@@ -31,7 +31,7 @@ class sgc_layer(rpn_layer):
         require_parameters: bool = False,
         # adj matrix processing parameters
         normalization: bool = True,
-        normalization_mode: str = 'row_column',
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # parameter reconciliation and remainder functions
         with_dual_lphm: bool = False,
@@ -102,7 +102,7 @@ class gat_layer(rpn_layer):
         require_parameters: bool = False,
         # adj matrix processing parameters
         normalization: bool = False,
-        normalization_mode: str = 'row_column',
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # bilinear interdependence function parameters
         with_dual_lphm_interdependence: bool = False,

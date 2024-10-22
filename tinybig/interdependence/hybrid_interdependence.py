@@ -96,6 +96,7 @@ class hybrid_interdependence(interdependence):
             x = self.pre_process(x=x, device=device)
 
             A_list = []
+            sparse_tag = False
             if w is not None:
                 w_segments = torch.split(w, parameter_numbers, dim=-1)
             else:
@@ -103,20 +104,26 @@ class hybrid_interdependence(interdependence):
 
             for func, w_segment in zip(self.interdependence_functions, w_segments):
                 A = func.calculate_A(x=x, w=w_segment, device=device, *args, **kwargs)
+                if A.is_sparse:
+                    A = A.to_dense()
+                    sparse_tag = True
                 A_list.append(A)
 
             if self.fusion_function.require_parameters:
                 A = self.fusion_function(x=A_list, w=w_segments[-1], device=device, *args, **kwargs)
             else:
                 A = self.fusion_function(x=A_list, device=device, *args, **kwargs)
+
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
                 assert A.shape == (self.m, self.calculate_m_prime())
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
+            if sparse_tag:
+                A = A.to_sparse_coo()
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A

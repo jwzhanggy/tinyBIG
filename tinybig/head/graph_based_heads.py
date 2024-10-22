@@ -36,6 +36,7 @@ from tinybig.koala.algebra import (
     find_close_factors
 )
 
+
 class sgc_head(rpn_head):
     def __init__(
         self,
@@ -55,7 +56,7 @@ class sgc_head(rpn_head):
         require_parameters: bool = False,
         # adj matrix processing parameters
         normalization: bool = True,
-        normalization_mode: str = 'row_column',
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # parameter reconciliation and remainder functions
         with_dual_lphm: bool = False,
@@ -122,10 +123,12 @@ class sgc_head(rpn_head):
                 require_parameters=require_parameters,
                 device=device
             )
+        print('** instance_interdependence', instance_interdependence)
 
         data_transformation = identity_expansion(
             device=device
         )
+        print('** data_transformation', data_transformation)
 
         if with_dual_lphm:
             parameter_fabrication = dual_lphm_reconciliation(
@@ -144,6 +147,7 @@ class sgc_head(rpn_head):
                 enable_bias=enable_bias,
                 device=device
             )
+        print('** parameter_fabrication', parameter_fabrication)
 
         if with_residual:
             remainder = linear_remainder(
@@ -153,6 +157,7 @@ class sgc_head(rpn_head):
             remainder = zero_remainder(
                 device=device,
             )
+        print('** remainder', remainder)
 
         output_process_functions = []
         if with_batch_norm:
@@ -162,7 +167,9 @@ class sgc_head(rpn_head):
         if with_dropout:
             output_process_functions.append(torch.nn.Dropout(p=p))
         if with_softmax:
-            output_process_functions.append(torch.nn.Softmax(dim=-1))
+            output_process_functions.append(torch.nn.LogSoftmax(dim=-1))
+        print('** output_process_functions', output_process_functions)
+
 
         super().__init__(
             m=m, n=n, name=name,
@@ -170,7 +177,9 @@ class sgc_head(rpn_head):
             data_transformation=data_transformation,
             parameter_fabrication=parameter_fabrication,
             remainder=remainder,
+            output_process_functions=output_process_functions,
             channel_num=channel_num,
+            parameters_init_method='fanout_std_uniform',
             device=device, *args, **kwargs
         )
 
@@ -194,7 +203,7 @@ class gat_head(rpn_head):
         require_parameters: bool = False,
         # adj matrix processing parameters
         normalization: bool = False,
-        normalization_mode: str = 'row_column',
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # bilinear interdependence function parameters
         with_dual_lphm_interdependence: bool = False,
@@ -264,6 +273,7 @@ class gat_head(rpn_head):
                 require_parameters=require_parameters,
                 device=device
             )
+        print('** graph_instance_interdependence', graph_instance_interdependence)
 
         # instance interdependence function
         if with_lorr_interdependence:
@@ -292,6 +302,7 @@ class gat_head(rpn_head):
                 require_parameters=True,
                 device=device,
             )
+        print('** bilinear_instance_interdependence', bilinear_instance_interdependence)
 
         instance_interdependence = hybrid_interdependence(
             b=graph_structure.get_node_num(), m=m,
@@ -312,10 +323,12 @@ class gat_head(rpn_head):
             ],
             device=device
         )
+        print('** instance_interdependence', instance_interdependence)
 
         data_transformation = identity_expansion(
             device=device
         )
+        print('** data_transformation', data_transformation)
 
         if with_dual_lphm:
             parameter_fabrication = dual_lphm_reconciliation(
@@ -334,6 +347,7 @@ class gat_head(rpn_head):
                 enable_bias=enable_bias,
                 device=device
             )
+        print('** parameter_fabrication', parameter_fabrication)
 
         if with_residual:
             remainder = linear_remainder(
@@ -343,6 +357,7 @@ class gat_head(rpn_head):
             remainder = zero_remainder(
                 device=device,
             )
+        print('** remainder', remainder)
 
         output_process_functions = []
         if with_batch_norm:
@@ -352,15 +367,18 @@ class gat_head(rpn_head):
         if with_dropout:
             output_process_functions.append(torch.nn.Dropout(p=p))
         if with_softmax:
-            output_process_functions.append(torch.nn.Softmax(dim=-1))
+            output_process_functions.append(torch.nn.LogSoftmax(dim=-1))
+        print('** output_process_functions', output_process_functions)
 
         super().__init__(
             m=m, n=n, name=name,
             instance_interdependence=instance_interdependence,
             data_transformation=data_transformation,
             parameter_fabrication=parameter_fabrication,
+            output_process_functions=output_process_functions,
             remainder=remainder,
             channel_num=channel_num,
+            parameters_init_method='fanout_std_uniform',
             device=device, *args, **kwargs
         )
 

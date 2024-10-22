@@ -228,7 +228,6 @@ class pooling_head(rpn_head):
         output_process_functions = []
         if with_dropout:
             output_process_functions.append(torch.nn.Dropout(p=p))
-
         print('pooling layer', output_process_functions)
 
         m = data_transformation.get_grid_size(across_universe=True)
@@ -239,6 +238,7 @@ class pooling_head(rpn_head):
             name=name,
             data_transformation=data_transformation,
             remainder=remainder,
+            output_process_functions=output_process_functions,
             device=device,
         )
 

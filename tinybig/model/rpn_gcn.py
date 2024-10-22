@@ -31,7 +31,7 @@ class gcn(rpn):
         require_parameters: bool = False,
         # adj matrix processing parameters
         normalization: bool = True,
-        normalization_mode: str = 'row_column',
+        normalization_mode: str = 'column',
         self_dependence: bool = True,
         # parameter reconciliation and remainder functions
         with_dual_lphm: bool = False,
@@ -42,7 +42,7 @@ class gcn(rpn):
         with_batch_norm: bool = False,
         with_relu: bool = True,
         with_softmax: bool = True,
-        with_dropout: bool = True, p: float = 0.25,
+        with_dropout: bool = False, p: float = 0.25,
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
@@ -51,6 +51,7 @@ class gcn(rpn):
 
         layers = []
         for m, n in zip(dims, dims[1:]):
+            print('layer: {},'.format(len(layers)), 'm: {}, n: {}'.format(m, n))
             layers.append(
                 sgc_layer(
                     m=m, n=n,

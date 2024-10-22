@@ -282,6 +282,10 @@ class backward_learner(learner):
                         'metric_name': metric_name
                     }
                     # ----------------------------
+
+            if lr_scheduler is not None:
+                lr_scheduler.step()
+
             # ----------------------------
             training_record_dict['training'][epoch]['end_time'] = time.time()
             training_record_dict['training'][epoch]['time_cost'] = time.time() - epoch_start_time
@@ -293,9 +297,6 @@ class backward_learner(learner):
                 # ----------------------------
                 if epoch % display_step == 0:
                     print(f"Epoch: {epoch}, Test Loss: {test_result['test_loss']}, Test Score: {test_result['test_score']}, Time Cost: {test_result['time_cost']}")
-            if lr_scheduler is not None:
-                lr_scheduler.step()
-
         return training_record_dict
 
     def test(
@@ -333,7 +334,6 @@ class backward_learner(learner):
         dict
             The testing results together with testing performance records.
         """
-
         start_time = time.time()
 
         model.eval()
@@ -360,32 +360,31 @@ class backward_learner(learner):
                 y_true_list.extend(labels.tolist())
                 y_score_list.extend(y_score.tolist())
 
+            test_loss /= len(test_loader)
 
-        test_loss /= len(test_loader)
+            if metric is not None:
+                metric_name = metric.__class__.__name__
+                score = metric.evaluate(y_pred=y_pred_list, y_true=y_true_list, y_score=y_score_list)
+            else:
+                metric_name = None
+                score = None
 
-        if metric is not None:
-            metric_name = metric.__class__.__name__
-            score = metric.evaluate(y_pred=y_pred_list, y_true=y_true_list, y_score=y_score_list)
-        else:
-            metric_name = None
-            score = None
-
-        if return_full_result:
-            return {
-                'y_pred': y_pred_list,
-                'y_true': y_true_list,
-                'y_score': y_score_list,
-                'test_loss': test_loss,
-                'test_score': score,
-                'time_cost': time.time()-start_time,
-                'metric_name': metric_name
-            }
-        else:
-            return {
-                'test_loss': test_loss,
-                'test_score': score,
-                'time_cost': time.time() - start_time
-            }
+            if return_full_result:
+                return {
+                    'y_pred': y_pred_list,
+                    'y_true': y_true_list,
+                    'y_score': y_score_list,
+                    'test_loss': test_loss,
+                    'test_score': score,
+                    'time_cost': time.time()-start_time,
+                    'metric_name': metric_name
+                }
+            else:
+                return {
+                    'test_loss': test_loss,
+                    'test_score': score,
+                    'time_cost': time.time() - start_time
+                }
 
 
 

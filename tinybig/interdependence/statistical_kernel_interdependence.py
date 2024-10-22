@@ -50,7 +50,7 @@ class statistical_kernel_based_interdependence(interdependence):
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())
 
-            if not self.require_data and not self.require_parameters and self.A is not None:
+            if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
 
             return A
