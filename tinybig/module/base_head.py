@@ -324,7 +324,6 @@ class rpn_head(torch.nn.Module):
         elif init_type == 'fanout_std_uniform':
             self.initialize_parameters_fanout_std_uniform(init_bias=init_bias, *args, **kwargs)
 
-
     def initialize_parameters_fanout_std_uniform(self, init_bias=True, fan_out: int = None, *args, **kwargs):
         """
         The kaiming parameter initialization method.
@@ -621,16 +620,21 @@ class rpn_head(torch.nn.Module):
 
         pre_computed_kappa_xi_x = None
         # if the instance functions has no parameters, it can be pre-computed and reused across channels
-        if ((self.attribute_interdependence is None or not self.attribute_interdependence.require_parameters) and
-            (self.instance_interdependence is None or not self.instance_interdependence.require_parameters)):
+        if (
+            (self.attribute_interdependence is None or not self.attribute_interdependence.require_parameters) and
+            (self.instance_interdependence is None or not self.instance_interdependence.require_parameters) and
+            self.channel_num > 1
+        ):
             pre_computed_kappa_xi_x = self.calculate_kappa_xi_x(x=x, channel_index=0, device=device)
 
         for channel_index in range(self.channel_num):
 
             # ************** Data Transformation Block **************
-            if ((self.attribute_interdependence is None or not self.attribute_interdependence.require_parameters)
+            if (
+                (self.attribute_interdependence is None or not self.attribute_interdependence.require_parameters)
                 and (self.instance_interdependence is None or not self.instance_interdependence.require_parameters)
-                and pre_computed_kappa_xi_x is not None):
+                and pre_computed_kappa_xi_x is not None
+            ):
                 kappa_xi_x = pre_computed_kappa_xi_x
             else:
                 kappa_xi_x = self.calculate_kappa_xi_x(x=x, channel_index=channel_index, device=device)

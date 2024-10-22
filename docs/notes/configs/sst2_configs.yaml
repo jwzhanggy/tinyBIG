@@ -17,11 +17,11 @@ configurations:
       optimizer_configs:
         optimizer_class: torch.optim.AdamW
         optimizer_parameters:
-          lr: 8.6e-04
+          lr: 4.1e-03
       lr_scheduler_configs:
         lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
         lr_scheduler_parameters:
-          gamma: 0.5
+          gamma: 0.13
       loss_configs:
         loss_class: torch.nn.CrossEntropyLoss
         loss_parameters:
@@ -59,7 +59,7 @@ configurations:
                     function_class: tinybig.reconciliation.lorr_reconciliation
                     function_parameters:
                       name: lorr_reconciliation
-                      r: 5
+                      r: 1
                   remainder_configs:
                     function_class: tinybig.remainder.zero_remainder
                     function_parameters:
@@ -88,7 +88,7 @@ configurations:
                     function_class: tinybig.reconciliation.lorr_reconciliation
                     function_parameters:
                       name: lorr_reconciliation
-                      r: 5
+                      r: 1
                   remainder_configs:
                     function_class: tinybig.remainder.zero_remainder
                     function_parameters:
@@ -110,11 +110,9 @@ configurations:
                     function_parameters:
                       name: identity_expansion
                   parameter_fabrication_configs:
-                    function_class: tinybig.reconciliation.lorr_reconciliation
+                    function_class: tinybig.reconciliation.identity_reconciliation
                     function_parameters:
-                      name: lorr_reconciliation
-                      r: 5
-                      enable_bias: True
+                      name: identity_reconciliation
                   remainder_configs:
                     function_class: tinybig.remainder.zero_remainder
                     function_parameters:

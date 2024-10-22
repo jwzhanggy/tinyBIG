@@ -112,6 +112,7 @@ configurations:
                     function_parameters:
                       name: zero_remainder
 
+
   metric_configs:
     metric_class: tinybig.metric.accuracy
     metric_parameters:

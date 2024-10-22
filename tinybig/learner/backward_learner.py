@@ -257,7 +257,7 @@ class backward_learner(learner):
                         y_score = y_score[train_idx]
                         labels = labels[train_idx]
 
-                    y_pred = y_score.argmax(dim=1).tolist()
+                    y_pred = y_score.argmax(dim=-1).tolist()
 
                     loss = criterion(y_score, labels.to(device))
 
@@ -297,6 +297,9 @@ class backward_learner(learner):
                 # ----------------------------
                 if epoch % display_step == 0:
                     print(f"Epoch: {epoch}, Test Loss: {test_result['test_loss']}, Test Score: {test_result['test_score']}, Time Cost: {test_result['time_cost']}")
+
+
+
         return training_record_dict
 
     def test(
@@ -351,7 +354,7 @@ class backward_learner(learner):
                     y_score = y_score[test_idx]
                     labels = labels[test_idx]
 
-                y_pred = y_score.argmax(dim=1).tolist()
+                y_pred = y_score.argmax(dim=-1).tolist()
 
                 loss = criterion(y_score, labels.to(device))
                 test_loss += loss.item()
