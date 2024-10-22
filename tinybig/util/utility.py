@@ -57,6 +57,7 @@ def set_random_seed(random_seed: int = 0):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms(True)
+    os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
 
 
 def check_file_existence(complete_file_path):
