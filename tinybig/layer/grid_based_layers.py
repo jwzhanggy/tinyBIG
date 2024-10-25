@@ -7,19 +7,19 @@
 ###############################
 
 from tinybig.module.base_layer import rpn_layer
-from tinybig.head.grid_based_heads import conv_head, pooling_head
+from tinybig.head.grid_based_heads import grid_interdependence_head, grid_compression_head
 from tinybig.fusion.concatenation_fusion import concatenation_fusion
 from tinybig.fusion.metric_fusion import mean_fusion
 
 
-class conv_layer(rpn_layer):
+class grid_interdependence_layer(rpn_layer):
 
     def __init__(
         self,
         h: int, w: int, in_channel: int, out_channel: int,
         d: int = 1,
         width: int = 1,
-        name: str = 'conv_2d_layer',
+        name: str = 'grid_interdependence_layer',
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
         p_w: int = None, p_w_prime: int = None,
@@ -34,11 +34,12 @@ class conv_layer(rpn_layer):
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
-
+        print('* grid_interdependence_layer, width:', width)
         heads = [
-            conv_head(
+            grid_interdependence_head(
                 h=h, w=w, d=d,
                 in_channel=in_channel, out_channel=out_channel,
                 patch_shape=patch_shape,
@@ -54,7 +55,8 @@ class conv_layer(rpn_layer):
                 enable_bias=enable_bias,
                 with_dual_lphm=with_dual_lphm,
                 with_lorr=with_lorr, r=r,
-                device=device,
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
         assert len(heads) >= 1
@@ -63,6 +65,7 @@ class conv_layer(rpn_layer):
             head_fusion = mean_fusion(dims=[head.get_n() for head in heads])
         else:
             head_fusion = None
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, head_fusion=head_fusion, device=device, *args, **kwargs)
 
     def get_output_grid_shape(self):
@@ -70,13 +73,13 @@ class conv_layer(rpn_layer):
         return self.heads[0].get_output_grid_shape()
 
 
-class pooling_layer(rpn_layer):
+class grid_compression_layer(rpn_layer):
 
     def __init__(
         self,
         h: int, w: int, channel_num: int,
         d: int = 1,
-        name: str = 'pooling_layer',
+        name: str = 'grid_compression_layer',
         pooling_metric: str = 'batch_max',
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
@@ -87,10 +90,12 @@ class pooling_layer(rpn_layer):
         with_dropout: bool = False, p: float = 0.5,
         packing_strategy: str = 'densest_packing',
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        print('* grid_compression_layer')
         heads = [
-            pooling_head(
+            grid_compression_head(
                 h=h, w=w, d=d,
                 channel_num=channel_num,
                 pooling_metric=pooling_metric,
@@ -102,12 +107,13 @@ class pooling_layer(rpn_layer):
                 cd_h=cd_h, cd_w=cd_w, cd_d=cd_d,
                 packing_strategy=packing_strategy,
                 with_dropout=with_dropout, p=p,
-                device=device
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ]
-
         assert len(heads) >= 1
         m, n = heads[0].get_m(), heads[0].get_n()
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
     def get_output_grid_shape(self):

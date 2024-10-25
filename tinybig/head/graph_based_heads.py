@@ -37,11 +37,11 @@ from tinybig.koala.algebra import (
 )
 
 
-class sgc_head(rpn_head):
+class graph_interdependence_head(rpn_head):
     def __init__(
         self,
         m: int, n: int,
-        name: str = 'sgc_head',
+        name: str = 'graph_interdependence_head',
         channel_num: int = 1,
         # graph structure parameters
         graph: graph_class = None,
@@ -69,6 +69,7 @@ class sgc_head(rpn_head):
         with_softmax: bool = True,
         with_dropout: bool = True, p: float = 0.5,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if graph is not None:
@@ -184,11 +185,11 @@ class sgc_head(rpn_head):
         )
 
 
-class gat_head(rpn_head):
+class graph_bilinear_interdependence_head(rpn_head):
     def __init__(
         self,
         m: int, n: int,
-        name: str = 'gat_head',
+        name: str = 'graph_bilinear_interdependence_head',
         channel_num: int = 1,
         # graph structure parameters
         graph: graph_class = None,
@@ -219,6 +220,7 @@ class gat_head(rpn_head):
         with_softmax: bool = True,
         with_dropout: bool = True, p: float = 0.5,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if graph is not None:

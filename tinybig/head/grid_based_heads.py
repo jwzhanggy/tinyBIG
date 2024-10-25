@@ -24,11 +24,11 @@ from tinybig.remainder.basic_remainder import zero_remainder, linear_remainder
 from tinybig.koala.geometry import grid, cuboid, cylinder, sphere
 
 
-class conv_head(rpn_head):
+class grid_interdependence_head(rpn_head):
     def __init__(
         self,
         h: int, w: int, in_channel: int, out_channel: int,
-        d: int = 1, name: str = 'conv_head',
+        d: int = 1, name: str = 'grid_interdependence_head',
         # patch structure parameters
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
@@ -46,6 +46,7 @@ class conv_head(rpn_head):
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
         enable_bias: bool = False,
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if in_channel is None or out_channel is None or in_channel <=0 or out_channel <=0:
@@ -141,8 +142,8 @@ class conv_head(rpn_head):
             remainder=remainder,
             attribute_interdependence=attribute_interdependence,
             output_process_functions=output_process_functions,
-            device=device,
-            *args, **kwargs
+            parameters_init_method=parameters_init_method,
+            device=device, *args, **kwargs
         )
 
     def get_patch_size(self):
@@ -172,11 +173,11 @@ class conv_head(rpn_head):
         return inner_prod
 
 
-class pooling_head(rpn_head):
+class grid_compression_head(rpn_head):
     def __init__(
         self,
         h: int, w: int, channel_num: int,
-        d: int = 1, name: str = 'pooling_head',
+        d: int = 1, name: str = 'grid_compression_head',
         pooling_metric: str = 'batch_max',
         patch_shape: str = 'cuboid',
         p_h: int = None, p_h_prime: int = None,
@@ -187,6 +188,7 @@ class pooling_head(rpn_head):
         packing_strategy: str = 'densest_packing',
         with_dropout: bool = True, p: float = 0.5,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
 
@@ -239,7 +241,8 @@ class pooling_head(rpn_head):
             data_transformation=data_transformation,
             remainder=remainder,
             output_process_functions=output_process_functions,
-            device=device,
+            parameters_init_method=parameters_init_method,
+            device=device, *args, **kwargs
         )
 
     def get_patch_size(self):

@@ -48,6 +48,7 @@ class perceptron_head(rpn_head):
         with_dropout: bool = True, p: float = 0.5,
         with_softmax: bool = False,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if with_taylor:
@@ -59,16 +60,15 @@ class perceptron_head(rpn_head):
             data_transformation = identity_expansion(
                 device=device,
             )
+        print('** data_transformation', data_transformation)
 
         if with_dual_lphm:
-            print('perceptron head', 'with_dual_lphm:', with_dual_lphm, 'r:', r)
             parameter_fabrication = dual_lphm_reconciliation(
                 r=r,
                 enable_bias=enable_bias,
                 device=device
             )
         elif with_lorr:
-            print('perceptron head', 'with_lorr:', with_lorr, 'r:', r)
             parameter_fabrication = lorr_reconciliation(
                 r=r,
                 enable_bias=enable_bias,
@@ -79,6 +79,7 @@ class perceptron_head(rpn_head):
                 enable_bias=enable_bias,
                 device=device,
             )
+        print('** parameter_fabrication', parameter_fabrication)
 
         if with_residual:
             remainder = linear_remainder(
@@ -88,6 +89,7 @@ class perceptron_head(rpn_head):
             remainder = zero_remainder(
                 device=device,
             )
+        print('** remainder', remainder)
 
         output_process_functions = []
         if with_batch_norm:
@@ -99,7 +101,7 @@ class perceptron_head(rpn_head):
         if with_softmax:
             output_process_functions.append(torch.nn.Softmax(dim=-1))
 
-        print('perceptron layer', output_process_functions)
+        print('** output_process_functions', output_process_functions)
 
         super().__init__(
             m=m, n=n, name=name,
@@ -108,6 +110,7 @@ class perceptron_head(rpn_head):
             remainder=remainder,
             output_process_functions=output_process_functions,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )
 
@@ -130,6 +133,7 @@ class svm_head(rpn_head):
         with_batch_norm: bool = False,
         with_softmax: bool = False,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if kernel == 'linear':
@@ -187,6 +191,7 @@ class svm_head(rpn_head):
             remainder=remainder,
             output_process_functions=output_process_functions,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )
 
@@ -204,6 +209,7 @@ class kan_head(rpn_head):
         with_batch_norm: bool = False,
         with_softmax: bool = False,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         data_transformation = bspline_expansion(
@@ -243,6 +249,7 @@ class kan_head(rpn_head):
             remainder=remainder,
             output_process_functions=output_process_functions,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )
 
@@ -260,6 +267,7 @@ class naive_bayes_head(rpn_head):
         with_residual: bool = False,
         channel_num: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if distribution == 'normal':
@@ -316,6 +324,7 @@ class naive_bayes_head(rpn_head):
             parameter_fabrication=parameter_fabrication,
             remainder=remainder,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )
 
@@ -334,6 +343,7 @@ class pgm_head(rpn_head):
         with_residual: bool = False,
         channel_num: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         if distribution == 'normal':
@@ -371,5 +381,6 @@ class pgm_head(rpn_head):
             parameter_fabrication=parameter_fabrication,
             remainder=remainder,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )

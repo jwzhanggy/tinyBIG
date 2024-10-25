@@ -7,7 +7,7 @@
 #######################
 
 from tinybig.model.rpn import rpn
-from tinybig.layer.graph_based_layers import sgc_layer
+from tinybig.layer.graph_based_layers import graph_interdependence_layer
 from tinybig.koala.topology import graph as graph_class
 
 
@@ -46,6 +46,8 @@ class gcn(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        print('############# rpn-gcn model architecture ############')
+
         if len(dims) < 2:
             raise ValueError("At least two dim values is needed for defining the model...")
 
@@ -53,7 +55,7 @@ class gcn(rpn):
         for m, n in zip(dims, dims[1:]):
             print('layer: {},'.format(len(layers)), 'm: {}, n: {}'.format(m, n))
             layers.append(
-                sgc_layer(
+                graph_interdependence_layer(
                     m=m, n=n,
                     width=width,
                     channel_num=channel_num,

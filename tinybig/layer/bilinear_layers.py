@@ -7,11 +7,11 @@
 ############################
 
 from tinybig.module.base_layer import rpn_layer
-from tinybig.head.bilinear_heads import attention_head
+from tinybig.head.bilinear_heads import bilinear_interdependence_head
 from tinybig.fusion.parameterized_concatenation_fusion import parameterized_concatenation_fusion
 
 
-class attention_layer(rpn_layer):
+class bilinear_interdependence_layer(rpn_layer):
 
     def __init__(
         self,
@@ -36,10 +36,12 @@ class attention_layer(rpn_layer):
         with_softmax: bool = True,
         with_dropout: bool = False, p: float = 0.25,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        print('* bilinear_interdependence_layer, width:', width)
         heads = [
-            attention_head(
+            bilinear_interdependence_head(
                 m=m, n=n,
                 batch_num=batch_num,
                 channel_num=channel_num,
@@ -60,10 +62,12 @@ class attention_layer(rpn_layer):
                 with_softmax=with_softmax,
                 with_dropout=with_dropout, p=p,
                 # --------------------------
-                device=device,
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
         head_fusion = parameterized_concatenation_fusion(
             dims=[n]*width
         )
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, head_fusion=head_fusion, device=device, *args, **kwargs)

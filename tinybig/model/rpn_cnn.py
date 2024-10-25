@@ -8,7 +8,7 @@
 
 from tinybig.model.rpn import rpn
 from tinybig.layer.basic_layers import perceptron_layer
-from tinybig.layer.grid_based_layers import conv_layer, pooling_layer
+from tinybig.layer.grid_based_layers import grid_interdependence_layer, grid_compression_layer
 from tinybig.util import parameter_scheduler
 
 
@@ -59,6 +59,8 @@ class cnn(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        print('############# rpn-cnn model architecture ############')
+
         if pooling_patch_shape is None: pooling_patch_shape = patch_shape
         if pooling_p_h is None: pooling_p_h = p_h
         if pooling_p_h_prime is None: pooling_p_h_prime = p_h_prime
@@ -81,7 +83,7 @@ class cnn(rpn):
         layers = []
         for in_channel, out_channel in zip(channel_nums, channel_nums[1:]):
             print('conv in', h, w, d, in_channel)
-            layer = conv_layer(
+            layer = grid_interdependence_layer(
                 h=h, w=w, d=d,
                 in_channel=in_channel, out_channel=out_channel,
                 width=width,
@@ -107,7 +109,7 @@ class cnn(rpn):
             # adding a pooling layer for a certain layer gaps
             if len(layers) % (pooling_layer_gaps+1) == pooling_layer_gaps:
                 print('pooling in', h, w, d, out_channel)
-                layer = pooling_layer(
+                layer = grid_compression_layer(
                     h=h, w=w, d=d,
                     channel_num=out_channel,
                     pooling_metric=pooling_metric,

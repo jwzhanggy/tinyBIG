@@ -18,7 +18,7 @@ import requests
 import zipfile
 
 
-def set_random_seed(random_seed: int = 0):
+def set_random_seed(random_seed: int = 0, deterministic: bool = False):
     """
     Random seed setup method.
 
@@ -56,12 +56,13 @@ def set_random_seed(random_seed: int = 0):
 
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-    if not torch.backends.mps.is_available():
-        torch.use_deterministic_algorithms(True)
-        os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'  # Specific to CUDA
-    else:
-        # Optionally log a message to inform the user about MPS behavior
-        print("Warning: Deterministic algorithms disabled for MPS backend to avoid performance degradation.")
+
+    if deterministic:
+        if not torch.backends.mps.is_available():
+            torch.use_deterministic_algorithms(True)
+            os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'  # Specific to CUDA
+        else:
+            print("Warning: Deterministic algorithms disabled for MPS backend to avoid performance degradation.")
 
 
 def check_file_existence(complete_file_path):

@@ -241,7 +241,7 @@ class base_topology:
             warnings.warn("The link doesn't exist in the link list or link label dictionary...")
             return None
 
-    def to_matrix(self, normalization: bool = False, self_dependence: bool = False, normalization_mode: str = 'row_column', device: str = 'cpu', *args, **kwargs):
+    def to_matrix(self, self_dependence: bool = False, self_scaling: float = 1.0, normalization: bool = False, normalization_mode: str = 'row_column', device: str = 'cpu', *args, **kwargs):
         node_id_index_map = self.nodes
         node_index_id_map = {index: node for node, index in node_id_index_map.items()}
 
@@ -252,7 +252,7 @@ class base_topology:
             mx = sp.coo_matrix((np.ones(links.shape[0]), (links[:, 0], links[:, 1])), shape=(len(node_id_index_map), len(node_id_index_map)), dtype=np.float32)
             mx = mx + mx.T.multiply(mx.T > mx) - mx.multiply(mx.T > mx)
             if self_dependence:
-                mx = mx + sp.eye(mx.shape[0])
+                mx += self_scaling * sp.eye(mx.shape[0])
             mx = sparse_mx_to_torch_sparse_tensor(mx)
         else:
             links = torch.tensor(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), device=device)
@@ -260,7 +260,7 @@ class base_topology:
             mx[links[:, 0], links[:, 1]] = torch.ones(links.size(0), device=device)
             mx = mx + mx.T * (mx.T > mx).float() - mx * (mx.T > mx).float()
             if self_dependence:
-                mx += torch.eye(mx.shape[0], device=device)
+                mx += self_scaling * torch.eye(mx.shape[0], device=device)
 
         if normalization:
             mx = degree_based_normalize_matrix(mx=mx, mode=normalization_mode)

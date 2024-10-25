@@ -8,7 +8,7 @@
 
 from tinybig.model.rpn import rpn
 from tinybig.layer.basic_layers import perceptron_layer
-from tinybig.layer.bilinear_layers import attention_layer
+from tinybig.layer.bilinear_layers import bilinear_interdependence_layer
 
 
 class transformer(rpn):
@@ -38,6 +38,8 @@ class transformer(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        print('############# rpn-transformer model architecture ############')
+
         if len(dims) < 2:
             raise ValueError("At least two dim values is needed for defining the model...")
         if len(fc_dims) < 1:
@@ -46,7 +48,7 @@ class transformer(rpn):
         layers = []
         for m, n in zip(dims, dims[1:]):
             layers.append(
-                attention_layer(
+                bilinear_interdependence_layer(
                     m=m, n=n,
                     batch_num=batch_num,
                     channel_num=channel_num,

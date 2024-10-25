@@ -8,7 +8,7 @@
 
 from tinybig.model.rpn import rpn
 from tinybig.layer import perceptron_layer
-from tinybig.layer.graph_based_layers import gat_layer
+from tinybig.layer.graph_based_layers import graph_bilinear_interdependence_layer
 from tinybig.koala.topology import graph as graph_class
 
 
@@ -50,6 +50,8 @@ class gat(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        print('############# rpn-gat model architecture ############')
+
         if dims is None or len(dims) < 2:
             raise ValueError('dims must not be empty and need to have at least two dimensions...')
         assert all(isinstance(d, int) and d > 0 for d in dims)
@@ -58,7 +60,7 @@ class gat(rpn):
         for m, n in zip(dims[0:], dims[1:]):
             print('layer: {},'.format(len(layers)), 'm: {}, n: {}'.format(m, n))
             layers.append(
-                gat_layer(
+                graph_bilinear_interdependence_layer(
                     m=m, n=n,
                     width=width,
                     channel_num=channel_num,

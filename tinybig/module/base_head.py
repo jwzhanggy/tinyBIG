@@ -244,8 +244,8 @@ class rpn_head(torch.nn.Module):
     def create_learnable_parameters(
         self,
         initialize_parameter_at_creation: bool = False,
-        init_type='xavier_uniform',
-        init_bias=True,
+        init_type: str = 'xavier_uniform',
+        init_bias: bool = True,
         *args, **kwargs
     ):
         m_prime, b_prime = self.m, self.batch_num
@@ -317,10 +317,14 @@ class rpn_head(torch.nn.Module):
         """
         init_type = self.parameters_init_method if self.parameters_init_method is not None else init_type
 
+        print('parameter init type', init_type)
+
         if init_type == 'kaiming_uniform':
-            self.initialize_parameters_kaiming(init_bias=init_bias, *args, **kwargs)
+            self.initialize_parameters_kaiming_uniform(init_bias=init_bias, *args, **kwargs)
         elif init_type == 'xavier_uniform':
-            self.initialize_parameters_xavier(init_bias=init_bias, *args, **kwargs)
+            self.initialize_parameters_xavier_uniform(init_bias=init_bias, *args, **kwargs)
+        elif init_type == 'xavier_normal':
+            self.initialize_parameters_xavier_normal(init_bias=init_bias, *args, **kwargs)
         elif init_type == 'fanout_std_uniform':
             self.initialize_parameters_fanout_std_uniform(init_bias=init_bias, *args, **kwargs)
 
@@ -364,7 +368,7 @@ class rpn_head(torch.nn.Module):
         if self.w_channel_fusion is not None:
             self.w_channel_fusion.data.uniform_(-std, std)
 
-    def initialize_parameters_kaiming(self, init_bias=True, *args, **kwargs):
+    def initialize_parameters_kaiming_uniform(self, init_bias=True, *args, **kwargs):
         """
         The kaiming parameter initialization method.
 
@@ -406,7 +410,7 @@ class rpn_head(torch.nn.Module):
                 bound = 1 / math.sqrt(fan_in) if fan_in > 0 else 0
                 torch.nn.init.uniform_(self.b_remainder, -bound, bound)
 
-    def initialize_parameters_xavier(self, init_bias=True, *args, **kwargs):
+    def initialize_parameters_xavier_uniform(self, init_bias=True, *args, **kwargs):
         """
         The xavier initialization method.
 
@@ -442,6 +446,43 @@ class rpn_head(torch.nn.Module):
                 torch.nn.init.xavier_uniform_(self.b.view(1, -1))
             if self.b_remainder is not None:
                 torch.nn.init.xavier_uniform_(self.b_remainder.view(1, -1))
+
+    def initialize_parameters_xavier_normal(self, init_bias=True, *args, **kwargs):
+        """
+        The xavier initialization method.
+
+        It initializes the multi-channel parameters in the head with xavier_uniform_ method from pytorch.
+
+        Parameters
+        ----------
+        init_bias: bool, default = True
+            The boolean tag of bias initialization.
+
+        Returns
+        -------
+        None
+            This initialization method doesn't have any return values.
+        """
+        if self.w_attribute_interdependence is not None:
+            torch.nn.init.xavier_normal_(self.w_attribute_interdependence)
+
+        if self.w_instance_interdependence is not None:
+            torch.nn.init.xavier_normal_(self.w_instance_interdependence)
+
+        if self.w is not None:
+            torch.nn.init.xavier_normal_(self.w)
+
+        if self.w_remainder is not None:
+            torch.nn.init.xavier_normal_(self.w_remainder)
+
+        if self.w_channel_fusion is not None:
+            torch.nn.init.xavier_normal_(self.w_channel_fusion)
+
+        if init_bias:
+            if self.b is not None:
+                torch.nn.init.xavier_normal_(self.b.view(1, -1))
+            if self.b_remainder is not None:
+                torch.nn.init.xavier_normal_(self.b_remainder.view(1, -1))
 
     def to_config(self):
         head_class = f"{self.__class__.__module__}.{self.__class__.__name__}"
@@ -584,6 +625,18 @@ class rpn_head(torch.nn.Module):
             inner_prod = kappa_xi_x
         return inner_prod
 
+    def fusion(self, inner_products: list[torch.Tensor], device: str = 'cpu', *args, **kwargs):
+        if self.channel_fusion is not None:
+            assert self.channel_fusion.get_dims() is None or self.channel_fusion.get_num() == len(inner_products)
+            result = self.channel_fusion(x=inner_products, w=self.w_channel_fusion, device=device)
+            n = self.channel_fusion.calculate_n(dims=[result.size(-1) for result in inner_products])
+        else:
+            assert len(inner_products) == 1
+            result = inner_products[0]
+            n = self.n
+        assert result.size(-1) == n
+        return result
+
     def forward(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         r"""
         The forward method of the RPN head module.
@@ -640,27 +693,21 @@ class rpn_head(torch.nn.Module):
                 kappa_xi_x = self.calculate_kappa_xi_x(x=x, channel_index=channel_index, device=device)
 
             # ************** Parameter Reconciliation Block **************
-            phi_w = self.calculate_phi_w(D=kappa_xi_x.size(1), channel_index=channel_index, device=device, *args, **kwargs)
+            phi_w = self.calculate_phi_w(D=kappa_xi_x.size(-1), channel_index=channel_index, device=device, *args, **kwargs)
 
             # ************** Inner Product Calculation Block **************
             inner_prod = self.calculate_inner_product(kappa_xi_x=kappa_xi_x, phi_w=phi_w, device=device, *args, **kwargs)
+
             inner_products.append(inner_prod)
 
         # ************** Multi-Channel Fusion Block **************
-        if self.channel_fusion is not None:
-            assert self.channel_fusion.get_dims() is None or self.channel_fusion.get_num() == len(inner_products)
-            result = self.channel_fusion(x=inner_products, w=self.w_channel_fusion, device=device)
-            n = self.channel_fusion.calculate_n(dims=[result.size(-1) for result in inner_products])
-        else:
-            assert len(inner_products) == 1
-            result = inner_products[0]
-            n = self.n
-        assert result.size(-1) == n
+        result = self.fusion(inner_products=inner_products, device=device)
 
         # ************** Remainder Block **************
         pi_x = self.calculate_pi_x(x=x, device=device, *args, **kwargs)
+
         if pi_x is not None:
-            assert pi_x.size(-1) == n
+            assert pi_x.size(-1) == result.size(-1)
             result += pi_x
 
         # ************** Output Processing Block **************

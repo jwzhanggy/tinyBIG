@@ -42,12 +42,12 @@ from tinybig.interdependence import (
 )
 
 
-class attention_head(rpn_head):
+class bilinear_interdependence_head(rpn_head):
 
     def __init__(
         self,
         m: int, n: int,
-        name: str = 'attention_head',
+        name: str = 'bilinear_interdependence_head',
         batch_num: int = None,
         channel_num: int = 1,
         # interdependence function parameters
@@ -67,6 +67,7 @@ class attention_head(rpn_head):
         with_softmax: bool = True,
         with_dropout: bool = False, p: float = 0.25,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
 
@@ -186,6 +187,7 @@ class attention_head(rpn_head):
             remainder=remainder,
             output_process_functions=output_process_functions,
             channel_num=channel_num,
+            parameters_init_method=parameters_init_method,
             device=device, *args, **kwargs
         )
 

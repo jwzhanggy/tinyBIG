@@ -7,16 +7,16 @@
 ################################
 
 from tinybig.module.base_layer import rpn_layer
-from tinybig.head.graph_based_heads import sgc_head, gat_head
+from tinybig.head.graph_based_heads import graph_interdependence_head, graph_bilinear_interdependence_head
 from tinybig.koala.topology import graph as graph_class
 
 
-class sgc_layer(rpn_layer):
+class graph_interdependence_layer(rpn_layer):
     def __init__(
         self,
         m: int, n: int,
         width: int = 1,
-        name: str = 'sgc_head',
+        name: str = 'graph_interdependence_layer',
         channel_num: int = 1,
         # graph structure parameters
         graph: graph_class = None,
@@ -44,10 +44,12 @@ class sgc_layer(rpn_layer):
         with_softmax: bool = True,
         with_dropout: bool = True, p: float = 0.5,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        print('* graph_interdependence_layer, width:', width)
         heads = [
-            sgc_head(
+            graph_interdependence_head(
                 m=m, n=n,
                 channel_num=channel_num,
                 # -------------------
@@ -76,18 +78,20 @@ class sgc_layer(rpn_layer):
                 with_softmax=with_softmax,
                 with_dropout=with_dropout, p=p,
                 # -------------------
-                device=device,
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class gat_layer(rpn_layer):
+class graph_bilinear_interdependence_layer(rpn_layer):
     def __init__(
         self,
         m: int, n: int,
         width: int = 1,
-        name: str = 'gat_layer',
+        name: str = 'graph_bilinear_interdependence_layer',
         channel_num: int = 1,
         # graph structure parameters
         graph: graph_class = None,
@@ -118,10 +122,12 @@ class gat_layer(rpn_layer):
         with_softmax: bool = True,
         with_dropout: bool = True, p: float = 0.5,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        print('* graph_bilinear_interdependence_layer, width:', width)
         heads = [
-            gat_head(
+            graph_bilinear_interdependence_head(
                 m=m, n=n,
                 channel_num=channel_num,
                 # -------------------
@@ -153,7 +159,9 @@ class gat_layer(rpn_layer):
                 with_softmax=with_softmax,
                 with_dropout=with_dropout, p=p,
                 # -------------------
-                device=device,
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)

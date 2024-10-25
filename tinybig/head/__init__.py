@@ -8,14 +8,18 @@ from tinybig.head.basic_heads import (
 )
 
 from tinybig.head.grid_based_heads import (
-    conv_head,
-    pooling_head,
+    grid_interdependence_head,
+    grid_compression_head,
 )
 
 from tinybig.head.chain_based_heads import (
-    recurrent_head
+    chain_interdependence_head,
+)
+
+from tinybig.head.graph_based_heads import (
+    graph_interdependence_head,
 )
 
 from tinybig.head.bilinear_heads import (
-    attention_head
+    bilinear_interdependence_head
 )

@@ -89,6 +89,7 @@ class rpn_layer(torch.nn.Module):
         width_alloc: int | list = None,
         head_fusion=None,
         head_fusion_configs=None,
+        parameters_init_method: str = 'xavier_uniform',
         device='cpu',
         *args, **kwargs
     ):
@@ -136,6 +137,7 @@ class rpn_layer(torch.nn.Module):
         self.name = name
         self.fusion_parameters = None
         self.heads = torch.nn.ModuleList()
+        self.parameters_init_method = parameters_init_method
         self.device = device
 
         # the multi-head initialization
@@ -160,6 +162,7 @@ class rpn_layer(torch.nn.Module):
                     head_parameters['m'] = self.m
                     head_parameters['n'] = self.n
                     head_parameters['device'] = device
+                    head_parameters['parameters_init_method'] = self.parameters_init_method
                     self.heads.append(config.get_obj_from_str(head_class_name)(**head_parameters))
 
         assert len(self.heads) == width and [(self.m, self.n)] * width == [(head.m, head.n) for head in self.heads]
@@ -168,7 +171,7 @@ class rpn_layer(torch.nn.Module):
         if len(self.heads) > 1 and self.head_fusion is None:
             self.head_fusion = mean_fusion(dims=[head.get_n() for head in heads])
         self.w_head_fusion = None
-        self.create_learnable_parameters()
+        self.create_learnable_parameters(init_type=self.parameters_init_method)
 
     def get_m(self):
         return self.m

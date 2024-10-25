@@ -32,8 +32,10 @@ class perceptron_layer(rpn_layer):
         with_dropout: bool = True, p: float = 0.5,
         with_softmax: bool = True,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        print('* perceptron_layer, width:', width)
         heads = [
             perceptron_head(
                 m=m, n=n,
@@ -52,10 +54,11 @@ class perceptron_layer(rpn_layer):
                 with_dropout=with_dropout, p=p,
                 with_softmax=with_softmax,
                 # --------------------
-                device=device,
-                *args, **kwargs
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
+        print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
@@ -76,6 +79,7 @@ class svm_layer(rpn_layer):
         channel_num: int = 1,
         width: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
@@ -86,11 +90,11 @@ class svm_layer(rpn_layer):
                 num_interval=num_interval,
                 epsilon=epsilon,
                 enable_bias=enable_bias,
-                device=device,
                 with_lorr=with_lorr, r=r,
                 with_residual=with_residual,
                 channel_num=channel_num,
-                *args, **kwargs
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
@@ -108,6 +112,7 @@ class kan_layer(rpn_layer):
         channel_num: int = 1,
         width: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
@@ -118,8 +123,8 @@ class kan_layer(rpn_layer):
                 enable_bias=enable_bias,
                 with_lorr=with_lorr, r=r,
                 channel_num=channel_num,
-                device=device,
-                *args, **kwargs
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
@@ -140,6 +145,7 @@ class naive_bayes_layer(rpn_layer):
         channel_num: int = 1,
         width: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
@@ -147,11 +153,11 @@ class naive_bayes_layer(rpn_layer):
                 m=m, n=n,
                 enable_bias=enable_bias,
                 distribution=distribution,
-                device=device,
                 with_lorr=with_lorr, r=r,
                 with_residual=with_residual,
                 channel_num=channel_num,
-                *args, **kwargs
+                parameters_init_method=parameters_init_method,
+                device=device, *args, **kwargs
             )
         ] * width
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
@@ -172,6 +178,7 @@ class pgm_layer(rpn_layer):
         channel_num: int = 1,
         width: int = 1,
         # other parameters
+        parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
         heads = [
@@ -183,6 +190,7 @@ class pgm_layer(rpn_layer):
                 with_lorr=with_lorr, r=r,
                 with_residual=with_residual,
                 channel_num=channel_num,
+                parameters_init_method=parameters_init_method,
                 device=device, *args, **kwargs
             )
         ] * width

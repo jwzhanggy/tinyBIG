@@ -27,8 +27,9 @@ class chain_interdependence(interdependence):
         interdependence_type: str = 'instance',
         name: str = 'chain_interdependence',
         chain: chain_structure = None,
-        length: int = None, bi_directional: bool = False,
-        normalization: bool = False, normalization_mode: str = 'row', self_dependence: bool = True,
+        chain_length: int = None, bi_directional: bool = False,
+        normalization: bool = False, normalization_mode: str = 'row',
+        self_dependence: bool = True, self_scaling: float = 1.0,
         require_data: bool = False, require_parameters: bool = False,
         device: str = 'cpu', *args, **kwargs
     ):
@@ -36,8 +37,8 @@ class chain_interdependence(interdependence):
 
         if chain is not None:
             self.chain = chain
-        elif length is not None:
-            self.chain = chain_structure(length=length, bi_directional=bi_directional)
+        elif chain_length is not None:
+            self.chain = chain_structure(length=chain_length, bi_directional=bi_directional)
         else:
             raise ValueError('Either chain structure of chain length must be provided...')
 
@@ -47,6 +48,7 @@ class chain_interdependence(interdependence):
         self.normalization = normalization
         self.normalization_mode = normalization_mode
         self.self_dependence = self_dependence
+        self.self_scaling = self_scaling
 
     def is_bi_directional(self):
         return not self.chain.is_directed()
@@ -55,7 +57,14 @@ class chain_interdependence(interdependence):
         if not self.require_data and not self.require_parameters and self.A is not None:
             return self.A
         else:
-            adj, mappings = self.chain.to_matrix(self_dependence=self.self_dependence, normalization=self.normalization, normalization_mode=self.normalization_mode, device=device)
+            adj, mappings = self.chain.to_matrix(
+                self_dependence=self.self_dependence,
+                self_scaling=self.self_scaling,
+                normalization=self.normalization,
+                normalization_mode=self.normalization_mode,
+                device=device
+            )
+
             self.node_id_index_map = mappings['node_id_index_map']
             self.node_index_id_map = mappings['node_index_id_map']
 
@@ -68,7 +77,6 @@ class chain_interdependence(interdependence):
 
             if not self.require_data and not self.require_parameters and self.A is None:
                 self.A = A
-
             return A
 
 

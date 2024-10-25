@@ -7,10 +7,13 @@
 ######################
 
 from abc import abstractmethod
+from collections import Counter
 
 import torch, torchtext
 from torchtext.datasets import SST2, IMDB, AG_NEWS
 from torchtext import transforms
+from torchtext.vocab import build_vocab_from_iterator, GloVe
+from torchtext.data import get_tokenizer
 from torch.hub import load_state_dict_from_url
 from torch.utils.data import DataLoader
 
@@ -21,9 +24,10 @@ from tinybig.data.base_data import dataloader, dataset
 
 class text_dataloader(dataloader):
 
-    def __init__(self, train_batch_size: int, test_batch_size: int, name='text_dataloader', max_seq_len=256):
+    def __init__(self, train_batch_size: int, test_batch_size: int, name='text_dataloader', max_seq_len: int = 256, min_freq: int = 10):
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
         self.max_seq_len = max_seq_len
+        self.min_freq = min_freq
 
     @abstractmethod
     def load_datapipe(self, cache_dir='./data/', *args, **kwargs):
@@ -62,13 +66,14 @@ class text_dataloader(dataloader):
         return text_transform
 
     @staticmethod
-    def get_embedding_number(*args, **kwargs):
+    def get_embedding_dim(*args, **kwargs):
         return 768
 
     @staticmethod
     def load_encoder(cache_dir='./data/', *args, **kwargs):
         xlmr_base = torchtext.models.XLMR_BASE_ENCODER
         encoder = xlmr_base.get_model()
+        encoder.eval()
         return encoder
 
     def load_tfidf_vectorizer(self, sublinear_tf=True, max_df=0.5, min_df=5, stop_words="english", *args, **kwargs):
@@ -88,14 +93,32 @@ class text_dataloader(dataloader):
         return self.load(load_type='embedding', *args, **kwargs)
 
     def load(
-            self,
-            cache_dir='./data/',
-            load_type: str = 'tfidf',
-            max_seq_len: int = None,
-            xy_reversed: bool = False,
-            *args, **kwargs
+        self,
+        cache_dir: str = './data/',
+        load_type: str = 'tfidf',
+        max_seq_len: int = None,
+        xy_reversed: bool = False,
+        max_vocab_size: int = 25000,
+        min_freq: int = 10,
+        *args, **kwargs
     ):
         max_seq_len = max_seq_len if max_seq_len is not None else self.max_seq_len
+
+        if load_type in ['tfidf', 'text', 'token', 'xlmr_embedding']:
+            return self.load_xlmr(cache_dir=cache_dir, load_type=load_type, max_seq_len=max_seq_len, xy_reversed=xy_reversed)
+        elif load_type in ['embedding']:
+            return self.load_glove(cache_dir=cache_dir, max_seq_len=max_seq_len, min_freq=min_freq, max_vocab_size=max_vocab_size, xy_reversed=xy_reversed)
+        else:
+            raise ValueError(f'load_type {load_type} not supported')
+
+    def load_xlmr(
+        self,
+        cache_dir='./data/',
+        load_type: str = 'tfidf',
+        max_seq_len: int = None,
+        xy_reversed: bool = False,
+        *args, **kwargs
+    ):
         train_datapipe, test_datapipe = self.load_datapipe(cache_dir=cache_dir)
         transform = self.load_transform(max_seq_len=max_seq_len)
         idx_to_label = self.get_idx_to_label()
@@ -127,9 +150,9 @@ class text_dataloader(dataloader):
         X_train, y_train = collect_data(train_datapipe)
         X_test, y_test = collect_data(test_datapipe)
 
-        if load_type in ['text', 'token', 'embedding']:
+        if load_type in ['text', 'token', 'xlmr_embedding']:
             # for load_type = 'embedding', the encoder needs to be loaded from the cache dir
-            encoder = self.load_encoder(cache_dir=cache_dir) if load_type == 'embedding' else None
+            encoder = self.load_encoder(cache_dir=cache_dir) if load_type == 'xlmr_embedding' else None
             train_dataset = dataset(X=X_train, y=y_train, encoder=encoder)
             test_dataset = dataset(X=X_test, y=y_test, encoder=encoder)
         elif load_type == 'tfidf':
@@ -145,12 +168,100 @@ class text_dataloader(dataloader):
         test_loader = DataLoader(test_dataset, batch_size=self.test_batch_size, shuffle=False)
         return {'train_loader': train_loader, 'test_loader': test_loader}
 
+    def load_glove(
+        self,
+        cache_dir: str = './data/',
+        max_vocab_size: int = 25000,
+        min_freq: int = 10,
+        max_seq_len: int = 150,
+        xy_reversed: bool = False,
+        *args, **kwargs
+    ):
+        train_iter, test_iter = self.load_datapipe()
+
+        # Create a tokenizer
+        tokenizer = get_tokenizer('basic_english')
+
+        # Build a vocabulary using the training data
+        def yield_tokens(data_iter, tokenizer):
+            if xy_reversed:
+                for _, line in data_iter:
+                    yield tokenizer(line)
+            else:
+                for line, _ in data_iter:
+                    yield tokenizer(line)
+
+        # Create the vocabulary from the training data iterator and add special tokens
+        vocab = build_vocab_from_iterator(
+            yield_tokens(train_iter, tokenizer),
+            max_tokens=max_vocab_size,
+            min_freq=min_freq,
+            specials=['<unk>', '<pad>']
+        )
+        vocab.set_default_index(vocab['<unk>'])  # Set default index for unknown tokens
+
+        # Load GloVe vectors and associate them with the vocabulary directly
+        glove_vectors = GloVe(name='6B', dim=300, cache=cache_dir)
+
+        # Function to efficiently assign GloVe vectors to the vocab
+        def assign_glove_vectors_to_vocab(vocab, glove_vectors):
+            vocab_size = len(vocab)
+            embedding_dim = glove_vectors.dim
+            vectors = torch.zeros(vocab_size, embedding_dim)
+
+            glove_indices = []
+            for i, word in enumerate(vocab.get_itos()):  # get_itos() provides a list of words in order of their indices
+                if word in glove_vectors.stoi:
+                    glove_indices.append(i)
+
+            glove_tensor_indices = torch.tensor([glove_vectors.stoi[vocab.get_itos()[i]] for i in glove_indices])
+            vectors[glove_indices] = glove_vectors.vectors.index_select(0, glove_tensor_indices)
+
+            return vectors
+
+        vocab.vectors = assign_glove_vectors_to_vocab(vocab, glove_vectors)
+        train_iter, test_iter = self.load_datapipe()
+        self.vocab = vocab
+
+        def collate_batch(batch):
+            text_pipeline = lambda x: vocab(tokenizer(x))
+            idx_to_label = self.get_idx_to_label()
+
+            text_list, label_list = [], []
+            for (x, y) in batch:
+                if xy_reversed:
+                    text = y
+                    label = x
+                else:
+                    text = x
+                    label = y
+                text_tokens = torch.tensor(text_pipeline(text), dtype=torch.int64)
+                if len(text_tokens) > max_seq_len:
+                    text_tokens = text_tokens[:max_seq_len]
+                else:
+                    text_tokens = torch.cat(
+                        [text_tokens, torch.full((max_seq_len - len(text_tokens),), vocab['<pad>'], dtype=torch.int64)])
+
+                text_vectors = vocab.vectors[text_tokens].view(-1)
+
+                text_list.append(text_vectors)
+                label_list.append(idx_to_label[label])
+
+            # Stack all padded sequences into a single tensor
+            text_tensor = torch.stack(text_list)
+
+            return text_tensor, torch.tensor(label_list, dtype=torch.int64)
+
+        # Create data loaders for train and test datasets with a fixed max length
+        train_loader = DataLoader(list(train_iter), batch_size=self.train_batch_size, shuffle=True, collate_fn=collate_batch)
+        test_loader = DataLoader(list(test_iter), batch_size=self.test_batch_size, shuffle=False, collate_fn=collate_batch)
+        return {'train_loader': train_loader, 'test_loader': test_loader}
+
 
 class imdb(text_dataloader):
 
-    def __init__(self, name='imdb', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name, train_batch_size=train_batch_size,
-                         test_batch_size=test_batch_size)
+    def __init__(self, name='imdb', train_batch_size=64, test_batch_size=64, max_seq_len: int = 512):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     def load(self, *args, **kwargs):
         kwargs['xy_reversed'] = True
@@ -184,9 +295,8 @@ class imdb(text_dataloader):
 
 class sst2(text_dataloader):
 
-    def __init__(self, name='sst2', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name, train_batch_size=train_batch_size,
-                         test_batch_size=test_batch_size)
+    def __init__(self, name='sst2', train_batch_size=64, test_batch_size=64, max_seq_len: int = 32):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     @staticmethod
     def load_datapipe(cache_dir='./data/', *args, **kwargs):
@@ -216,9 +326,8 @@ class sst2(text_dataloader):
 
 class agnews(text_dataloader):
 
-    def __init__(self, name='ag_news', train_batch_size=64, test_batch_size=64):
-        super().__init__(name=name, train_batch_size=train_batch_size,
-                         test_batch_size=test_batch_size)
+    def __init__(self, name='ag_news', train_batch_size=64, test_batch_size=64, max_seq_len: int = 64):
+        super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     def load(self, *args, **kwargs):
         kwargs['xy_reversed'] = True
