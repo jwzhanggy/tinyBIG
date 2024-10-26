@@ -183,6 +183,35 @@ def operator_based_normalize_matrix(
     return normalized_mx
 
 
+def mean_std_based_normalize_matrix(mx: torch.Tensor, mode="column"):
+    """
+    Normalize the input tensor X based on the specified mode.
+
+    Parameters:
+        X (torch.Tensor): Input data tensor of shape (t, n) where t denotes timestamps and n denotes stock instances.
+        mode (str): Mode of normalization. Possible values are "row", "column", or "row_column".
+
+    Returns:
+        torch.Tensor: Normalized tensor X.
+    """
+    if mode == "row":
+        # Normalize each row (across instances)
+        row_means = mx.mean(dim=1, keepdim=True)
+        row_stds = mx.std(dim=1, keepdim=True)
+        normalized_mx = (mx - row_means) / (row_stds + 1e-8)
+    elif mode == "column":
+        # Normalize each column (across time)
+        col_means = mx.mean(dim=0, keepdim=True)
+        col_stds = mx.std(dim=0, keepdim=True)
+        normalized_mx = (mx - col_means) / (col_stds + 1e-8)
+    elif mode in ["row_column", "column_row", "all"]:
+        global_mean = mx.mean()
+        global_std = mx.std()
+        normalized_mx = (mx - global_mean) / (global_std + 1e-8)
+    else:
+        raise ValueError("Invalid mode. Choose from 'row', 'column', or 'row_column'.")
+    return normalized_mx
+
 def sparse_mx_to_torch_sparse_tensor(sparse_mx):
     """Convert a scipy sparse matrix to a torch sparse tensor."""
     sparse_mx = sparse_mx.tocoo().astype(np.float32)

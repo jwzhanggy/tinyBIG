@@ -50,13 +50,14 @@ class rnn(rpn):
 
         self.chain_length = chain_length
 
-        if dims is None or len(dims) <= 2:
-            raise ValueError('dims must not be empty and need to have at least two dimensions...')
+        if dims is None or len(dims) <= 1:
+           raise ValueError('dims must not be empty and need to have at least two dimensions...')
         assert all(isinstance(d, int) and d > 0 for d in dims)
 
         # input embedding layer
         layers = []
         for m, n in zip(dims[0:-2], dims[1:-1]):
+            print('m', m, 'n', n)
             #---------------- x to h -----------------
             layers.append(
                 perceptron_layer(
