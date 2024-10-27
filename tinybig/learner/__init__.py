@@ -1,3 +1,12 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+############################################################
+# Library of Learners for Function Learning Model Training #
+############################################################
+
+
 """
 This module defines the learners that can work for the RPN models in the tinyBIG toolkit.
 
@@ -13,6 +22,7 @@ This module contains the following categories of learner classes:
 * Backward Learner
 * Forward Learner
 """
+
 
 from tinybig.learner.base_learner import learner
 from tinybig.learner.backward_learner import backward_learner

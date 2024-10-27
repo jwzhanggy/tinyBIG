@@ -1,6 +1,11 @@
 # Copyright (c) 2024-Present
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
+
+########################
+# The Backward Learner #
+########################
+
 """
 Error back propagation algorithm based learner.
 
@@ -17,6 +22,7 @@ from tinybig.learner.base_learner import learner
 from tinybig.module.base_model import model as tinybig_model
 from tinybig.data.base_data import dataloader as tinybig_dataloader
 from tinybig.metric.base_metric import metric as tinybig_metric
+
 
 class backward_learner(learner):
     """

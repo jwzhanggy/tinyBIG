@@ -1,3 +1,11 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+#########################
+# Remainder Term Module #
+#########################
+
 r"""
 This module provides the remainder functions that can be used to build the RPN model within the tinyBIG toolkit.
 

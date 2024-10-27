@@ -9,10 +9,12 @@ This module contains the base evaluation metric class definition.
 """
 
 from abc import abstractmethod
+
 from tinybig.config.base_config import config
+from tinybig.module.base_function import function
 
 
-class metric:
+class metric(function):
     """
     The base class of the evaluation metrics in the tinyBIG toolkit.
 
@@ -34,7 +36,7 @@ class metric:
     __call__
         It reimplementation the build-in callable method.
     """
-    def __init__(self, name: str = 'base_metric', *args, **kwargs):
+    def __init__(self, name: str = 'base_metric', device: str = 'cpu', *args, **kwargs):
         """
         The initialization method of the base metric class.
 
@@ -50,7 +52,7 @@ class metric:
         object
             The metric object.
         """
-        self.name = name
+        function.__init__(self, name=name, device=device, *args, **kwargs)
 
     @staticmethod
     def from_config(configs: dict):
