@@ -11,7 +11,7 @@ import numpy as np
 
 import torch
 
-from tinybig.module.base_functions import function
+from tinybig.module.base_function import function
 from tinybig.compression import transformation
 from tinybig.config.base_config import config
 

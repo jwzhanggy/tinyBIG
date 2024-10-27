@@ -13,15 +13,17 @@ This module contains the implementation of RPN layer with multiple RPN heads.
 The RPN layer will be used to compose the deep RPN models by stacking them.
 """
 
-import torch
 import math
+
+import torch
+from torch.nn import Module
 
 from tinybig.config import config
 from tinybig.fusion.metric_fusion import mean_fusion
-from tinybig.module.base_fusion import fusion
+from tinybig.module.base_function import function
 
 
-class rpn_layer(torch.nn.Module):
+class rpn_layer(Module, function):
     r"""
     The RPN layer class for implementing the multi-head module.
 
@@ -130,15 +132,15 @@ class rpn_layer(torch.nn.Module):
         object
             This method will return the initialized RPN-layer object.
         """
-        super().__init__()
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
+
         assert m is not None and n is not None
         self.m = m
         self.n = n
-        self.name = name
         self.fusion_parameters = None
         self.heads = torch.nn.ModuleList()
         self.parameters_init_method = parameters_init_method
-        self.device = device
 
         # the multi-head initialization
         if heads is not None:
@@ -256,19 +258,6 @@ class rpn_layer(torch.nn.Module):
             "layer_class": layer_class,
             "layer_parameters": layer_parameters
         }
-
-    def __call__(self, *args, **kwargs):
-        """
-        The re-implementatino of the callable method of this RPN layer module.
-
-        It re-implements the builtin callable method by calling the forward method.
-
-        Returns
-        -------
-        torch.Tensor
-            It will return the learning results of this RPN layer.
-        """
-        return self.forward(*args, **kwargs)
 
     def forward(self, x: torch.Tensor, fusion_strategy: str = 'average', device: str = 'cpu', *args, **kwargs):
         r"""

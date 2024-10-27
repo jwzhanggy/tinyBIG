@@ -12,7 +12,7 @@ import time
 import torch
 
 from tinybig.config.base_config import config
-from tinybig.module.base_functions import function
+from tinybig.module.base_function import function
 from tinybig.learner.base_learner import learner
 from tinybig.module.base_model import model as tinybig_model
 from tinybig.data.base_data import dataloader as tinybig_dataloader

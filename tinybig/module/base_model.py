@@ -8,14 +8,16 @@ The base model template.
 It defines the base model template for implementing the RPN models.
 """
 
-import torch
 from abc import abstractmethod
 
-from tinybig.config.model_config import model_config
+import torch
+from torch.nn import Module
+
+from tinybig.module.base_function import function
 from tinybig.util.utility import create_directory_if_not_exists
 
 
-class model(torch.nn.Module):
+class model(Module, function):
     """
     The base model class of the RPN model in the tinyBIG toolkit.
 
@@ -62,9 +64,8 @@ class model(torch.nn.Module):
         object
             The initialized model object.
         """
-        super().__init__()
-        self.name = name
-        self.device = device
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
 
     def save_ckpt(self, cache_dir='./ckpt', checkpoint_file='checkpoint'):
         """
@@ -110,19 +111,6 @@ class model(torch.nn.Module):
         """
         self.load_state_dict(torch.load(f'{cache_dir}/{checkpoint_file}'), strict=strict)
         print("model checkpoint loading from {}/{}...".format(cache_dir, checkpoint_file))
-
-    def __call__(self, *args, **kwargs):
-        """
-        The built-in callable method.
-
-        It will call the forward method to generate the outputs based on the provided inputs.
-
-        Returns
-        ----------
-        torch.Tensor
-            The model generated outputs.
-        """
-        return self.forward(*args, **kwargs)
 
     @abstractmethod
     def to_config(self, *args, **kwargs):

@@ -18,7 +18,7 @@ import torch
 
 from torch.nn import Module
 
-from tinybig.module.base_functions import function
+from tinybig.module.base_function import function
 from tinybig.config import config
 
 

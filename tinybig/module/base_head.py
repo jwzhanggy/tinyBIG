@@ -17,9 +17,10 @@ import tinybig.remainder
 import math
 import torch
 import torch.nn.functional as F
+from torch.nn import Module
 
 from tinybig.config import config
-from tinybig.module.base_functions import function
+from tinybig.module.base_function import function
 from tinybig.fusion.metric_fusion import mean_fusion
 from tinybig.module import (
     transformation as transformation_class,
@@ -30,7 +31,7 @@ from tinybig.module import (
 )
 
 
-class rpn_head(torch.nn.Module):
+class rpn_head(Module, function):
     r"""
     The RPN head class for implementing the multi-channel module.
 
@@ -112,6 +113,7 @@ class rpn_head(torch.nn.Module):
         self,
         m: int,
         n: int,
+        name: str = 'rpn_head',
         batch_num: int = None,
         channel_num: int = 1,
         l: int = None,
@@ -187,7 +189,9 @@ class rpn_head(torch.nn.Module):
         object
             This method will return the initialized RPN-head object.
         """
-        super().__init__()
+        Module.__init__(self)
+        function.__init__(self, name=name, device=device)
+
         assert (channel_num >= 1) and (m is not None and m >= 1) and (n is not None and n >= 1)
 
         # initialize the basic attributes
@@ -199,7 +203,6 @@ class rpn_head(torch.nn.Module):
         self.l_attribute_interdependence = l_attribute_interdependence
         self.l_instance_interdependence = l_instance_interdependence
         self.l_channel_fusion = l_channel_fusion
-        self.device = device
 
         # initialize data_transformation, interdependence, interdependence_fusion, parameter_fabrication, channel_fusion and remainder functions from either input objects or input configs
         self.data_transformation = config.instantiation_functions(functions=data_transformation, function_configs=data_transformation_configs, device=device)
@@ -517,20 +520,6 @@ class rpn_head(torch.nn.Module):
             "head_class": head_class,
             "head_parameters": head_parameters
         }
-
-    def __call__(self, *args, **kwargs):
-        """
-        The re-implementation of the builtin callable method based on the forward method.
-
-        It re-implements the callable method of the head, which will call the "forward" method to calculate the output
-        with the multi-channel RPN head module.
-
-        Returns
-        -------
-        torch.Tensor
-            The processed output of the head.
-        """
-        return self.forward(*args, **kwargs)
 
     def calculate_kappa_x(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         if self.data_transformation is not None:

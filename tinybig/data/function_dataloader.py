@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 
 from tinybig.data.base_data import dataloader, dataset
-from tinybig.module.base_functions import function
+from tinybig.module.base_function import function
 
 
 class function_dataloader(dataloader):
