@@ -64,7 +64,6 @@ class chain_interdependence_head(rpn_head):
         device: str = 'cpu', *args, **kwargs
     ):
         self.chain_length = chain_length
-
         chain_structure = chain(
             length=chain_length,
             name=name,
@@ -118,6 +117,7 @@ class chain_interdependence_head(rpn_head):
                 require_parameters=False,
             )
         print('** instance_interdependence', instance_interdependence)
+        print('*** bi_directional', bi_directional)
 
         data_transformation = identity_expansion(
             device=device,

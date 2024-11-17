@@ -6,4 +6,12 @@
 # Library of Function Learning Optimizers #
 ###########################################
 
-# TBD
+# Gradient Descent
+# L-BFGS
+# Levenberg-Marquardt Algorithm
+# Simulated Annealing Optimization
+# Evolutionary Algorithm
+# Particle Swarm Optimization
+# Conjugate Gradient Optimization
+# Surrogate Optimization
+# Multi-objective/Pareto Optimization

@@ -111,12 +111,13 @@ from . import visual
 from . import util
 
 __all__ = [
+    #---- modules ----
     'model',
     'module',
     'config',
     'head',
     'layer',
-
+    #---- functions ----
     'expansion',
     'compression',
     'transformation',
@@ -124,17 +125,16 @@ __all__ = [
     'remainder',
     'interdependence',
     'fusion',
-
+    #---- other libraries ----
     'koala',
-
+    #---- input and output ----
     'data',
     'output',
-
+    #---- learning ----
     'loss',
     'metric',
     'learner',
-
+    #---- visualization and utility ----
     'visual',
-
     'util'
 ]

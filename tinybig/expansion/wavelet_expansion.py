@@ -12,7 +12,7 @@ import numpy as np
 import torch.nn
 
 from tinybig.expansion import transformation
-from tinybig.koala.signal_processing import (
+from tinybig.koala.fourier import (
     discrete_wavelet,
     harr_wavelet,
     dog_wavelet,

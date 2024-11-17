@@ -2,9 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
-#######################################################################
-# Library of Math, Statistics, Machine Learning and Other Disciplines #
-#######################################################################
+##########################################
+# Library of Math, Statistics, Physics,  #
+# Machine Learning and Other Disciplines #
+##########################################
 
 from tinybig.koala import (
     statistics,
@@ -12,6 +13,7 @@ from tinybig.koala import (
     topology,
     geometry,
     manifold,
-    signal_processing,
+    fourier,
     machine_learning,
+    planck,
 )

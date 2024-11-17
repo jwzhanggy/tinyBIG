@@ -34,8 +34,10 @@ class perceptron_head(rpn_head):
         self, m: int, n: int,
         name: str = 'perceptron_head',
         channel_num: int = 1,
-        # data transformation function parameters
+        # data expansion function
+        with_bspline: bool = False,
         with_taylor: bool = False, d: int = 2,
+        with_hybrid_expansion: bool = False,
         # parameter reconciliation function parameters
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
@@ -53,6 +55,11 @@ class perceptron_head(rpn_head):
     ):
         if with_taylor:
             data_transformation = taylor_expansion(
+                d=d,
+                device=device,
+            )
+        elif with_bspline:
+            data_transformation = bspline_expansion(
                 d=d,
                 device=device,
             )

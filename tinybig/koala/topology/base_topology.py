@@ -250,7 +250,8 @@ class base_topology:
         if device != 'mps':
             links = np.array(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), dtype=np.int32)
             mx = sp.coo_matrix((np.ones(links.shape[0]), (links[:, 0], links[:, 1])), shape=(len(node_id_index_map), len(node_id_index_map)), dtype=np.float32)
-            mx = mx + mx.T.multiply(mx.T > mx) - mx.multiply(mx.T > mx)
+            if not self.directed:
+                mx = mx + mx.T.multiply(mx.T > mx) - mx.multiply(mx.T > mx)
             if self_dependence:
                 mx += self_scaling * sp.eye(mx.shape[0])
             mx = sparse_mx_to_torch_sparse_tensor(mx)
@@ -258,7 +259,8 @@ class base_topology:
             links = torch.tensor(list(map(lambda pair: (node_id_index_map[pair[0]], node_id_index_map[pair[1]]), links)), device=device)
             mx = torch.zeros((len(node_id_index_map), len(node_id_index_map)), device=device)
             mx[links[:, 0], links[:, 1]] = torch.ones(links.size(0), device=device)
-            mx = mx + mx.T * (mx.T > mx).float() - mx * (mx.T > mx).float()
+            if not self.directed:
+                mx = mx + mx.T * (mx.T > mx).float() - mx * (mx.T > mx).float()
             if self_dependence:
                 mx += self_scaling * torch.eye(mx.shape[0], device=device)
 

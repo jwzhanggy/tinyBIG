@@ -47,5 +47,6 @@ from tinybig.model.rpn_cnn import cnn, resnet
 from tinybig.model.rpn_gcn import gcn
 from tinybig.model.rpn_gat import gat
 from tinybig.model.rpn_rnn import rnn
+from tinybig.model.rpn_regression_rnn import regression_rnn
 from tinybig.model.rpn_transformer import transformer
 

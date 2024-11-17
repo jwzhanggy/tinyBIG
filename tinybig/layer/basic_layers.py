@@ -18,8 +18,10 @@ class perceptron_layer(rpn_layer):
         name: str = 'perceptron_layer',
         channel_num: int = 1,
         width: int = 1,
-        # data transformation function parameters
+        # data expansion function
+        with_bspline: bool = False,
         with_taylor: bool = False, d: int = 2,
+        with_hybrid_expansion: bool = False,
         # parameter reconciliation function parameters
         with_dual_lphm: bool = False,
         with_lorr: bool = False, r: int = 3,
@@ -41,7 +43,9 @@ class perceptron_layer(rpn_layer):
                 m=m, n=n,
                 channel_num=channel_num,
                 # --------------------
+                with_bspline=with_bspline,
                 with_taylor=with_taylor, d=d,
+                with_hybrid_expansion=with_hybrid_expansion,
                 # --------------------
                 with_dual_lphm=with_dual_lphm,
                 with_lorr=with_lorr, r=r,

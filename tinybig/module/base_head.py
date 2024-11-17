@@ -12,7 +12,6 @@ The RPN head with multi-channels.
 This module contains the implementation of RPN head with multiple channels.
 The RPN head will be used to compose the RPN layer module for building deep RPN models.
 """
-import tinybig.remainder
 
 import math
 import torch
@@ -29,6 +28,7 @@ from tinybig.module import (
     interdependence as interdependence_class,
     fusion as fusion_class,
 )
+import tinybig.remainder
 
 
 class rpn_head(Module, function):
@@ -193,7 +193,6 @@ class rpn_head(Module, function):
         function.__init__(self, name=name, device=device)
 
         assert (channel_num >= 1) and (m is not None and m >= 1) and (n is not None and n >= 1)
-
         # initialize the basic attributes
         self.m = m
         self.n = n
@@ -214,7 +213,6 @@ class rpn_head(Module, function):
 
         self.input_process_functions = config.instantiation_functions(input_process_functions, input_process_function_configs, device=device)
         self.output_process_functions = config.instantiation_functions(output_process_functions, output_process_function_configs, device=device)
-
         self.channel_fusion = config.instantiation_functions(functions=channel_fusion, function_configs=channel_fusion_configs, device=device)
         if self.channel_num > 1 and self.channel_fusion is None:
             self.channel_fusion = mean_fusion(dims=[self.n] * self.channel_num)

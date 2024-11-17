@@ -239,32 +239,95 @@ TRAFFIC_BAY_DATA_PROFILE = {
 
 
 class etf(time_series_dataloader):
-    def __init__(self, name: str = ETF_DATA_PROFILE['name'], *args, **kwargs):
-        super().__init__(data_profile=ETF_DATA_PROFILE, name=name, *args, **kwargs)
+    def __init__(
+        self,
+        name: str = ETF_DATA_PROFILE['name'],
+        x_len: int = 10,
+        y_len: int = 1,
+        xy_gap: int = 1,
+        coverage_year_range: int = 1,
+        time_granularity: str = 'daily',
+        target_attributes: str = 'Open',
+        *args, **kwargs
+    ):
+        super().__init__(
+            name=name,
+            data_profile=ETF_DATA_PROFILE,
+            x_len=x_len, y_len=y_len, xy_gap=xy_gap,
+            coverage_year_range=coverage_year_range,
+            time_granularity=time_granularity,
+            target_attributes=target_attributes,
+            *args, **kwargs
+        )
 
 
 class stock(time_series_dataloader):
-    def __init__(self, name: str = STOCK_DATA_PROFILE['name'], *args, **kwargs):
-        super().__init__(data_profile=STOCK_DATA_PROFILE, name=name, *args, **kwargs)
+    def __init__(
+        self,
+        name: str = STOCK_DATA_PROFILE['name'],
+        x_len: int = 10,
+        y_len: int = 1,
+        xy_gap: int = 1,
+        coverage_year_range: int = 1,
+        time_granularity: str = 'daily',
+        target_attributes: str = 'Open',
+        *args, **kwargs
+    ):
+        super().__init__(
+            name=name,
+            data_profile=STOCK_DATA_PROFILE,
+            x_len=x_len, y_len=y_len, xy_gap=xy_gap,
+            coverage_year_range=coverage_year_range,
+            time_granularity=time_granularity,
+            target_attributes=target_attributes,
+            *args, **kwargs
+        )
 
 
 class traffic_la(time_series_dataloader):
-    def __init__(self, name: str = TRAFFIC_LA_DATA_PROFILE['name'], *args, **kwargs):
-        super().__init__(data_profile=TRAFFIC_LA_DATA_PROFILE, name=name, *args, **kwargs)
+    def __init__(
+        self,
+        name: str = TRAFFIC_LA_DATA_PROFILE['name'],
+        x_len: int = 10,
+        y_len: int = 1,
+        xy_gap: int = 1,
+        coverage_year_range: int = 1,
+        time_granularity: str = 'minutely',
+        target_attributes: str = 'All',
+        *args, **kwargs
+    ):
+        super().__init__(
+            name=name,
+            data_profile=TRAFFIC_LA_DATA_PROFILE,
+            x_len=x_len, y_len=y_len, xy_gap=xy_gap,
+            coverage_year_range=coverage_year_range,
+            time_granularity=time_granularity,
+            target_attributes=target_attributes,
+            *args, **kwargs
+        )
 
 
 class traffic_bay(time_series_dataloader):
-    def __init__(self, name: str = TRAFFIC_BAY_DATA_PROFILE['name'], *args, **kwargs):
-        super().__init__(data_profile=TRAFFIC_BAY_DATA_PROFILE, name=name, *args, **kwargs)
+    def __init__(
+        self,
+        name: str = TRAFFIC_BAY_DATA_PROFILE['name'],
+        x_len: int = 10,
+        y_len: int = 1,
+        xy_gap: int = 1,
+        coverage_year_range: int = 1,
+        time_granularity: str = 'minutely',
+        target_attributes: str = 'All',
+        *args, **kwargs
+    ):
+        super().__init__(
+            name=name,
+            data_profile=TRAFFIC_BAY_DATA_PROFILE,
+            x_len=x_len, y_len=y_len, xy_gap=xy_gap,
+            coverage_year_range=coverage_year_range,
+            time_granularity=time_granularity,
+            target_attributes=target_attributes,
+            *args, **kwargs
+        )
 
 
-if __name__ == '__main__':
-    data_loader = time_series_dataloader(data_profile=STOCK_DATA_PROFILE, train_len=32, test_len=1)
-    cache_dir = './data/stock'
-    time_granularity = 'daily'
-    file_name = '10_year_daily_All.csv'
-    instance_ids, timestamps, time_series_data = data_loader.load_raw(cache_dir=cache_dir, file_name=file_name, time_granularity=time_granularity)
-    print(instance_ids)
-    print(timestamps)
-    print(time_series_data.shape)
 

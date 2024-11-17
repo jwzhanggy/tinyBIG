@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+#######################################
+# Random Matrix based reconciliations #
+#######################################
+
 """
 Low-rank parameter reconciliation functions.
 
@@ -13,11 +17,6 @@ import torch
 import torch.nn.functional as F
 
 from tinybig.reconciliation import fabrication
-
-
-#######################################
-# Random Matrix based reconciliations #
-#######################################
 
 
 class random_matrix_adaption_reconciliation(fabrication):

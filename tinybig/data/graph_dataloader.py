@@ -61,7 +61,6 @@ class graph_dataloader(dataloader):
         y = dataloader.encode_str_labels(labels=idx_features_labels[:, -1], one_hot=False)
 
         if normalization:
-            print('normalizing features...')
             X = degree_based_normalize_matrix(mx=X, mode=normalization_mode)
 
         nodes = np.array(idx_features_labels[:, 0], dtype=np.int32).tolist()

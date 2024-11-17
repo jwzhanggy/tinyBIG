@@ -6,4 +6,13 @@
 # Library of AI Applications #
 ##############################
 
-# TBD
+from tinybig.application import (
+    parrot,
+    eagle,
+    cat,
+    cheetah,
+    crow,
+    bat,
+    elephant,
+    chimpanzee,
+)

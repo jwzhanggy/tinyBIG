@@ -13,7 +13,7 @@ from tinybig.layer.basic_layers import perceptron_layer
 from tinybig.layer.chain_based_layers import chain_interdependence_layer
 
 
-class rnn(rpn):
+class regression_rnn(rpn):
     def __init__(
         self,
         chain_length: int,
@@ -125,7 +125,7 @@ class rnn(rpn):
         layers.append(
             perceptron_layer(
                 name='output_layer',
-                m=dims[-2], n=dims[-1],
+                m=dims[-2]*chain_length, n=dims[-1],
                 channel_num=channel_num,
                 width=width,
                 # -----------------------
@@ -153,8 +153,7 @@ class rnn(rpn):
         for layer in self.layers:
             if isinstance(layer, tinybig.layer.perceptron_layer):
                 if layer.name is not None and layer.name == 'output_layer':
-                    x = x.view(x.size(0), self.chain_length, -1)
-                    x = x.mean(dim=1)
+                    x = x.view(x.size(0), -1)
                     x = layer(x, device=device)
                 else:
                     b, m = x.shape

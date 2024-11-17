@@ -6,7 +6,7 @@
 # Signal Processing Library #
 #############################
 
-from tinybig.koala.signal_processing.wavelet import (
+from tinybig.koala.fourier.wavelet import (
     discrete_wavelet,
     harr_wavelet,
     beta_wavelet,

@@ -11,6 +11,5 @@ from tinybig.koala.machine_learning import (
     feature_selection,
     dimension_reduction,
     clustering,
-    evaluation,
 )
 
