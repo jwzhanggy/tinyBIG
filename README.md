@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.tinybig.org">
-    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png" alt="function_data" height="160">
+    <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/tinybig.png" alt="function_data" style="max-width: 100%; height: auto;">
   </a>
 </p>
 
