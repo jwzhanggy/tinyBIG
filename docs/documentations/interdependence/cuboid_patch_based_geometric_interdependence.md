@@ -1,0 +1,3 @@
+# cuboid_patch_based_geometric_interdependence
+
+::: tinybig.interdependence.geometric_interdependence.cuboid_patch_based_geometric_interdependence

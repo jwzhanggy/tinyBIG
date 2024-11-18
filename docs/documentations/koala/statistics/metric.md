@@ -1,0 +1,23 @@
+# metric
+
+::: tinybig.koala.statistics.metric.metric
+::: tinybig.koala.statistics.metric.mean
+::: tinybig.koala.statistics.metric.batch_mean
+::: tinybig.koala.statistics.metric.geometric_mean
+::: tinybig.koala.statistics.metric.batch_geometric_mean
+::: tinybig.koala.statistics.metric.harmonic_mean
+::: tinybig.koala.statistics.metric.batch_harmonic_mean
+::: tinybig.koala.statistics.metric.weighted_mean
+::: tinybig.koala.statistics.metric.batch_weighted_mean
+::: tinybig.koala.statistics.metric.median
+::: tinybig.koala.statistics.metric.batch_median
+::: tinybig.koala.statistics.metric.mode
+::: tinybig.koala.statistics.metric.batch_mode
+::: tinybig.koala.statistics.metric.std
+::: tinybig.koala.statistics.metric.batch_std
+::: tinybig.koala.statistics.metric.entropy
+::: tinybig.koala.statistics.metric.batch_entropy
+::: tinybig.koala.statistics.metric.variance
+::: tinybig.koala.statistics.metric.batch_variance
+::: tinybig.koala.statistics.metric.skewness
+::: tinybig.koala.statistics.metric.batch_skewness

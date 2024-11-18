@@ -166,16 +166,16 @@ class taylor_expansion(transformation):
 
 class fourier_expansion(transformation):
     r"""
-    The fourier data expansion function.
+    The signal_processing data expansion function.
 
-    It performs the fourier expansion of the input vector, and returns the expansion result.
+    It performs the signal_processing expansion of the input vector, and returns the expansion result.
     The class inherits from the base expansion class (i.e., the transformation class in the module directory).
 
     ...
 
     Notes
     ----------
-    For input vector $\mathbf{x} \in R^m$, based on the parameters $P$ and $N$, its fourier expansion will be
+    For input vector $\mathbf{x} \in R^m$, based on the parameters $P$ and $N$, its signal_processing expansion will be
     $$
         \begin{equation}
             \kappa (\mathbf{x} | P, N) = \left[ \cos (2\pi \frac{1}{P} \mathbf{x} ), \sin(2\pi \frac{1}{P} \mathbf{x} ), \cdots, \cos(2\pi \frac{N}{P} \mathbf{x} ), \sin(2\pi \frac{N}{P} \mathbf{x} ) \right] \in {R}^D,
@@ -184,7 +184,7 @@ class fourier_expansion(transformation):
     where the output dimension $D = 2 m N$.
 
     By default, the input and output can also be processed with the optional pre- or post-processing functions
-    in the fourier expansion function.
+    in the signal_processing expansion function.
 
     Attributes
     ----------
@@ -209,15 +209,15 @@ class fourier_expansion(transformation):
     """
     def __init__(self, name='fourier_expansion', P=10, N=5, *args, **kwargs):
         r"""
-        The initialization method of fourier expansion function.
+        The initialization method of signal_processing expansion function.
 
-        It initializes a fourier expansion object based on the input function name.
+        It initializes a signal_processing expansion object based on the input function name.
         This method will also call the initialization method of the base class as well.
 
         Parameters
         ----------
         name: str, default = 'fourier_expansion'
-            The name of the fourier expansion function.
+            The name of the signal_processing expansion function.
         P: int, default = 10
             The period parameter of the expansion.
         N: int, default = 5
@@ -226,7 +226,7 @@ class fourier_expansion(transformation):
         Returns
         ----------
         transformation
-            The fourier expansion function.
+            The signal_processing expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
         self.P = P
@@ -237,7 +237,7 @@ class fourier_expansion(transformation):
         The expansion dimension calculation method.
 
         It calculates the intermediate expansion space dimension based on the input dimension parameter m.
-        For the fourier expansion function, the expansion space dimension is determined by both m and N,
+        For the signal_processing expansion function, the expansion space dimension is determined by both m and N,
         which can be represented as:
 
         $$ D = 2 m N. $$
@@ -258,7 +258,7 @@ class fourier_expansion(transformation):
         r"""
         The forward method of the data expansion function.
 
-        It performs the fourier data expansion of the input data and returns the expansion result
+        It performs the signal_processing data expansion of the input data and returns the expansion result
         according to the following equation:
         $$
         \begin{equation}

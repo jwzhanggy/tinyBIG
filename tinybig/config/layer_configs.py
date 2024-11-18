@@ -7,7 +7,6 @@
 #####################
 
 from tinybig.config.base_config import config
-from tinybig.config.head_configs import perceptron_head_configs
 
 
 class layer_configs(config):
@@ -79,33 +78,3 @@ class layer_configs(config):
         self.configs['width'] = width
         self.configs['width_alloc'] = width_alloc
         self.configs['head_configs'] = head_configs
-
-
-class perceptron_layer_configs(layer_configs):
-    def __init__(
-        self,
-        m: int, n: int,
-        name: str = 'perceptron_head_configs',
-        enable_bias: bool = False,
-        device: str = 'cpu',
-        # optional parameters
-        with_taylor: bool = False,
-        d: int = 2,
-        with_lorr: bool = False,
-        r: int = 3,
-        with_residual: bool = False,
-        *args, **kwargs
-    ):
-        head_configs = [
-            perceptron_head_configs(
-                m=m, n=n,
-                enable_bias=enable_bias,
-                device=device,
-                with_taylor=with_taylor,
-                with_lorr=with_lorr,
-                with_residual=with_residual,
-                d=d, r=r,
-                *args, **kwargs
-            ).get_configs()
-        ]
-        super().__init__(name=name, head_configs=head_configs, device=device, *args, **kwargs)

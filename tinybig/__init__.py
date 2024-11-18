@@ -102,22 +102,24 @@ Based on the above hyper-parameters, assuming the input and output dimensions at
 
 __version__ = '0.1.1'
 
-from . import module, head, layer, config, model
+from . import module, head, layer, config, model, application
 from . import expansion, compression, transformation, reconciliation, remainder, interdependence, fusion
 from . import koala
 from . import data, output
-from . import loss, metric, learner
+from . import loss, metric, learner, optimizer
 from . import visual
 from . import util
 
 __all__ = [
-    #---- modules ----
+    # ---- models and applications ----
+    'application',
     'model',
+    # ---- modules ----
     'module',
     'config',
     'head',
     'layer',
-    #---- functions ----
+    # ---- component functions ----
     'expansion',
     'compression',
     'transformation',
@@ -125,16 +127,17 @@ __all__ = [
     'remainder',
     'interdependence',
     'fusion',
-    #---- other libraries ----
+    # ---- other libraries ----
     'koala',
-    #---- input and output ----
+    # ---- input and output ----
     'data',
     'output',
-    #---- learning ----
+    # ---- learning ----
     'loss',
     'metric',
     'learner',
-    #---- visualization and utility ----
+    'optimizer',
+    # ---- visualization and utility ----
     'visual',
     'util'
 ]

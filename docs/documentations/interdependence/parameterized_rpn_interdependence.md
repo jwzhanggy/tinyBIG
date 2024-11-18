@@ -1,0 +1,3 @@
+# parameterized_rpn_interdependence
+
+::: tinybig.interdependence.parameterized_rpn_interdependence.parameterized_rpn_interdependence

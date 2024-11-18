@@ -1,0 +1,3 @@
+# pearson_correlation_interdependence
+
+::: tinybig.interdependence.statistical_kernel_interdependence.pearson_correlation_interdependence

@@ -27,13 +27,25 @@
 * [sst2](sst2.md)
 * [agnews](agnews.md)
 
+### Graph Data
+* [graph_dataloader](graph_dataloader.md)
+* [cora](cora.md)
+* [citeseer](citeseer.md)
+* [pubmed](pubmed.md)
+
+### Time-series Data
+* [time_series_dataloader](time_series_dataloader.md)
+* [stock](stock.md)
+* [etf](etf.md)
+* [traffic_la](traffic_la.md)
+* [traffic_bay](traffic_bay.md)
+
 ### Tabular Data
 * [tabular_dataloader](tabular_dataloader.md)
 * [iris](iris.md)
 * [diabetes](diabetes.md)
 * [banknote](banknote.md)
 
-<!-- ## Graph Data -->
 
 
 

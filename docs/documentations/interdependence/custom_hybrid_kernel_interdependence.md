@@ -1,0 +1,3 @@
+# custom_hybrid_kernel_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.custom_hybrid_kernel_interdependence

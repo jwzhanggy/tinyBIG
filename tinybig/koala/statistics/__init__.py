@@ -6,7 +6,7 @@
 # Statistics Library #
 ######################
 
-from tinybig.koala.statistics.metrics import (
+from tinybig.koala.statistics.metric import (
     metric,
     mean, batch_mean,
     geometric_mean, batch_geometric_mean,

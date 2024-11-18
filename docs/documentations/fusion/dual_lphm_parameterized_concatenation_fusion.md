@@ -1,0 +1,3 @@
+# dual_lphm_parameterized_concatenation_fusion
+
+::: tinybig.fusion.parameterized_concatenation_fusion.dual_lphm_parameterized_concatenation_fusion

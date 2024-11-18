@@ -1,0 +1,3 @@
+# duplicated_diagonal_padding_reconciliation
+
+::: tinybig.reconciliation.basic_reconciliation.duplicated_diagonal_padding_reconciliation

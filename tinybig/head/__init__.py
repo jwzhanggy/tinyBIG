@@ -1,3 +1,15 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+#############
+# RPN Heads #
+#############
+
+
+from tinybig.module.base_head import (
+    rpn_head
+)
 
 from tinybig.head.basic_heads import (
     perceptron_head,

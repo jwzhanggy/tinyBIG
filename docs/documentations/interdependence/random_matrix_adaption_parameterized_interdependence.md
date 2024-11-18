@@ -1,0 +1,3 @@
+# random_matrix_adaption_parameterized_interdependence
+
+::: tinybig.interdependence.parameterized_interdependence.random_matrix_adaption_parameterized_interdependence

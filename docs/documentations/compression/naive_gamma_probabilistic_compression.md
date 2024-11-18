@@ -1,0 +1,3 @@
+# naive_gamma_probabilistic_compression
+
+::: tinybig.compression.probabilistic_compression.naive_gamma_probabilistic_compression

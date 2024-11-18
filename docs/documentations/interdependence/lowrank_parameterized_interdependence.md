@@ -1,0 +1,3 @@
+# lowrank_parameterized_bilinear_interdependence
+
+::: tinybig.interdependence.parameterized_interdependence.lowrank_parameterized_interdependence

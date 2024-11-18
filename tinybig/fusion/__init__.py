@@ -15,6 +15,7 @@ from tinybig.fusion.basic_fusion import (
     weighted_summation_fusion,
     summation_fusion,
     average_fusion,
+    average_fusion as mean_fusion,
     parameterized_weighted_summation_fusion
 )
 

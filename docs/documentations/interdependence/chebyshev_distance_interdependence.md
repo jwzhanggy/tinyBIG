@@ -1,0 +1,3 @@
+# chebyshev_distance_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.chebyshev_distance_interdependence

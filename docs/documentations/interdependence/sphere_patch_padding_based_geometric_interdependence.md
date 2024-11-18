@@ -1,0 +1,3 @@
+# sphere_patch_padding_based_geometric_interdependence
+
+::: tinybig.interdependence.geometric_interdependence.sphere_patch_padding_based_geometric_interdependence

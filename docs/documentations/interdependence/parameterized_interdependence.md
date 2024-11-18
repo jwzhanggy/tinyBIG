@@ -1,0 +1,3 @@
+# parameterized_interdependence
+
+::: tinybig.interdependence.parameterized_interdependence.parameterized_interdependence

@@ -12,4 +12,3 @@
 * [identity_remainder](identity_remainder.md)
 * [linear_remainder](linear_remainder.md)
 
-### Expansion Remainder

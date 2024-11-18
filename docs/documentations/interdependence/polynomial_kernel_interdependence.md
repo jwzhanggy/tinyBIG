@@ -1,0 +1,3 @@
+# polynomial_kernel_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.polynomial_kernel_interdependence

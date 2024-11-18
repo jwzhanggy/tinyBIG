@@ -3,12 +3,12 @@
 # Affiliation: IFM Lab, UC Davis
 
 ###########################################
-# Test Wavelet in koala.fourier #
+# Test Wavelet in koala.signal_processing #
 ###########################################
 
 import pytest
 import torch
-from tinybig.koala.fourier.wavelet import harr_wavelet, beta_wavelet, shannon_wavelet, ricker_wavelet, dog_wavelet, meyer_wavelet, discrete_wavelet
+from tinybig.koala.signal_processing.wavelet import harr_wavelet, beta_wavelet, shannon_wavelet, ricker_wavelet, dog_wavelet, meyer_wavelet, discrete_wavelet
 
 
 # Utility function to generate random data

@@ -77,3 +77,10 @@ from tinybig.compression.probabilistic_compression import (
     naive_normal_probabilistic_compression,
     naive_exponential_probabilistic_compression,
 )
+
+from tinybig.compression.extended_compression import (
+    extended_compression,
+)
+from tinybig.compression.nested_compression import (
+    nested_compression,
+)

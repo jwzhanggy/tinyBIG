@@ -110,7 +110,7 @@ from tinybig.config.layer_configs import (
     perceptron_layer_configs,
 )
 
-from tinybig.config.model_config import (
-    model_config,
+from tinybig.config.model_configs import (
+    model_configs,
     mlp_model_config,
 )

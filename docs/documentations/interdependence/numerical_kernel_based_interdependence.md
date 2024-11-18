@@ -1,0 +1,3 @@
+# numerical_kernel_based_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.numerical_kernel_based_interdependence

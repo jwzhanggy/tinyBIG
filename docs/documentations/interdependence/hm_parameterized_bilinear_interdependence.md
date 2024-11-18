@@ -1,0 +1,3 @@
+# hm_parameterized_bilinear_interdependence
+
+::: tinybig.interdependence.parameterized_bilinear_interdependence.hm_parameterized_bilinear_interdependence

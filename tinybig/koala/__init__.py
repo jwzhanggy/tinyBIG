@@ -13,7 +13,7 @@ from tinybig.koala import (
     topology,
     geometry,
     manifold,
-    fourier,
+    signal_processing,
     machine_learning,
-    planck,
+    physics,
 )

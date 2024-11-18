@@ -20,6 +20,24 @@
 * [chebyshev_expansion](chebyshev_expansion.md)
 * [jacobi_expansion](jacobi_expansion.md)
 
+### Other Orthogonal Polynomial Expansions
+* [hermite_expansion](hermite_expansion.md)
+* [laguerre_expansion](laguerre_expansion.md)
+* [legendre_expansion](legendre_expansion.md)
+* [gegenbauer_expansion](gegenbauer_expansion.md)
+* [bessel_expansion](bessel_expansion.md)
+* [reverse_bessel_expansion](reverse_bessel_expansion.md)
+* [fibonacci_expansion](fibonacci_expansion.md)
+* [lucas_expansion](lucas_expansion.md)
+
+### Wavelet Expansions
+* [meyer_wavelet_expansion](meyer_wavelet_expansion.md)
+* [ricker_wavelet_expansion](ricker_wavelet_expansion.md)
+* [shannon_wavelet_expansion](shannon_wavelet_expansion.md)
+* [beta_wavelet_expansion](beta_wavelet_expansion.md)
+* [harr_wavelet_expansion](harr_wavelet_expansion.md)
+* [dog_wavelet_expansion](dog_wavelet_expansion.md)
+
 ### Trigonometric Expansions
 * [hyperbolic_expansion](hyperbolic_expansion.md)
 * [arc_hyperbolic_expansion](arc_hyperbolic_expansion.md)
@@ -42,7 +60,7 @@
 * [combinatorial_expansion](combinatorial_expansion.md)
 * [combinatorial_normal_expansion](combinatorial_normal_expansion.md)
 
-### Nested and Extended expansions
+### Nested and Extended Expansions
 * [nested_expansion](nested_expansion.md)
 * [extended_expansion](extended_expansion.md)
 

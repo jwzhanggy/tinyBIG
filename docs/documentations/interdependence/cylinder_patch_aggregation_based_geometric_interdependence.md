@@ -1,0 +1,3 @@
+# cylinder_patch_aggregation_based_geometric_interdependence
+
+::: tinybig.interdependence.geometric_interdependence.cylinder_patch_aggregation_based_geometric_interdependence

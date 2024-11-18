@@ -1,0 +1,3 @@
+# naive_probabilistic_compression
+
+::: tinybig.compression.probabilistic_compression.naive_probabilistic_compression

@@ -14,7 +14,7 @@ This module contains the implementation of the RPN model composed of multiple RP
 """
 import torch
 
-from tinybig.config.model_config import model_config
+from tinybig.config.model_configs import model_configs
 from tinybig.module.base_model import model
 
 
@@ -110,7 +110,7 @@ class rpn(model):
             self.layers.extend(layers)
             depth = len(self.layers)
         elif layer_configs is not None:
-            depth, depth_alloc, layer_configs = model_config.process_num_alloc_configs(depth, depth_alloc, layer_configs)
+            depth, depth_alloc, layer_configs = model_configs.process_num_alloc_configs(depth, depth_alloc, layer_configs)
             assert len(depth_alloc) == len(layer_configs) and depth == sum(depth_alloc)
 
             for layer_repeat_time, layer_config in zip(depth_alloc, layer_configs):
@@ -118,7 +118,7 @@ class rpn(model):
                     class_name = layer_config['layer_class']
                     parameters = layer_config['layer_parameters'] if 'layer_parameters' in layer_config else {}
                     parameters['device'] = device
-                    layer = model_config.get_obj_from_str(class_name)(**parameters)
+                    layer = model_configs.get_obj_from_str(class_name)(**parameters)
                     self.layers.append(layer)
         else:
             raise ValueError("Both layers and layer_configs are None, the model cannot be initialized...")

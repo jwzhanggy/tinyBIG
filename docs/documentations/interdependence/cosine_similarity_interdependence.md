@@ -1,0 +1,3 @@
+# cosine_similarity_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.cosine_similarity_interdependence

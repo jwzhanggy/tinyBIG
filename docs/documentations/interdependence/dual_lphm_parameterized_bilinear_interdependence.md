@@ -1,0 +1,3 @@
+# dual_lphm_parameterized_bilinear_interdependence
+
+::: tinybig.interdependence.parameterized_bilinear_interdependence.dual_lphm_parameterized_bilinear_interdependence

@@ -37,6 +37,7 @@ This module contains the following categories of RPN models:
 * Deep RPN Model with Multiple RPN-Layers.
 """
 
+from tinybig.module.base_model import model
 from tinybig.model.rpn import rpn
 from tinybig.model.rpn_mlp import mlp
 from tinybig.model.rpn_kan import kan

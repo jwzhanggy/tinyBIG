@@ -1,0 +1,3 @@
+# laplacian_kernel_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.laplacian_kernel_interdependence

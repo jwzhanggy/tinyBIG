@@ -11,7 +11,7 @@
 
 import pytest
 import torch
-from tinybig.koala.statistics.metrics import metric
+from tinybig.koala.statistics.metric import metric
 
 @pytest.fixture
 def tensor_1d():

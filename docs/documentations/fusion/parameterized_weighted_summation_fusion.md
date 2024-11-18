@@ -1,0 +1,3 @@
+# parameterized_weighted_summation_fusion
+
+::: tinybig.fusion.basic_fusion.parameterized_weighted_summation_fusion

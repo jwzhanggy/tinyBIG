@@ -1,0 +1,3 @@
+# inverse_approx_multihop_chain_interdependence
+
+::: tinybig.interdependence.topological_interdependence.inverse_approx_multihop_chain_interdependence

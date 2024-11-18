@@ -160,13 +160,59 @@ nav:
     - documentations/index.md
     - tinybig:
       - documentations/tinybig/index.md
+    - tinybig.model:
+      - documentations/model/index.md
+      - documentations/model/rpn.md
+      - documentations/model/mlp.md
+      - documentations/model/kan.md
+      - documentations/model/naive_bayes.md
+      - documentations/model/svm.md
+      - documentations/model/cnn.md
+      - documentations/model/rnn.md
+      - documentations/model/regression_rnn.md
+      - documentations/model/gcn.md
+      - documentations/model/gat.md
+      - documentations/model/transformer.md
     - tinybig.module:
       - documentations/module/index.md
+      - documentations/module/model.md
+      - documentations/module/rpn_layer.md
+      - documentations/module/rpn_head.md
+      - documentations/module/function.md
       - documentations/module/transformation.md
       - documentations/module/fabrication.md
       - documentations/module/remainder.md
-      - documentations/module/rpn_head.md
-      - documentations/module/rpn_layer.md
+      - documentations/module/interdependence.md
+      - documentations/module/fusion.md
+    - tinybig.layer:
+      - documentations/layer/index.md
+      - documentations/layer/perceptron_layer.md
+      - documentations/layer/grid_interdependence_layer.md
+      - documentations/layer/grid_compression_layer.md
+      - documentations/layer/chain_interdependence_layer.md
+      - documentations/layer/graph_interdependence_layer.md
+      - documentations/layer/graph_bilinear_interdependence_layer.md
+      - documentations/layer/bilinear_interdependence_layer.md
+    - tinybig.head:
+      - documentations/head/index.md
+      - documentations/head/perceptron_head.md
+      - documentations/head/svm_head.md
+      - documentations/head/kan_head.md
+      - documentations/head/pgm_head.md
+      - documentations/head/naive_bayes_head.md
+      - documentations/head/grid_interdependence_head.md
+      - documentations/head/grid_compression_head.md
+      - documentations/head/chain_interdependence_head.md
+      - documentations/head/graph_interdependence_head.md
+      - documentations/head/bilinear_interdependence_head.md
+    - tinybig.config:
+        - documentations/config/index.md
+        - documentations/config/config.md
+        - documentations/config/model_configs.md
+        - documentations/config/layer_configs.md
+        - documentations/config/head_configs.md
+        - documentations/config/function_configs.md
+        - documentations/config/function_list_configs.md
     - tinybig.expansion:
       - documentations/expansion/index.md
       - documentations/expansion/identity_expansion.md
@@ -177,6 +223,20 @@ nav:
       - documentations/expansion/bspline_expansion.md
       - documentations/expansion/chebyshev_expansion.md
       - documentations/expansion/jacobi_expansion.md
+      - documentations/expansion/hermite_expansion.md
+      - documentations/expansion/laguerre_expansion.md
+      - documentations/expansion/legendre_expansion.md
+      - documentations/expansion/gegenbauer_expansion.md
+      - documentations/expansion/bessel_expansion.md
+      - documentations/expansion/reverse_bessel_expansion.md
+      - documentations/expansion/fibonacci_expansion.md
+      - documentations/expansion/lucas_expansion.md
+      - documentations/expansion/meyer_wavelet_expansion.md
+      - documentations/expansion/ricker_wavelet_expansion.md
+      - documentations/expansion/shannon_wavelet_expansion.md
+      - documentations/expansion/beta_wavelet_expansion.md
+      - documentations/expansion/harr_wavelet_expansion.md
+      - documentations/expansion/dog_wavelet_expansion.md
       - documentations/expansion/hyperbolic_expansion.md
       - documentations/expansion/arc_hyperbolic_expansion.md
       - documentations/expansion/trigonometric_expansion.md
@@ -193,6 +253,44 @@ nav:
       - documentations/expansion/combinatorial_normal_expansion.md
       - documentations/expansion/nested_expansion.md
       - documentations/expansion/extended_expansion.md
+    - tinybig.compression:
+      - documentations/compression/index.md
+      - documentations/compression/identity_compression.md
+      - documentations/compression/reciprocal_compression.md
+      - documentations/compression/linear_compression.md
+      - documentations/compression/metric_compression.md
+      - documentations/compression/max_compression.md
+      - documentations/compression/min_compression.md
+      - documentations/compression/sum_compression.md
+      - documentations/compression/prod_compression.md
+      - documentations/compression/mean_compression.md
+      - documentations/compression/median_compression.md
+      - documentations/compression/feature_selection_compression.md
+      - documentations/compression/incremental_feature_clustering_based_compression.md
+      - documentations/compression/incremental_variance_threshold_based_compression.md
+      - documentations/compression/dimension_reduction_compression.md
+      - documentations/compression/incremental_PCA_based_compression.md
+      - documentations/compression/incremental_random_projection_based_compression.md
+      - documentations/compression/manifold_compression.md
+      - documentations/compression/isomap_manifold_compression.md
+      - documentations/compression/lle_manifold_compression.md
+      - documentations/compression/mds_manifold_compression.md
+      - documentations/compression/spectral_embedding_manifold_compression.md
+      - documentations/compression/tsne_manifold_compression.md
+      - documentations/compression/naive_probabilistic_compression.md
+      - documentations/compression/naive_uniform_probabilistic_compression.md
+      - documentations/compression/naive_normal_probabilistic_compression.md
+      - documentations/compression/naive_cauchy_probabilistic_compression.md
+      - documentations/compression/naive_chi2_probabilistic_compression.md
+      - documentations/compression/naive_exponential_probabilistic_compression.md
+      - documentations/compression/naive_gamma_probabilistic_compression.md
+      - documentations/compression/naive_laplace_probabilistic_compression.md
+      - documentations/compression/combinatorial_compression.md
+      - documentations/compression/combinatorial_probabilistic_compression.md
+      - documentations/compression/nested_compression.md
+      - documentations/compression/extended_compression.md
+    - tinybig.transformation:
+      - documentations/transformation/index.md
     - tinybig.reconciliation:
       - documentations/reconciliation/index.md
       - documentations/reconciliation/constant_reconciliation.md
@@ -202,11 +300,14 @@ nav:
       - documentations/reconciliation/identity_reconciliation.md
       - documentations/reconciliation/masking_reconciliation.md
       - documentations/reconciliation/duplicated_padding_reconciliation.md
+      - documentations/reconciliation/duplicated_diagonal_padding_reconciliation.md
       - documentations/reconciliation/lorr_reconciliation.md
       - documentations/reconciliation/hm_reconciliation.md
       - documentations/reconciliation/lphm_reconciliation.md
       - documentations/reconciliation/dual_lphm_reconciliation.md
       - documentations/reconciliation/hypernet_reconciliation.md
+      - documentations/reconciliation/random_matrix_adaption_reconciliation.md
+      - documentations/reconciliation/random_matrix_hypernet_reconciliation.md
     - tinybig.remainder:
       - documentations/remainder/index.md
       - documentations/remainder/constant_remainder.md
@@ -214,19 +315,140 @@ nav:
       - documentations/remainder/one_remainder.md
       - documentations/remainder/identity_remainder.md
       - documentations/remainder/linear_remainder.md
-    - tinybig.model:
-      - documentations/model/index.md
-      - documentations/model/model.md
-      - documentations/model/rpn.md
-    - tinybig.config:
-      - documentations/config/index.md
-      - documentations/config/config.md
-      - documentations/config/rpn_config.md
-    - tinybig.learner:
-      - documentations/learner/index.md
-      - documentations/learner/learner.md
-      - documentations/learner/backward_learner.md
-      - documentations/learner/forward_learner.md
+    - tinybig.interdependence:
+      - documentations/interdependence/index.md
+      - documentations/interdependence/constant_interdependence.md
+      - documentations/interdependence/constant_c_interdependence.md
+      - documentations/interdependence/zero_interdependence.md
+      - documentations/interdependence/one_interdependence.md
+      - documentations/interdependence/identity_interdependence.md
+      - documentations/interdependence/statistical_kernel_based_interdependence.md
+      - documentations/interdependence/kl_divergence_interdependence.md
+      - documentations/interdependence/pearson_correlation_interdependence.md
+      - documentations/interdependence/rv_coefficient_interdependence.md
+      - documentations/interdependence/mutual_information_interdependence.md
+      - documentations/interdependence/numerical_kernel_based_interdependence.md
+      - documentations/interdependence/linear_kernel_interdependence.md
+      - documentations/interdependence/polynomial_kernel_interdependence.md
+      - documentations/interdependence/hyperbolic_tangent_kernel_interdependence.md
+      - documentations/interdependence/exponential_kernel_interdependence.md
+      - documentations/interdependence/minkowski_distance_interdependence.md
+      - documentations/interdependence/manhattan_distance_interdependence.md
+      - documentations/interdependence/euclidean_distance_interdependence.md
+      - documentations/interdependence/chebyshev_distance_interdependence.md
+      - documentations/interdependence/canberra_distance_interdependence.md
+      - documentations/interdependence/cosine_similarity_interdependence.md
+      - documentations/interdependence/gaussian_rbf_kernel_interdependence.md
+      - documentations/interdependence/laplacian_kernel_interdependence.md
+      - documentations/interdependence/anisotropic_rbf_kernel_interdependence.md
+      - documentations/interdependence/custom_hybrid_kernel_interdependence.md
+      - documentations/interdependence/parameterized_interdependence.md
+      - documentations/interdependence/lowrank_parameterized_interdependence.md
+      - documentations/interdependence/hm_parameterized_interdependence.md
+      - documentations/interdependence/lphm_parameterized_interdependence.md
+      - documentations/interdependence/dual_lphm_parameterized_interdependence.md
+      - documentations/interdependence/random_matrix_adaption_parameterized_interdependence.md
+      - documentations/interdependence/parameterized_bilinear_interdependence.md
+      - documentations/interdependence/lowrank_parameterized_bilinear_interdependence.md
+      - documentations/interdependence/hm_parameterized_bilinear_interdependence.md
+      - documentations/interdependence/lphm_parameterized_bilinear_interdependence.md
+      - documentations/interdependence/dual_lphm_parameterized_bilinear_interdependence.md
+      - documentations/interdependence/random_matrix_adaption_parameterized_bilinear_interdependence.md
+      - documentations/interdependence/graph_interdependence.md
+      - documentations/interdependence/multihop_graph_interdependence.md
+      - documentations/interdependence/pagerank_multihop_graph_interdependence.md
+      - documentations/interdependence/chain_interdependence.md
+      - documentations/interdependence/multihop_chain_interdependence.md
+      - documentations/interdependence/inverse_approx_multihop_chain_interdependence.md
+      - documentations/interdependence/exponential_approx_multihop_chain_interdependence.md
+      - documentations/interdependence/geometric_interdependence.md
+      - documentations/interdependence/cuboid_patch_based_geometric_interdependence.md
+      - documentations/interdependence/cuboid_patch_padding_based_geometric_interdependence.md
+      - documentations/interdependence/cuboid_patch_aggregation_based_geometric_interdependence.md
+      - documentations/interdependence/cylinder_patch_based_geometric_interdependence.md
+      - documentations/interdependence/cylinder_patch_padding_based_geometric_interdependence.md
+      - documentations/interdependence/cylinder_patch_aggregation_based_geometric_interdependence.md
+      - documentations/interdependence/sphere_patch_based_geometric_interdependence.md
+      - documentations/interdependence/sphere_patch_padding_based_geometric_interdependence.md
+      - documentations/interdependence/sphere_patch_aggregation_based_geometric_interdependence.md
+      - documentations/interdependence/parameterized_rpn_interdependence.md
+      - documentations/interdependence/hybrid_interdependence.md
+    - tinybig.fusion:
+      - documentations/fusion/index.md
+      - documentations/fusion/weighted_summation_fusion.md
+      - documentations/fusion/summation_fusion.md
+      - documentations/fusion/average_fusion.md
+      - documentations/fusion/parameterized_weighted_summation_fusion.md
+      - documentations/fusion/metric_fusion.md
+      - documentations/fusion/mean_fusion.md
+      - documentations/fusion/prod_fusion.md
+      - documentations/fusion/max_fusion.md
+      - documentations/fusion/min_fusion.md
+      - documentations/fusion/median_fusion.md
+      - documentations/fusion/sum_fusion.md
+      - documentations/fusion/concatenation_fusion.md
+      - documentations/fusion/parameterized_concatenation_fusion.md
+      - documentations/fusion/lowrank_parameterized_concatenation_fusion.md
+      - documentations/fusion/hm_parameterized_concatenation_fusion.md
+      - documentations/fusion/lphm_parameterized_concatenation_fusion.md
+      - documentations/fusion/dual_lphm_parameterized_concatenation_fusion.md
+      - documentations/fusion/random_matrix_adaption_parameterized_concatenation_fusion.md
+    - tinybig.koala:
+      - documentations/koala/index.md
+      - tinybig.koala.algebra:
+        - documentations/koala/algebra/index.md
+        - documentations/koala/algebra/find_close_factors.md
+      - tinybig.koala.linear_algebra:
+        - documentations/koala/linear_algebra/index.md
+        - documentations/koala/linear_algebra/metric.md
+        - documentations/koala/linear_algebra/kernel.md
+        - documentations/koala/linear_algebra/matrix.md
+      - tinybig.koala.statistics:
+        - documentations/koala/statistics/index.md
+        - documentations/koala/statistics/metric.md
+        - documentations/koala/statistics/kernel.md
+      - tinybig.koala.geometry:
+        - documentations/koala/geometry/index.md
+        - documentations/koala/geometry/coordinate.md
+        - documentations/koala/geometry/coordinate_3d.md
+        - documentations/koala/geometry/coordinate_2d.md
+        - documentations/koala/geometry/geometric_space.md
+        - documentations/koala/geometry/grid.md
+        - documentations/koala/geometry/cuboid.md
+        - documentations/koala/geometry/cylinder.md
+        - documentations/koala/geometry/sphere.md
+      - tinybig.koala.topology:
+        - documentations/koala/topology/index.md
+        - documentations/koala/topology/base_topology.md
+        - documentations/koala/topology/chain.md
+        - documentations/koala/topology/graph.md
+      - tinybig.koala.manifold:
+        - documentations/koala/manifold/index.md
+        - documentations/koala/manifold/manifold.md
+        - documentations/koala/manifold/isomap_manifold.md
+        - documentations/koala/manifold/tsne_manifold.md
+        - documentations/koala/manifold/spectral_embedding_manifold.md
+        - documentations/koala/manifold/mds_manifold.md
+        - documentations/koala/manifold/lle_manifold.md
+      - tinybig.koala.machine_learning:
+        - documentations/koala/machine_learning/index.md
+        - documentations/koala/machine_learning/incremental_dimension_reduction.md
+        - documentations/koala/machine_learning/incremental_PCA.md
+        - documentations/koala/machine_learning/incremental_random_projection.md
+        - documentations/koala/machine_learning/feature_selection.md
+        - documentations/koala/machine_learning/incremental_feature_clustering.md
+        - documentations/koala/machine_learning/incremental_variance_threshold.md
+      - tinybig.koala.signal_processing:
+        - documentations/koala/signal_processing/index.md
+        - documentations/koala/signal_processing/discrete_wavelet.md
+        - documentations/koala/signal_processing/harr_wavelet.md
+        - documentations/koala/signal_processing/beta_wavelet.md
+        - documentations/koala/signal_processing/dog_wavelet.md
+        - documentations/koala/signal_processing/meyer_wavelet.md
+        - documentations/koala/signal_processing/ricker_wavelet.md
+        - documentations/koala/signal_processing/shannon_wavelet.md
+      - tinybig.koala.physics:
+        - documentations/koala/physics/index.md
     - tinybig.data:
       - documentations/data/index.md
       - documentations/data/dataset.md
@@ -243,6 +465,15 @@ nav:
       - documentations/data/imdb.md
       - documentations/data/sst2.md
       - documentations/data/agnews.md
+      - documentations/data/graph_dataloader.md
+      - documentations/data/cora.md
+      - documentations/data/citeseer.md
+      - documentations/data/pubmed.md
+      - documentations/data/time_series_dataloader.md
+      - documentations/data/stock.md
+      - documentations/data/etf.md
+      - documentations/data/traffic_la.md
+      - documentations/data/traffic_bay.md
       - documentations/data/tabular_dataloader.md
       - documentations/data/iris.md
       - documentations/data/diabetes.md
@@ -251,16 +482,44 @@ nav:
       - documentations/output/index.md
       - documentations/output/output.md
       - documentations/output/rpn_output.md
+    - tinybig.loss:
+      - documentations/loss/index.md
     - tinybig.metric:
       - documentations/metric/index.md
       - documentations/metric/metric.md
       - documentations/metric/accuracy.md
       - documentations/metric/f1.md
       - documentations/metric/mse.md
+    - tinybig.optimizer:
+      - documentations/optimizer/index.md
+    - tinybig.learner:
+      - documentations/learner/index.md
+      - documentations/learner/learner.md
+      - documentations/learner/backward_learner.md
+      - documentations/learner/forward_learner.md
+    - tinybig.visual:
+      - documentations/visual/index.md
     - tinybig.util:
       - documentations/util/index.md
       - documentations/util/set_random_seed.md
+      - documentations/util/check_file_existence.md
+      - documentations/util/check_directory_exists.md
       - documentations/util/create_directory_if_not_exists.md
+      - documentations/util/download_file_from_github.md
+      - documentations/util/unzip_file.md
+      - documentations/util/find_class_in_package.md
+      - documentations/util/parameter_scheduler.md
+      - documentations/util/async_clear_tensor_memory.md
+    - tinybig.application:
+      - documentations/application/index.md
+      - documentations/application/bat.md
+      - documentations/application/cat.md
+      - documentations/application/cheetah.md
+      - documentations/application/chimpanzee.md
+      - documentations/application/crow.md
+      - documentations/application/eagle.md
+      - documentations/application/elephant.md
+      - documentations/application/parrot.md
   - Tutorials:
       - tutorials/index.md
       - Beginner's Tutorials:
@@ -273,7 +532,7 @@ nav:
 #        - RPN Model: tutorials/beginner/model/rpn_model.md
 #        - Wide RPN: tutorials/beginner/model/wide_rpn.md
 #        - Deep RPN: tutorials/beginner/model/deep_rpn.md
-#        - RPN Configurations: tutorials/beginner/model/rpn_config.md
+#        - RPN Configurations: tutorials/beginner/model/model_configs.md
 #        - Continuous Data: tutorials/beginner/data/function_data.md
 #        - Image Data: tutorials/beginner/data/image_data.md
 #        - Text Data: tutorials/beginner/data/text_data.md

@@ -57,6 +57,9 @@ This module contains the following categories of component functions and modules
 * RPN Head with Multi-Channel
 """
 
+from tinybig.module.base_model import (
+    model
+)
 from tinybig.module.base_function import (
     function
 )

@@ -2,6 +2,10 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
+#####################
+# Nested Expansions #
+#####################
+
 """
 extended data expansion functions.
 
@@ -13,10 +17,6 @@ import torch.nn
 
 from tinybig.expansion import transformation
 from tinybig.config.base_config import config
-
-#####################
-# Nested Expansions #
-#####################
 
 
 class extended_expansion(transformation):

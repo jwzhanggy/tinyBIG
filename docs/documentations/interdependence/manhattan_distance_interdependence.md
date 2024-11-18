@@ -1,0 +1,3 @@
+# manhattan_distance_interdependence
+
+::: tinybig.interdependence.numerical_kernel_interdependence.manhattan_distance_interdependence
