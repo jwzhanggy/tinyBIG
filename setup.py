@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 requirements = [
     "torch==2.2.2",
@@ -40,8 +40,9 @@ setup(
         "tinybig",
         "rpn",
         "deep function learning",
-        "expansion function",
-        "reconciliation function",
+        "data transformation function",
+        "data interdependence function",
+        "parameter reconciliation function",
         "remainder function",
         "reconciled polynomial network",
     ],
@@ -57,7 +58,7 @@ setup(
         "Operating System :: OS Independent",
     ],
 
-    python_requires='>=3.8',
+    python_requires='>=3.10',
     install_requires=requirements,
 
     test_suite="tests",
