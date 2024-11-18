@@ -6,6 +6,10 @@
 # Library of AI Applications #
 ##############################
 
+"""
+Application Module
+"""
+
 from tinybig.application import (
     parrot,
     eagle,

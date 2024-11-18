@@ -11,12 +11,14 @@
 `tinybig` is a Python library developed by the IFM Lab for deep function learning model designing and building.
 
 * List of RPN Papers: 
-    * RPN (July 2024): https://arxiv.org/abs/2407.04819
-    * RPN 2 (To Be Released Soon...)
+    * RPN 1 (July 2024): https://arxiv.org/abs/2407.04819
+    * RPN 2 (November 2024): 
+    * RPN 3 (In Development...)
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
-* Project Description in Chinese: [项目中文介绍](docs/中文简介)
+* Project Description in Chinese: 
+    * [RPN 1 项目中文介绍](docs/中文简介/RPN_1)
 
 ### Citation
 

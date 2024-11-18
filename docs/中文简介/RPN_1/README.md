@@ -1,5 +1,5 @@
 
-![paper_title.png](paper_title.png)
+![paper_title.png](imgs/paper_title.png)
 
 ---------------
 
@@ -16,7 +16,7 @@
 
 ## 背景介绍
 
-![history.png](history.png)
+![history.png](imgs/history.png)
 
 在过去的70年里，人工智能领域在研究的问题和使用的模型方面都经历了巨大的变化。随着新学习任务的出现，各种基于不同先验假设的机器学习模型被提出以解决这些问题。
 
@@ -36,7 +36,7 @@
 
 ## RPN 模型结构
 
-![model.png](model.png)
+![model.png](imgs/model.png)
 
 为了解决上面提到的**Function Learning**包括的各种复杂任务，本文将介绍一种新型深度函数学习模型 (deep function learning)，即 “**Reconciled Polynomial Network**" (**RPN**).
 
@@ -51,7 +51,7 @@
 
 ## 具有“广度”和“深度” 的 RPN 模型结构
 
-![architecture.png](architecture.png)
+![architecture.png](imgs/architecture.png)
 
 RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和完整度的模型。本文中，为了在设计上提供更大的建模能力，我们通过结合多头（Multi-Head）、多通道（Multi-Channel）、以及多层（Multi-Layer)的基础结构，来构造兼具“广度”和“深度”的 RPN 模型架构：
 
@@ -61,11 +61,11 @@ RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和�
 此外，如下图所示，我们还通过嵌套和扩展的数据扩展函数（extended and nested data expansion functions），
 为构建具有类似上述“广度”和“深度”能力的 RPN 模型提供了更具适应性和轻量级的构造机制。
 
-![depth_width.png](depth_width.png)
+![depth_width.png](imgs/depth_width.png)
 
 ## RPN 功能函数列表
 
-![functions.png](functions.png)
+![functions.png](imgs/functions.png)
 
 在本文中，我们引入了数据扩展函数、参数调和函数，和余项函数这三种组成函数，它们是RPN模型的构建模块。
 通过有效地组合这些组成函数，我们可以构建一个多头、多通道和多层架构，使RPN能够应对广泛的学习挑战。
@@ -77,9 +77,9 @@ RPN拥有高度灵活的架构，能够构建具有不同复杂性、容量和�
 RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合使用上述功能函数，RPN不仅可以构建功能强大的模型结构，
 并且可以统一现有基础模型的表示，包括 PGMs, kernel SVM, MLP 和最近的 KAN。
 
-![non_deep.png](non_deep.png)
+![non_deep.png](imgs/non_deep.png)
 
-![deep.png](deep.png)
+![deep.png](imgs/deep.png)
 
 ## 实验验证
 
@@ -98,7 +98,7 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 
 如下图在费曼函数上的结果显示，在绝大多数的连续函数上 RPN 都可以获得比MLP和KAN至少低x10^{-1}甚至x10^{-2}的拟合误差。
 
-![approximation.png](approximation.png)
+![approximation.png](imgs/approximation.png)
 
 ### 离散图片和文本分类
 
@@ -112,11 +112,11 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 
 通过数据扩展函数(data expansion function），RPN可以把输入的数据扩展到更高维度的空间，如下图所示：
 
-![visualization.png](visualization.png)
+![visualization.png](imgs/visualization.png)
 
 在扩展空间中，RPN通过参数调和函数(parameter reconciliation function)可以使用更少的科学系变量来获得更好的学习效果，部分结果如下图所示：
 
-![classification.png](classification.png)
+![classification.png](imgs/classification.png)
 
 ### 概率关系预测
 
@@ -131,7 +131,7 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 
 下图我们展示了 RPN 在 Iris 数据集上预测出来的变量依赖关系的图示。相比其他概率模型，RPN 预测出来的变量依赖关系更加符合现实情况：
 
-![probabilistic.png](probabilistic.png)
+![probabilistic.png](imgs/probabilistic.png)
 
 ## RPN 的解释性和构造动机
 
@@ -139,7 +139,7 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 
 ### 机器学习角度
 
-![vc.png](vc.png)
+![vc.png](imgs/vc.png)
 
 根据经典的Vapnik-Chervonenkis dimension (VC-dimension) 理论，如上图所示，随着模型的VC维度增加，模型的容量和复杂性增加，
 训练误差逐渐减少。同时，对于高VC维度的复杂模型，测试误差先减少，达到一个和谐的“甜点”，然后呈现U形增加。除了借用的VC理论曲线外，
@@ -152,7 +152,7 @@ RPN 可以有效的拟合连续函数，本文提出和使用了三个连续函�
 
 ### 生物神经科学角度
 
-![neuro.png](neuro.png)
+![neuro.png](imgs/neuro.png)
 
 与其他现有神经模型（包括MLP和KAN及其衍生物）不同，RPN 从神经科学的角度提供了更准确的真实世界生物神经元建模。
 大多数读者对神经科学支持人工神经元和神经网络模型设计的基本背景知识有一定了解，但为了帮助读者更好地理解 RPN 模型，
@@ -227,16 +227,16 @@ RPN提供了一个将几种有影响力的基础模型统一到一个标准表�
 * **Official Website**: [https://www.tinybig.org/](https://www.tinybig.org/)
 
 #### 网站主页
-![website.png](website.png)
+![website.png](imgs/website.png)
 
 #### 文档目录
 
-![docs.png](docs.png)
+![docs.png](imgs/docs.png)
 
 #### Tutorial 列表
 
-![tutorials.png](tutorials.png)
+![tutorials.png](imgs/tutorials.png)
 
 #### 代码示例列表
 
-![examples.png](examples.png)![](![]())
+![examples.png](imgs/examples.png)

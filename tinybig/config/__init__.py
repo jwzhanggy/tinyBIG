@@ -102,15 +102,12 @@ from tinybig.config.remainder_configs import (
 
 from tinybig.config.head_configs import (
     head_configs,
-    perceptron_head_configs,
 )
 
 from tinybig.config.layer_configs import (
     layer_configs,
-    perceptron_layer_configs,
 )
 
 from tinybig.config.model_configs import (
     model_configs,
-    mlp_model_config,
 )

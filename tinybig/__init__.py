@@ -8,18 +8,39 @@ Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$,
 the RPN model proposes to approximate function $f$ as follows:
 $$
     \begin{equation}
-        g(\mathbf{x} | \mathbf{w}) = \left\langle \kappa(\mathbf{x}), \psi(\mathbf{w}) \right\rangle + \pi(\mathbf{x}).
+        g(\mathbf{x} | \mathbf{w}) = \left \langle \kappa_{\xi} (\mathbf{x}), \psi(\mathbf{w}) \right \rangle + \pi(\mathbf{x}),
     \end{equation}
 $$
 
 The RPN model disentangles input data from model parameters through the expansion functions $\kappa$ and
 reconciliation function $\psi$, subsequently summed with the remainder function $\pi$, where
 
-* $\kappa: {R}^m \to {R}^{D}$ is named as the **data expansion function** (or **data transformation function** to be general) and $D$ is the target expansion space dimension.
+* $\kappa_{\xi}: {R}^m \to {R}^{D}$ is named as the **data interdependent transformation function**. It is a composite function of the **data transformation function** $\kappa$ and the **data interdependence function** $\xi$. Notation $D$ is the target expansion space dimension.
 
 * $\psi: {R}^l \to {R}^{n \times D}$ is named as the **parameter reconciliation function** (or **parameter fabrication function** to be general), which is defined only on the parameters without any input data.
 
 * $\pi: {R}^m \to {R}^n$ is named as the **remainder function**.
+
+* $\xi_a: {R}^{b \times m} \to {R}^{m \times m'}$ and $\xi_i: {R}^{b \times m} \to {R}^{b \times b'}$ defined on the input data batch $\mathbf{X} \in R^{b \times m}$ are named as the **attribute** and **instance data interdependence functions**, respectively.
+
+
+## Data Interdependent Transformation Function
+
+Given this input data batch $\mathbf{X} \in R^{b \times m}$, we can formulate the data interdependence transformation function $\kappa_{\xi}$ as follows:
+
+$$
+    \begin{equation}
+        \kappa_{\xi}(\mathbf{X}) = \mathbf{A}^\top_{\xi_i} \kappa(\mathbf{X} \mathbf{A}_{\xi_a}) \in {R}^{b' \times D}.
+    \end{equation}
+$$
+
+These attribute and instance interdependence matrices $\mathbf{A}_{\xi_a} \in {R}^{m \times m'}$ and $\mathbf{A}_{\xi_i} \in {R}^{b \times b'}$ are computed with the corresponding interdependence functions defined above, i.e.,
+
+$$
+    \begin{equation}
+        \mathbf{A}_{\xi_a} = \xi_a(\mathbf{X}) \in {R}^{m \times m'} \text{, and } \mathbf{A}_{\xi_i} = \xi_i(\mathbf{X}) \in {R}^{b \times b'}.
+    \end{equation}
+$$
 
 ## RPN Layer with Multi-Head
 
@@ -28,11 +49,12 @@ where each head can disentangle the input data and model parameters using differ
 and remainder functions, respectively:
 $$
     \begin{equation}
-        g(\mathbf{x} | \mathbf{w}, H) = \sum_{h=0}^{H-1} \left\langle \kappa^{(h)}(\mathbf{x}), \psi^{(h)}(\mathbf{w}^{(h)}) \right\rangle + \pi^{(h)}(\mathbf{x}),
+        \text{Fusion} \left( \left\\{ \left\langle \kappa^{(h)}_{\xi^{(h)}}(\mathbf{X}), \psi^{(h)}(\mathbf{w}^{(h)}) \right\rangle + \pi^{(h)}(\mathbf{X}) \right\\}; h \in \\{1, 2, \cdots, H \\} \right),
     \end{equation}
 $$
-where the superscript "$h$" indicates the head index and $H$ denotes the total head number.
+where the superscript "$h$" indicates the head index and $H$ denotes the total head number, and $\text{Fusion}(\cdot)$ denotes the multi-head fusion function.
 By default, summation is used to combine the results from all these heads.
+
 
 ## RPN Head with Multi-Channel
 
@@ -43,7 +65,7 @@ where $C$ denotes the number of channels.
 These parameters will be reconciled using the same parameter reconciliation function, as shown below:
 $$
     \begin{equation}
-        g(\mathbf{x} | \mathbf{w}, H, C) = \sum_{h=0}^{H-1} \sum_{c=0}^{C-1} \left\langle \kappa^{(h)}(\mathbf{x}), \psi^{(h)}(\mathbf{w}^{(h), c}) \right\rangle + \pi^{(h)}(\mathbf{x}).
+        Fusion \left( \left\\{ \left\langle \kappa^{(h)}_{\xi^{(h), c}}(\mathbf{X}), \psi^{(h)}(\mathbf{w}^{(h), c}) \right\rangle + \pi^{(h)}(\mathbf{X}) \right\\}; h,c \in \\{1, 2, \cdots, H/C \\} \right),
     \end{equation}
 $$
 
@@ -59,12 +81,12 @@ Formally, we can represent the deep RPN model with multi-layers as follows:
 $$
     \begin{equation}
         \begin{cases}
-            \text{Input: } & \mathbf{h}_0  = \mathbf{x},\\\\
-            \text{Layer 1: } & \mathbf{h}_1 = \left\langle \kappa_1(\mathbf{h}_0), \psi_1(\mathbf{w}_1) \right\rangle + \pi_1(\mathbf{h}_0),\\\\
-            \text{Layer 2: } & \mathbf{h}_2 = \left\langle \kappa_2(\mathbf{h}_1), \psi_2(\mathbf{w}_2) \right\rangle + \pi_2(\mathbf{h}_1),\\\\
+            \text{Input: } & \mathbf{H}_0  = \mathbf{X},\\\\
+            \text{Layer 1: } & \mathbf{H}_1 = \left\langle \kappa_{\xi, 1}(\mathbf{H}_0), \psi_1(\mathbf{w}_1) \right\rangle + \pi_1(\mathbf{H}_0),\\\\
+            \text{Layer 2: } & \mathbf{H}_2 = \left\langle \kappa_{\xi, 2}(\mathbf{H}_1), \psi_2(\mathbf{w}_2) \right\rangle + \pi_2(\mathbf{H}_1),\\\\
             \cdots & \cdots \ \cdots\\\\
-            \text{Layer K: } & \mathbf{h}_K = \left\langle \kappa_K(\mathbf{h}_{K-1}), \psi_K(\mathbf{w}_K) \right\rangle + \pi_K(\mathbf{h}_{K-1}),\\\\
-            \text{Output: } & \hat{\mathbf{y}}  = \mathbf{h}_K.
+            \text{Layer K: } & \mathbf{H}_K = \left\langle \kappa_{\xi, K}(\mathbf{H}_{K-1}), \psi_K(\mathbf{w}_K) \right\rangle + \pi_K(\mathbf{H}_{K-1}),\\\\
+            \text{Output: } & \mathbf{Z}  = \mathbf{H}_K.
         \end{cases}
     \end{equation}
 $$
@@ -85,30 +107,19 @@ The **learning correctness** of RPN is fundamentally determined by the compositi
 
 * **Model Completeness**: The remainder function $\pi$ completes the approximation as a residual term, governing the learning completeness of the RPN model.
 
-## Learning Cost of RPN: Space, Time and Parameter Number
-
-To analyze the learning costs of RPN, we can take a batch input $\mathbf{X} \in R^{B \times m}$ of batch size $B$ as an example, which will be fed to the RPN model with $K$ layers, each with $H$ heads and each head has $C$ channels. Each head will project the data instance from a vector of length $m$ to an expanded vector of length $D$ and then further projected to the desired output of length $n$. Each channel reconciles parameters from length $l$ to the sizes determined by both the expansion space and output space dimensions, {\ie} $n \times D$.
-
-Based on the above hyper-parameters, assuming the input and output dimensions at each layer are comparable to $m$ and $n$, then the space, time costs and the number of involved parameters in learning the RPN model are calculated as follows:
-
-* **Space Cost**: The total space cost for data (including the inputs, expansions and outputs) and parameter (including raw parameters, fabricated parameters generated by the reconciliation function and optional remainder function parameters) can be represented as $\mathcal{O}( K H (B (m + D + n )  + C (l + nD) + mn))$.
-
-* **Time Cost**: Depending on the expansion and reconciliation functions used for building RPN, the total time cost of RPN can be represented as $\mathcal{O}( K H (t_{exp}(m, D) + C t_{rec}(l, D) + C m n D + m n))$, where notations $t_{exp}(m, D)$ and $t_{rec}(l, D)$ denote the expected time costs for data expansion and parameter reconciliation functions, respectively.
-
-* **Learnable parameters**: The total number of parameters in RPN will be $\mathcal{O}(K H C l + K H m n)$, where $\mathcal{O}( K H m n)$ denotes the optional parameter number used for defining the remainder function.
-
 """
 
 
 __version__ = '0.1.1'
 
-from . import module, head, layer, config, model, application
+from . import model, application
+from . import module, head, layer, config
 from . import expansion, compression, transformation, reconciliation, remainder, interdependence, fusion
 from . import koala
 from . import data, output
 from . import loss, metric, learner, optimizer
-from . import visual
-from . import util
+from . import visual, util
+
 
 __all__ = [
     # ---- models and applications ----

@@ -13,12 +13,12 @@ Formally, we can represent the deep RPN model with multi-layers as follows:
 $$
     \begin{equation}
         \begin{cases}
-            \text{Input: } & \mathbf{h}_0  = \mathbf{x},\\\\
-            \text{Layer 1: } & \mathbf{h}_1 = \left\langle \kappa_1(\mathbf{h}_0), \psi_1(\mathbf{w}_1) \right\rangle + \pi_1(\mathbf{h}_0),\\\\
-            \text{Layer 2: } & \mathbf{h}_2 = \left\langle \kappa_2(\mathbf{h}_1), \psi_2(\mathbf{w}_2) \right\rangle + \pi_2(\mathbf{h}_1),\\\\
+            \text{Input: } & \mathbf{H}_0  = \mathbf{X},\\\\
+            \text{Layer 1: } & \mathbf{H}_1 = \left\langle \kappa_{\xi, 1}(\mathbf{H}_0), \psi_1(\mathbf{w}_1) \right\rangle + \pi_1(\mathbf{H}_0),\\\\
+            \text{Layer 2: } & \mathbf{H}_2 = \left\langle \kappa_{\xi, 2}(\mathbf{H}_1), \psi_2(\mathbf{w}_2) \right\rangle + \pi_2(\mathbf{H}_1),\\\\
             \cdots & \cdots \ \cdots\\\\
-            \text{Layer K: } & \mathbf{h}_K = \left\langle \kappa_K(\mathbf{h}_{K-1}), \psi_K(\mathbf{w}_K) \right\rangle + \pi_K(\mathbf{h}_{K-1}),\\\\
-            \text{Output: } & \hat{\mathbf{y}}  = \mathbf{h}_K.
+            \text{Layer K: } & \mathbf{H}_K = \left\langle \kappa_{\xi, K}(\mathbf{H}_{K-1}), \psi_K(\mathbf{w}_K) \right\rangle + \pi_K(\mathbf{H}_{K-1}),\\\\
+            \text{Output: } & \mathbf{Z}  = \mathbf{H}_K.
         \end{cases}
     \end{equation}
 $$
@@ -34,7 +34,13 @@ list $[d_0, d_1, \cdots, d_{K-1}, d_K]$ to represent the architecture of the RPN
 This module contains the following categories of RPN models:
 
 * Base Model Template
-* Deep RPN Model with Multiple RPN-Layers.
+* Deep RPN Model
+* Classic Machine Learning Models: RPN\_SVM, RPN\_PGM, RPN\_Naive\_Bayes
+* Neural Network Models: RPN\_MLP, RPN\_KAN
+* Vision Models: RPN\_CNN
+* Sequential Models: RPN\_RNN, RPN\_Regression\_RNN
+* Graph Models: RPN\_GCN, RPN\_GAT
+* Transformer Models: RPN\_Transformer
 """
 
 from tinybig.module.base_model import model
@@ -44,7 +50,7 @@ from tinybig.model.rpn_kan import kan
 from tinybig.model.rpn_pgm import pgm
 from tinybig.model.rpn_naive_bayes import naive_bayes
 from tinybig.model.rpn_svm import svm
-from tinybig.model.rpn_cnn import cnn, resnet
+from tinybig.model.rpn_cnn import cnn
 from tinybig.model.rpn_gcn import gcn
 from tinybig.model.rpn_gat import gat
 from tinybig.model.rpn_rnn import rnn
