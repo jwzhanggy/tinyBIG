@@ -6,15 +6,15 @@
 ## Organization of this Module
 
 ### Coordinates
-* [coordinate.md](coordinate.md)
-* [coordinate_3d.md](coordinate_3d.md)
-* [coordinate_2d.md](coordinate_2d.md)
+* [coordinate](coordinate.md)
+* [coordinate_3d](coordinate_3d.md)
+* [coordinate_2d](coordinate_2d.md)
 
 ### Geometric Space
-* [geometric_space.md](geometric_space.md)
-* [grid.md](grid.md)
+* [geometric_space](geometric_space.md)
+* [grid](grid.md)
 
 ### Geometric Shape
-* [cuboid.md](cuboid.md)
-* [cylinder.md](cylinder.md)
-* [sphere.md](sphere.md)
+* [cuboid](cuboid.md)
+* [cylinder](cylinder.md)
+* [sphere](sphere.md)

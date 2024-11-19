@@ -6,8 +6,8 @@
 ## Organization of this Module
 
 ### Metric
-* [metric.md](metric.md)
+* [metric](metric.md)
 
 ### Kernel
-* [kernel.md](kernel.md)
+* [kernel](kernel.md)
 
