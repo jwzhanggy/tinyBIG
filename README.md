@@ -13,7 +13,7 @@
 * List of RPN Papers: 
     * RPN 1 (July 2024): https://arxiv.org/abs/2407.04819
     * RPN 2 (November 2024): https://arxiv.org/abs/2411.11162
-    * RPN 3 (Under Development...)
+    * RPN 3 (Under development and to be released...)
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
