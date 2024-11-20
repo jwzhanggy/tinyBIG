@@ -23,7 +23,7 @@
   image:
     url: ../assets/img/rpn2.png
     height: 500
-  url: "https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_2_paper.pdf"
+  url: "https://arxiv.org/abs/2411.11162"
 
 - title: "RPN: Reconciled Polynomial Network (July 2024)"
   content: | 
@@ -36,7 +36,7 @@
   image:
     url: ../overrides/img/background.png
     height: 500
-  url: "https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf"
+  url: "https://arxiv.org/abs/2407.04819"
 
 
 ::/cards::
