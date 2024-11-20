@@ -1,3 +1,0 @@
-# elephant
-
-::: tinybig.application.elephant

@@ -1,0 +1,3 @@
+# chimpanzee
+
+::: tinybig.zootopia.chimpanzee

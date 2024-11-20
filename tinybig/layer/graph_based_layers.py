@@ -6,12 +6,12 @@
 # Graph based RPN Layer Module #
 ################################
 
-from tinybig.module.base_layer import rpn_layer
+from tinybig.module.base_layer import layer
 from tinybig.head.graph_based_heads import graph_interdependence_head, graph_bilinear_interdependence_head
 from tinybig.koala.topology import graph as graph_class
 
 
-class graph_interdependence_layer(rpn_layer):
+class graph_interdependence_layer(layer):
     def __init__(
         self,
         m: int, n: int,
@@ -86,7 +86,7 @@ class graph_interdependence_layer(rpn_layer):
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class graph_bilinear_interdependence_layer(rpn_layer):
+class graph_bilinear_interdependence_layer(layer):
     def __init__(
         self,
         m: int, n: int,

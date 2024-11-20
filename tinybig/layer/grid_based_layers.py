@@ -6,13 +6,13 @@
 # Grid based RPN Layer Module #
 ###############################
 
-from tinybig.module.base_layer import rpn_layer
+from tinybig.module.base_layer import layer
 from tinybig.head.grid_based_heads import grid_interdependence_head, grid_compression_head
 from tinybig.fusion.concatenation_fusion import concatenation_fusion
 from tinybig.fusion.metric_fusion import mean_fusion
 
 
-class grid_interdependence_layer(rpn_layer):
+class grid_interdependence_layer(layer):
 
     def __init__(
         self,
@@ -73,7 +73,7 @@ class grid_interdependence_layer(rpn_layer):
         return self.heads[0].get_output_grid_shape()
 
 
-class grid_compression_layer(rpn_layer):
+class grid_compression_layer(layer):
 
     def __init__(
         self,

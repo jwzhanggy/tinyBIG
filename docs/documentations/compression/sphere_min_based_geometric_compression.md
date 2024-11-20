@@ -1,0 +1,3 @@
+# sphere_min_based_geometric_compression
+
+::: tinybig.compression.geometric_compression.sphere_min_based_geometric_compression

@@ -2,13 +2,14 @@
 # Author: Jiawei Zhang <jiawei@ifmlab.org>
 # Affiliation: IFM Lab, UC Davis
 
-#############
-# RPN Heads #
-#############
+#####################
+#     RPN Heads     #
+#####################
 
 
 from tinybig.module.base_head import (
-    rpn_head
+    head,
+    head as rpn_head
 )
 
 from tinybig.head.basic_heads import (

@@ -31,7 +31,7 @@ from tinybig.module import (
 import tinybig.remainder
 
 
-class rpn_head(Module, function):
+class head(Module, function):
     r"""
     The RPN head class for implementing the multi-channel module.
 

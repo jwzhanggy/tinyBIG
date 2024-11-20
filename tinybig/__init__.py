@@ -112,7 +112,7 @@ The **learning correctness** of RPN is fundamentally determined by the compositi
 
 __version__ = '0.2.0'
 
-from . import model, application
+from . import model, zootopia
 from . import module, head, layer, config
 from . import expansion, compression, transformation, reconciliation, remainder, interdependence, fusion
 from . import koala
@@ -123,7 +123,7 @@ from . import visual, util
 
 __all__ = [
     # ---- models and applications ----
-    'application',
+    'zootopia',
     'model',
     # ---- modules ----
     'module',

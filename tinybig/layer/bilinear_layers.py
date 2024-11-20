@@ -6,12 +6,12 @@
 # Transformer Layer Module #
 ############################
 
-from tinybig.module.base_layer import rpn_layer
+from tinybig.module.base_layer import layer
 from tinybig.head.bilinear_heads import bilinear_interdependence_head
 from tinybig.fusion.parameterized_concatenation_fusion import parameterized_concatenation_fusion
 
 
-class bilinear_interdependence_layer(rpn_layer):
+class bilinear_interdependence_layer(layer):
 
     def __init__(
         self,

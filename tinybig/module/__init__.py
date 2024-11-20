@@ -104,9 +104,11 @@ from tinybig.module.base_fusion import (
     fusion
 )
 from tinybig.module.base_head import (
-    rpn_head
+    head,
+    head as rpn_head
 )
 from tinybig.module.base_layer import (
-    rpn_layer
+    layer,
+    layer as rpn_layer
 )
 

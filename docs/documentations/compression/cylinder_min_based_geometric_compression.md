@@ -1,0 +1,3 @@
+# cylinder_min_based_geometric_compression
+
+::: tinybig.compression.geometric_compression.cylinder_min_based_geometric_compression

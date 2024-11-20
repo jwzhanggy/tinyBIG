@@ -18,19 +18,21 @@
 
 -------------------------
 
-In this quickstart tutorial, we will walk you through the MNIST image classification task with {{our}} 
+In this quickstart tutorial, we will walk you through the MNIST image classification task with RPN 
 built based on the Taylor's expansion and dual lphm reconciliation functions via the APIs provided by `tinybig`.
 
 We assume you have correctly installed the latest `tinybig` and its dependency packages already.
 If you haven't installed them yet, please refer to the [installation](installation.md) page for the guidance.
 
-This quickstart tutorial is prepared based on 
-[the RPN paper](https://arxiv.org/abs/2407.04819) `[1]`. 
-We also recommend reading that paper first for detailed technical information about the {{our}} model and {{toolkit}} toolkit.
+This quickstart tutorial is prepared based on the 
+[RPN 1 paper](https://arxiv.org/abs/2407.04819) `[1]` and [RPN 2 paper](https://arxiv.org/abs/2411.11162) `[2]`. 
+We also recommend reading that paper first for detailed technical information about the RPN models and `tinybig` toolkit.
 
 **Reference**
 
-`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN.`
+`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN. 2024. ArXiv, abs/2407.04819.`<br>
+`[2] Jiawei Zhang. RPN 2: On Interdependence Function Learning. Towards Unifying and Advancing CNN, RNN, GNN and Transformer. 2024. ArXiv, abs/2411.11162.`
+
 
 -------------------------
 

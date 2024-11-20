@@ -165,6 +165,7 @@ nav:
       - documentations/model/rpn.md
       - documentations/model/mlp.md
       - documentations/model/kan.md
+      - documentations/model/pgm.md
       - documentations/model/naive_bayes.md
       - documentations/model/svm.md
       - documentations/model/cnn.md
@@ -176,8 +177,8 @@ nav:
     - tinybig.module:
       - documentations/module/index.md
       - documentations/module/model.md
-      - documentations/module/rpn_layer.md
-      - documentations/module/rpn_head.md
+      - documentations/module/layer.md
+      - documentations/module/head.md
       - documentations/module/function.md
       - documentations/module/transformation.md
       - documentations/module/fabrication.md
@@ -265,6 +266,19 @@ nav:
       - documentations/compression/prod_compression.md
       - documentations/compression/mean_compression.md
       - documentations/compression/median_compression.md
+      - documentations/compression/geometric_compression.md
+      - documentations/compression/cuboid_patch_based_geometric_compression.md
+      - documentations/compression/cuboid_max_based_geometric_compression.md
+      - documentations/compression/cuboid_min_based_geometric_compression.md
+      - documentations/compression/cuboid_mean_based_geometric_compression.md
+      - documentations/compression/cylinder_patch_based_geometric_compression.md
+      - documentations/compression/cylinder_max_based_geometric_compression.md
+      - documentations/compression/cylinder_min_based_geometric_compression.md
+      - documentations/compression/cylinder_mean_based_geometric_compression.md
+      - documentations/compression/sphere_patch_based_geometric_compression.md
+      - documentations/compression/sphere_max_based_geometric_compression.md
+      - documentations/compression/sphere_min_based_geometric_compression.md
+      - documentations/compression/sphere_mean_based_geometric_compression.md
       - documentations/compression/feature_selection_compression.md
       - documentations/compression/incremental_feature_clustering_based_compression.md
       - documentations/compression/incremental_variance_threshold_based_compression.md
@@ -510,16 +524,16 @@ nav:
       - documentations/util/find_class_in_package.md
       - documentations/util/parameter_scheduler.md
       - documentations/util/async_clear_tensor_memory.md
-    - tinybig.application:
-      - documentations/application/index.md
-      - documentations/application/bat.md
-      - documentations/application/cat.md
-      - documentations/application/cheetah.md
-      - documentations/application/chimpanzee.md
-      - documentations/application/crow.md
-      - documentations/application/eagle.md
-      - documentations/application/elephant.md
-      - documentations/application/parrot.md
+    - tinybig.zootopia:
+      - documentations/zootopia/index.md
+      - documentations/zootopia/bat.md
+      - documentations/zootopia/cat.md
+      - documentations/zootopia/cheetah.md
+      - documentations/zootopia/chimpanzee.md
+      - documentations/zootopia/crow.md
+      - documentations/zootopia/eagle.md
+      - documentations/zootopia/elephant.md
+      - documentations/zootopia/parrot.md
   - Tutorials:
       - tutorials/index.md
       - Beginner's Tutorials:

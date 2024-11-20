@@ -1,3 +1,0 @@
-# parrot
-
-::: tinybig.application.parrot

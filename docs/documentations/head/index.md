@@ -6,7 +6,7 @@
 ## Organization of this Module
 
 ### RPN Head
-* [rpn_head](../module/rpn_head.md) (defined in the tinybig.module directory)
+* [base_head](../module/head.md) (defined in the tinybig.module directory)
 
 ### Basic Heads
 * [perceptron_head](perceptron_head.md)

@@ -22,13 +22,22 @@
 
 ### Citation
 
-If you find `tinybig` and RPN useful in your work, please cite the RPN paper as follows:
+If you find `tinybig` library and RPN papers useful in your work, please cite the RPN papers as follows:
 ```
-@article{Zhang2024RPN,
+@article{Zhang2024RPN_version1,
     title={RPN: Reconciled Polynomial Network Towards Unifying PGMs, Kernel SVMs, MLP and KAN},
     author={Jiawei Zhang},
     year={2024},
     eprint={2407.04819},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+
+@article{Zhang2024RPN_version2,
+    title={RPN 2: On Interdependence Function Learning Towards Unifying and Advancing CNN, RNN, GNN, and Transformer},
+    author={Jiawei Zhang},
+    year={2024},
+    eprint={2411.11162},
     archivePrefix={arXiv},
     primaryClass={cs.LG}
 }

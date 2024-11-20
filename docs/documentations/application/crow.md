@@ -1,3 +1,0 @@
-# crow
-
-::: tinybig.application.crow

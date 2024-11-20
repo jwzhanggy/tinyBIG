@@ -10,14 +10,13 @@ import torch
 import math
 from functools import partial
 
+from tinybig.module.base_head import head
 from tinybig.koala.linear_algebra import (
     operator_based_normalize_matrix
 )
 from tinybig.koala.algebra import (
     find_close_factors
 )
-
-from tinybig.module.base_head import rpn_head
 
 from tinybig.expansion import (
     identity_expansion,
@@ -42,7 +41,7 @@ from tinybig.interdependence import (
 )
 
 
-class bilinear_interdependence_head(rpn_head):
+class bilinear_interdependence_head(head):
 
     def __init__(
         self,

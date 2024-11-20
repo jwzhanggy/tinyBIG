@@ -7,11 +7,11 @@
 ################################
 import torch
 
-from tinybig.module.base_layer import rpn_layer
+from tinybig.module.base_layer import layer
 from tinybig.head.chain_based_heads import chain_interdependence_head
 
 
-class chain_interdependence_layer(rpn_layer):
+class chain_interdependence_layer(layer):
     def __init__(
         self,
         m: int, n: int,

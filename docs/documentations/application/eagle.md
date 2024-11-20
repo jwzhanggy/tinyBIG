@@ -1,3 +1,0 @@
-# eagle
-
-::: tinybig.application.eagle

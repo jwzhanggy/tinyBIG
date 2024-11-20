@@ -1,3 +1,0 @@
-# bat
-
-::: tinybig.application.bat

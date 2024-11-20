@@ -4,7 +4,7 @@
 
 ### Python
 
-It is recommended that you use Python 3.10 - 3.12. You can download and install the latest Python 
+It is recommended that you use Python 3.10+. You can download and install the latest Python 
 from the [python official website](https://www.python.org/downloads/).
 
 ### Package Manager
@@ -29,41 +29,15 @@ To install Anaconda, you can download graphical installer provided at the
 [Anaconda official website](https://www.anaconda.com/download/success). 
 -->
 
-### Dependency Packages
-
-The `tinybig` library is developed based on several dependency packages. 
-The updated dependency [requirement.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) of `tinybig`
-can be downloaded from the [project github repository](https://github.com/jwzhanggy/tinyBIG).
-
-After downloading the requirement.txt, you can install all these dependencies with the pip command:
-
-=== "install command"
-    ```shell
-    pip install -r requirements.txt
-    ```
-
-=== "requirement.txt"
-    ``` yaml linenums="1"
-    torch==2.2.2
-    numpy==1.26.3
-    pyyaml==6.0.1
-    scipy==1.13.1
-    tqdm==4.66.4
-    torchvision==0.17.2
-    torchtext==0.17.2
-    scikit-learn==1.5.1
-    matplotlib==3.9.1
-    ```
-
 --------------------
 
 ## Installation
 
-The `tinybig` library has been published at both PyPI and the project github repository.
+The `tinybig` library has been published at both [PyPI](https://pypi.org/project/tinybig/) and the [project github repository](https://github.com/jwzhanggy/tinyBIG).
 
 ### Install from PyPI
 
-To install `tinybig` from PyPI, use the following command:
+To install `tinybig` from [PyPI](https://pypi.org/project/tinybig/), use the following command:
 
 ```shell
 pip install tinybig
@@ -97,6 +71,37 @@ If you don't have `setuptools` installed locally, please consider to first insta
 ```shell
 pip install setuptools 
 ```
+
+### Dependency Packages
+
+The `tinybig` library is developed based on several dependency packages. 
+The updated dependency [requirement.txt](https://github.com/jwzhanggy/tinyBIG/blob/main/requirements.txt) of `tinybig`
+can be downloaded from the [project github repository](https://github.com/jwzhanggy/tinyBIG).
+
+After downloading the requirement.txt, you can install all these dependencies with the pip command:
+
+=== "install command"
+    ```shell
+    pip install -r requirements.txt
+    ```
+
+=== "requirement.txt"
+    ``` yaml linenums="1"
+    torch==2.2.2
+    torchdata==0.7.1
+    torchvision==0.17.2
+    torchtext==0.17.2
+    portalocker==2.10.0
+    
+    numpy==1.26.3
+    scipy==1.13.1
+    scikit-learn==1.5.1
+    
+    pyyaml==6.0.1
+    tqdm==4.66.4
+    matplotlib==3.9.1
+    pytest==8.3.3
+    ```
 
 --------------------
 

@@ -42,5 +42,5 @@
 * [tinybig.util](../util/index.md)
 
 ### RPN Applications
-* [tinybig.application](../application/index.md)
+* [tinybig.zootopia](../zootopia/index.md)
 

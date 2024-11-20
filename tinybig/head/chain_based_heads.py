@@ -9,8 +9,8 @@
 import torch
 import torch.nn.functional as F
 
+from tinybig.module.base_head import head
 from tinybig.remainder import zero_remainder
-from tinybig.module import rpn_head
 from tinybig.koala.topology import chain
 from tinybig.interdependence import (
     chain_interdependence,
@@ -32,7 +32,7 @@ from tinybig.remainder import (
 )
 
 
-class chain_interdependence_head(rpn_head):
+class chain_interdependence_head(head):
     def __init__(
         self,
         m: int, n: int,

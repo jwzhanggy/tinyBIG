@@ -1,0 +1,3 @@
+# cuboid_min_based_geometric_compression
+
+::: tinybig.compression.geometric_compression.cuboid_min_based_geometric_compression

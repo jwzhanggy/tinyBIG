@@ -23,7 +23,7 @@ from tinybig.fusion.metric_fusion import mean_fusion
 from tinybig.module.base_function import function
 
 
-class rpn_layer(Module, function):
+class layer(Module, function):
     r"""
     The RPN layer class for implementing the multi-head module.
 

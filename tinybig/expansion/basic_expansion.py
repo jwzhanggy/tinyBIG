@@ -199,20 +199,20 @@ class reciprocal_expansion(transformation):
     """
     def __init__(self, name='reciprocal_expansion', *args, **kwargs):
         """
-        The initialization method of the reciprocal expansion function.
+            The initialization method of the reciprocal expansion function.
 
-        It initializes a reciprocal expansion object based on the input function name.
-        This method will also call the initialization method of the base class as well.
+            It initializes a reciprocal expansion object based on the input function name.
+            This method will also call the initialization method of the base class as well.
 
-        Parameters
-        ----------
-        name: str, default = 'reciprocal_expansion'
-            The name of the reciprocal expansion function.
+            Parameters
+            ----------
+            name: str, default = 'reciprocal_expansion'
+                The name of the reciprocal expansion function.
 
-        Returns
-        ----------
-        transformation
-            The reciprocal expansion function.
+            Returns
+            ----------
+            transformation
+                The reciprocal expansion function.
         """
         super().__init__(name=name, *args, **kwargs)
 

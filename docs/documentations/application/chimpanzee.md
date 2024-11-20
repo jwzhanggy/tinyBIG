@@ -1,3 +1,0 @@
-# chimpanzee
-
-::: tinybig.application.chimpanzee

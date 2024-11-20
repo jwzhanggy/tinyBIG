@@ -12,7 +12,20 @@
 
 ::cards:: cols=1 class_name="full-img"
 
-- title: "RPN: Reconciled Polynomial Network"
+- title: "RPN 2:  On Interdependence Function Learning (November 2024)"
+  content: | 
+    This paper proposes a redesign of the RPN architecture, introducing the new RPN 2 (i.e., 
+    Reconciled Polynomial Network version 2.0) model. As illustrate by Figure 1, RPN 2 incorporates a 
+    novel component, the interdependence functions, to explicitly model diverse relationships among 
+    both data instances and attributes. While we refer to this component as “interdependence”, this
+    function actually captures a wide range of relationships within the input data, including structural
+    interdependence, logical causality, statistical correlation, and numerical similarity or dissimilarity
+  image:
+    url: ../assets/img/rpn2.png
+    height: 500
+  url: "https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_2_paper.pdf"
+
+- title: "RPN: Reconciled Polynomial Network (July 2024)"
   content: | 
     This paper proposes the task of "deep function learning" and introduce a novel deep function learning base model,
     i.e., the Reconciled Polynomial Network (RPN).<br>
@@ -24,6 +37,7 @@
     url: ../overrides/img/background.png
     height: 500
   url: "https://github.com/jwzhanggy/tinyBIG/blob/main/docs/assets/files/rpn_paper.pdf"
+
 
 ::/cards::
 

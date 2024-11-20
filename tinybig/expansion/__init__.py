@@ -29,6 +29,8 @@ This module contains the following categories of expansion functions:
 
 * Basic expansion functions
 * Polynomial expansion functions
+* Orthogonal polynomial expansion functions
+* Wavelet expansion functions
 * Trigonometric expansion functions
 * RBF expansion functions
 * Naive probabilistic expansion functions

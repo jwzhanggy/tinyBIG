@@ -10,7 +10,7 @@ import math
 from functools import partial
 import torch
 
-from tinybig.module.base_head import rpn_head
+from tinybig.module.base_head import head
 from tinybig.interdependence.topological_interdependence import (
     graph_interdependence,
     pagerank_multihop_graph_interdependence,
@@ -37,7 +37,7 @@ from tinybig.koala.algebra import (
 )
 
 
-class graph_interdependence_head(rpn_head):
+class graph_interdependence_head(head):
     def __init__(
         self,
         m: int, n: int,
@@ -185,7 +185,7 @@ class graph_interdependence_head(rpn_head):
         )
 
 
-class graph_bilinear_interdependence_head(rpn_head):
+class graph_bilinear_interdependence_head(head):
     def __init__(
         self,
         m: int, n: int,

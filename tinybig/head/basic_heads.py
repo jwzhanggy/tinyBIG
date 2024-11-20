@@ -8,7 +8,8 @@
 
 import torch
 
-from tinybig.module.base_head import rpn_head
+from tinybig.module.base_head import head
+
 from tinybig.expansion import (
     identity_expansion,
     taylor_expansion,
@@ -28,7 +29,7 @@ from tinybig.reconciliation import identity_reconciliation, lorr_reconciliation,
 from tinybig.remainder import zero_remainder, linear_remainder
 
 
-class perceptron_head(rpn_head):
+class perceptron_head(head):
 
     def __init__(
         self, m: int, n: int,
@@ -122,7 +123,7 @@ class perceptron_head(rpn_head):
         )
 
 
-class svm_head(rpn_head):
+class svm_head(head):
 
     def __init__(
         self, m: int, n: int,
@@ -203,7 +204,7 @@ class svm_head(rpn_head):
         )
 
 
-class kan_head(rpn_head):
+class kan_head(head):
 
     def __init__(
         self, m: int, n: int,
@@ -261,7 +262,7 @@ class kan_head(rpn_head):
         )
 
 
-class naive_bayes_head(rpn_head):
+class naive_bayes_head(head):
 
     def __init__(
         self, m: int, n: int,
@@ -336,7 +337,7 @@ class naive_bayes_head(rpn_head):
         )
 
 
-class pgm_head(rpn_head):
+class pgm_head(head):
 
     def __init__(
         self, m: int, n: int,

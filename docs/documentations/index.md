@@ -93,7 +93,7 @@ The documentations of the `tinybig` library will be organized as follows.
 </div>
 
 <div class="grid cards" markdown>
-- :fontawesome-solid-feather-pointed: [__`tinybig.application`__](application/index.md) for deep rpn model concrete applications
+- :fontawesome-solid-feather-pointed: [__`tinybig.zootopia`__](zootopia/index.md) for deep rpn model concrete applications
 </div>
 
 -----------

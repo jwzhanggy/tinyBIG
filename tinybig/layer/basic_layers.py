@@ -6,11 +6,11 @@
 # RPN Multi-Head Layer Module #
 ###############################
 
-from tinybig.module.base_layer import rpn_layer
+from tinybig.module.base_layer import layer
 from tinybig.head.basic_heads import perceptron_head, svm_head, kan_head, naive_bayes_head, pgm_head
 
 
-class perceptron_layer(rpn_layer):
+class perceptron_layer(layer):
 
     def __init__(
         self,
@@ -66,7 +66,7 @@ class perceptron_layer(rpn_layer):
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class svm_layer(rpn_layer):
+class svm_layer(layer):
 
     def __init__(
         self, m: int, n: int,
@@ -104,7 +104,7 @@ class svm_layer(rpn_layer):
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class kan_layer(rpn_layer):
+class kan_layer(layer):
 
     def __init__(
         self, m: int, n: int,
@@ -134,7 +134,7 @@ class kan_layer(rpn_layer):
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class naive_bayes_layer(rpn_layer):
+class naive_bayes_layer(layer):
 
     def __init__(
         self,
@@ -167,7 +167,7 @@ class naive_bayes_layer(rpn_layer):
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
 
-class pgm_layer(rpn_layer):
+class pgm_layer(layer):
     def __init__(
         self,
         m: int, n: int,

@@ -1,3 +1,0 @@
-# cat
-
-::: tinybig.application.cat

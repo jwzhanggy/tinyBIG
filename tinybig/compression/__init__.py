@@ -6,6 +6,42 @@
 # Data Compression Functions #
 ##############################
 
+r"""
+This module provides the "data compression functions" that can be used to build the RPN model within the tinyBIG toolkit.
+
+## Data Compression Function
+
+Different from the "data expansion functions", the data compression functions aim to compress input
+data batch from high-dimensional space into lower-dimensional spaces.
+
+Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$ to be learned,
+the data compression function $\kappa$ projects input data into a new space shown as follows:
+
+$$ \kappa: {R}^m \to {R}^{D}, $$
+
+where the target dimension vector space dimension $D$ is determined when defining $\kappa$.
+
+In practice, the function $\kappa$ can either expand or compress the input to a higher- or lower-dimensional space.
+The corresponding function, $\kappa$, can also be referred to as the data expansion function (if $D > m$)
+and data compression function (if $D < m$), respectively.
+Collectively, these can be unified under the term "data transformation functions".
+
+To differentiate from the dimension notation $D$ of the expansion functions, we will use the
+lower-case dimension notation $d$ for compression functions implemented in this module instead.
+
+## Classes in this Module
+
+This module contains the following categories of compression functions:
+
+* Basic compression functions
+* Geometric compression functions (based on the cuboid, cylinder and sphere patch shapes)
+* Metric based compression functions
+* Feature selection based compression functions
+* Dimension reduction based compression functions
+* Manifold based compression functions
+* Probabilistic compression functions
+* Extended and Nested compression functions
+"""
 
 from tinybig.module.base_transformation import (
     transformation

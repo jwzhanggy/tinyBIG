@@ -1,3 +1,0 @@
-# cheetah
-
-::: tinybig.application.cheetah

@@ -10,11 +10,9 @@ from functools import partial
 
 import torch
 
-
+from tinybig.module.base_head import head
 from tinybig.koala.linear_algebra.metric import metric
 from tinybig.koala.algebra import find_close_factors
-
-from tinybig.module.base_head import rpn_head
 from tinybig.expansion.basic_expansion import identity_expansion
 from tinybig.interdependence.geometric_interdependence import geometric_interdependence
 from tinybig.compression.geometric_compression import geometric_compression
@@ -24,7 +22,7 @@ from tinybig.remainder.basic_remainder import zero_remainder, linear_remainder
 from tinybig.koala.geometry import grid, cuboid, cylinder, sphere
 
 
-class grid_interdependence_head(rpn_head):
+class grid_interdependence_head(head):
     def __init__(
         self,
         h: int, w: int, in_channel: int, out_channel: int,
@@ -173,7 +171,7 @@ class grid_interdependence_head(rpn_head):
         return inner_prod
 
 
-class grid_compression_head(rpn_head):
+class grid_compression_head(head):
     def __init__(
         self,
         h: int, w: int, channel_num: int,

@@ -1,0 +1,3 @@
+# cylinder_patch_based_geometric_compression
+
+::: tinybig.compression.geometric_compression.cylinder_patch_based_geometric_compression

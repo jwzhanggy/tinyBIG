@@ -22,6 +22,21 @@
 * [mean_compression](mean_compression.md)
 * [median_compression](median_compression.md)
 
+### Geometric based Compressions
+* [geometric_compression](geometric_compression.md)
+* [cuboid_patch_based_geometric_compression](cuboid_patch_based_geometric_compression.md)
+* [cuboid_max_based_geometric_compression](cuboid_max_based_geometric_compression.md)
+* [cuboid_min_based_geometric_compression](cuboid_min_based_geometric_compression.md)
+* [cuboid_mean_based_geometric_compression](cuboid_mean_based_geometric_compression.md)
+* [cylinder_patch_based_geometric_compression](cylinder_patch_based_geometric_compression.md)
+* [cylinder_max_based_geometric_compression](cylinder_max_based_geometric_compression.md)
+* [cylinder_min_based_geometric_compression](cylinder_min_based_geometric_compression.md)
+* [cylinder_mean_based_geometric_compression](cylinder_mean_based_geometric_compression.md)
+* [sphere_patch_based_geometric_compression](sphere_patch_based_geometric_compression.md)
+* [sphere_max_based_geometric_compression](sphere_max_based_geometric_compression.md)
+* [sphere_min_based_geometric_compression](sphere_min_based_geometric_compression.md)
+* [sphere_mean_based_geometric_compression](sphere_mean_based_geometric_compression.md)
+
 ### Feature Selection based Compressions
 * [feature_selection_compression](feature_selection_compression.md)
 * [incremental_feature_clustering_based_compression](incremental_feature_clustering_based_compression.md)

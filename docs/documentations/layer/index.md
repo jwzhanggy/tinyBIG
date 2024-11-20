@@ -6,7 +6,7 @@
 ## Organization of this Module
 
 ### RPN Layer
-* [rpn_layer](../module/rpn_layer.md) (defined in the tinybig.module directory)
+* [base_layer](../module/layer.md) (defined in the tinybig.module directory)
 
 ### Basic Layers
 * [perceptron_layer](perceptron_layer.md)
