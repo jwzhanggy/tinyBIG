@@ -314,7 +314,7 @@ class geometric_compression(transformation):
         x = self.interdependence(x, device=device)
 
         p = self.get_patch_size()
-        compression = self.metric(x.view(-1, p), dim=1).view(b, self.get_patch_num(), -1)
+        compression = self.metric(x.reshape(-1, p), dim=1).view(b, self.get_patch_num(), -1)
         compression = compression.permute(0, 2, 1).reshape(b, -1)
 
         assert compression.shape == (b, self.calculate_D(m=m))
@@ -323,96 +323,532 @@ class geometric_compression(transformation):
 
 class cuboid_patch_based_geometric_compression(geometric_compression):
     """
-        The geometric patch based compression function.
+        The cuboid patch based geometric compression function.
+
+        It performs the data compression based on cuboid geometric patch shapes and provided compression metric.
+        This class inherits from the geometric_compression class, and only redefines the initialization method.
 
         ...
 
-        Notes
-        ----------
-
         Attributes
         ----------
+        metric: Callable[[torch.Tensor], torch.Tensor]
+            The geometric compression metric.
+        name: str, default = 'cuboid_patch_based_geometric_compression'
+            Name of the compression function.
+        p_h: int
+            Height of the cuboid patch along the negative direction.
+        p_h_prime: int, default = None
+            Height of the cuboid patch along the positive direction.
+        p_w: int
+            Width of the cuboid patch along the negative direction.
+        p_w_prime: int, default = None
+            Width of the cuboid patch along the positive direction.
+        p_d: int
+            Depth of the cuboid patch along the negative direction.
+        p_d_prime: int, default = None
+            Depth of the cuboid patch along the positive direction.
 
         Methods
         ----------
-
+        __init__
+            It performs the initialization of the compression function based on the provided metric and cuboid patch shapes.
     """
     def __init__(
         self,
+        metric: Callable[[torch.Tensor], torch.Tensor],
         p_h: int, p_w: int, p_d: int,
         p_h_prime: int = None, p_w_prime: int = None, p_d_prime: int = None,
         name: str = 'cuboid_patch_based_geometric_compression',
         *args, **kwargs
     ):
+        """
+            The initialization method of the cuboid patch based geometric compression function.
+
+            It initializes the cuboid compression function based on the provided cuboid patch shape
+            of the data segments to be compressed in the provided grid structure.
+
+            Parameters
+            ----------
+            metric: Callable[[torch.Tensor], torch.Tensor]
+                The geometric compression metric.
+            name: str, default = 'cuboid_patch_based_geometric_compression'
+                Name of the compression function.
+            p_h: int
+                Height of the cuboid patch along the negative direction.
+            p_h_prime: int, default = None
+                Height of the cuboid patch along the positive direction.
+            p_w: int
+                Width of the cuboid patch along the negative direction.
+            p_w_prime: int, default = None
+                Width of the cuboid patch along the positive direction.
+            p_d: int
+                Depth of the cuboid patch along the negative direction.
+            p_d_prime: int, default = None
+                Depth of the cuboid patch along the positive direction.
+
+            Returns
+            ----------
+            transformation
+                The cuboid geometric compression function.
+        """
         patch = cuboid(p_h=p_h, p_w=p_w, p_d=p_d, p_h_prime=p_h_prime, p_w_prime=p_w_prime, p_d_prime=p_d_prime)
-        super().__init__(name=name, patch=patch, *args, **kwargs)
+        super().__init__(name=name, metric=metric, patch=patch, *args, **kwargs)
 
 
 class cylinder_patch_based_geometric_compression(geometric_compression):
+    """
+        The cylinder patch based geometric compression function.
 
+        It performs the data compression based on cylinder geometric patch shapes and provided compression metric.
+        This class inherits from the geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        metric: Callable[[torch.Tensor], torch.Tensor]
+            The geometric compression metric.
+        name: str, default = 'cylinder_patch_based_geometric_compression'
+            Name of the compression function.
+        p_r: int
+            Radius of the circular surface of the cylinder shape.
+        p_d: int
+            Depth of the cylinder patch along the negative direction.
+        p_d_prime: int, default = None
+            Depth of the cylinder patch along the positive direction.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the compression function based on the provided metric and cylinder patch shapes.
+    """
     def __init__(
         self,
+        metric: Callable[[torch.Tensor], torch.Tensor],
         p_r: int, p_d: int, p_d_prime: int = None,
         name: str = 'cylinder_patch_based_geometric_compression',
         *args, **kwargs
     ):
+        """
+            The initialization method of the cylinder patch based geometric compression function.
+
+            It initializes the cylinder compression function based on the provided cylinder patch shape
+            of the data segments to be compressed in the provided grid structure.
+
+            Parameters
+            ----------
+            metric: Callable[[torch.Tensor], torch.Tensor]
+                The geometric compression metric.
+            name: str, default = 'cylinder_patch_based_geometric_compression'
+                Name of the compression function.
+            p_r: int
+                Radius of the circular surface of the cylinder shape.
+            p_d: int
+                Depth of the cylinder patch along the negative direction.
+            p_d_prime: int, default = None
+                Depth of the cylinder patch along the positive direction.
+
+            Returns
+            ----------
+            transformation
+                The cylinder geometric compression function.
+        """
         patch = cylinder(p_r=p_r, p_d=p_d, p_d_prime=p_d_prime)
-        super().__init__(name=name, patch=patch, *args, **kwargs)
+        super().__init__(name=name, metric=metric, patch=patch, *args, **kwargs)
 
 
 class sphere_patch_based_geometric_compression(geometric_compression):
+    """
+        The sphere patch based geometric compression function.
 
+        It performs the data compression based on sphere geometric patch shapes and provided compression metric.
+        This class inherits from the geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        metric: Callable[[torch.Tensor], torch.Tensor]
+            The geometric compression metric.
+        name: str, default = 'sphere_patch_based_geometric_compression'
+            Name of the compression function.
+        p_r: int
+            Radius of the sphere patch shape.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the compression function based on the provided metric and sphere patch shapes.
+    """
     def __init__(
         self,
+        metric: Callable[[torch.Tensor], torch.Tensor],
         p_r: int,
         name: str = 'sphere_patch_based_geometric_compression',
         *args, **kwargs
     ):
+        """
+            The initialization method of the sphere patch based geometric compression function.
 
+            It initializes the sphere compression function based on the provided sphere patch shape
+            of the data segments to be compressed in the provided grid structure.
+
+            Parameters
+            ----------
+            metric: Callable[[torch.Tensor], torch.Tensor]
+                The geometric compression metric.
+            name: str, default = 'sphere_patch_based_geometric_compression'
+                Name of the compression function.
+            p_r: int
+                Radius of the sphere shape.
+
+            Returns
+            ----------
+            transformation
+                The sphere geometric compression function.
+        """
         patch = sphere(p_r=p_r)
-        super().__init__(name=name, patch=patch, *args, **kwargs)
+        super().__init__(name=name, metric=metric, patch=patch, *args, **kwargs)
 
 
 class cuboid_max_based_geometric_compression(cuboid_patch_based_geometric_compression):
+    """
+        The cuboid patch and max metric based geometric compression function.
+
+        It performs the data compression based on cuboid geometric patch shapes and provided max metric.
+        This class inherits from the cuboid_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cuboid_max_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cuboid compression function based on the max metric.
+    """
     def __init__(self, name: str = 'cuboid_max_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cuboid patch and max metric based geometric compression function.
+
+            It initializes the cuboid compression function with the max compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cuboid_max_based_geometric_compression'
+                Name of the cuboid max compression function.
+
+            Returns
+            ----------
+            transformation
+                The cuboid max geometric compression function.
+        """
         super().__init__(name=name, metric=batch_max, *args, **kwargs)
 
 
 class cuboid_min_based_geometric_compression(cuboid_patch_based_geometric_compression):
+    """
+        The cuboid patch and min metric based geometric compression function.
+
+        It performs the data compression based on cuboid geometric patch shapes and provided min metric.
+        This class inherits from the cuboid_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cuboid_min_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cuboid compression function based on the min metric.
+    """
     def __init__(self, name: str = 'cuboid_min_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cuboid patch and min metric based geometric compression function.
+
+            It initializes the cuboid compression function with the min compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cuboid_min_based_geometric_compression'
+                Name of the cuboid min compression function.
+
+            Returns
+            ----------
+            transformation
+                The cuboid min geometric compression function.
+        """
         super().__init__(name=name, metric=batch_min, *args, **kwargs)
 
 
 class cuboid_mean_based_geometric_compression(cuboid_patch_based_geometric_compression):
+    """
+        The cuboid patch and mean metric based geometric compression function.
+
+        It performs the data compression based on cuboid geometric patch shapes and provided mean metric.
+        This class inherits from the cuboid_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cuboid_mean_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cuboid compression function based on the mean metric.
+    """
     def __init__(self, name: str = 'cuboid_mean_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cuboid patch and mean metric based geometric compression function.
+
+            It initializes the cuboid compression function with the mean compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cuboid_mean_based_geometric_compression'
+                Name of the cuboid mean compression function.
+
+            Returns
+            ----------
+            transformation
+                The cuboid mean geometric compression function.
+        """
         super().__init__(name=name, metric=batch_mean, *args, **kwargs)
 
 
 class cylinder_max_based_geometric_compression(cylinder_patch_based_geometric_compression):
+    """
+        The cylinder patch and max metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided max metric.
+        This class inherits from the cylinder_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cylinder_max_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cylinder compression function based on the max metric.
+    """
     def __init__(self, name: str = 'cylinder_max_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cylinder patch and max metric based geometric compression function.
+
+            It initializes the cylinder compression function with the max compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cylinder_max_based_geometric_compression'
+                Name of the cylinder max compression function.
+
+            Returns
+            ----------
+            transformation
+                The cylinder max geometric compression function.
+        """
         super().__init__(name=name, metric=batch_max, *args, **kwargs)
 
 
 class cylinder_min_based_geometric_compression(cylinder_patch_based_geometric_compression):
+    """
+        The cylinder patch and min metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided min metric.
+        This class inherits from the cylinder_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cylinder_min_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cylinder compression function based on the min metric.
+    """
     def __init__(self, name: str = 'cylinder_min_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cylinder patch and min metric based geometric compression function.
+
+            It initializes the cylinder compression function with the min compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cylinder_min_based_geometric_compression'
+                Name of the cylinder min compression function.
+
+            Returns
+            ----------
+            transformation
+                The cylinder min geometric compression function.
+        """
         super().__init__(name=name, metric=batch_min, *args, **kwargs)
 
 
 class cylinder_mean_based_geometric_compression(cylinder_patch_based_geometric_compression):
+    """
+        The cylinder patch and mean metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided mean metric.
+        This class inherits from the cylinder_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'cylinder_mean_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the cylinder compression function based on the mean metric.
+    """
     def __init__(self, name: str = 'cylinder_mean_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the cylinder patch and mean metric based geometric compression function.
+
+            It initializes the cylinder compression function with the mean compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'cylinder_mean_based_geometric_compression'
+                Name of the cylinder mean compression function.
+
+            Returns
+            ----------
+            transformation
+                The cylinder mean geometric compression function.
+        """
         super().__init__(name=name, metric=batch_mean, *args, **kwargs)
 
 
 class sphere_max_based_geometric_compression(sphere_patch_based_geometric_compression):
+    """
+        The sphere patch and max metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided max metric.
+        This class inherits from the sphere_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'sphere_max_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the sphere compression function based on the max metric.
+    """
     def __init__(self, name: str = 'sphere_max_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the sphere patch and max metric based geometric compression function.
+
+            It initializes the sphere compression function with the max compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'sphere_max_based_geometric_compression'
+                Name of the sphere mean compression function.
+
+            Returns
+            ----------
+            transformation
+                The sphere mean geometric compression function.
+        """
         super().__init__(name=name, metric=batch_max, *args, **kwargs)
 
 
 class sphere_min_based_geometric_compression(sphere_patch_based_geometric_compression):
+    """
+        The sphere patch and min metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided min metric.
+        This class inherits from the sphere_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'sphere_min_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the sphere compression function based on the min metric.
+    """
     def __init__(self, name: str = 'sphere_min_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the sphere patch and min metric based geometric compression function.
+
+            It initializes the sphere compression function with the min compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'sphere_min_based_geometric_compression'
+                Name of the sphere mean compression function.
+
+            Returns
+            ----------
+            transformation
+                The sphere mean geometric compression function.
+        """
         super().__init__(name=name, metric=batch_min, *args, **kwargs)
 
 
 class sphere_mean_based_geometric_compression(sphere_patch_based_geometric_compression):
+    """
+        The sphere patch and mean metric based geometric compression function.
+
+        It performs the data compression based on sphere geometric patch shapes and provided mean metric.
+        This class inherits from the sphere_patch_based_geometric_compression class, and only redefines the initialization method.
+
+        ...
+
+        Attributes
+        ----------
+        name: str, default = 'sphere_mean_based_geometric_compression'
+            Name of the compression function.
+
+        Methods
+        ----------
+        __init__
+            It performs the initialization of the sphere compression function based on the mean metric.
+    """
     def __init__(self, name: str = 'sphere_mean_based_geometric_compression', metric: Callable[[torch.Tensor], torch.Tensor] = None, *args, **kwargs):
+        """
+            The initialization method of the sphere patch and mean metric based geometric compression function.
+
+            It initializes the sphere compression function with the mean compression metric.
+
+            Parameters
+            ----------
+            name: str, default = 'sphere_mean_based_geometric_compression'
+                Name of the sphere mean compression function.
+
+            Returns
+            ----------
+            transformation
+                The sphere mean geometric compression function.
+        """
         super().__init__(name=name, metric=batch_mean, *args, **kwargs)

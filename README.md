@@ -18,7 +18,8 @@
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
 * Project Description in Chinese: 
-    * [RPN 1 项目中文介绍](docs/中文简介/RPN_1)
+    * [RPN 1 项目中文介绍](docs/中文简介/RPN_1/README.md)
+    * [RPN 2 项目中文介绍](docs/中文简介/RPN_2/README.md)
 
 ### Citation
 
