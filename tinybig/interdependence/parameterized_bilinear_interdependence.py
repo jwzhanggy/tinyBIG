@@ -561,7 +561,7 @@ class random_matrix_adaption_parameterized_bilinear_interdependence(parameterize
 
         Notations $\Lambda_1$ and $\Lambda_2$ denote two diagonal matrices $\Lambda_1 = diag( \lambda_1) \in R^{m \times m}$ and $\Lambda_2 = diag(\lambda_2) \in R^{r \times r}$
         where the diagonal vectors $\lambda_1$ and $\lambda_2$ are partitioned from the parameter vector $\mathbf{w}$.
-        Matrices $\mathbf{A} \in R^{b \times r}$ and $\mathbf{B} \in R^{r \times b}$ are randomly sampled from the Gaussian distribution $\mathcal{N}(\mathbf{0}, \mathbf{I})$.
+        Matrices $\mathbf{A} \in R^{b \times r}$ and $\mathbf{B} \in R^{b \times r}$ are randomly sampled from the Gaussian distribution $\mathcal{N}(\mathbf{0}, \mathbf{I})$.
 
         The required length of parameter vector of this interdependence function is $\mathbf{w}$ is $l_{\xi} = b + r$.
 

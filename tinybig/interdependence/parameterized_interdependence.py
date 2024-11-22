@@ -526,7 +526,7 @@ class random_matrix_adaption_parameterized_interdependence(parameterized_interde
             \end{equation}
         $$
 
-        where matrices $\mathbf{A} \in R^{m \times r}$ and $\mathbf{B} \in R^{r \times m'}$ are randomly sampled from the Gaussian distribution $\mathcal{N}(\mathbf{0}, \mathbf{I})$.
+        where matrices $\mathbf{A} \in R^{m \times r}$ and $\mathbf{B} \in R^{m' \times r}$ are randomly sampled from the Gaussian distribution $\mathcal{N}(\mathbf{0}, \mathbf{I})$.
         The required length of vector $\mathbf{w}$ is $l_{\xi} = m + r$.
 
 

@@ -9,8 +9,10 @@
 """
 Basic data expansion functions.
 
-This module contains the basic data expansion functions,
-including identity_expansion, reciprocal_expansion and linear_expansion.
+This module contains the basic data expansion functions, including
+    identity_expansion,
+    reciprocal_expansion,
+    linear_expansion.
 """
 
 import torch.nn

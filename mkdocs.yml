@@ -232,6 +232,7 @@ nav:
       - documentations/expansion/reverse_bessel_expansion.md
       - documentations/expansion/fibonacci_expansion.md
       - documentations/expansion/lucas_expansion.md
+      - documentations/expansion/discrete_wavelet_expansion.md
       - documentations/expansion/meyer_wavelet_expansion.md
       - documentations/expansion/ricker_wavelet_expansion.md
       - documentations/expansion/shannon_wavelet_expansion.md
@@ -242,6 +243,10 @@ nav:
       - documentations/expansion/arc_hyperbolic_expansion.md
       - documentations/expansion/trigonometric_expansion.md
       - documentations/expansion/arc_trigonometric_expansion.md
+      - documentations/expansion/geometric_expansion.md
+      - documentations/expansion/cuboid_patch_based_geometric_expansion.md
+      - documentations/expansion/cylinder_patch_based_geometric_expansion.md
+      - documentations/expansion/sphere_patch_based_geometric_expansion.md
       - documentations/expansion/gaussian_rbf_expansion.md
       - documentations/expansion/inverse_quadratic_rbf_expansion.md
       - documentations/expansion/naive_normal_expansion.md

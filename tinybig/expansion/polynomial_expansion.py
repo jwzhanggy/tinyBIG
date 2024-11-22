@@ -9,8 +9,9 @@
 """
 Polynomial data expansion functions.
 
-This module contains the polynomial data expansion functions,
-including taylor_expansion and fourier_expansion.
+This module contains the polynomial data expansion functions, including
+    taylor_expansion,
+    fourier_expansion.
 """
 
 import warnings

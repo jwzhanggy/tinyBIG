@@ -1,0 +1,3 @@
+# cylinder_patch_based_geometric_expansion
+
+::: tinybig.expansion.geometric_expansion.cylinder_patch_based_geometric_expansion

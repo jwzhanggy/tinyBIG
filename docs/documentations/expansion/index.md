@@ -31,6 +31,7 @@
 * [lucas_expansion](lucas_expansion.md)
 
 ### Wavelet Expansions
+* [discrete_wavelet_expansion](discrete_wavelet_expansion.md)
 * [meyer_wavelet_expansion](meyer_wavelet_expansion.md)
 * [ricker_wavelet_expansion](ricker_wavelet_expansion.md)
 * [shannon_wavelet_expansion](shannon_wavelet_expansion.md)
@@ -43,6 +44,12 @@
 * [arc_hyperbolic_expansion](arc_hyperbolic_expansion.md)
 * [trigonometric_expansion](trigonometric_expansion.md)
 * [arc_trigonometric_expansion](arc_trigonometric_expansion.md)
+
+### Geometric Expansions
+* [geometric_expansion](geometric_expansion.md)
+* [cuboid_patch_based_geometric_expansion](cuboid_patch_based_geometric_expansion.md)
+* [cylinder_patch_based_geometric_expansion](cylinder_patch_based_geometric_expansion.md)
+* [sphere_patch_based_geometric_expansion](sphere_patch_based_geometric_expansion.md)
 
 ### RBF Expansions
 * [gaussian_rbf_expansion](gaussian_rbf_expansion.md)

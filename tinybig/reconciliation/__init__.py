@@ -33,6 +33,7 @@ This module contains the following categories of parameter reconciliation functi
 * Basic reconciliation functions
 * Lowrank reconciliation functions
 * Hypernet reconciliation functions
+* Random matrix based reconciliation functions
 """
 
 from tinybig.module.base_fabrication import (

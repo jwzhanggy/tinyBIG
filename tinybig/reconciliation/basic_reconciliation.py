@@ -799,10 +799,98 @@ class duplicated_padding_reconciliation(fabrication):
 
 
 class duplicated_diagonal_padding_reconciliation(duplicated_padding_reconciliation):
+    r"""
+        A reconciliation mechanism that applies duplicated diagonal padding to the input tensor.
+
+        Inherits from `duplicated_padding_reconciliation` and extends it to handle diagonal padding with duplication.
+
+        Notes
+        ---------
+        Specifically, for the parameter vector $\mathbf{w} \in {R}^{l}$ of length $l$,
+        it can be reshaped into a matrix $\mathbf{W}$ comprising $s$ rows and $t$ columns, where $l = s \times t$.
+        Through the multiplication of $\mathbf{W}$ with a constant identity matrix $\mathbf{I} \in {R}^{p \times q}$ (normally $p=q$)
+        populated with the constant value of ones, the **duplicated_diagonal_padding_reconciliation** function
+        can be defined as follows:
+        $$
+            \begin{equation}
+                \psi(\mathbf{w}) = \mathbf{I} \otimes \mathbf{W} =  \begin{bmatrix}
+                                                                    \mathbf{W} & \mathbf{0} & \cdots & \mathbf{0} \\\\
+                                                                    \mathbf{0} & \mathbf{W} & \cdots & \mathbf{0} \\\\
+                                                                    \vdots & \vdots & \ddots & \vdots \\\\
+                                                                    \mathbf{0} & \mathbf{0} & \cdots & \mathbf{W}      \\\\
+                                                                    \end{bmatrix} \in {R}^{ps \times qt},
+            \end{equation}
+        $$
+        where $\mathbf{W} = \text{reshape}(\mathbf{w})$ and $\otimes$ denotes the Kronecker product operator.
+
+        The output dimensions should meet the constraints that $p \times s = n$ and $q \times t = D$, where renders
+        $s = \frac{n}{p}$ and $t = \frac{D}{q}$.
+
+        For the duplicated padding based parameter reconciliation, the number of required parameter $l$ is defined as
+        $$
+            \begin{equation}
+                l= s \times t = \frac{n \times D}{pq},
+            \end{equation}
+        $$
+        where $p$ and $q$ are the duplication numbers in the row and column, respectively.
+
+
+        Attributes
+        ----------
+        name : str
+            Name of the reconciliation function.
+
+        Methods
+        -------
+        forward(n, D, w, device='cpu', *args, **kwargs)
+            Computes the reconciliation matrix using duplicated diagonal padding.
+    """
     def __init__(self, name='duplicated_diagonal_padding_reconciliation', *args, **kwargs):
+        """
+            Initializes the duplicated diagonal padding reconciliation function.
+
+            Parameters
+            ----------
+            name : str, optional
+                Name of the reconciliation function. Defaults to 'duplicated_diagonal_padding_reconciliation'.
+            *args : tuple
+                Additional positional arguments for the parent class.
+            **kwargs : dict
+                Additional keyword arguments for the parent class.
+        """
         super().__init__(name, *args, **kwargs)
 
     def forward(self, n: int, D: int, w: torch.nn.Parameter, device: str = 'cpu', *args, **kwargs):
+        """
+            Computes the reconciliation matrix using duplicated diagonal padding.
+
+            Parameters
+            ----------
+            n : int
+                Number of instances.
+            D : int
+                Dimensionality of the output tensor after reconciliation.
+            w : torch.nn.Parameter
+                Parameter tensor with shape `(n, l)` where `l` is determined by `calculate_l(n, D)`.
+            device : str, optional
+                Device for computation ('cpu', 'cuda', 'mps'). Defaults to 'cpu'.
+            *args : tuple
+                Additional positional arguments.
+            **kwargs : dict
+                Additional keyword arguments.
+
+            Returns
+            -------
+            torch.Tensor
+                Reconciliation matrix of shape `(n, D)`.
+
+            Raises
+            ------
+            AssertionError
+                If the shape of `w` does not match the required dimensions.
+                If `p` is not equal to `n`.
+                If `q * calculate_l(n, D)` does not equal `D`.
+        """
         assert w.ndim == 2 and w.size(1) == self.calculate_l(n=n, D=D)
         assert self.p == n and self.q * self.calculate_l(n=n, D=D) == D
         W = torch.block_diag(*[w]*self.p).view(n, D)
