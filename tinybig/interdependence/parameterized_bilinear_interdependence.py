@@ -249,7 +249,7 @@ class lowrank_parameterized_bilinear_interdependence(parameterized_bilinear_inte
 
         $$
             \begin{equation}
-            \xi(\mathbf{w}) = \mathbf{A} \mathbf{B}^\top \in R^{m \times m'},
+            \psi(\mathbf{w}) = \mathbf{A} \mathbf{B}^\top \in R^{b \times b},
             \end{equation}
         $$
         where $\mathbf{A} \in R^{b \times r}$ and $\mathbf{B} \in R^{b \times r}$ are partitioned and reshaped from the parameter vector $\mathbf{w}$.
@@ -305,10 +305,10 @@ class hm_parameterized_bilinear_interdependence(parameterized_bilinear_interdepe
 
         $$
             \begin{equation}
-            \xi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} \in R^{m \times m'},
+            \psi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} \in R^{b \times b},
             \end{equation}
         $$
-        where $\mathbf{A} \in R^{p \times q}$ and $\mathbf{B} \in R^{s \times t}$ (where $s =\frac{m}{p}$ and $t = \frac{m'}{q}$) are partitioned and reshaped from the parameter vector $\mathbf{w}$.
+        where $\mathbf{A} \in R^{p \times q}$ and $\mathbf{B} \in R^{s \times t}$ (where $s =\frac{b}{p}$ and $t = \frac{b}{q}$) are partitioned and reshaped from the parameter vector $\mathbf{w}$.
 
         The required length of parameter vector of this interdependence function is $l_{\xi} = pq + \frac{b^2}{pq}$.
 
@@ -381,10 +381,10 @@ class lphm_parameterized_bilinear_interdependence(parameterized_bilinear_interde
 
         $$
             \begin{equation}
-            \xi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} = \mathbf{A} \otimes ( \mathbf{S} \mathbf{T}^\top) \in R^{m \times m'},
+            \psi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} = \mathbf{A} \otimes ( \mathbf{S} \mathbf{T}^\top) \in R^{b \times b},
             \end{equation}
         $$
-        where $\mathbf{A} \in R^{p \times q}$, $\mathbf{S} \in R^{\frac{m}{p} \times r}$ and $\mathbf{T} \in R^{\frac{m'}{q} \times r}$ are partitioned and reshaped from the parameter vector $\mathbf{w}$.
+        where $\mathbf{A} \in R^{p \times q}$, $\mathbf{S} \in R^{\frac{b}{p} \times r}$ and $\mathbf{T} \in R^{\frac{b}{q} \times r}$ are partitioned and reshaped from the parameter vector $\mathbf{w}$.
 
         The required length of parameter vector of this interdependence function is $l_{\xi} = pq + r \times (\frac{b}{p} + \frac{b}{q})$.
 
@@ -468,10 +468,10 @@ class dual_lphm_parameterized_bilinear_interdependence(parameterized_bilinear_in
 
         $$
             \begin{equation}
-            \xi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} = ( \mathbf{P} \mathbf{Q}^\top) \otimes ( \mathbf{S} \mathbf{T}^\top) \in R^{m \times m'},
+            \psi(\mathbf{w}) = \mathbf{A} \otimes \mathbf{B} = ( \mathbf{P} \mathbf{Q}^\top) \otimes ( \mathbf{S} \mathbf{T}^\top) \in R^{b \times b},
             \end{equation}
         $$
-        where $\mathbf{P} \in R^{p \times r}$, $\mathbf{Q} \in R^{q \times r}$,  $\mathbf{S} \in R^{\frac{m}{p} \times r}$ and $\mathbf{T} \in R^{\frac{m'}{q} \times r}$ are partitioned and reshaped from the parameter vector $\mathbf{w}$.
+        where $\mathbf{P} \in R^{p \times r}$, $\mathbf{Q} \in R^{q \times r}$,  $\mathbf{S} \in R^{\frac{b}{p} \times r}$ and $\mathbf{T} \in R^{\frac{b}{q} \times r}$ are partitioned and reshaped from the parameter vector $\mathbf{w}$.
 
         The required length of parameter vector of this interdependence function is $l_{\xi} = r \times (p + q + \frac{b}{p} + \frac{b}{q})$.
 
@@ -555,7 +555,7 @@ class random_matrix_adaption_parameterized_bilinear_interdependence(parameterize
 
         $$
             \begin{equation}
-            \xi(\mathbf{w}) = \Lambda_1 \mathbf{A} \Lambda_1 \mathbf{B}^\top \in R^{m \times m'},
+            \psi(\mathbf{w}) = \Lambda_1 \mathbf{A} \Lambda_1 \mathbf{B}^\top \in R^{b \times b},
             \end{equation}
         $$
 
