@@ -6,6 +6,15 @@
 # Feature Selection based Compression Function #
 ################################################
 
+"""
+Feature selection based data compression functions.
+
+This module contains the feature selection based data compression functions, including
+    feature_selection_compression,
+    incremental_feature_clustering_based_compression,
+    incremental_variance_threshold_based_compression.
+"""
+
 import torch
 
 from tinybig.compression import transformation
@@ -56,7 +65,7 @@ class feature_selection_compression(transformation):
         Methods
         -------
         __init__(D, name='feature_selection_compression', fs_function=None, fs_function_configs=None, *args, **kwargs)
-            Initializes the feature selection and compression instance.
+            Initializes the feature selection based compression function.
         calculate_D(m: int)
             It validates and returns the specified number of features (`D`).
         forward(x: torch.Tensor, device: str = 'cpu', *args, **kwargs)

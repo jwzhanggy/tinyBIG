@@ -35,7 +35,7 @@ def test_chain_interdependence(sample_chain_structure, interdependence_class):
     Test basic chain interdependence and multihop chain interdependence
     """
     chain = sample_chain_structure
-    interdep = interdependence_class(b=3, m=5, chain=chain, interdependence_type='attribute', device='cpu')
+    interdep = interdependence_class(b=3, m=5, chain=chain, self_dependence=False, interdependence_type='attribute', device='cpu')
 
     A = interdep.calculate_A()
     assert A is not None, "Matrix A should not be None"
@@ -44,6 +44,7 @@ def test_chain_interdependence(sample_chain_structure, interdependence_class):
     # Test self dependence option
     interdep_self = interdependence_class(b=3, m=5, chain=chain, self_dependence=True, interdependence_type='attribute', device='cpu')
     A_self = interdep_self.calculate_A()
+    print(A, A_self)
     assert A_self.shape == (5, 5), "Self-dependence A shape mismatch"
     assert (A_self - A).sum() > 0, "Self-dependence should modify the matrix"
 
@@ -62,7 +63,7 @@ def test_multihop_chain_interdependence(sample_chain_structure, interdependence_
     assert A.shape == (5, 5), "A shape mismatch"
 
     if accumulative:
-        assert (A - torch.eye(5)).sum() > 0, "Accumulation should modify the matrix"
+        assert (A.to_dense() - torch.eye(5)).sum() > 0, "Accumulation should modify the matrix"
 
 
 def test_inverse_approx_multihop_chain_interdependence(sample_chain_structure):
@@ -88,7 +89,7 @@ def test_exponential_approx_multihop_chain_interdependence(sample_chain_structur
         b=5, m=5, chain=chain, device='cpu'
     )
 
-    A = interdep.calculate_A()
+    A = interdep.calculate_A(device='cpu')
     assert A is not None, "Matrix A should not be None"
     assert A.shape == (5, 5), "A shape mismatch"
 

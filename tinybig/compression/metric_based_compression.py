@@ -5,6 +5,18 @@
 #####################################
 # Metric based Compression Function #
 #####################################
+"""
+Manifold based data compression functions.
+
+This module contains the manifold based data compression functions, including
+    metric_compression,
+    max_compression,
+    min_compression,
+    mean_compression,
+    sum_compression,
+    prod_compression,
+    median_compression.
+"""
 
 import torch
 

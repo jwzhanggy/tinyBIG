@@ -5,6 +5,11 @@
 #######################
 # Nested Compressions #
 #######################
+"""
+Nested data compression functions.
+
+This module contains the nested data compression functions
+"""
 
 from tinybig.expansion import nested_expansion
 

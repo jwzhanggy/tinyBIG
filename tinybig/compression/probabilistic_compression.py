@@ -5,6 +5,19 @@
 #############################################
 # Naive Probabilistic Compression Functions #
 #############################################
+"""
+Naive probabilistic data compression functions.
+
+This module contains the naive probabilistic data compression functions, including
+    naive_probabilistic_compression,
+    naive_uniform_probabilistic_compression,
+    naive_chi2_probabilistic_compression,
+    naive_laplace_probabilistic_compression,
+    naive_cauchy_probabilistic_compression,
+    naive_gamma_probabilistic_compression,
+    naive_normal_probabilistic_compression,
+    naive_exponential_probabilistic_compression.
+"""
 
 from typing import Callable
 
@@ -60,7 +73,7 @@ class naive_probabilistic_compression(transformation):
         Methods
         -------
         __init__(k, name='probabilistic_compression', simply_sampling=True, distribution_function=None, ...)
-            Initializes the probabilistic compression instance.
+            Initializes the probabilistic compression function.
         calculate_D(m: int)
             Validates and returns the number of features to retain (`k`).
         to_config()
@@ -86,7 +99,7 @@ class naive_probabilistic_compression(transformation):
         """
             The initialization method of the naive probabilistic compression function.
 
-            It initializes the compression instance based on the provided probabilistic distribution function.
+            It initializes the compression function based on the provided probabilistic distribution function.
 
             Parameters
             ----------
@@ -289,7 +302,7 @@ class naive_uniform_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_uniform_probabilistic_compression', low=0.0, high=1.0, ...)
-            Initializes the uniform probabilistic compression instance.
+            Initializes the uniform probabilistic compression function.
 
         Parameters
         ----------
@@ -304,7 +317,7 @@ class naive_uniform_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_normal_probabilistic_compression', low: float = 0.0, high: float = 1.0, require_normalization: bool = True, *args, **kwargs):
         """
-            Initializes the uniform probabilistic compression instance.
+            Initializes the uniform probabilistic compression function.
 
             Parameters
             ----------
@@ -331,7 +344,7 @@ class naive_normal_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_normal_probabilistic_compression', mean=0.0, std=1.0, ...)
-            Initializes the normal probabilistic compression instance.
+            Initializes the normal probabilistic compression function.
 
         Parameters
         ----------
@@ -344,7 +357,7 @@ class naive_normal_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_normal_probabilistic_compression', mean: float = 0.0, std: float = 1.0, *args, **kwargs):
         """
-            Initializes the normal probabilistic compression instance.
+            Initializes the normal probabilistic compression function.
 
             Parameters
             ----------
@@ -368,7 +381,7 @@ class naive_cauchy_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_cauchy_probabilistic_compression', loc=0.0, scale=1.0, ...)
-            Initializes the Cauchy probabilistic compression instance.
+            Initializes the Cauchy probabilistic compression function.
 
         Parameters
         ----------
@@ -381,7 +394,7 @@ class naive_cauchy_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_cauchy_probabilistic_compression', loc: float = 0.0, scale: float = 1.0, *args, **kwargs):
         """
-            Initializes the Cauchy probabilistic compression instance.
+            Initializes the Cauchy probabilistic compression function.
 
             Parameters
             ----------
@@ -405,7 +418,7 @@ class naive_chi2_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_chi2_probabilistic_compression', df=1.0, require_normalization=True, ...)
-            Initializes the Chi-squared probabilistic compression instance.
+            Initializes the Chi-squared probabilistic compression function.
 
         Parameters
         ----------
@@ -418,7 +431,7 @@ class naive_chi2_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_chi2_probabilistic_compression', df: float = 1.0, require_normalization: bool = True,  *args, **kwargs):
         """
-            Initializes the Chi-squared probabilistic compression instance.
+            Initializes the Chi-squared probabilistic compression function.
 
             Parameters
             ----------
@@ -442,7 +455,7 @@ class naive_exponential_probabilistic_compression(naive_probabilistic_compressio
         Methods
         -------
         __init__(name='naive_exponential_probabilistic_compression', rate=0.5, require_normalization=True, ...)
-            Initializes the Exponential probabilistic compression instance.
+            Initializes the Exponential probabilistic compression function.
 
         Parameters
         ----------
@@ -455,7 +468,7 @@ class naive_exponential_probabilistic_compression(naive_probabilistic_compressio
     """
     def __init__(self, name: str = 'naive_exponential_probabilistic_compression', rate: float = 0.5, require_normalization: bool = True,  *args, **kwargs):
         """
-            Initializes the Exponential probabilistic compression instance.
+            Initializes the Exponential probabilistic compression function.
 
             Parameters
             ----------
@@ -479,7 +492,7 @@ class naive_gamma_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_gamma_probabilistic_compression', concentration=1.0, rate=1.0, ...)
-            Initializes the Gamma probabilistic compression instance.
+            Initializes the Gamma probabilistic compression function.
 
         Parameters
         ----------
@@ -494,7 +507,7 @@ class naive_gamma_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_gamma_probabilistic_compression', concentration: float = 1.0, rate: float = 1.0, require_normalization: bool = True, *args, **kwargs):
         """
-            Initializes the Gamma probabilistic compression instance.
+            Initializes the Gamma probabilistic compression function.
 
             Parameters
             ----------
@@ -520,7 +533,7 @@ class naive_laplace_probabilistic_compression(naive_probabilistic_compression):
         Methods
         -------
         __init__(name='naive_laplace_probabilistic_compression', loc=0.0, scale=1.0, ...)
-            Initializes the Laplace probabilistic compression instance.
+            Initializes the Laplace probabilistic compression function.
 
         Parameters
         ----------
@@ -533,7 +546,7 @@ class naive_laplace_probabilistic_compression(naive_probabilistic_compression):
     """
     def __init__(self, name: str = 'naive_laplace_probabilistic_compression', loc: float = 0.0, scale: float = 1.0, *args, **kwargs):
         """
-            Initializes the Laplace probabilistic compression instance.
+            Initializes the Laplace probabilistic compression function.
 
             Parameters
             ----------

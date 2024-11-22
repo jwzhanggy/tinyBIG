@@ -6,6 +6,12 @@
 # Extended Compressions #
 #########################
 
+"""
+Extended data compression functions.
+
+This module contains the extended data compression functions
+"""
+
 from tinybig.expansion import extended_expansion
 
 

@@ -97,7 +97,7 @@ def test_hm_bilinear_interdependence(interdependence_factory, p, q):
     """
     Test the HM parameterized bilinear interdependence with different p and q values.
     """
-    b, m = 5, 3
+    b, m = 3, 5
     x = torch.randn(b, m)
     interdep, l = interdependence_factory(hm_parameterized_bilinear_interdependence, b=b, m=m, x=x, p=p, q=q)
 
@@ -115,7 +115,7 @@ def test_lphm_bilinear_interdependence(interdependence_factory, r, p, q):
     """
     Test the LPHM parameterized bilinear interdependence with different ranks and block sizes.
     """
-    b, m = 5, 3
+    b, m = 3, 5
     x = torch.randn(b, m)
     interdep, l = interdependence_factory(lphm_parameterized_bilinear_interdependence, b=b, m=m, x=x, r=r, p=p, q=q)
 
@@ -133,7 +133,7 @@ def test_dual_lphm_bilinear_interdependence(interdependence_factory, r, p, q):
     """
     Test the dual LPHM parameterized bilinear interdependence with different ranks and block sizes.
     """
-    b, m = 5, 3
+    b, m = 3, 5
     x = torch.randn(b, m)
     interdep, l = interdependence_factory(dual_lphm_parameterized_bilinear_interdependence, b=b, m=m, x=x, r=r, p=p,
                                           q=q)

@@ -6,6 +6,13 @@
 # Combinatorial Probabilistic Compression Functions #
 #####################################################
 
+"""
+Combinatorial data compression functions.
+
+This module contains the combinatorial data compression functions,
+including combinatorial_compression, and combinatorial_probabilistic_compression.
+"""
+
 from typing import Callable
 import torch
 

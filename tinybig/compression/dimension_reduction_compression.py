@@ -6,6 +6,13 @@
 # Dimension Reduction based Compression Function #
 ##################################################
 
+"""
+Dimension reduction based data compression functions.
+
+This module contains the dimension reduction based data compression functions,
+including dimension_reduction_compression, incremental_PCA_based_compression, and incremental_random_projection_based_compression.
+"""
+
 import torch
 
 from tinybig.compression import transformation

@@ -5,6 +5,13 @@
 #######################################
 # Manifold based Compression Function #
 #######################################
+"""
+Manifold based data compression functions.
+
+This module contains the manifold based data compression functions,
+including manifold_compression, isomap_manifold_compression, lle_manifold_compression,
+mds_manifold_compression, tsne_manifold_compression, and spectral_embedding_manifold_compression,
+"""
 
 import torch
 
