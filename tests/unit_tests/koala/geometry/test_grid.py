@@ -55,11 +55,11 @@ class Test_Grid:
 
     def test_get_patch_number(self, setup_grid):
         g = setup_grid
-        patch_number = g.get_patch_number(cd_h=1, cd_w=1, cd_d=1)
+        patch_number = g.get_patch_num(cd_h=1, cd_w=1, cd_d=1)
         assert patch_number == 27  # With step size 1 in all dimensions, every grid point is counted
 
         # With larger step sizes, fewer patches should be counted
-        patch_number = g.get_patch_number(cd_h=2, cd_w=2, cd_d=2)
+        patch_number = g.get_patch_num(cd_h=2, cd_w=2, cd_d=2)
         assert patch_number == 8
 
     def test_packing(self, setup_grid):

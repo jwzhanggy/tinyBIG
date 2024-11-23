@@ -14,6 +14,27 @@ def metric(
     x: torch.Tensor,
     *args, **kwargs
 ):
+    """
+    Computes various statistical metrics based on the specified metric name.
+
+    Parameters
+    ----------
+    metric_name : str
+        The name of the metric to compute. Options include 'mean', 'variance',
+        'entropy', 'skewness', etc.
+    x : torch.Tensor
+        The input tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The computed metric.
+
+    Raises
+    ------
+    ValueError
+        If the metric name is not recognized or the input tensor is invalid.
+    """
     assert x is not None and metric_name is not None
     match metric_name:
         case 'mean': return mean(x=x)
@@ -40,16 +61,59 @@ def metric(
 
 
 def mean(x: torch.Tensor):
+    """
+    Computes the mean of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The mean value.
+    """
     assert x.ndim == 1
     return torch.mean(x)
 
 
 def batch_mean(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the mean along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the mean (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The mean values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     return torch.mean(x, dim=dim)
 
 
 def weighted_mean(x: torch.Tensor, weights: torch.Tensor):
+    """
+    Computes the weighted mean of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+    weights : torch.Tensor
+        The weights for each element in `x`.
+
+    Returns
+    -------
+    torch.Tensor
+        The weighted mean value.
+    """
     assert x.ndim == 1 and x.shape == weights.shape
     weighted_sum = torch.sum(x * weights)
     sum_weights = torch.sum(weights)
@@ -57,6 +121,23 @@ def weighted_mean(x: torch.Tensor, weights: torch.Tensor):
 
 
 def batch_weighted_mean(x: torch.Tensor, weights: torch.Tensor, dim: int = 1):
+    """
+    Computes the weighted mean along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    weights : torch.Tensor
+        The weights for each element in the specified dimension.
+    dim : int
+        The dimension along which to compute the weighted mean (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The weighted mean values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1] and x.shape[1] == weights.shape[0]
 
     weights = weights.unsqueeze(0) if dim == 1 else weights.unsqueeze(1)
@@ -67,6 +148,19 @@ def batch_weighted_mean(x: torch.Tensor, weights: torch.Tensor, dim: int = 1):
 
 
 def geometric_mean(x: torch.Tensor):
+    """
+    Computes the geometric mean of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor. All elements must be positive.
+
+    Returns
+    -------
+    torch.Tensor
+        The geometric mean value.
+    """
     assert x.ndim == 1 and torch.all(x > 0)
     log_x = torch.log(x)
     mean_log_x = torch.mean(log_x)
@@ -74,6 +168,21 @@ def geometric_mean(x: torch.Tensor):
 
 
 def batch_geometric_mean(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the geometric mean along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor. All elements must be positive.
+    dim : int
+        The dimension along which to compute the geometric mean (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The geometric mean values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1] and torch.all(x > 0)
 
     log_x = torch.log(x)
@@ -82,6 +191,21 @@ def batch_geometric_mean(x: torch.Tensor, dim: int = 1):
 
 
 def harmonic_mean(x: torch.Tensor, weights=None):
+    """
+    Computes the harmonic mean of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor. All elements must be positive.
+    weights : torch.Tensor, optional
+        The weights for each element in `x`.
+
+    Returns
+    -------
+    torch.Tensor
+        The harmonic mean value.
+    """
     assert x.ndim == 1 and torch.all(x > 0)
 
     if weights is None:
@@ -94,6 +218,23 @@ def harmonic_mean(x: torch.Tensor, weights=None):
 
 
 def batch_harmonic_mean(x: torch.Tensor, weights=None, dim: int = 1):
+    """
+    Computes the harmonic mean along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor. All elements must be positive.
+    weights : torch.Tensor, optional
+        The weights for each element in the specified dimension.
+    dim : int
+        The dimension along which to compute the harmonic mean (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The harmonic mean values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1] and torch.all(x > 0)
 
     if weights is not None:
@@ -108,32 +249,116 @@ def batch_harmonic_mean(x: torch.Tensor, weights=None, dim: int = 1):
 
 
 def median(x: torch.Tensor):
+    """
+    Computes the median of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The median value.
+    """
     assert x.ndim == 1
     return torch.median(x)
 
 
 def batch_median(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the median along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the median (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The median values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     return torch.median(x, dim=dim).values
 
 
 def mode(x: torch.Tensor):
+    """
+    Computes the mode of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The mode value.
+    """
     assert x.ndim == 1
     return torch.mode(x)
 
 
 def batch_mode(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the mode along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the mode (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The mode values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     return torch.mode(x, dim=dim)
 
 
 def entropy(x: torch.Tensor):
+    """
+    Computes the entropy of a probability distribution represented by a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor. Values must sum to 1.
+
+    Returns
+    -------
+    torch.Tensor
+        The entropy value.
+    """
     assert x.ndim == 1 and torch.all(x >= 0) and torch.isclose(torch.sum(x), torch.tensor(1.0)), "The tensor values must sum to 1."
     entropy_value = -torch.sum(x * torch.log(x + 1e-12))
     return entropy_value
 
 
 def batch_entropy(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the entropy along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor. Values in each dimension must sum to 1.
+    dim : int
+        The dimension along which to compute the entropy (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The entropy values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     assert torch.all(x >= 0) and torch.allclose(torch.sum(x, dim=dim), torch.tensor(1.0))
     entropy_values = -torch.sum((x+1e-12) * torch.log(x), dim=dim)
@@ -141,32 +366,116 @@ def batch_entropy(x: torch.Tensor, dim: int = 1):
 
 
 def variance(x: torch.Tensor):
+    """
+    Computes the variance of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The variance value.
+    """
     assert x.ndim == 1
     return torch.var(x)
 
 
 def batch_variance(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the variance along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the variance (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The variance values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     return torch.var(x, dim=dim)
 
 
 def std(x: torch.Tensor):
+    """
+    Computes the standard deviation of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The standard deviation value.
+    """
     assert x.ndim == 1
     return torch.std(x)
 
 
 def batch_std(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the standard deviation along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the standard deviation (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The standard deviation values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     return torch.std(x, dim=dim)
 
 
 def skewness(x: torch.Tensor):
+    """
+    Computes the skewness of a 1D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 1D tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        The skewness value.
+    """
     assert x.ndim == 1
     skewness_value = torch.mean((x - torch.mean(x)) ** 3) / (torch.std(x, unbiased=False) ** 3 + 1e-12)
     return skewness_value
 
 
 def batch_skewness(x: torch.Tensor, dim: int = 1):
+    """
+    Computes the skewness along a specified dimension for a 2D tensor.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input 2D tensor.
+    dim : int
+        The dimension along which to compute the skewness (0 or 1).
+
+    Returns
+    -------
+    torch.Tensor
+        The skewness values along the specified dimension.
+    """
     assert x.ndim == 2 and dim in [0, 1]
     skewness_value = torch.mean((x - torch.mean(x, dim=dim, keepdim=True)) ** 3, dim=dim) / (torch.std(x, dim=dim, unbiased=False, keepdim=True) ** 3 + 1e-12)
     return skewness_value.squeeze(dim)

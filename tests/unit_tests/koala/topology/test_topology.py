@@ -56,7 +56,7 @@ class TestBaseTopology:
 
     def test_normalized_matrix(self, sample_topology):
         matrix, metadata = sample_topology.to_matrix(normalization=True, normalization_mode='column')
-        assert torch.isclose(matrix.sum(dim=0), torch.tensor(1.0)).all()
+        assert torch.isclose(matrix.to_dense().sum(dim=0), torch.tensor(1.0)).all()
 
 
 class TestChain:
@@ -64,12 +64,12 @@ class TestChain:
     def test_chain_initialization(self):
         chain_topology = chain(length=4)
         assert chain_topology.get_node_num() == 4
-        assert chain_topology.get_link_num() == 4
-        assert chain_topology.length() == 4
+        assert chain_topology.get_link_num() == 3
+        assert chain_topology.length() == 3
 
     def test_chain_links(self):
         chain_topology = chain(length=4)
-        expected_links = [(0, 1), (1, 2), (2, 3), (3, 4)]
+        expected_links = [(0, 1), (1, 2), (2, 3)]
         assert chain_topology.get_links() == expected_links
 
 

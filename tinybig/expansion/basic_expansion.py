@@ -114,21 +114,21 @@ class identity_expansion(transformation):
         >>> import torch
         >>> from tinybig.expansion import identity_expansion
         >>> expansion = identity_expansion(name='identity_expansion')
-        >>> x = torch.Tensor([0.5, 0.5])
+        >>> x = torch.Tensor([[0.5, 0.5]])
         >>> kappa_x = expansion(x)
         >>> kappa_x
-        tensor([0.5000, 0.5000])
+        tensor([[0.5000, 0.5000]])
 
         >>> import torch.nn.functional as F
         >>> expansion_with_preprocessing = identity_expansion(name='identity_expansion_with_preprocessing', preprocess_functions=F.relu)
         >>> kappa_x = expansion_with_preprocessing(x)
         >>> kappa_x
-        tensor([0.5000, 0.5000])
+        tensor([[0.5000, 0.5000]])
 
         >>> expansion_with_postprocessing = identity_expansion(name='identity_expansion_with_postprocessing', postprocess_functions=F.sigmoid)
         >>> kappa_x = expansion_with_postprocessing(x)
         >>> kappa_x
-        tensor([0.6225, 0.6225])
+        tensor([[0.6225, 0.6225]])
 
         Parameters
         ----------

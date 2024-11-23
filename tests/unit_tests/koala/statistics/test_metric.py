@@ -7,8 +7,6 @@
 ####################################
 
 
-# test_statistical_metrics.py
-
 import pytest
 import torch
 from tinybig.koala.statistics.metric import metric

@@ -15,6 +15,32 @@ def kernel(
     x: torch.Tensor = None, x2: torch.Tensor = None,
     *args, **kwargs
 ):
+    """
+    Selects and applies a specific kernel function based on the given name.
+
+    Parameters
+    ----------
+    kernel_name : str
+        Name of the kernel function to be used. Options include:
+        'pearson_correlation', 'kl_divergence', 'rv_coefficient',
+        'mutual_information', 'custom_hybrid', and their batch counterparts.
+    x : torch.Tensor
+        The first input tensor for the kernel function.
+    x2 : torch.Tensor, optional
+        The second input tensor for pairwise kernel functions.
+    *args, **kwargs
+        Additional arguments for specific kernel functions.
+
+    Returns
+    -------
+    torch.Tensor
+        The result of the selected kernel function.
+
+    Raises
+    ------
+    ValueError
+        If the specified kernel function is not supported.
+    """
 
     if 'batch' in kernel_name:
         assert x is not None and x2 is None
@@ -41,6 +67,28 @@ def kernel(
 
 
 def pearson_correlation_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0):
+    """
+    Computes the Pearson correlation coefficient.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor for correlation computation.
+    x2 : torch.Tensor, optional
+        Second input tensor for pairwise correlation. If None, computes for a batch.
+    dim : int, optional
+        Dimension along which to compute the correlation. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        Pearson correlation coefficient or matrix.
+
+    Raises
+    ------
+    ValueError
+        If input dimensions are invalid or inputs are empty.
+    """
     if x2 is None:
         return batch_pearson_correlation_kernel(x=x, dim=dim)
     else:
@@ -48,6 +96,26 @@ def pearson_correlation_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: in
 
 
 def instance_pearson_correlation_kernel(x1: torch.Tensor, x2: torch.Tensor):
+    """
+    Computes the Pearson correlation coefficient between two 1D tensors.
+
+    Parameters
+    ----------
+    x1 : torch.Tensor
+        First input tensor.
+    x2 : torch.Tensor
+        Second input tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        Pearson correlation coefficient.
+
+    Raises
+    ------
+    ValueError
+        If inputs are empty, have invalid dimensions, or do not match in size.
+    """
     if x1 is None or x2 is None or x1.numel() == 0 or x2.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x1.ndim != 1 or x1.shape != x2.shape:
@@ -66,6 +134,26 @@ def instance_pearson_correlation_kernel(x1: torch.Tensor, x2: torch.Tensor):
 
 
 def batch_pearson_correlation_kernel(x: torch.Tensor, dim: int = 0):
+    """
+    Computes the Pearson correlation coefficient matrix for a batch of inputs.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor of shape (n_samples, n_features).
+    dim : int, optional
+        Dimension along which to compute correlation. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        Matrix of Pearson correlation coefficients.
+
+    Raises
+    ------
+    ValueError
+        If the input tensor is invalid or dimension is incorrect.
+    """
     if x is None or x.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x.ndim != 2:
@@ -89,6 +177,28 @@ def batch_pearson_correlation_kernel(x: torch.Tensor, dim: int = 0):
 
 
 def kl_divergence_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0):
+    """
+    Computes the KL Divergence between distributions.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor representing probabilities.
+    x2 : torch.Tensor, optional
+        Second tensor representing probabilities for pairwise divergence.
+    dim : int, optional
+        Dimension along which divergence is calculated. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        KL Divergence value or matrix.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or have mismatched dimensions.
+    """
     if x2 is None:
         return batch_kl_divergence_kernel(x=x, dim=dim)
     else:
@@ -96,6 +206,26 @@ def kl_divergence_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0)
 
 
 def instance_kl_divergence_kernel(x1: torch.Tensor, x2: torch.Tensor):
+    """
+    Computes the KL Divergence between two distributions.
+
+    Parameters
+    ----------
+    x1 : torch.Tensor
+        First probability distribution tensor.
+    x2 : torch.Tensor
+        Second probability distribution tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        KL Divergence value.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or have mismatched dimensions.
+    """
     if x1 is None or x2 is None or x1.numel() == 0 or x2.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x1.ndim != 1 or x1.shape != x2.shape:
@@ -110,6 +240,26 @@ def instance_kl_divergence_kernel(x1: torch.Tensor, x2: torch.Tensor):
 
 
 def batch_kl_divergence_kernel(x: torch.Tensor, dim: int = 0):
+    """
+    Computes the KL Divergence for a batch of distributions.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor of shape (n_samples, n_features).
+    dim : int, optional
+        Dimension along which divergence is calculated. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        KL Divergence matrix.
+
+    Raises
+    ------
+    ValueError
+        If input tensor is invalid or dimensions are incorrect.
+    """
     if x is None or x.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x.ndim != 2:
@@ -131,6 +281,28 @@ def batch_kl_divergence_kernel(x: torch.Tensor, dim: int = 0):
 
 
 def rv_coefficient_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0):
+    """
+    Computes the RV Coefficient for tensors.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor for correlation computation.
+    x2 : torch.Tensor, optional
+        Second tensor for pairwise coefficient computation.
+    dim : int, optional
+        Dimension along which the coefficient is computed. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        RV Coefficient value or matrix.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or dimensions are mismatched.
+    """
     if x2 is None:
         return batch_rv_coefficient_kernel(x=x, dim=dim)
     else:
@@ -138,6 +310,26 @@ def rv_coefficient_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0
 
 
 def instance_rv_coefficient_kernel(x1: torch.Tensor, x2: torch.Tensor):
+    """
+    Computes the RV Coefficient between two 1D tensors.
+
+    Parameters
+    ----------
+    x1 : torch.Tensor
+        First input tensor.
+    x2 : torch.Tensor
+        Second input tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        RV Coefficient value.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or dimensions are mismatched.
+    """
     if x1 is None or x2 is None or x1.numel() == 0 or x2.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x1.ndim != 1 or x1.shape != x2.shape:
@@ -159,6 +351,26 @@ def instance_rv_coefficient_kernel(x1: torch.Tensor, x2: torch.Tensor):
 
 
 def batch_rv_coefficient_kernel(x: torch.Tensor, dim: int = 0):
+    """
+    Computes the RV Coefficient matrix for a batch of inputs.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor of shape (n_samples, n_features).
+    dim : int, optional
+        Dimension along which coefficients are computed. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        RV Coefficient matrix.
+
+    Raises
+    ------
+    ValueError
+        If input tensor is invalid or dimensions are incorrect.
+    """
     if x is None or x.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x.ndim != 2:
@@ -203,6 +415,28 @@ def batch_rv_coefficient_kernel(x: torch.Tensor, dim: int = 0):
 
 
 def mutual_information_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int = 0):
+    """
+    Computes the Mutual Information for tensors.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor for correlation computation.
+    x2 : torch.Tensor, optional
+        Second tensor for pairwise computation.
+    dim : int, optional
+        Dimension along which the information is computed. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        Mutual Information value or matrix.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or dimensions are mismatched.
+    """
     if x2 is None:
         return batch_mutual_information_kernel(x=x, dim=dim)
     else:
@@ -210,6 +444,26 @@ def mutual_information_kernel(x: torch.Tensor, x2: torch.Tensor = None, dim: int
 
 
 def instance_mutual_information_kernel(x1: torch.Tensor, x2: torch.Tensor):
+    """
+    Computes the Mutual Information between two 1D tensors.
+
+    Parameters
+    ----------
+    x1 : torch.Tensor
+        First input tensor.
+    x2 : torch.Tensor
+        Second input tensor.
+
+    Returns
+    -------
+    torch.Tensor
+        Mutual Information value.
+
+    Raises
+    ------
+    ValueError
+        If inputs are invalid or dimensions are mismatched.
+    """
     if x1 is None or x2 is None or x1.numel() == 0 or x2.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x1.ndim != 1 or x1.shape != x2.shape:
@@ -230,6 +484,26 @@ def instance_mutual_information_kernel(x1: torch.Tensor, x2: torch.Tensor):
 
 
 def batch_mutual_information_kernel(x: torch.Tensor, dim: int = 0):
+    """
+    Computes the Mutual Information matrix for a batch of inputs.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        Input tensor of shape (n_samples, n_features).
+    dim : int, optional
+        Dimension along which information is computed. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        Mutual Information matrix.
+
+    Raises
+    ------
+    ValueError
+        If input tensor is invalid or dimensions are incorrect.
+    """
     if x is None or x.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x.ndim != 2:
@@ -283,6 +557,32 @@ def batch_mutual_information_kernel(x: torch.Tensor, dim: int = 0):
 
 
 def custom_hybrid_kernel(x: torch.Tensor, x2: torch.Tensor = None, kernels: List[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]] = None, weights: Union[List, Tuple, float] = None, dim: int = 0):
+    """
+    Combines multiple kernel functions into a custom hybrid kernel.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        First input tensor.
+    x2 : torch.Tensor, optional
+        Second input tensor for pairwise kernels.
+    kernels : list of callables
+        Kernel functions to combine.
+    weights : list, tuple, or float
+        Weights for combining the kernel functions.
+    dim : int, optional
+        Dimension for applying the kernels. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        Combined hybrid kernel output.
+
+    Raises
+    ------
+    ValueError
+        If the number of kernels and weights do not match or inputs are invalid.
+    """
     if x2 is None:
         return batch_custom_hybrid_kernel(x=x, kernels=kernels, weights=weights, dim=dim)
     else:
@@ -290,6 +590,32 @@ def custom_hybrid_kernel(x: torch.Tensor, x2: torch.Tensor = None, kernels: List
 
 
 def instance_custom_hybrid_kernel(x1: torch.Tensor, x2: torch.Tensor, kernels: List[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]], weights: Union[List, Tuple, float] = None):
+    """
+    Combines multiple kernel functions to compute a hybrid kernel value for two 1D tensors.
+
+    Parameters
+    ----------
+    x1 : torch.Tensor
+        The first input tensor, must be 1D.
+    x2 : torch.Tensor
+        The second input tensor, must be 1D and of the same shape as `x1`.
+    kernels : list of callable
+        A list of kernel functions to combine.
+    weights : list, tuple, or float, optional
+        Weights for combining the kernel functions. If None, equal weights are assigned to all kernels.
+
+    Returns
+    -------
+    torch.Tensor
+        The combined hybrid kernel value for `x1` and `x2`.
+
+    Raises
+    ------
+    ValueError
+        If input tensors are None, empty, or not 1D.
+        If the number of kernels and weights do not match.
+        If kernel outputs have inconsistent shapes.
+    """
     if x1 is None or x2 is None or x1.numel() == 0 or x2.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x1.ndim != 1 or x1.shape != x2.shape:
@@ -319,6 +645,33 @@ def instance_custom_hybrid_kernel(x1: torch.Tensor, x2: torch.Tensor, kernels: L
 
 
 def batch_custom_hybrid_kernel(x: torch.Tensor, kernels: List[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]], weights: Union[List, Tuple, float] = None, dim: int = 0):
+    """
+    Combines multiple kernel functions to compute a hybrid kernel matrix for a batch of 2D tensors.
+
+    Parameters
+    ----------
+    x : torch.Tensor
+        The input tensor, must be 2D with shape (n_samples, n_features).
+    kernels : list of callable
+        A list of kernel functions to combine.
+    weights : list, tuple, or float, optional
+        Weights for combining the kernel functions. If None, equal weights are assigned to all kernels.
+    dim : int, optional
+        The dimension for applying the kernels. Must be 0 or 1. Default is 0.
+
+    Returns
+    -------
+    torch.Tensor
+        The combined hybrid kernel matrix.
+
+    Raises
+    ------
+    ValueError
+        If the input tensor is None, empty, or not 2D.
+        If `dim` is not 0 or 1.
+        If the number of kernels and weights do not match.
+        If kernel outputs have inconsistent shapes.
+    """
     if x is None or x.numel() == 0:
         raise ValueError("Input tensors must not be None or empty")
     if x.ndim != 2:

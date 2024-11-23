@@ -6,6 +6,23 @@
 # Linear Algebra Library #
 ##########################
 
+"""
+This module provides the libraries of "linear algebra" that can be used to build the RPN model within the tinyBIG toolkit.
+
+## Linear Algebra Library
+
+Linear algebra is a captivating branch of mathematics that serves as the backbone of modern scientific computation and data analysis.
+At its heart, this field explores the elegant interplay between linear equations, vectors, and matrices, providing powerful tools to solve complex problems in multiple dimensions.
+
+## Functions Implementation
+
+Currently, the functions implemented in this library include
+
+* metrics, and batch metrics
+* kernels, and batch kernels
+* matrix operations
+
+"""
 
 from tinybig.koala.linear_algebra.metric import (
     metric,

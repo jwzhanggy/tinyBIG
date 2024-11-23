@@ -6,6 +6,24 @@
 # Statistics Library #
 ######################
 
+"""
+
+This module provides the libraries of "statistics" that can be used to build the RPN model within the tinyBIG toolkit.
+
+## Statistics Library
+
+Statistics is discipline that serves as the lens through which we make sense of our data-driven world,
+transforming raw numbers into meaningful insights and informed decisions.
+
+## Functions Implementation
+
+Currently, the functions implemented in this library include:
+
+* metrics, and batch metrics
+* kernels, and batch kernels
+
+"""
+
 from tinybig.koala.statistics.metric import (
     metric,
     mean, batch_mean,

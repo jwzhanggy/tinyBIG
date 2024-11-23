@@ -14,19 +14,30 @@ import torch
 
 def matrix_power(mx: torch.Tensor, n: int) -> torch.Tensor:
     """
-    The matrix power calculates the powers of input matrix.
+    Compute the nth power of a square matrix.
 
     Parameters
     ----------
-    mx: torch.Tensor
-        The matrix to be powered.
-    n: int
-        The power of the matrix.
+    mx : torch.Tensor
+        The input matrix, must be square (2D tensor).
+    n : int
+        The exponent to raise the matrix to.
 
     Returns
     -------
     torch.Tensor
-        The matrix power.
+        The matrix raised to the nth power.
+
+    Notes
+    -----
+    - If n = 0, the identity matrix of the same size as `mx` is returned.
+    - If n = 1, the input matrix `mx` is returned.
+    - For n > 1, recursive computation is used.
+
+    Raises
+    ------
+    AssertionError
+        If the input matrix is not 2D.
     """
     assert mx is not None and mx.ndim == 2
 
@@ -44,19 +55,24 @@ def matrix_power(mx: torch.Tensor, n: int) -> torch.Tensor:
 
 def accumulative_matrix_power(mx: torch.Tensor, n: int) -> torch.Tensor:
     """
-    The accumulative matrix power is defined as the summation of matrix powers from 1 to n.
+    Compute the sum of matrix powers from 1 to n.
 
     Parameters
     ----------
-    mx: torch.Tensor
-        The input matrix.
-    n: int
-        The highest power order.
+    mx : torch.Tensor
+        The input matrix, must be square (2D tensor).
+    n : int
+        The highest power to sum up to.
 
     Returns
     -------
     torch.Tensor
-        The summation of matrix powers from 1 to n.
+        The accumulative matrix power, i.e., mx + mx^2 + ... + mx^n.
+
+    Raises
+    ------
+    AssertionError
+        If the input matrix is not 2D.
     """
     assert mx is not None and mx.ndim == 2
 
@@ -72,19 +88,29 @@ def accumulative_matrix_power(mx: torch.Tensor, n: int) -> torch.Tensor:
 
 def degree_based_normalize_matrix(mx: torch.Tensor, mode: str = "row") -> torch.Tensor:
     """
-    Degree-based normalization of the matrix.
+    Normalize a matrix based on its row or column sums.
 
     Parameters
     ----------
-    mx: torch.Tensor
-        The input matrix (can be dense or sparse).
-    mode: str
-        The normalization mode. Can be 'row', 'column', or 'row-column'.
+    mx : torch.Tensor
+        The input matrix, can be dense or sparse.
+    mode : str
+        The normalization mode:
+        - "row": Normalize each row by its sum.
+        - "column": Normalize each column by its sum.
+        - "row_column": Normalize both rows and columns by their respective sums.
 
     Returns
     -------
     torch.Tensor
-        The normalized matrix.
+        The degree-normalized matrix.
+
+    Raises
+    ------
+    ValueError
+        If an invalid mode is specified.
+    AssertionError
+        If the input matrix is not 2D.
     """
     sparse_tag = False
     if mx.is_sparse:
@@ -133,23 +159,35 @@ def operator_based_normalize_matrix(
     mode="row"
 ) -> torch.Tensor:
     """
-    Applies normalization using a specified operator.
+    Normalize a matrix using a custom operator.
 
     Parameters
     ----------
-    mx: torch.Tensor
-        The input matrix (can be dense or sparse).
-    rescale_factor: float
-        Factor by which to rescale the input matrix.
-    operator: callable
-        Function to apply for normalization (e.g., softmax).
-    mode: str
-        The normalization mode. Can be 'row', 'column', or 'row-column'.
+    mx : torch.Tensor
+        The input matrix, can be dense or sparse.
+    mask_zeros : bool, optional
+        Whether to mask zero elements before normalization.
+    rescale_factor : float, optional
+        A scaling factor to adjust the matrix values.
+    operator : callable
+        A function applied for normalization (e.g., `softmax`).
+    mode : str
+        The normalization mode:
+        - "row": Apply the operator row-wise.
+        - "column": Apply the operator column-wise.
+        - "row_column": Apply the operator first row-wise, then column-wise.
 
     Returns
     -------
     torch.Tensor
-        The normalized matrix.
+        The operator-normalized matrix.
+
+    Raises
+    ------
+    ValueError
+        If an invalid mode is specified.
+    AssertionError
+        If the input matrix is not 2D.
     """
     if mx.is_sparse:
         mx = mx.to_dense()  # Convert sparse matrix to dense
@@ -185,14 +223,27 @@ def operator_based_normalize_matrix(
 
 def mean_std_based_normalize_matrix(mx: torch.Tensor, mode="column"):
     """
-    Normalize the input tensor X based on the specified mode.
+    Normalize a matrix based on its mean and standard deviation.
 
-    Parameters:
-        X (torch.Tensor): Input data tensor of shape (t, n) where t denotes timestamps and n denotes stock instances.
-        mode (str): Mode of normalization. Possible values are "row", "column", or "row_column".
+    Parameters
+    ----------
+    mx : torch.Tensor
+        The input matrix.
+    mode : str
+        The normalization mode:
+        - "row": Normalize each row.
+        - "column": Normalize each column.
+        - "row_column" or "all": Normalize based on global mean and standard deviation.
 
-    Returns:
-        torch.Tensor: Normalized tensor X.
+    Returns
+    -------
+    torch.Tensor
+        The normalized matrix.
+
+    Raises
+    ------
+    ValueError
+        If an invalid mode is specified.
     """
     if mode == "row":
         # Normalize each row (across instances)
@@ -214,7 +265,19 @@ def mean_std_based_normalize_matrix(mx: torch.Tensor, mode="column"):
 
 
 def sparse_mx_to_torch_sparse_tensor(sparse_mx):
-    """Convert a scipy sparse matrix to a torch sparse tensor."""
+    """
+    Convert a scipy sparse matrix to a PyTorch sparse tensor.
+
+    Parameters
+    ----------
+    sparse_mx : scipy.sparse matrix
+        The input sparse matrix in scipy format.
+
+    Returns
+    -------
+    torch.sparse.Tensor
+        The converted PyTorch sparse tensor.
+    """
     sparse_mx = sparse_mx.tocoo().astype(np.float32)
     indices = torch.from_numpy(
         np.vstack((sparse_mx.row, sparse_mx.col)).astype(np.int64))

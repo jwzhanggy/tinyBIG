@@ -52,7 +52,7 @@ class Test_Harr_Wavelet:
 class Test_Beta_Wavelet:
 
     def test_beta_wavelet_initialization(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             wavelet = beta_wavelet(alpha=0.5, beta=0.5)  # Invalid alpha, beta
 
     def test_beta_wavelet_psi(self):
@@ -109,7 +109,7 @@ class Test_Ricker_Wavelet:
 class Test_Dog_Wavelet:
 
     def test_dog_wavelet_initialization(self):
-        with pytest.raises(AssertionError):
+        with pytest.raises(ValueError):
             wavelet = dog_wavelet(sigma_1=-1.0, sigma_2=-1.0)  # Invalid sigmas
 
     def test_dog_wavelet_psi(self):
