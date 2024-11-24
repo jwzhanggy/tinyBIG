@@ -18,14 +18,76 @@ from tinybig.config.base_config import config
 
 
 class function:
+    """
+    Base class for defining and handling functions in the RPN model.
+
+    This class provides mechanisms for managing, applying, and serializing functions,
+    including custom callable functions, predefined operations, and string-based function recognition.
+
+    Parameters
+    ----------
+    name : str, optional
+        The name of the function, by default 'base_function'.
+    device : str, optional
+        The computational device for the function, by default 'cpu'.
+    *args : tuple
+        Additional positional arguments.
+    **kwargs : dict
+        Additional keyword arguments.
+    """
     def __init__(self, name: str = 'base_function', device: str = 'cpu', *args, **kwargs):
+        """
+        Initializes the base function with a name and device.
+
+        Parameters
+        ----------
+        name : str, optional
+            The name of the function, by default 'base_function'.
+        device : str, optional
+            The computational device for the function, by default 'cpu'.
+        *args : tuple
+            Additional positional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+        """
         self.name = name
         self.device = device
 
+    def get_name(self):
+        """
+        The name retrieval method of the function.
+
+        It returns the name of the function.
+
+        Returns
+        -------
+        str
+            The name of the function.
+        """
+        return self.name
+
     def __call__(self, *args, **kwargs):
+        """
+        Calls the `forward` method of the function.
+
+        Parameters
+        ----------
+        *args : tuple
+            Positional arguments for the `forward` method.
+        **kwargs : dict
+            Keyword arguments for the `forward` method.
+        """
         self.forward(*args, **kwargs)
 
     def to_config(self):
+        """
+        Serializes the function into a dictionary configuration.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the class name and parameters of the function.
+        """
         class_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
         attributes = {attr: getattr(self, attr) for attr in self.__dict__}
         return {
@@ -219,6 +281,23 @@ class function:
 
     @staticmethod
     def functions_to_configs(functions: list | tuple | Callable, class_name: str = 'function_class', parameter_name: str = 'function_parameters'):
+        """
+        Converts a list of functions into a serialized configuration.
+
+        Parameters
+        ----------
+        functions : list | tuple | Callable
+            A list of functions or a single callable function to serialize.
+        class_name : str, optional
+            The key for the class name in the configuration, by default 'function_class'.
+        parameter_name : str, optional
+            The key for the parameters in the configuration, by default 'function_parameters'.
+
+        Returns
+        -------
+        list or dict
+            A serialized configuration of the functions.
+        """
         if functions is None:
             return None
         elif isinstance(functions, Callable):
@@ -235,5 +314,17 @@ class function:
 
     @abstractmethod
     def forward(self, *args, **kwargs):
+        """
+        Abstract method for the forward pass of the function.
+
+        This method must be implemented in subclasses.
+
+        Parameters
+        ----------
+        *args : tuple
+            Positional arguments for the function.
+        **kwargs : dict
+            Keyword arguments for the function.
+        """
         pass
 

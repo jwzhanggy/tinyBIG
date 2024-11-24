@@ -61,9 +61,6 @@ class fabrication(Module, function):
     __init__
         It initializes the parameter fabrication function.
 
-    get_name
-        It gets the name of the parameter fabrication function.
-
     calculate_l
         It calculates the length of required parameters.
 
@@ -107,19 +104,6 @@ class fabrication(Module, function):
 
         self.require_parameters = require_parameters
         self.enable_bias = enable_bias
-
-    def get_name(self):
-        """
-        The name retrieval method of the parameter fabrication function.
-
-        It returns the name of the parameter fabrication function.
-
-        Returns
-        -------
-        str
-            The name of the parameter fabrication function.
-        """
-        return self.name
 
     @abstractmethod
     def calculate_l(self, n: int, D: int):

@@ -64,9 +64,6 @@ class transformation(Module, function):
     __init__
         It initializes the data transformation function.
 
-    get_name
-        It gets the name of the data transformation function.
-
     pre_process
         It performs the pre-processing of the input data before transformation.
 
@@ -188,6 +185,32 @@ class transformation(Module, function):
         return function.func_x(x, self.postprocess_functions, device=device)
 
     def to_config(self):
+        """
+        Converts the current instance of the `interdependence` class into a configuration dictionary.
+
+        This method generates a configuration dictionary containing the class name and the current
+        attributes of the instance. The preprocessing and postprocessing functions are excluded
+        from the attributes and replaced with their respective configuration details if available.
+
+        Returns
+        -------
+        dict
+            A dictionary representing the configuration of the `interdependence` instance with the following structure:
+            {
+                "function_class": str,
+                    The fully qualified class name, including the module and class name.
+                "function_parameters": dict,
+                    The instance attributes as key-value pairs, excluding `preprocess_functions`
+                    and `postprocess_functions`. If `preprocess_functions` or `postprocess_functions`
+                    are defined, their configurations are included under `preprocess_function_configs`
+                    and `postprocess_function_configs`, respectively.
+            }
+
+        See Also
+        --------
+        function.functions_to_configs : Converts functions or a list of functions into configuration dictionaries.
+        """
+
         class_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
         attributes = {attr: getattr(self, attr) for attr in self.__dict__}
         attributes.pop('preprocess_functions')

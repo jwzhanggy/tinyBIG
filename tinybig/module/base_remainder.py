@@ -64,9 +64,6 @@ class remainder(Module, function):
     __init__
         It initializes the remainder function.
 
-    get_name
-        It gets the name of the remainder function.
-
     activation
         It applies the activation functions to data calculated in this remainder function.
 
@@ -118,20 +115,6 @@ class remainder(Module, function):
         self.enable_bias = enable_bias
         self.activation_functions = config.instantiation_functions(activation_functions, activation_function_configs, device=self.device)
 
-    def get_name(self):
-        """
-        The name retrieval method of the remainder function.
-
-        It returns the name of the remainder function.
-
-        Returns
-        -------
-        str
-            The name of the remainder function.
-        """
-
-        return self.name
-
     def activation(self, x: torch.Tensor, device='cpu', *args, **kwargs):
         """
         The activation method of remainder function.
@@ -153,6 +136,30 @@ class remainder(Module, function):
         return function.func_x(x, self.activation_functions, device=device)
 
     def to_config(self):
+        """
+        Converts the current instance of the `remainder` function into a configuration dictionary.
+
+        This method creates a configuration dictionary containing the class name and the current
+        attributes of the remainder function. The `activation_functions` attribute is excluded from the
+        attributes dictionary and replaced with its configuration details if it is defined.
+
+        Returns
+        -------
+        dict
+            A dictionary representing the configuration of the instance with the following structure:
+            {
+                "function_class": str,
+                    The fully qualified class name, including the module and class name.
+                "function_parameters": dict,
+                    The instance attributes as key-value pairs, excluding `activation_functions`.
+                    If `activation_functions` is defined, its configuration is included under
+                    `activation_function_configs`.
+            }
+
+        See Also
+        --------
+        function.functions_to_configs : Converts functions or a list of functions into configuration dictionaries.
+        """
         class_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
         attributes = {attr: getattr(self, attr) for attr in self.__dict__}
         attributes.pop('activation_functions')

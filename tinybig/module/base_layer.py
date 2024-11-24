@@ -176,15 +176,58 @@ class layer(Module, function):
         self.create_learnable_parameters(init_type=self.parameters_init_method)
 
     def get_m(self):
+        """
+        Retrieves the input dimension of the layer.
+
+        Returns
+        -------
+        int
+            The input dimension (`m`) of the layer.
+        """
         return self.m
 
     def get_n(self):
+        """
+        Retrieves the output dimension of the layer.
+
+        If the layer uses a fusion component, this method calculates the output dimension based
+        on the fusion component's configuration.
+
+        Returns
+        -------
+        int
+            The output dimension (`n`) of the layer.
+        """
         if self.head_fusion is not None:
             return self.head_fusion.calculate_n()
         else:
             return self.n
 
     def create_learnable_parameters(self, initialize_parameter_at_creation: bool = False, init_type='xavier_uniform', init_bias=True, *args, **kwargs):
+
+        """
+        Creates and optionally initializes learnable parameters for the fusion component.
+
+        This method is responsible for creating any learnable parameters required by the fusion component
+        of the layer. It also supports optional parameter initialization.
+
+        Parameters
+        ----------
+        initialize_parameter_at_creation : bool, default = False
+            Whether to initialize the parameters at the time of their creation.
+        init_type : str, default = 'xavier_uniform'
+            The type of initialization to apply. Supported types include:
+            - 'xavier_uniform': Xavier uniform initialization.
+            - 'kaiming_uniform': Kaiming uniform initialization.
+        init_bias : bool, default = True
+            Whether to initialize biases in the parameters, if applicable.
+
+        Returns
+        -------
+        None
+            This method does not return any value. It updates the layer's attributes in-place.
+        """
+
         if self.head_fusion is not None and self.head_fusion.require_parameters:
             l = self.head_fusion.calculate_l()
             self.w_head_fusion = torch.nn.Parameter(torch.rand(1, l))
@@ -230,18 +273,37 @@ class layer(Module, function):
 
     def get_width(self):
         """
-        The head number retrieval method.
-
-        It returns the head number of the layer.
+        Retrieves the number of heads in the layer.
 
         Returns
         -------
         int
-            The number of heads in the layer.
+            The number of heads in the multi-head RPN layer.
         """
         return len(self.heads)
 
     def to_config(self):
+        """
+        Converts the layer instance into a configuration dictionary.
+
+        This method generates a configuration dictionary that captures the class name, its attributes,
+        and the configurations of its heads and fusion components. It can be used to save or reconstruct
+        the layer.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the class name and parameters:
+            - "layer_class": The full class name of the layer.
+            - "layer_parameters": A dictionary of layer attributes, including:
+              - "name": The name of the layer.
+              - "device": The device hosting the layer.
+              - "m": The input dimension.
+              - "n": The output dimension.
+              - "head_configs": A list of configurations for the heads in the layer.
+              - "head_fusion_configs": The configuration of the fusion component, if present.
+
+        """
         layer_class = f"{self.__class__.__module__}.{self.__class__.__name__}"
         layer_parameters = {
             'name': self.name,

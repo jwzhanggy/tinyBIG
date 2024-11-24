@@ -61,53 +61,73 @@ class head(Module, function):
         The input dimension of the head.
     n: int
         The output dimension of the head.
-    l: int, default = None
-        The number of parameter for each channel in the head.
-    channel_num: int, default = 1
+    l: int, optional
+        The number of parameters for each channel in the head.
+    channel_num: int, default=1
         The number of channels in the head.
-    data_transformation: object, default = None
-        The data transformation function of the head. The data transformation can be initialized directly
-        with this parameter or with the data_transformation_config parameter.
-    parameter_fabrication: object, default = None
-        The parameter fabrication function of the head. The parameter fabrication can be initialized directly
-        with this parameter or with the parameter_fabrication_config parameter.
-    remainder: object, default = None
-        The remainder function the head. The remainder can be initialized directly
-        with this parameter or with the remainder_config parameter.
-    w: torch.nn.Parameter, default = None
-        The parameters used for the parameter reconciliation function of length $l$ for each channel,
-        which will be fabricated into a parameter matrix of shape $(n, D)$.
-    b: torch.nn.Parameter, default = None
-        The (optional) bias parameters used for the parameter reconciliation function.
-    w_remainder: torch.nn.Parameter, default = None
-        The (optional) parameters used for the remainder function.
-    b_remainder: torch.nn.Parameter, default = None
-        The (optional) bias parameters used for the remainder function.
-    device: str, default = 'cpu'
-        The device for hosting the head.
+    batch_num: int, optional
+        The batch size used in instance interdependence functions.
+    data_transformation: object, optional
+        The data transformation function for the head.
+    parameter_fabrication: object, optional
+        The parameter fabrication function for the head.
+    remainder: object, optional
+        The remainder function for the head.
+    w: torch.nn.Parameter, optional
+        Parameters for parameter reconciliation, with a length of $l$ per channel.
+    b: torch.nn.Parameter, optional
+        Bias parameters for parameter reconciliation.
+    w_remainder: torch.nn.Parameter, optional
+        Parameters for the remainder function.
+    b_remainder: torch.nn.Parameter, optional
+        Bias parameters for the remainder function.
+    device: str, default='cpu'
+        The device hosting the head.
 
     Methods
-    ----------
+    -------
     __init__
-        The initialization method of the RPN-head with multiple channels.
-
+        Initializes the RPN head with multi-channel settings.
+    get_m
+        Retrieves the input dimension of the head.
+    get_n
+        Retrieves the output dimension of the head.
+    get_channel_num
+        Retrieves the number of channels in the head.
+    get_batch_num
+        Retrieves the batch size used in instance interdependence functions.
+    create_learnable_parameters
+        Creates learnable parameters for the head.
     initialize_parameters
-        The parameter initialization method.
-
-    initialize_parameters_kaiming
-        The kaiming parameter initialization method.
-
-    initialize_parameters_xavier
-        The xavier initialization method.
-
-    output_processing
-        The output processing method of the head.
-
+        Initializes parameters for the head using various strategies.
+    initialize_parameters_fanout_std_uniform
+        Initializes parameters with a fan-out-based uniform distribution.
+    initialize_parameters_kaiming_uniform
+        Initializes parameters using the Kaiming uniform distribution.
+    initialize_parameters_xavier_uniform
+        Initializes parameters using the Xavier uniform distribution.
+    initialize_parameters_xavier_normal
+        Initializes parameters using the Xavier normal distribution.
+    to_config
+        Converts the head configuration into a dictionary format.
+    calculate_kappa_x
+        Computes the transformed data $\kappa(\mathbf{x})$.
+    calculate_phi_w
+        Computes the reconciled parameters $\psi(\mathbf{w})$.
+    calculate_pi_x
+        Computes the remainder term $\pi(\mathbf{x})$.
+    calculate_attribute_xi_x
+        Computes the attribute interdependence $\xi_{\text{attribute}}(\mathbf{x})$.
+    calculate_instance_xi_x
+        Computes the instance interdependence $\xi_{\text{instance}}(\mathbf{x})$.
+    calculate_kappa_xi_x
+        Computes the combined transformed and interdependent data.
+    calculate_inner_product
+        Computes the inner product of $\kappa(\mathbf{x})$ and $\psi(\mathbf{w})$.
+    fusion
+        Combines the multi-channel outputs into a single output.
     forward
-        The forward method of the RPN head module.
-
-    __call__
-        The re-implementation of the builtin callable method based on the forward method.
+        Executes the forward pass of the head.
     """
     def __init__(
         self,
@@ -231,15 +251,47 @@ class head(Module, function):
             self.create_learnable_parameters()
 
     def get_m(self):
+        """
+        Retrieves the input dimension (`m`) of the head.
+
+        Returns
+        -------
+        int
+            The input dimension of the head.
+        """
         return self.m
 
     def get_n(self):
+        """
+        Retrieves the output dimension (`n`) of the head.
+
+        Returns
+        -------
+        int
+            The output dimension of the head.
+        """
         return self.n
 
     def get_channel_num(self):
+        """
+        Retrieves the number of channels in the head.
+
+        Returns
+        -------
+        int
+            The number of channels in the head.
+        """
         return self.channel_num
 
     def get_batch_num(self):
+        """
+        Retrieves the batch size used in instance interdependence functions.
+
+        Returns
+        -------
+        int or None
+            The batch size used for instance interdependence, or None if not specified.
+        """
         return self.batch_num
 
     def create_learnable_parameters(
@@ -249,6 +301,25 @@ class head(Module, function):
         init_bias: bool = True,
         *args, **kwargs
     ):
+        """
+        Creates learnable parameters for the head.
+
+        This method creates parameters for data transformation, parameter reconciliation,
+        remainder functions, and channel fusion based on the head configuration.
+
+        Parameters
+        ----------
+        initialize_parameter_at_creation: bool, default=False
+            Whether to initialize parameters during creation.
+        init_type: str, default='xavier_uniform'
+            The initialization method for parameters.
+        init_bias: bool, default=True
+            Whether to initialize bias parameters.
+
+        Returns
+        -------
+        None
+        """
         m_prime, b_prime = self.m, self.batch_num
 
         if self.attribute_interdependence is not None:
@@ -486,6 +557,17 @@ class head(Module, function):
                 torch.nn.init.xavier_normal_(self.b_remainder.view(1, -1))
 
     def to_config(self):
+        """
+        Converts the configuration of the head into a dictionary.
+
+        This includes the head's attributes, such as dimensions, transformation functions,
+        interdependence functions, fabrication functions, and remainder functions.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the head's class and parameter configurations.
+        """
         head_class = f"{self.__class__.__module__}.{self.__class__.__name__}"
         head_parameters = {
             'name': self.name,
@@ -520,6 +602,23 @@ class head(Module, function):
         }
 
     def calculate_kappa_x(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        r"""
+        Computes the transformed data $\kappa(\mathbf{x})$ using the data transformation function.
+
+        If no data transformation function is defined, the input data is returned as-is.
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data to be transformed.
+        device: str, default='cpu'
+            The device to execute the data transformation.
+
+        Returns
+        -------
+        torch.Tensor
+            The transformed data $\kappa(\mathbf{x})$.
+        """
         if self.data_transformation is not None:
             if self.data_transformation.device != device:
                 self.data_transformation.to(device)
@@ -530,6 +629,23 @@ class head(Module, function):
             return x
 
     def calculate_phi_w(self, D: int, channel_index: int = 0, device='cpu', *args, **kwargs):
+        r"""
+        Computes the reconciled parameters $\psi(\mathbf{w})$ for a specific channel.
+
+        Parameters
+        ----------
+        D: int
+            The dimensionality of the transformed data $\kappa(\mathbf{x})$.
+        channel_index: int, default=0
+            The index of the channel for which parameters are computed.
+        device: str, default='cpu'
+            The device to execute the parameter reconciliation.
+
+        Returns
+        -------
+        torch.Tensor or None
+            The reconciled parameters $\psi(\mathbf{w})$ for the specified channel, or None if not applicable.
+        """
         assert channel_index in range(self.channel_num)
 
         if self.parameter_fabrication is not None:
@@ -546,6 +662,21 @@ class head(Module, function):
             return None
 
     def calculate_pi_x(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        r"""
+        Computes the remainder term $\pi(\mathbf{x})$ using the remainder function.
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data to compute the remainder term.
+        device: str, default='cpu'
+            The device to execute the remainder calculation.
+
+        Returns
+        -------
+        torch.Tensor or None
+            The remainder term $\pi(\mathbf{x})$ if a remainder function is defined, otherwise None.
+        """
         if self.remainder is not None:
             if isinstance(self.remainder, tinybig.remainder.zero_remainder):
                 return None
@@ -558,6 +689,25 @@ class head(Module, function):
             return None
 
     def calculate_attribute_xi_x(self, x: torch.Tensor, channel_index: int = 0, kappa_x: torch.Tensor = None, device='cpu', *args, **kwargs):
+        r"""
+        Computes the attribute interdependence $\xi_{\text{attribute}}(\mathbf{x})$.
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data to compute the attribute interdependence.
+        channel_index: int, default=0
+            The index of the channel for which interdependence is computed.
+        kappa_x: torch.Tensor, optional
+            The precomputed transformed data to use for interdependence calculation.
+        device: str, default='cpu'
+            The device to execute the interdependence calculation.
+
+        Returns
+        -------
+        torch.Tensor
+            The attribute interdependence $\xi_{\text{attribute}}(\mathbf{x})$.
+        """
         if self.attribute_interdependence is not None:
             if self.attribute_interdependence.device != device:
                 self.attribute_interdependence.to(device)
@@ -574,6 +724,25 @@ class head(Module, function):
             return kappa_x if kappa_x is not None else x
 
     def calculate_instance_xi_x(self, x: torch.Tensor, channel_index: int = 0, kappa_x: torch.Tensor = None, device='cpu', *args, **kwargs):
+        r"""
+        Computes the instance interdependence $\xi_{\text{instance}}(\mathbf{x})$.
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data to compute the instance interdependence.
+        channel_index: int, default=0
+            The index of the channel for which interdependence is computed.
+        kappa_x: torch.Tensor, optional
+            The precomputed transformed data to use for interdependence calculation.
+        device: str, default='cpu'
+            The device to execute the interdependence calculation.
+
+        Returns
+        -------
+        torch.Tensor
+            The instance interdependence $\xi_{\text{instance}}(\mathbf{x})$.
+        """
         if self.instance_interdependence is not None:
             if self.instance_interdependence.device != device:
                 self.instance_interdependence.to(device)
@@ -589,6 +758,23 @@ class head(Module, function):
 
     # this function checks conditions for faster calculation across multi-channels...
     def calculate_kappa_xi_x(self, x: torch.Tensor, channel_index: int = 0, device='cpu', *args, **kwargs):
+        r"""
+        Computes the combined transformed and interdependent data $\kappa(\xi(\mathbf{x}))$.
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            The input data to compute the combined transformation and interdependence.
+        channel_index: int, default=0
+            The index of the channel for which the computation is performed.
+        device: str, default='cpu'
+            The device to execute the computation.
+
+        Returns
+        -------
+        torch.Tensor
+            The combined transformed and interdependent data $\kappa(\xi(\mathbf{x}))$.
+        """
         # ************** Attribute Interdependence Block **************
         xi_x = self.calculate_attribute_xi_x(x=x, channel_index=channel_index, device=self.device)
         # ************** Data Expansion Block **************
@@ -600,6 +786,23 @@ class head(Module, function):
         return kappa_xi_x
 
     def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device: str = 'cpu', *args, **kwargs):
+        r"""
+        Computes the inner product of $\kappa(\mathbf{x})$ and $\psi(\mathbf{w})$.
+
+        Parameters
+        ----------
+        kappa_xi_x: torch.Tensor
+            The transformed and interdependent input data.
+        phi_w: torch.Tensor
+            The reconciled parameters.
+        device: str, default='cpu'
+            The device hosting the operation.
+
+        Returns
+        -------
+        torch.Tensor
+            The inner product of the transformed data and parameters.
+        """
         if phi_w is not None:
             assert kappa_xi_x.ndim == 2 and phi_w.ndim == 2 and kappa_xi_x.size(-1) == phi_w.size(-1)
             if device != 'mps' and (kappa_xi_x.is_sparse or phi_w.is_sparse):
@@ -613,6 +816,24 @@ class head(Module, function):
         return inner_prod
 
     def fusion(self, inner_products: list[torch.Tensor], device: str = 'cpu', *args, **kwargs):
+        """
+        Combines the multi-channel outputs into a single output.
+
+        If a channel fusion function is defined, it applies the function to combine
+        the inner product results. Otherwise, it returns the first channel's result.
+
+        Parameters
+        ----------
+        inner_products: list of torch.Tensor
+            The inner products computed from each channel.
+        device: str, default='cpu'
+            The device hosting the operation.
+
+        Returns
+        -------
+        torch.Tensor
+            The fused output.
+        """
         if self.channel_fusion is not None:
             assert self.channel_fusion.get_dims() is None or self.channel_fusion.get_num() == len(inner_products)
             result = self.channel_fusion(x=inner_products, w=self.w_channel_fusion, device=device)

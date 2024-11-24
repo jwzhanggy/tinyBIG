@@ -18,13 +18,65 @@ from tinybig.util.utility import create_directory_if_not_exists
 
 
 class model(Module, function):
-    """
+    r"""
     The base model class of the RPN model in the tinyBIG toolkit.
 
     It inherits from the torch.nn.Module class, which also inherits the
     "state_dict" and "load_state_dict" methods from the base class.
 
     ...
+
+    Notes
+    ---------
+
+    ## RPN Model Architecture
+
+    Formally, given the underlying data distribution mapping $f: {R}^m \to {R}^n$,
+    the RPN model proposes to approximate function $f$ as follows:
+    $$
+        \begin{equation}
+            g(\mathbf{x} | \mathbf{w}) = \left \langle \kappa_{\xi} (\mathbf{x}), \psi(\mathbf{w}) \right \rangle + \pi(\mathbf{x}),
+        \end{equation}
+    $$
+
+    The RPN model disentangles input data from model parameters through the expansion functions $\kappa$ and
+    reconciliation function $\psi$, subsequently summed with the remainder function $\pi$, where
+
+    * $\kappa_{\xi}: {R}^m \to {R}^{D}$ is named as the **data interdependent transformation function**. It is a composite function of the **data transformation function** $\kappa$ and the **data interdependence function** $\xi$. Notation $D$ is the target expansion space dimension.
+
+    * $\psi: {R}^l \to {R}^{n \times D}$ is named as the **parameter reconciliation function** (or **parameter fabrication function** to be general), which is defined only on the parameters without any input data.
+
+    * $\pi: {R}^m \to {R}^n$ is named as the **remainder function**.
+
+    * $\xi_a: {R}^{b \times m} \to {R}^{m \times m'}$ and $\xi_i: {R}^{b \times m} \to {R}^{b \times b'}$ defined on the input data batch $\mathbf{X} \in R^{b \times m}$ are named as the **attribute** and **instance data interdependence functions**, respectively.
+
+    ## Deep RPN model with Multi-Layer
+
+    The multi-head multi-channel RPN layer provides RPN with greater capabilities
+    for approximating functions with diverse expansions concurrently.
+    However, such shallow architectures can be insufficient for modeling complex functions.
+    The RPN model can also be designed with a deep architecture by stacking multiple RPN layers on top of each other.
+
+    Formally, we can represent the deep RPN model with multi-layers as follows:
+
+    $$
+        \begin{equation}
+            \begin{cases}
+                \text{Input: } & \mathbf{H}_0  = \mathbf{X},\\\\
+                \text{Layer 1: } & \mathbf{H}_1 = \left\langle \kappa_{\xi, 1}(\mathbf{H}_0), \psi_1(\mathbf{w}_1) \right\rangle + \pi_1(\mathbf{H}_0),\\\\
+                \text{Layer 2: } & \mathbf{H}_2 = \left\langle \kappa_{\xi, 2}(\mathbf{H}_1), \psi_2(\mathbf{w}_2) \right\rangle + \pi_2(\mathbf{H}_1),\\\\
+                \cdots & \cdots \ \cdots\\\\
+                \text{Layer K: } & \mathbf{H}_K = \left\langle \kappa_{\xi, K}(\mathbf{H}_{K-1}), \psi_K(\mathbf{w}_K) \right\rangle + \pi_K(\mathbf{H}_{K-1}),\\\\
+                \text{Output: } & \mathbf{Z}  = \mathbf{H}_K.
+            \end{cases}
+        \end{equation}
+    $$
+
+    In the above equation, the subscripts used above denote the layer index. The dimensions of the outputs at each layer
+    can be represented as a list $[d_0, d_1, \cdots, d_{K-1}, d_K]$, where $d_0 = m$ and $d_K = n$
+    denote the input and the desired output dimensions, respectively.
+    Therefore, if the component functions at each layer of our model have been predetermined, we can just use the dimension
+    list $[d_0, d_1, \cdots, d_{K-1}, d_K]$ to represent the architecture of the RPN model.
 
     Attributes
     ----------
@@ -114,6 +166,36 @@ class model(Module, function):
 
     @abstractmethod
     def to_config(self, *args, **kwargs):
+        """
+        Abstract method to convert the `model` instance into a configuration dictionary.
+
+        This method is intended to be implemented by subclasses. It should generate a dictionary
+        that encapsulates the essential configuration of the model, allowing for reconstruction
+        or serialization of the instance. The specific structure and content of the configuration
+        dictionary are determined by the implementing model.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional positional arguments that might be required by the implementation.
+        **kwargs : dict
+            Additional keyword arguments that might be required by the implementation.
+
+        Returns
+        -------
+        dict
+            A dictionary representing the configuration of the instance. The exact structure and keys
+            depend on the subclass implementation.
+
+        Raises
+        ------
+        NotImplementedError
+            If the method is not implemented in a subclass and is called directly.
+
+        See Also
+        --------
+        BaseClass : The base class where this method is defined.
+        """
         pass
 
     @abstractmethod
