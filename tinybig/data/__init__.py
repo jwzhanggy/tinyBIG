@@ -13,11 +13,13 @@ This module defines several frequently used dataset, which can be used for train
 
 This module contains the following categories of dataloader classes:
 
-* Base Data
-* Function Data
-* Image Data
-* Text Data
-* Tabular Data
+* Base Dataloader
+* Function Dataloaders
+* Image Dataloaders
+* Text Dataloaders
+* Tabular Dataloaders
+* Time Series Dataloaders
+* Graph Dataloaders
 """
 
 

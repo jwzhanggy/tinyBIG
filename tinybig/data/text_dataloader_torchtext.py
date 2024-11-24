@@ -23,34 +23,219 @@ from tinybig.data.base_data import dataloader, dataset
 
 
 class text_dataloader(dataloader):
+    """
+    The base text dataloader class.
 
+    This class provides methods for handling text data, including tokenization, embedding generation, and data loading.
+
+    Attributes
+    ----------
+    name : str, default = 'text_dataloader'
+        The name of the text dataloader.
+    train_batch_size : int
+        The batch size for training data.
+    test_batch_size : int
+        The batch size for testing data.
+    max_seq_len : int, default = 256
+        The maximum sequence length for text data.
+    min_freq : int, default = 10
+        The minimum frequency for including tokens in the vocabulary.
+
+    Methods
+    ----------
+    __init__
+        Initializes the base text dataloader.
+    load_datapipe
+        Abstract method to load data pipelines for training and testing data.
+    get_class_number
+        Abstract method to retrieve the number of classes in the dataset.
+    get_train_number
+        Abstract method to retrieve the number of training examples.
+    get_test_number
+        Abstract method to retrieve the number of testing examples.
+    get_idx_to_label
+        Abstract method to retrieve the mapping from indices to labels.
+    load_transform
+        Loads and returns the text transformation pipeline.
+    get_embedding_dim
+        Retrieves the embedding dimension for the text encoder.
+    load_encoder
+        Loads a pre-trained text encoder model.
+    load_tfidf_vectorizer
+        Loads and returns a TF-IDF vectorizer.
+    load_text
+        Loads raw text data.
+    load_tfidf
+        Loads TF-IDF representations of the data.
+    load_token
+        Loads tokenized representations of the data.
+    load_embedding
+        Loads embeddings generated from the text data.
+    load
+        Loads data based on the specified type (e.g., TF-IDF, tokens, embeddings).
+    load_xlmr
+        Loads data using the XLM-R model for tokenization and embeddings.
+    load_glove
+        Loads data using GloVe embeddings.
+    """
     def __init__(self, train_batch_size: int, test_batch_size: int, name='text_dataloader', max_seq_len: int = 256, min_freq: int = 10):
+        """
+        Initializes the text dataloader with configuration options for sequence length and token frequency.
+
+        Parameters
+        ----------
+        train_batch_size : int
+            The batch size for training data.
+        test_batch_size : int
+            The batch size for testing data.
+        name : str, default = 'text_dataloader'
+            The name of the dataloader.
+        max_seq_len : int, default = 256
+            The maximum sequence length for text data.
+        min_freq : int, default = 10
+            The minimum frequency for tokens to be included in the vocabulary.
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
         self.max_seq_len = max_seq_len
         self.min_freq = min_freq
 
     @abstractmethod
     def load_datapipe(self, cache_dir='./data/', *args, **kwargs):
+        """
+        Abstract method to load the data pipeline.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the data is cached.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Notes
+        -----
+        This method must be implemented in subclasses.
+        """
         pass
 
     @abstractmethod
     def get_class_number(self, *args, **kwargs):
+        """
+        Abstract method to retrieve the number of classes in the dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of classes.
+
+        Notes
+        -----
+        This method must be implemented in subclasses.
+        """
         pass
 
     @abstractmethod
     def get_train_number(self, *args, **kwargs):
+        """
+        Abstract method to retrieve the number of training samples.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of training samples.
+
+        Notes
+        -----
+        This method must be implemented in subclasses.
+        """
         pass
 
     @abstractmethod
     def get_test_number(self, *args, **kwargs):
+        """
+        Abstract method to retrieve the number of testing samples.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of testing samples.
+
+        Notes
+        -----
+        This method must be implemented in subclasses.
+        """
         pass
 
     @abstractmethod
     def get_idx_to_label(self, *args, **kwargs):
+        """
+        Abstract method to retrieve the mapping from indices to labels.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary mapping indices to labels.
+
+        Notes
+        -----
+        This method must be implemented in subclasses.
+        """
         pass
 
     @staticmethod
     def load_transform(max_seq_len, padding_idx: int = 1, bos_idx: int = 0, eos_idx: int = 2, *args, **kwargs):
+        """
+        Loads the text transformation pipeline for preprocessing.
+
+        Parameters
+        ----------
+        max_seq_len : int
+            The maximum sequence length for the transformation.
+        padding_idx : int, default = 1
+            The index used for padding tokens.
+        bos_idx : int, default = 0
+            The index used for beginning-of-sequence tokens.
+        eos_idx : int, default = 2
+            The index used for end-of-sequence tokens.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        torchtext.transforms.Sequential
+            A sequential transformation pipeline for text preprocessing.
+        """
         xlmr_vocab_path = r"https://download.pytorch.org/models/text/xlmr.vocab.pt"
         xlmr_spm_model_path = r"https://download.pytorch.org/models/text/xlmr.sentencepiece.bpe.model"
 
@@ -67,29 +252,145 @@ class text_dataloader(dataloader):
 
     @staticmethod
     def get_embedding_dim(*args, **kwargs):
+        """
+        Retrieves the embedding dimension for the text encoder.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The embedding dimension (768).
+        """
         return 768
 
     @staticmethod
     def load_encoder(cache_dir='./data/', *args, **kwargs):
+        """
+        Loads the pre-trained XLM-R encoder for text embeddings.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the encoder is cached.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        torch.nn.Module
+            The XLM-R encoder model.
+        """
+
         xlmr_base = torchtext.models.XLMR_BASE_ENCODER
         encoder = xlmr_base.get_model()
         encoder.eval()
         return encoder
 
     def load_tfidf_vectorizer(self, sublinear_tf=True, max_df=0.5, min_df=5, stop_words="english", *args, **kwargs):
+        """
+        Loads a TF-IDF vectorizer for text data.
+
+        Parameters
+        ----------
+        sublinear_tf : bool, default = True
+            Whether to apply sublinear term frequency scaling.
+        max_df : float, default = 0.5
+            The maximum document frequency for inclusion in the vocabulary.
+        min_df : int, default = 5
+            The minimum document frequency for inclusion in the vocabulary.
+        stop_words : str, default = "english"
+            The language of stopwords to exclude.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        TfidfVectorizer
+            A TF-IDF vectorizer instance.
+        """
         vectorizer = TfidfVectorizer(sublinear_tf=sublinear_tf, max_df=max_df, min_df=min_df, stop_words=stop_words)
         return vectorizer
 
     def load_text(self, *args, **kwargs):
+        """
+        Loads raw text data.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         return self.load(load_type='text', *args, **kwargs)
 
     def load_tfidf(self, *args, **kwargs):
+        """
+        Loads TF-IDF representations of text data.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         return self.load(load_type='tfidf', *args, **kwargs)
 
     def load_token(self, *args, **kwargs):
+        """
+        Loads tokenized text data.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         return self.load(load_type='token', *args, **kwargs)
 
     def load_embedding(self, *args, **kwargs):
+        """
+        Loads pre-trained embeddings for text data.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         return self.load(load_type='embedding', *args, **kwargs)
 
     def load(
@@ -102,6 +403,38 @@ class text_dataloader(dataloader):
         min_freq: int = 10,
         *args, **kwargs
     ):
+        """
+        General method to load text data in various formats.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the data is cached.
+        load_type : str, default = 'tfidf'
+            The format of the data to load. Options include:
+            - 'tfidf': Load TF-IDF representations.
+            - 'text': Load raw text.
+            - 'token': Load tokenized text.
+            - 'embedding': Load pre-trained embeddings.
+            - 'xlmr_embedding': Load XLM-R embeddings.
+        max_seq_len : int, optional
+            The maximum sequence length for the text data.
+        xy_reversed : bool, default = False
+            Whether to reverse the order of features (X) and labels (Y).
+        max_vocab_size : int, default = 25000
+            The maximum size of the vocabulary.
+        min_freq : int, default = 10
+            The minimum frequency for tokens to be included in the vocabulary.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         max_seq_len = max_seq_len if max_seq_len is not None else self.max_seq_len
 
         if load_type in ['tfidf', 'text', 'token', 'xlmr_embedding']:
@@ -119,6 +452,33 @@ class text_dataloader(dataloader):
         xy_reversed: bool = False,
         *args, **kwargs
     ):
+        """
+        Loads text data using XLM-R (Cross-lingual Model Representations) pipeline.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the data is cached.
+        load_type : str, default = 'tfidf'
+            The format of the data to load. Options include:
+            - 'text': Load raw text.
+            - 'tfidf': Load TF-IDF representations.
+            - 'token': Load tokenized text.
+            - 'xlmr_embedding': Load XLM-R embeddings.
+        max_seq_len : int, optional
+            The maximum sequence length for the text data.
+        xy_reversed : bool, default = False
+            Whether to reverse the order of features (X) and labels (Y).
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         train_datapipe, test_datapipe = self.load_datapipe(cache_dir=cache_dir)
         transform = self.load_transform(max_seq_len=max_seq_len)
         idx_to_label = self.get_idx_to_label()
@@ -177,6 +537,31 @@ class text_dataloader(dataloader):
         xy_reversed: bool = False,
         *args, **kwargs
     ):
+        """
+        Loads text data using GloVe embeddings.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the data is cached.
+        max_vocab_size : int, default = 25000
+            The maximum size of the vocabulary.
+        min_freq : int, default = 10
+            The minimum frequency for tokens to be included in the vocabulary.
+        max_seq_len : int, default = 150
+            The maximum sequence length for the text data.
+        xy_reversed : bool, default = False
+            Whether to reverse the order of features (X) and labels (Y).
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         train_iter, test_iter = self.load_datapipe()
 
         # Create a tokenizer
@@ -259,34 +644,172 @@ class text_dataloader(dataloader):
 
 
 class imdb(text_dataloader):
+    """
+    A dataloader class for the IMDB dataset.
 
+    This class provides methods to load and preprocess the IMDB dataset, which contains movie reviews labeled as positive or negative.
+
+    Attributes
+    ----------
+    name : str, default = 'imdb'
+        The name of the dataset.
+    train_batch_size : int, default = 64
+        The batch size for training data.
+    test_batch_size : int, default = 64
+        The batch size for testing data.
+    max_seq_len : int, default = 512
+        The maximum sequence length for text data.
+
+    Methods
+    ----------
+    __init__
+        Initializes the IMDB dataset dataloader.
+    load
+        Loads the IMDB dataset with reversed (label, text) ordering.
+    load_datapipe
+        Loads training and testing pipelines for the IMDB dataset.
+    get_class_number
+        Returns the number of classes in the IMDB dataset (2).
+    get_train_number
+        Returns the number of training examples (25,000).
+    get_test_number
+        Returns the number of testing examples (25,000).
+    get_idx_to_label
+        Returns the mapping from indices to labels.
+    """
     def __init__(self, name='imdb', train_batch_size=64, test_batch_size=64, max_seq_len: int = 512):
+        """
+        Initializes the IMDB dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'imdb'
+            The name of the dataset.
+        train_batch_size : int, default = 64
+            The batch size for training data.
+        test_batch_size : int, default = 64
+            The batch size for testing data.
+        max_seq_len : int, default = 512
+            The maximum sequence length for text data.
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     def load(self, *args, **kwargs):
+        """
+        Loads the IMDB dataset with reversed (label, text) ordering.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         kwargs['xy_reversed'] = True
         return super().load(*args, **kwargs)
 
     @staticmethod
     def load_datapipe(cache_dir='./data/', *args, **kwargs):
+        """
+        Loads training and testing pipelines for the IMDB dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            Directory to store cached data.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        tuple
+            A tuple containing training and testing data pipelines.
+        """
         train_datapipe = IMDB(root=cache_dir, split="train")
         test_datapipe = IMDB(root=cache_dir, split="test")
         return train_datapipe, test_datapipe
 
     @staticmethod
     def get_class_number(*args, **kwargs):
+        """
+        Returns the number of classes in the IMDB dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of classes (2).
+        """
         return 2
 
     @staticmethod
     def get_train_number(*args, **kwargs):
+        """
+        Returns the number of training examples in the IMDB dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of training examples (25,000).
+        """
         return 25000
 
     @staticmethod
     def get_test_number(*args, **kwargs):
+        """
+        Returns the number of testing examples in the IMDB dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of testing examples (25,000).
+        """
         return 25000
 
     @staticmethod
     def get_idx_to_label(*args, **kwargs):
+        """
+        Returns the mapping from indices to labels for the IMDB dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary mapping indices to labels.
+        """
         return {
             1: 0,
             2: 1,
@@ -294,30 +817,137 @@ class imdb(text_dataloader):
 
 
 class sst2(text_dataloader):
+    """
+    A dataloader class for the SST-2 dataset.
 
+    This class provides methods to load and preprocess the SST-2 dataset, which contains sentiment classification labels for sentences.
+
+    Attributes
+    ----------
+    name : str, default = 'sst2'
+        The name of the dataset.
+    train_batch_size : int, default = 64
+        The batch size for training data.
+    test_batch_size : int, default = 64
+        The batch size for testing data.
+    max_seq_len : int, default = 32
+        The maximum sequence length for text data.
+
+    Methods
+    ----------
+    __init__
+        Initializes the SST-2 dataset dataloader.
+    load_datapipe
+        Loads training and testing pipelines for the SST-2 dataset.
+    get_class_number
+        Returns the number of classes in the SST-2 dataset (2).
+    get_train_number
+        Returns the number of training examples (67,349).
+    get_test_number
+        Returns the number of testing examples (872).
+    get_idx_to_label
+        Returns the mapping from indices to labels.
+    """
     def __init__(self, name='sst2', train_batch_size=64, test_batch_size=64, max_seq_len: int = 32):
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     @staticmethod
     def load_datapipe(cache_dir='./data/', *args, **kwargs):
+        """
+        Loads training and testing pipelines for the SST-2 dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            Directory to store cached data.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        tuple
+            A tuple containing training and testing data pipelines.
+        """
         train_datapipe = SST2(root=cache_dir, split="train")
         test_datapipe = SST2(root=cache_dir, split="dev")
         return train_datapipe, test_datapipe
 
     @staticmethod
     def get_class_number(*args, **kwargs):
+        """
+        Returns the number of classes in the SST-2 dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of classes (2).
+        """
         return 2
 
     @staticmethod
     def get_train_number(*args, **kwargs):
+        """
+        Returns the number of training examples in the SST-2 dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of training examples (67,349).
+        """
         return 67349
 
     @staticmethod
     def get_test_number(*args, **kwargs):
+        """
+        Returns the number of testing examples in the SST-2 dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of testing examples (872).
+        """
         return 872
 
     @staticmethod
     def get_idx_to_label(*args, **kwargs):
+        """
+        Returns the mapping from indices to labels for the SST-2 dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary mapping indices to labels.
+        """
         return {
             0: 0,
             1: 1,
@@ -325,34 +955,172 @@ class sst2(text_dataloader):
 
 
 class agnews(text_dataloader):
+    """
+    A dataloader class for the AG News dataset.
 
+    This class provides methods to load and preprocess the AG News dataset, which contains news articles classified into four categories.
+
+    Attributes
+    ----------
+    name : str, default = 'ag_news'
+        The name of the dataset.
+    train_batch_size : int, default = 64
+        The batch size for training data.
+    test_batch_size : int, default = 64
+        The batch size for testing data.
+    max_seq_len : int, default = 64
+        The maximum sequence length for text data.
+
+    Methods
+    ----------
+    __init__
+        Initializes the AG News dataset dataloader.
+    load
+        Loads the AG News dataset with reversed (label, text) ordering.
+    load_datapipe
+        Loads training and testing pipelines for the AG News dataset.
+    get_class_number
+        Returns the number of classes in the AG News dataset (4).
+    get_train_number
+        Returns the number of training examples (120,000).
+    get_test_number
+        Returns the number of testing examples (7,600).
+    get_idx_to_label
+        Returns the mapping from indices to labels.
+    """
     def __init__(self, name='ag_news', train_batch_size=64, test_batch_size=64, max_seq_len: int = 64):
+        """
+        Initializes the AG News dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'ag_news'
+            The name of the dataset.
+        train_batch_size : int, default = 64
+            The batch size for training data.
+        test_batch_size : int, default = 64
+            The batch size for testing data.
+        max_seq_len : int, default = 64
+            The maximum sequence length for text data.
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, max_seq_len=max_seq_len)
 
     def load(self, *args, **kwargs):
+        """
+        Loads the AG News dataset with reversed (label, text) ordering.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders.
+        """
         kwargs['xy_reversed'] = True
         return super().load(*args, **kwargs)
 
     @staticmethod
     def load_datapipe(cache_dir='./data/', *args, **kwargs):
+        """
+        Loads training and testing pipelines for the AG News dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            Directory to store cached data.
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        tuple
+            A tuple containing training and testing data pipelines.
+        """
         train_datapipe = AG_NEWS(root=cache_dir, split="train")
         test_datapipe = AG_NEWS(root=cache_dir, split="test")
         return train_datapipe, test_datapipe
 
     @staticmethod
     def get_class_number(*args, **kwargs):
+        """
+        Returns the number of classes in the AG News dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of classes (4).
+        """
         return 4
 
     @staticmethod
     def get_train_number(*args, **kwargs):
+        """
+        Returns the number of training examples in the AG News dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of training examples (120,000).
+        """
         return 120000
 
     @staticmethod
     def get_test_number(*args, **kwargs):
+        """
+        Returns the number of testing examples in the AG News dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        int
+            The number of testing examples (7,600).
+        """
         return 7600
 
     @staticmethod
     def get_idx_to_label(*args, **kwargs):
+        """
+        Returns the mapping from indices to labels for the AG News dataset.
+
+        Parameters
+        ----------
+        *args : tuple
+            Additional arguments.
+        **kwargs : dict
+            Additional keyword arguments.
+
+        Returns
+        -------
+        dict
+            A dictionary mapping indices to labels.
+        """
         return {
             1: 0,
             2: 1,
@@ -361,13 +1129,4 @@ class agnews(text_dataloader):
         }
 
 
-if __name__ == '__main__':
-    import time
 
-    print(agnews.get_class_number())
-    dataloader = sst2()
-    data = dataloader.load(load_type='tfidf')
-    print(dataloader.get_class_number())
-    start = time.time()
-    for x, y in data['test_loader']:
-        print(x.shape, y.shape)

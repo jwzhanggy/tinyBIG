@@ -148,22 +148,73 @@ Dimensionless_Feynman_Equations = (
 
 
 class feynman_function(function_dataloader):
+    """
+    A dataloader class for Feynman equations.
+
+    This class extends the `function_dataloader` to handle Feynman equations.
+
+    Attributes
+    ----------
+    name: str, default = 'feynman_function'
+        The name of the dataloader instance.
+    function_list: list, default = Feynman_Equations
+        The list of Feynman equations.
+
+    Methods
+    -------
+    __init__(name='feynman_function', ...)
+        Initializes the dataloader for Feynman equations.
+    """
     def __init__(self, name='feynman_function', function_list: list = Feynman_Equations, *args, **kwargs):
+        """
+        Initializes the dataloader for Feynman equations.
+
+        Parameters
+        ----------
+        name: str, default = 'feynman_function'
+            The name of the dataloader instance.
+        function_list: list, default = Feynman_Equations
+            The list of Feynman equations.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
 
 class dimensionless_feynman_function(function_dataloader):
+    """
+    A dataloader class for dimensionless Feynman equations.
+
+    This class extends the `function_dataloader` to handle dimensionless Feynman equations.
+
+    Attributes
+    ----------
+    name: str, default = 'dimensionless_feynman_function'
+        The name of the dataloader instance.
+    function_list: list, default = Dimensionless_Feynman_Equations
+        The list of dimensionless Feynman equations.
+
+    Methods
+    -------
+    __init__(name='dimensionless_feynman_function', ...)
+        Initializes the dataloader for dimensionless Feynman equations.
+    """
     def __init__(self, name='dimensionless_feynman_function', function_list: list = Dimensionless_Feynman_Equations, *args, **kwargs):
+        """
+        Initializes the dataloader for dimensionless Feynman equations.
+
+        Parameters
+        ----------
+        name: str, default = 'dimensionless_feynman_function'
+            The name of the dataloader instance.
+        function_list: list, default = Dimensionless_Feynman_Equations
+            The list of dimensionless Feynman equations.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
-
-if __name__ == '__main__':
-    feynman_dataloader = dimensionless_feynman_function()
-    print(feynman_dataloader.load_equation())
-    for i in range(0, 27):
-        print(i, feynman_dataloader.load_equation(i))
-        dataloader = feynman_dataloader.load(equation_index=i)
-        for batch in dataloader['train_loader']:
-            inputs, targets = batch
-            print(inputs, targets, inputs.shape, targets.shape)
-            break

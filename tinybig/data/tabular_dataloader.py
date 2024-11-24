@@ -23,13 +23,84 @@ from tinybig.data.base_data import dataloader, dataset
 # headline row: physical meanings and data types of each column
 # remaining rows: data instances (id, features, label)
 class tabular_dataloader(dataloader):
+    """
+    A dataloader class for handling tabular datasets.
 
+    This class extends the base `dataloader` class to support loading, processing,
+    normalizing, and splitting tabular datasets for machine learning tasks.
+
+    Attributes
+    ----------
+    data_contents : list or tuple, optional
+        Raw tabular data contents, directly provided or loaded from a file.
+    train_batch_size : int
+        The batch size for training datasets.
+    test_batch_size : int
+        The batch size for testing datasets.
+
+    Methods
+    -------
+    __init__(name, data_contents, train_batch_size, test_batch_size, ...)
+        Initializes the tabular dataloader.
+    load_file(cache_dir, filename)
+        Loads data from a file.
+    load_raw_data(data_contents, cache_dir, filename)
+        Loads raw data either from `data_contents` or a file.
+    process_data(data_contents, cache_dir, filename, str_converted_to_numerical, ...)
+        Processes raw tabular data into structured formats.
+    load_complete_data(data_contents, cache_dir, filename, ...)
+        Loads and processes the entire dataset into feature and label tensors.
+    normalize(input, normalize_type, normalize_range)
+        Normalizes a tensor using specified normalization techniques.
+    split(X, y, split_type, train_percentage, fold, random_state, shuffle)
+        Splits the dataset into training and testing datasets.
+    load(cache_dir, filename, split_type, train_percentage, fold, random_state, shuffle, ...)
+        Main method to load, normalize, and split tabular data.
+    """
     def __init__(self, name='tabular_dataloader', data_contents: list | tuple = None,
                  train_batch_size=64, test_batch_size=64, *args, **kwargs):
+        """
+        Initializes the tabular dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'tabular_dataloader'
+            The name of the dataloader instance.
+        data_contents : list or tuple, optional
+            Raw data contents provided directly.
+        train_batch_size : int, default = 64
+            The batch size for training datasets.
+        test_batch_size : int, default = 64
+            The batch size for testing datasets.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size, *args, **kwargs)
         self.data_contents = data_contents
 
     def load_file(self, cache_dir: str = None, filename: str = None):
+        """
+        Loads data from a file.
+
+        Parameters
+        ----------
+        cache_dir : str
+            The directory where the file is located.
+        filename : str
+            The name of the file to be loaded.
+
+        Returns
+        -------
+        list
+            A list of rows read from the file.
+
+        Raises
+        ------
+        ValueError
+            If the specified file does not exist.
+        """
         file_path = cache_dir + filename
         if not os.path.exists(file_path):
             raise ValueError('The provided file path doesn\'t exist...'.format(file_path))
@@ -39,6 +110,23 @@ class tabular_dataloader(dataloader):
         return rows
 
     def load_raw_data(self, data_contents=None, cache_dir: str = None, filename: str = None):
+        """
+        Loads raw data either from `data_contents` or from a file.
+
+        Parameters
+        ----------
+        data_contents : list or tuple, optional
+            The raw data contents directly provided.
+        cache_dir : str, optional
+            The directory where the file is located.
+        filename : str, optional
+            The name of the file to be loaded.
+
+        Returns
+        -------
+        list or tuple
+            The raw data contents.
+        """
         data_contents = data_contents if data_contents is not None else self.data_contents
         if data_contents is not None:
             return data_contents
@@ -47,7 +135,25 @@ class tabular_dataloader(dataloader):
 
     def process_data(self, data_contents=None, cache_dir: str = None, filename: str = None,
                      str_converted_to_numerical: bool = True, *args, **kwargs):
+        """
+        Processes raw tabular data into structured formats.
 
+        Parameters
+        ----------
+        data_contents : list or tuple, optional
+            The raw data contents directly provided.
+        cache_dir : str, optional
+            The directory where the file is located.
+        filename : str, optional
+            The name of the file to be processed.
+        str_converted_to_numerical : bool, default = True
+            Whether to convert string columns to numerical values.
+
+        Returns
+        -------
+        dict
+            A dictionary containing processed data with metadata and contents.
+        """
         rows = data_contents if data_contents is not None else self.load_file(cache_dir=cache_dir, filename=filename)
 
         data_dict = {
@@ -118,6 +224,23 @@ class tabular_dataloader(dataloader):
 
     def load_complete_data(self, data_contents: list | tuple = None, cache_dir: str = None,
                            filename: str = None, *args, **kwargs):
+        """
+        Loads and processes the entire dataset into feature and label tensors.
+
+        Parameters
+        ----------
+        data_contents : list or tuple, optional
+            Raw data contents provided directly.
+        cache_dir : str, optional
+            The directory where the file is located.
+        filename : str, optional
+            The name of the file to be loaded.
+
+        Returns
+        -------
+        dict
+            A dictionary containing feature tensor `X`, label tensor `y`, and metadata.
+        """
         data_contents = data_contents if data_contents is not None else self.data_contents
         raw_data = self.process_data(data_contents=data_contents, cache_dir=cache_dir, filename=filename,
                                      str_converted_to_numerical=True, *args, **kwargs)
@@ -149,6 +272,23 @@ class tabular_dataloader(dataloader):
 
     @staticmethod
     def normalize(input: torch.Tensor, normalize_type=None, normalize_range: list | tuple=None):
+        """
+        Normalizes a tensor using specified normalization techniques.
+
+        Parameters
+        ----------
+        input : torch.Tensor
+            The input tensor to be normalized.
+        normalize_type : str, optional
+            The type of normalization ('min_max' or 'mean_std').
+        normalize_range : list or tuple, optional
+            The range for min-max normalization.
+
+        Returns
+        -------
+        torch.Tensor
+            The normalized tensor.
+        """
         if normalize_type == 'min_max':
             if normalize_range is None:
                 min_value, max_value = (0, 1)
@@ -165,6 +305,31 @@ class tabular_dataloader(dataloader):
         return X_scaled
 
     def split(self, X, y, split_type='train_test_split', train_percentage=0.9, fold=10, random_state=1234, shuffle=True):
+        """
+        Splits the dataset into training and testing datasets.
+
+        Parameters
+        ----------
+        X : torch.Tensor
+            The feature tensor.
+        y : torch.Tensor
+            The label tensor.
+        split_type : str, default = 'train_test_split'
+            The type of splitting ('train_test_split' or 'KFold').
+        train_percentage : float, default = 0.9
+            The proportion of data to be used for training in train-test split.
+        fold : int, default = 10
+            Number of folds for cross-validation.
+        random_state : int, default = 1234
+            Random state for reproducibility.
+        shuffle : bool, default = True
+            Whether to shuffle the data before splitting.
+
+        Returns
+        -------
+        tuple
+            Training and testing DataLoaders (or dictionaries in case of KFold).
+        """
         train_loader, test_loader = None, None
         if split_type == 'train_test_split':
             X_train, X_test, y_train, y_test = train_test_split(
@@ -193,7 +358,39 @@ class tabular_dataloader(dataloader):
              random_state: int = 123, shuffle: bool = True,
              normalize_X: bool = False, normalize_y: bool = False,
              normalize_type: str = 'min_max', normalize_range: list | tuple = (0, 1), *args, **kwargs):
+        """
+        Main method to load, normalize, and split tabular data.
 
+        Parameters
+        ----------
+        cache_dir : str, default = './data/'
+            The directory where the data file is located.
+        filename : str, default = 'classic_dataset_filename'
+            The name of the data file.
+        split_type : str, default = 'train_test_split'
+            The type of splitting ('train_test_split' or 'KFold').
+        train_percentage : float, default = 0.9
+            The proportion of data to be used for training in train-test split.
+        fold : int, default = 10
+            Number of folds for cross-validation.
+        random_state : int, default = 123
+            Random state for reproducibility.
+        shuffle : bool, default = True
+            Whether to shuffle the data before splitting.
+        normalize_X : bool, default = False
+            Whether to normalize the feature tensor.
+        normalize_y : bool, default = False
+            Whether to normalize the label tensor.
+        normalize_type : str, default = 'min_max'
+            The type of normalization ('min_max' or 'mean_std').
+        normalize_range : list or tuple, default = (0, 1)
+            The range for min-max normalization.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing DataLoaders, and metadata.
+        """
         complete_data = self.load_complete_data(data_contents=self.data_contents, cache_dir=cache_dir, filename=filename)
         X, y = complete_data['X'], complete_data['y']
 
@@ -5645,37 +5842,152 @@ Wheat_Seeds_Dataset = (
 
 
 class iris(tabular_dataloader):
+    """
+    A dataloader class for the Iris dataset.
+
+    This class extends the `tabular_dataloader` class to load and process the Iris dataset.
+    The Iris dataset contains measurements of four features (sepal length, sepal width, petal length, petal width)
+    for three species of iris flowers.
+
+    Attributes
+    ----------
+    name : str, default = 'iris_dataset'
+        The name of the dataset.
+    data_contents : list or tuple, optional
+        The contents of the Iris dataset, typically provided as a list of data entries.
+
+    Methods
+    ----------
+    __init__(name, data_contents, ...)
+        Initializes the Iris dataset dataloader.
+    """
     def __init__(self, name='iris_dataset', data_contents=Iris_Dataset, *args, **kwargs):
+        """
+        Initializes the Iris dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'iris_dataset'
+            The name of the dataset.
+        data_contents : list or tuple, optional
+            The contents of the Iris dataset.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
 class diabetes(tabular_dataloader):
+    """
+    A dataloader class for the Pima Indians Diabetes dataset.
+
+    This class extends the `tabular_dataloader` class to load and process the Pima Indians Diabetes dataset.
+    The dataset contains medical data for 768 women of Pima Indian heritage, including several diagnostic
+    measurements and a binary label indicating whether the individual has diabetes.
+
+    Attributes
+    ----------
+    name : str, default = 'pima_indians_diabetes_dataset'
+        The name of the dataset.
+    data_contents : list or tuple, optional
+        The contents of the Pima Indians Diabetes dataset, typically provided as a list of data entries.
+
+    Methods
+    ----------
+    __init__(name, data_contents, ...)
+        Initializes the Pima Indians Diabetes dataset dataloader.
+    """
     def __init__(self, name='pima_indians_diabetes_dataset', data_contents=Pima_indian_Diabetes_Dataset, *args, **kwargs):
+        """
+        Initializes the Pima Indians Diabetes dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'pima_indians_diabetes_dataset'
+            The name of the dataset.
+        data_contents : list or tuple, optional
+            The contents of the Pima Indians Diabetes dataset.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
 class banknote(tabular_dataloader):
+    """
+    A dataloader class for the Banknote Authentication dataset.
+
+    This class extends the `tabular_dataloader` class to load and process the Banknote Authentication dataset.
+    The dataset contains features extracted from images of real and forged banknotes.
+
+    Attributes
+    ----------
+    name : str, default = 'banknote_dataset'
+        The name of the dataset.
+    data_contents : list or tuple, optional
+        The contents of the Banknote Authentication dataset, typically provided as a list of data entries.
+
+    Methods
+    ----------
+    __init__(name, data_contents, ...)
+        Initializes the Banknote Authentication dataset dataloader.
+    """
     def __init__(self, name='banknote_dataset', data_contents=Banknote_Dataset, *args, **kwargs):
+        """
+        Initializes the Banknote Authentication dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'banknote_dataset'
+            The name of the dataset.
+        data_contents : list or tuple, optional
+            The contents of the Banknote Authentication dataset.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
 
 class wheat(tabular_dataloader):
+    """
+    A dataloader class for the Wheat Seeds dataset.
+
+    This class extends the `tabular_dataloader` class to load and process the Wheat Seeds dataset.
+    The dataset consists of measurements from wheat plants belonging to three different species.
+
+    Attributes
+    ----------
+    name : str, default = 'wheat_seeds_dataset'
+        The name of the dataset.
+    data_contents : list or tuple, optional
+        The contents of the Wheat Seeds dataset, typically provided as a list of data entries.
+
+    Methods
+    ----------
+    __init__(name, data_contents, ...)
+        Initializes the Wheat Seeds dataset dataloader.
+    """
     def __init__(self, name='wheat_seeds_dataset', data_contents=Wheat_Seeds_Dataset, *args, **kwargs):
+        """
+        Initializes the Wheat Seeds dataset dataloader.
+
+        Parameters
+        ----------
+        name : str, default = 'wheat_seeds_dataset'
+            The name of the dataset.
+        data_contents : list or tuple, optional
+            The contents of the Wheat Seeds dataset.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, data_contents=data_contents, *args, **kwargs)
 
-
-if __name__ == '__main__':
-    loader = wheat()
-    data = loader.load(split_type='cross_validation')
-    print(data['profile'])
-
-    train_loader = data['train_loader']
-    test_loader = data['test_loader']
-    for fold in train_loader:
-        for x, y in train_loader[fold]:
-            print(fold, x, y)
-
-    for fold in train_loader:
-        for x, y in test_loader[fold]:
-            print(fold, x, y)
 

@@ -18,17 +18,102 @@ from tinybig.data.base_data import dataloader
 
 
 class vision_dataloader(dataloader):
+    """
+    Base class for vision-based dataloaders.
+
+    This class serves as a template for vision-based dataloaders, providing an interface for loading datasets.
+
+    Attributes
+    ----------
+    name : str
+        Name of the dataloader.
+    train_batch_size : int
+        Batch size for training data.
+    test_batch_size : int
+        Batch size for testing data.
+
+    Methods
+    -------
+    __init__(...)
+        Initializes the vision dataloader.
+    load()
+        Abstract method for loading the dataset; must be implemented in subclasses.
+    """
     def __init__(self, train_batch_size: int, test_batch_size: int,  name: str = 'vision_dataloader', *args, **kwargs):
+        """
+        Initializes the vision dataloader.
+
+        Parameters
+        ----------
+        train_batch_size : int
+            Batch size for training data.
+        test_batch_size : int
+            Batch size for testing data.
+        name : str, optional
+            Name of the dataloader, default is 'vision_dataloader'.
+        *args, **kwargs
+            Additional arguments for the parent class initialization.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     @abstractmethod
     def load(self):
+        """
+        Abstract method for loading the dataset.
+
+        This method must be implemented in subclasses to handle dataset-specific loading logic.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the train and test dataloaders.
+        """
         pass
 
 
 class imagenet(vision_dataloader):
+    """
+    A dataloader for the ImageNet dataset.
 
+    Handles loading and preprocessing of the ImageNet dataset.
+
+    Attributes
+    ----------
+    name : str
+        Name of the dataloader, default is 'imagenet'.
+    train_batch_size : int
+        Batch size for training data.
+    test_batch_size : int
+        Batch size for testing data.
+
+    Methods
+    -------
+    __init__(...)
+        Initializes the ImageNet dataloader.
+    load(...)
+        Loads and preprocesses the ImageNet dataset.
+    """
     def __init__(self, name='imagenet', train_batch_size: int = 64, test_batch_size: int = 64):
+        """
+        Initializes the ImageNet dataloader.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the dataloader, default is 'imagenet'.
+        train_batch_size : int, optional
+            Batch size for training data, default is 64.
+        test_batch_size : int, optional
+            Batch size for testing data, default is 64.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     # @staticmethod
@@ -37,6 +122,21 @@ class imagenet(vision_dataloader):
     #     return x.view(-1)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
+        """
+        Loads and preprocesses the ImageNet dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, optional
+            Directory to cache the dataset, default is './data/'.
+        *args, **kwargs
+            Additional arguments for dataset loading.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the train and test dataloaders.
+        """
         imagenet_transform = transforms.Compose([
             transforms.Resize(256),
             transforms.RandomResizedCrop(224),
@@ -58,11 +158,62 @@ class imagenet(vision_dataloader):
 
 
 class cifar10(vision_dataloader):
+    """
+    A dataloader for the CIFAR-10 dataset.
 
+    Handles loading and preprocessing of the CIFAR-10 dataset.
+
+    Attributes
+    ----------
+    name : str
+        Name of the dataloader, default is 'cifar10'.
+    train_batch_size : int
+        Batch size for training data.
+    test_batch_size : int
+        Batch size for testing data.
+
+    Methods
+    -------
+    __init__(...)
+        Initializes the CIFAR-10 dataloader.
+    load(...)
+        Loads and preprocesses the CIFAR-10 dataset.
+    """
     def __init__(self, name='cifar10', train_batch_size: int = 64, test_batch_size: int = 64):
+        """
+        Initializes the CIFAR-10 dataloader.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the dataloader, default is 'cifar10'.
+        train_batch_size : int, optional
+            Batch size for training data, default is 64.
+        test_batch_size : int, optional
+            Batch size for testing data, default is 64.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
+        """
+        Loads and preprocesses the CIFAR-10 dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, optional
+            Directory to cache the dataset, default is './data/'.
+        *args, **kwargs
+            Additional arguments for dataset loading.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the train and test dataloaders, and the class labels.
+        """
         transform = Compose([
             # transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
@@ -85,11 +236,63 @@ class cifar10(vision_dataloader):
 
 
 class mnist(vision_dataloader):
+    """
+    A dataloader for the MNIST dataset.
 
+    Handles loading and preprocessing of the MNIST dataset.
+
+    Attributes
+    ----------
+    name : str
+        Name of the dataloader, default is 'mnist'.
+    train_batch_size : int
+        Batch size for training data.
+    test_batch_size : int
+        Batch size for testing data.
+
+    Methods
+    -------
+    __init__(...)
+        Initializes the MNIST dataloader.
+    load(...)
+        Loads and preprocesses the MNIST dataset.
+    """
     def __init__(self, name='mnist', train_batch_size: int = 64, test_batch_size: int = 64):
+        """
+        Initializes the MNIST dataloader.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the dataloader, default is 'mnist'.
+        train_batch_size : int, optional
+            Batch size for training data, default is 64.
+        test_batch_size : int, optional
+            Batch size for testing data, default is 64.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
     def load(self, cache_dir='./data/', *args, **kwargs):
+        """
+        Loads and preprocesses the MNIST dataset.
+
+        Parameters
+        ----------
+        cache_dir : str, optional
+            Directory to cache the dataset, default is './data/'.
+        *args, **kwargs
+            Additional arguments for dataset loading.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the train and test dataloaders.
+        """
+
         transform = Compose([
             # transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),

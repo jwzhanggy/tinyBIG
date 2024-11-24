@@ -21,38 +21,52 @@ from torch.utils.data import Dataset, DataLoader
 
 from tinybig.config.base_config import config
 
+
 class dataloader:
     """
     The base dataloader class.
 
-    It defines the base dataloader class that can be used for loading data from files.
+    This class defines a base structure for loading data from files and provides utility methods
+    for configuration management and label encoding.
 
     Attributes
     ----------
-    name: str, default = 'base_dataloader'
-        The name of the base dataloader class.
+    name: str
+        The name of the dataloader instance.
+    train_batch_size: int
+        The batch size for training data.
+    test_batch_size: int
+        The batch size for testing data.
 
     Methods
-    ----------
-    __init__
-        The base dataloader class initialization method.
-
-    load
-        The load method for loading the data from file.
+    -------
+    __init__(train_batch_size: int, test_batch_size: int, name: str = 'base_dataloader', *args, **kwargs)
+        Initializes the base dataloader class.
+    from_config(configs: dict)
+        Instantiates a dataloader object from a configuration dictionary.
+    to_config()
+        Exports the dataloader object to a configuration dictionary.
+    encode_str_labels(labels: Union[List, Tuple, np.array], one_hot: bool = False, device: str = 'cpu')
+        Encodes string labels into numeric representations, optionally as one-hot vectors.
+    load(*args, **kwargs)
+        Abstract method to load data from a file, to be implemented by subclasses.
     """
     def __init__(self, train_batch_size: int, test_batch_size: int, name: str = 'base_dataloader', *args, **kwargs):
         """
-        The initialization method of base dataloader.
+        Initializes the base dataloader class.
 
         Parameters
         ----------
+        train_batch_size: int
+            The batch size for training data.
+        test_batch_size: int
+            The batch size for testing data.
         name: str, default = 'base_dataloader'
-            The name of the base loader class object.
+            The name of the dataloader instance.
 
         Returns
-        ----------
-        object
-            The initialized object of the base dataloader class.
+        -------
+        None
         """
         self.name = name
         self.train_batch_size = train_batch_size
@@ -60,6 +74,24 @@ class dataloader:
 
     @staticmethod
     def from_config(configs: dict):
+        """
+        Instantiates a dataloader object from a configuration dictionary.
+
+        Parameters
+        ----------
+        configs: dict
+            The configuration dictionary containing 'data_class' and optional 'data_parameters'.
+
+        Returns
+        -------
+        dataloader
+            An instance of the dataloader class specified in the configuration.
+
+        Raises
+        ------
+        ValueError
+            If the provided configuration is None or lacks the 'data_class' key.
+        """
         if configs is None:
             raise ValueError("configs cannot be None")
         assert 'data_class' in configs
@@ -68,6 +100,14 @@ class dataloader:
         return config.get_obj_from_str(class_name)(**parameters)
 
     def to_config(self):
+        """
+        Exports the dataloader object to a configuration dictionary.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the class name and attributes of the dataloader instance.
+        """
         class_name = self.__class__.__name__
         attributes = {attr: getattr(self, attr) for attr in self.__dict__}
 
@@ -78,6 +118,28 @@ class dataloader:
 
     @staticmethod
     def encode_str_labels(labels: Union[List, Tuple, np.array], one_hot: bool = False, device: str = 'cpu'):
+        """
+        Encodes string labels into numeric representations.
+
+        Parameters
+        ----------
+        labels: Union[List, Tuple, np.array]
+            The list of string labels to encode.
+        one_hot: bool, default = False
+            Whether to encode labels as one-hot vectors.
+        device: str, default = 'cpu'
+            The device to use for the encoded tensor.
+
+        Returns
+        -------
+        torch.Tensor
+            Encoded labels as a tensor.
+
+        Raises
+        ------
+        ValueError
+            If the labels are None or empty.
+        """
         if labels is None or len(labels) == 0:
             raise ValueError("labels cannot be None")
 
@@ -93,62 +155,58 @@ class dataloader:
     @abstractmethod
     def load(self, *args, **kwargs):
         """
-        The load function of the base dataloader class.
+        Abstract method for loading data from a file.
 
-        It loads the data from file in the dataloader class.
-        This method is declared to be abstract, and needs to be implemented in the inherited class.
+        This method must be implemented in subclasses to define specific data loading logic.
 
+        Returns
+        -------
+        None
         """
         pass
 
-import time
 
 class dataset(Dataset):
     """
     The dataset base class.
 
-    It defines the template of the dataset, composed of X, y and optional encoder of the features.
+    This class serves as a template for datasets, providing basic functionality for
+    managing input features, labels, and optional feature encoders.
 
     Attributes
     ----------
     X: Any
-        The inputs/features of the data instances in the batch.
+        The input features of the dataset instances.
     y: Any
-        The outputs/labels of the data instances in the batch.
+        The output labels of the dataset instances.
     encoder: Any, default = None
-        The optional encoder, which can be used for text dataset to project text to the embeddings.
+        An optional encoder for feature transformations (e.g., text to embeddings).
 
     Methods
-    ----------
-    __init__
-        The dataset initialization method.
-
-    __len__
-        The size method of the input data batch.
-
-    __getitem__
-        The item retrieval method of the input data batch with certain index.
+    -------
+    __init__(X, y, encoder=None, *args, **kwargs)
+        Initializes the dataset with input features, labels, and an optional encoder.
+    __len__()
+        Returns the number of instances in the dataset.
+    __getitem__(idx, *args, **kwargs)
+        Retrieves the feature and label of a data instance by index.
     """
     def __init__(self, X, y, encoder=None, *args, **kwargs):
         """
-        The initialization method of the base dataset class.
-
-        It initializes the dataset class object,
-        involving the input features X, output labels y and the optional encoder.
+        Initializes the dataset class.
 
         Parameters
         ----------
         X: Any
-            The inputs/features of the data instances in the batch.
+            The input features of the dataset instances.
         y: Any
-            The outputs/labels of the data instances in the batch.
+            The output labels of the dataset instances.
         encoder: Any, default = None
-            The optional encoder, which can be used for text dataset to project text to the embeddings.
+            An optional encoder for feature transformations (e.g., text to embeddings).
 
         Returns
-        ----------
-        object
-            The initialized object of the base dataset.
+        -------
+        None
         """
         super().__init__()
         self.X = X
@@ -157,32 +215,30 @@ class dataset(Dataset):
 
     def __len__(self):
         """
-        The batch size method.
-
-        It reimplements the built-in batch size method.
+        Returns the number of instances in the dataset.
 
         Returns
         -------
         int
-            The batch size of the input data instance set.
+            The size of the dataset.
         """
         return len(self.X)
 
     def __getitem__(self, idx, *args, **kwargs):
         """
-        The item retrieval method.
+        Retrieves the feature and label of a data instance by index.
 
-        It returns the feature and label of data instances with certain index.
+        If an encoder is defined, the feature is transformed using the encoder.
 
         Parameters
         ----------
         idx: int
-            The index of the data instance to be retrieved.
+            The index of the data instance to retrieve.
 
         Returns
         -------
         tuple
-            The retrieved feature and label of the data instance.
+            A tuple containing the feature and label of the data instance.
         """
         if self.encoder is None:
             sample = self.X[idx]

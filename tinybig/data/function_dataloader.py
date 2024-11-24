@@ -16,13 +16,78 @@ from tinybig.module.base_function import function
 
 
 class function_dataloader(dataloader):
+    """
+    A dataloader class for handling mathematical functions and equations.
 
+    This class extends the base `dataloader` class to provide functionality for loading equations,
+    processing variables, and generating datasets based on mathematical formulas.
+
+    Attributes
+    ----------
+    name: str
+        The name of the dataloader instance.
+    function_list: list
+        A list of string representations of mathematical functions or equations.
+    equation_index: int
+        The index of the currently selected equation.
+
+    Methods
+    -------
+    __init__(name='function_dataloader', function_list: list = [], equation_index: int = 0, ...)
+        Initializes the function dataloader.
+    load_equation(index: int = 0)
+        Loads and processes an equation from the `function_list` by its index.
+    load_all_equations()
+        Loads and processes all equations in the `function_list`.
+    generate_data(formula: str, variables: dict, num: int = 2000, value_range: list = (0, 1), ...)
+        Generates synthetic data based on a given formula and variable ranges.
+    load(equation_index: int = None, ...)
+        Loads training and testing datasets for a specified equation.
+    """
     def __init__(self, name='function_dataloader', function_list: list = [], equation_index: int = 0, train_batch_size=64, test_batch_size=64):
+        """
+        Initializes the function dataloader with a list of equations and configurations.
+
+        Parameters
+        ----------
+        name: str, default = 'function_dataloader'
+            The name of the dataloader instance.
+        function_list: list, default = []
+            A list of string representations of mathematical functions or equations.
+        equation_index: int, default = 0
+            The index of the currently selected equation.
+        train_batch_size: int, default = 64
+            The batch size for training data.
+        test_batch_size: int, default = 64
+            The batch size for testing data.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
         self.equation_index = equation_index
         self.function_list = function_list
 
     def load_equation(self, index: int = 0):
+        """
+        Loads and processes a specific equation from the function list.
+
+        Parameters
+        ----------
+        index: int, default = 0
+            The index of the equation to load. If None, the default `equation_index` is used.
+
+        Returns
+        -------
+        tuple
+            A tuple containing the processed equation dictionary and the original string representation.
+
+        Raises
+        ------
+        AssertionError
+            If the index is out of range of the `function_list`.
+        """
         index = index if index is not None else self.equation_index
 
         if index is None:
@@ -52,6 +117,15 @@ class function_dataloader(dataloader):
             return processed_equation, str_equation
 
     def load_all_equations(self):
+        """
+        Loads and processes all equations in the `function_list`.
+
+        Returns
+        -------
+        dict
+            A dictionary where each key is an equation index, and the value is a tuple containing the
+            processed equation dictionary and the original string representation.
+        """
         processed_equations = {}
         for index in range(0, len(self.function_list)):
             processed_equations[index] = self.load_equation(index=index)
@@ -60,6 +134,34 @@ class function_dataloader(dataloader):
     @staticmethod
     def generate_data(formula: str, variables: dict, num: int = 2000, value_range: list = (0, 1),
                       normalize_X: bool = False, normalize_y: bool = False, *args, **kwargs):
+        """
+        Generates synthetic data based on a formula and variable ranges.
+
+        Parameters
+        ----------
+        formula: str
+            The mathematical formula to generate data for.
+        variables: dict
+            A dictionary of variable names and their respective ranges.
+        num: int, default = 2000
+            The number of data samples to generate.
+        value_range: list, default = [0, 1]
+            The default range for variables if not specified in `variables`.
+        normalize_X: bool, default = False
+            Whether to normalize the input features.
+        normalize_y: bool, default = False
+            Whether to normalize the output values.
+
+        Returns
+        -------
+        tuple
+            A tuple containing input features `X` and output values `y` as tensors.
+
+        Raises
+        ------
+        AssertionError
+            If variable ranges are not properly specified.
+        """
         var_name_list = []
         var_value_space = []
         for var in variables:
@@ -92,7 +194,34 @@ class function_dataloader(dataloader):
 
     def load(self, equation_index: int = None, cache_dir='./data/', num=2000,
              train_percentage=0.5, random_state=1234, shuffle=False, *args, **kwargs):
+        """
+        Loads training and testing datasets for a specified equation.
 
+        Parameters
+        ----------
+        equation_index: int, default = None
+            The index of the equation to load. If None, the default `equation_index` is used.
+        cache_dir: str, default = './data/'
+            The directory for caching data.
+        num: int, default = 2000
+            The number of data samples to generate.
+        train_percentage: float, default = 0.5
+            The percentage of data to use for training.
+        random_state: int, default = 1234
+            The random seed for reproducibility.
+        shuffle: bool, default = False
+            Whether to shuffle the data before splitting.
+
+        Returns
+        -------
+        dict
+            A dictionary containing training and testing data loaders, and the equation string.
+
+        Raises
+        ------
+        ValueError
+            If the `equation_index` is invalid or out of range.
+        """
         equation_index = equation_index if equation_index is not None else self.equation_index
 
         if type(equation_index) is not int or equation_index not in range(0, len(self.function_list)):
@@ -164,21 +293,77 @@ Composite_Function_Equations = (
 
 
 class elementary_function(function_dataloader):
+    """
+    A dataloader class for elementary functions.
+
+    This class extends the `function_dataloader` to handle elementary mathematical functions.
+
+    Attributes
+    ----------
+    name: str, default = 'elementary_function'
+        The name of the dataloader instance.
+    function_list: list, default = Elementary_Function_Equations
+        The list of elementary function equations.
+
+    Methods
+    -------
+    __init__(name='elementary_function', ...)
+        Initializes the dataloader for elementary functions.
+    """
     def __init__(self, name='elementary_function', function_list: list = Elementary_Function_Equations, *args, **kwargs):
+        """
+        A dataloader class for elementary functions.
+
+        This class extends the `function_dataloader` to handle elementary mathematical functions.
+
+        Attributes
+        ----------
+        name: str, default = 'elementary_function'
+            The name of the dataloader instance.
+        function_list: list, default = Elementary_Function_Equations
+            The list of elementary function equations.
+
+        Methods
+        -------
+        __init__(name='elementary_function', ...)
+            Initializes the dataloader for elementary functions.
+        """
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
 
 class composite_function(function_dataloader):
+    """
+    A dataloader class for composite functions.
+
+    This class extends the `function_dataloader` to handle composite mathematical functions.
+
+    Attributes
+    ----------
+    name: str, default = 'composite_function'
+        The name of the dataloader instance.
+    function_list: list, default = Composite_Function_Equations
+        The list of composite function equations.
+
+    Methods
+    -------
+    __init__(name='composite_function', ...)
+        Initializes the dataloader for composite functions.
+    """
     def __init__(self, name='composite_function', function_list: list = Composite_Function_Equations, *args, **kwargs):
+        """
+        Initializes the dataloader for composite functions.
+
+        Parameters
+        ----------
+        name: str, default = 'composite_function'
+            The name of the dataloader instance.
+        function_list: list, default = Composite_Function_Equations
+            The list of composite function equations.
+
+        Returns
+        -------
+        None
+        """
         super().__init__(name=name, function_list=function_list, *args, **kwargs)
 
 
-if __name__ == '__main__':
-    dataloader = elementary_function()
-    print(dataloader.load_equation())
-    for i in range(0, 8):
-        data = dataloader.load(equation_index=i)
-        for batch in data['train_loader']:
-            inputs, targets = batch
-            print(i, targets.tolist())
-            break
