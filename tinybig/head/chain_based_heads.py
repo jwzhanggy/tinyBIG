@@ -6,6 +6,14 @@
 # Chain Based Head Modules #
 ###########################
 
+"""
+Chain Structural RPN based heads.
+
+This module contains the chain structural rpn based heads, including
+    graph_interdependence_head
+
+"""
+
 import torch
 import torch.nn.functional as F
 
@@ -33,6 +41,29 @@ from tinybig.remainder import (
 
 
 class chain_interdependence_head(head):
+    """
+    A head class that implements chain-based interdependence mechanisms for multi-channel modules.
+
+    This head supports chain-based instance interdependence, various data transformations, parameter reconciliation,
+    and customizable output processing functions.
+
+    Attributes
+    ----------
+    m : int
+        Input dimension of the head.
+    n : int
+        Output dimension of the head.
+    chain_length : int
+        Length of the chain structure used for interdependence.
+    channel_num : int
+        Number of channels for multi-channel processing.
+    name : str
+        Name of the head.
+    parameters_init_method : str
+        Initialization method for parameters.
+    device : str
+        Device to host the head (e.g., 'cpu' or 'cuda').
+    """
     def __init__(
         self,
         m: int, n: int,
@@ -63,6 +94,70 @@ class chain_interdependence_head(head):
         parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        """
+        Initialize a chain-based interdependence head.
+
+        Parameters
+        ----------
+        m : int
+            Input dimension of the head.
+        n : int
+            Output dimension of the head.
+        chain_length : int
+            Length of the chain structure used for interdependence.
+        channel_num : int, optional
+            Number of channels for multi-channel processing, default is 1.
+        name : str, optional
+            Name of the head, default is 'chain_interdependence_head'.
+        bi_directional : bool, optional
+            Whether the chain is bi-directional, default is False.
+        with_multihop : bool, optional
+            Whether to enable multi-hop connections, default is False.
+        h : int, optional
+            Number of hops for multi-hop connections, default is 1.
+        accumulative : bool, optional
+            Whether the multi-hop connections are accumulative, default is False.
+        with_inverse_approx : bool, optional
+            Whether to use inverse approximation for chain interdependence, default is False.
+        with_exponential_approx : bool, optional
+            Whether to use exponential approximation for chain interdependence, default is False.
+        self_dependence : bool, optional
+            Whether to include self-dependence in the chain, default is True.
+        self_scaling : float, optional
+            Scaling factor for self-dependence, default is 1.0.
+        with_taylor : bool, optional
+            Whether to use Taylor expansion for data transformation, default is False.
+        d : int, optional
+            Degree of Taylor expansion, default is 2.
+        with_dual_lphm : bool, optional
+            Whether to use dual LPHM for parameter reconciliation, default is False.
+        with_lorr : bool, optional
+            Whether to use LORR for parameter reconciliation, default is False.
+        r : int, optional
+            Rank for parameter reconciliation, default is 3.
+        enable_bias : bool, optional
+            Whether to enable bias in parameter reconciliation, default is False.
+        with_residual : bool, optional
+            Whether to include a residual connection in the remainder function, default is False.
+        with_batch_norm : bool, optional
+            Whether to include batch normalization in output processing, default is False.
+        with_relu : bool, optional
+            Whether to include ReLU activation in output processing, default is True.
+        with_softmax : bool, optional
+            Whether to include softmax activation in output processing, default is True.
+        with_dropout : bool, optional
+            Whether to include dropout in output processing, default is False.
+        p : float, optional
+            Dropout probability, default is 0.25.
+        parameters_init_method : str, optional
+            Initialization method for parameters, default is 'xavier_normal'.
+        device : str, optional
+            Device to host the head, default is 'cpu'.
+
+        Returns
+        -------
+        None
+        """
         self.chain_length = chain_length
         chain_structure = chain(
             length=chain_length,
@@ -181,6 +276,25 @@ class chain_interdependence_head(head):
         )
 
     def calculate_instance_xi_x(self, x: torch.Tensor, channel_index: int = 0, kappa_x: torch.Tensor = None, device='cpu', *args, **kwargs):
+        """
+        Calculate the instance-based interdependence.
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
+        channel_index : int, optional
+            Index of the channel for multi-channel processing, default is 0.
+        kappa_x : torch.Tensor, optional
+            Pre-computed transformation of the input, default is None.
+        device : str, optional
+            Device to host the computation, default is 'cpu'.
+
+        Returns
+        -------
+        torch.Tensor
+            Transformed tensor with interdependence applied.
+        """
         if self.instance_interdependence is not None:
             if self.instance_interdependence.device != device:
                 self.instance_interdependence.to(device)
@@ -198,6 +312,23 @@ class chain_interdependence_head(head):
             return kappa_x if kappa_x is not None else x
 
     def calculate_inner_product(self, kappa_xi_x: torch.Tensor, phi_w: torch.Tensor, device: str = 'cpu', *args, **kwargs):
+        """
+        Calculate the inner product of transformed data and reconciled parameters.
+
+        Parameters
+        ----------
+        kappa_xi_x : torch.Tensor
+            Transformed input data.
+        phi_w : torch.Tensor
+            Reconciled parameter tensor.
+        device : str, optional
+            Device to host the computation, default is 'cpu'.
+
+        Returns
+        -------
+        torch.Tensor
+            Resulting inner product tensor.
+        """
         if phi_w is not None:
             assert phi_w.ndim == 2 and kappa_xi_x.size(-1) == phi_w.size(-1)
             if device != 'mps' and (kappa_xi_x.is_sparse or phi_w.is_sparse):
@@ -212,6 +343,21 @@ class chain_interdependence_head(head):
         return inner_prod
 
     def fusion(self, inner_products: list[torch.Tensor], device: str = 'cpu', *args, **kwargs):
+        """
+        Fuse multi-channel inner products.
+
+        Parameters
+        ----------
+        inner_products : list[torch.Tensor]
+            List of inner product tensors for each channel.
+        device : str, optional
+            Device to host the computation, default is 'cpu'.
+
+        Returns
+        -------
+        torch.Tensor
+            Fused tensor after combining all channels.
+        """
         if self.channel_fusion is not None:
             assert self.channel_fusion.get_dims() is None or self.channel_fusion.get_num() == len(inner_products)
             result = self.channel_fusion(x=inner_products, w=self.w_channel_fusion, device=device)
@@ -224,6 +370,21 @@ class chain_interdependence_head(head):
         return result
 
     def calculate_pi_x(self, x: torch.Tensor, device='cpu', *args, **kwargs):
+        """
+        Calculate the remainder function.
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            Input tensor.
+        device : str, optional
+            Device to host the computation, default is 'cpu'.
+
+        Returns
+        -------
+        torch.Tensor
+            Remainder component, or None if not applicable.
+        """
         if self.remainder is not None:
             if isinstance(self.remainder, zero_remainder):
                 return None
@@ -236,3 +397,5 @@ class chain_interdependence_head(head):
             return pi_x
         else:
             return None
+
+

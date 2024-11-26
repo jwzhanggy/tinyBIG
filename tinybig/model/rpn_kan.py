@@ -6,11 +6,61 @@
 # RPN based MLP Model #
 #######################
 
+"""
+RPN based deep models
+
+This module contains the implementation of the RPN based deep models, including
+    kan
+"""
+
 from tinybig.model.rpn import rpn
 from tinybig.layer.basic_layers import kan_layer
 
 
 class kan(rpn):
+    """
+    A model implementing the KAN architecture using RPN architecture.
+
+    Parameters
+    ----------
+    dims : list[int] | tuple[int]
+        A list or tuple of integers representing the dimensions of each layer in the KAN model.
+        Must contain at least two dimensions.
+    name : str, optional
+        The name of the KAN model. Default is 'rpn_kan'.
+    grid_range : tuple, optional
+        The range of the grid for B-spline expansion. Default is (-1, 1).
+    t : int, optional
+        The number of grid points. Default is 5.
+    d : int, optional
+        The degree of the B-spline expansion. Default is 3.
+    enable_bias : bool, optional
+        Whether to enable bias in the layers. Default is False.
+    with_lorr : bool, optional
+        Whether to enable LoRR parameter reconciliation in the layers. Default is False.
+    r : int, optional
+        The rank parameter for the LoRR parameter reconciliation. Default is 3.
+    channel_num : int, optional
+        The number of channels in each layer. Default is 1.
+    width : int, optional
+        The number of parallel heads in each layer. Default is 1.
+    device : str, optional
+        The device to use for computation ('cpu' or 'cuda'). Default is 'cpu'.
+    *args : optional
+        Additional positional arguments for the `rpn` superclass.
+    **kwargs : optional
+        Additional keyword arguments for the `rpn` superclass.
+
+    Raises
+    ------
+    ValueError
+        If `dims` contains fewer than two dimensions.
+
+    Methods
+    -------
+    __init__(dims, name='rpn_kan', grid_range=(-1, 1), t=5, d=3, ...)
+        Initializes the KAN model and builds its layers.
+    """
     def __init__(
         self,
         dims: list[int] | tuple[int],
@@ -24,6 +74,44 @@ class kan(rpn):
         # other parameters
         device: str = 'cpu', *args, **kwargs
     ):
+        """
+        Initializes the KAN model.
+
+        Parameters
+        ----------
+        dims : list[int] | tuple[int]
+            A list or tuple of integers representing the dimensions of each layer in the KAN model.
+            Must contain at least two dimensions.
+        name : str, optional
+            The name of the KAN model. Default is 'rpn_kan'.
+        grid_range : tuple, optional
+            The range of the grid for B-spline expansion. Default is (-1, 1).
+        t : int, optional
+            The number of grid points. Default is 5.
+        d : int, optional
+            The degree of the B-spline expansion. Default is 3.
+        enable_bias : bool, optional
+            Whether to enable bias in the layers. Default is False.
+        with_lorr : bool, optional
+            Whether to enable LoRR parameter reconciliation in the layers. Default is False.
+        r : int, optional
+            The rank parameter for the LoRR parameter reconciliation. Default is 3.
+        channel_num : int, optional
+            The number of channels in each layer. Default is 1.
+        width : int, optional
+            The number of parallel heads in each layer. Default is 1.
+        device : str, optional
+            The device to use for computation ('cpu' or 'cuda'). Default is 'cpu'.
+        *args : optional
+            Additional positional arguments for the `rpn` superclass.
+        **kwargs : optional
+            Additional keyword arguments for the `rpn` superclass.
+
+        Raises
+        ------
+        ValueError
+            If `dims` contains fewer than two dimensions.
+        """
         if len(dims) < 2:
             raise ValueError("At least two dim values is needed for defining the model...")
 

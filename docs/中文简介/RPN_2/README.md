@@ -2,7 +2,7 @@
 ![title_page.png](imgs/title_page.png)
 
 ---------------
-# 大一统 2.0！CNN, RNN, GNN 和 Transformer 的统一表示和模型泛化理论分析
+# 大一统 2.0！CNN, RNN, GNN 和 Transformer 模型的统一表示和泛化误差理论分析
 
 ## 文章标题
 

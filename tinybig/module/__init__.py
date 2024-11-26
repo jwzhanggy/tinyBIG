@@ -1,3 +1,11 @@
+# Copyright (c) 2024-Present
+# Author: Jiawei Zhang <jiawei@ifmlab.org>
+# Affiliation: IFM Lab, UC Davis
+
+#######################
+#     RPN Modules     #
+#######################
+
 r"""
 This module provides the layer, head and component function modules to build the RPN model within the tinyBIG toolkit.
 

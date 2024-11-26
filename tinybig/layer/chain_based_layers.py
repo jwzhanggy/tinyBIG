@@ -5,6 +5,15 @@
 ################################
 # Chain based RPN Layer Module #
 ################################
+
+"""
+Chain Structural RPN based layers.
+
+This module contains the chain structural rpn based layers, including
+    graph_interdependence_layer
+
+"""
+
 import torch
 
 from tinybig.module.base_layer import layer
@@ -12,6 +21,75 @@ from tinybig.head.chain_based_heads import chain_interdependence_head
 
 
 class chain_interdependence_layer(layer):
+    """
+    A chain interdependence layer for capturing sequential dependencies in data.
+
+    This layer integrates multiple chain interdependence heads to model sequential interdependencies.
+    It supports features such as multi-hop connections, inverse or exponential approximations,
+    parameter reconciliation, and various output processing functions.
+
+    Attributes
+    ----------
+    m : int
+        The input dimension of the layer.
+    n : int
+        The output dimension of the layer.
+    chain_length : int
+        The length of the chain for modeling interdependencies.
+    channel_num : int
+        The number of channels in each chain interdependence head.
+    width : int
+        The number of chain interdependence heads in the layer.
+    name : str
+        The name of the layer.
+    bi_directional : bool
+        Whether to include bi-directional dependencies in the chain.
+    with_multihop : bool
+        Whether to enable multi-hop dependencies.
+    h : int
+        The number of hops for multi-hop connections.
+    accumulative : bool
+        Whether to accumulate dependencies across hops.
+    with_inverse_approx : bool
+        Whether to use inverse approximation for interdependence.
+    with_exponential_approx : bool
+        Whether to use exponential approximation for interdependence.
+    self_dependence : bool
+        Whether to include self-dependencies in the chain.
+    self_scaling : float
+        The scaling factor for self-dependencies.
+    with_dual_lphm : bool
+        Whether to use dual LPHM reconciliation for parameters.
+    with_lorr : bool
+        Whether to use LORR reconciliation for parameters.
+    r : int
+        The rank for parameter reconciliation.
+    enable_bias : bool
+        Whether to enable bias in parameter reconciliation.
+    with_residual : bool
+        Whether to include a residual connection in the layer.
+    with_batch_norm : bool
+        Whether to apply batch normalization to the output.
+    with_relu : bool
+        Whether to apply ReLU activation to the output.
+    with_dropout : bool
+        Whether to apply dropout to the output.
+    p : float
+        Dropout probability.
+    with_softmax : bool
+        Whether to apply softmax activation to the output.
+    parameters_init_method : str
+        The initialization method for parameters.
+    device : str
+        The device to run the layer on ('cpu' or 'cuda').
+
+    Methods
+    -------
+    __init__(...)
+        Initializes the chain interdependence layer with specified parameters.
+    forward(x, fusion_strategy='average', device='cpu', *args, **kwargs)
+        Performs a forward pass through the layer.
+    """
     def __init__(
         self,
         m: int, n: int,
@@ -41,6 +119,68 @@ class chain_interdependence_layer(layer):
         parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, ** kwargs
     ):
+        """
+        Initializes the chain interdependence layer.
+
+        Parameters
+        ----------
+        m : int
+            The input dimension of the layer.
+        n : int
+            The output dimension of the layer.
+        chain_length : int
+            The length of the chain for modeling interdependencies.
+        channel_num : int, default=1
+            The number of channels in each chain interdependence head.
+        width : int, default=1
+            The number of chain interdependence heads in the layer.
+        name : str, default='chain_interdependence_layer'
+            The name of the layer.
+        bi_directional : bool, default=False
+            Whether to include bi-directional dependencies in the chain.
+        with_multihop : bool, default=False
+            Whether to enable multi-hop dependencies.
+        h : int, default=1
+            The number of hops for multi-hop connections.
+        accumulative : bool, default=False
+            Whether to accumulate dependencies across hops.
+        with_inverse_approx : bool, default=False
+            Whether to use inverse approximation for interdependence.
+        with_exponential_approx : bool, default=False
+            Whether to use exponential approximation for interdependence.
+        self_dependence : bool, default=True
+            Whether to include self-dependencies in the chain.
+        self_scaling : float, default=1.0
+            The scaling factor for self-dependencies.
+        with_dual_lphm : bool, default=False
+            Whether to use dual LPHM reconciliation for parameters.
+        with_lorr : bool, default=False
+            Whether to use LORR reconciliation for parameters.
+        r : int, default=3
+            The rank for parameter reconciliation.
+        enable_bias : bool, default=False
+            Whether to enable bias in parameter reconciliation.
+        with_residual : bool, default=False
+            Whether to include a residual connection in the layer.
+        with_batch_norm : bool, default=False
+            Whether to apply batch normalization to the output.
+        with_relu : bool, default=True
+            Whether to apply ReLU activation to the output.
+        with_dropout : bool, default=False
+            Whether to apply dropout to the output.
+        p : float, default=0.25
+            Dropout probability.
+        with_softmax : bool, default=True
+            Whether to apply softmax activation to the output.
+        parameters_init_method : str, default='xavier_normal'
+            The initialization method for parameters.
+        device : str, default='cpu'
+            The device to run the layer on ('cpu' or 'cuda').
+
+        Returns
+        -------
+        None
+        """
         print('* chain_interdependence_layer, width:', width)
         heads = [
             chain_interdependence_head(
@@ -73,8 +213,24 @@ class chain_interdependence_layer(layer):
         print('--------------------------')
         super().__init__(name=name, m=m, n=n, heads=heads, device=device, *args, **kwargs)
 
-
     def forward(self, x: torch.Tensor, fusion_strategy: str = 'average', device: str = 'cpu', *args, **kwargs):
+        """
+        Performs a forward pass through the chain interdependence layer.
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            The input tensor with shape `(batch_size, m)`.
+        fusion_strategy : str, default='average'
+            The strategy for fusing outputs from multiple heads.
+        device : str, default='cpu'
+            The device to run the computation on ('cpu' or 'cuda').
+
+        Returns
+        -------
+        torch.Tensor
+            The output tensor with shape `(batch_size, n)` after applying the layer.
+        """
         assert x is not None and x.ndim == 2
 
         results = []

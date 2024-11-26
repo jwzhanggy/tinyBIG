@@ -6,7 +6,14 @@
 # Graph Based Head Modules #
 ############################
 
-import math
+"""
+Graph Structural RPN based heads.
+
+This module contains the graph structural rpn based heads, including
+    chain_interdependence_head
+
+"""
+
 from functools import partial
 import torch
 
@@ -38,6 +45,44 @@ from tinybig.koala.algebra import (
 
 
 class graph_interdependence_head(head):
+    """
+    A head class for implementing graph-based interdependence mechanisms.
+
+    This class supports various graph-based interdependence strategies, data transformations,
+    parameter reconciliations, and customizable output processing functions.
+
+    Attributes
+    ----------
+    m : int
+        Input dimension of the head.
+    n : int
+        Output dimension of the head.
+    name : str
+        Name of the head.
+    channel_num : int
+        Number of channels for multi-channel processing.
+    graph : graph_class
+        Graph structure used for interdependence, provided as an instance of `graph_class`.
+    graph_file_path : str
+        Path to load the graph structure.
+    nodes : list
+        List of nodes in the graph.
+    links : list
+        List of links (edges) in the graph.
+    directed : bool
+        Whether the graph is directed.
+    normalization : bool
+        Whether to normalize the adjacency matrix.
+    normalization_mode : str
+        Mode of normalization for the adjacency matrix, e.g., 'row' or 'column'.
+    self_dependence : bool
+        Whether to include self-loops in the graph structure.
+    parameters_init_method : str
+        Initialization method for parameters.
+    device : str
+        Device to host the head (e.g., 'cpu' or 'cuda').
+    """
+
     def __init__(
         self,
         m: int, n: int,
@@ -72,6 +117,82 @@ class graph_interdependence_head(head):
         parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        """
+        Initializes the graph_interdependence_head class.
+
+        This method sets up the graph structure, interdependence mechanisms, data transformations, parameter reconciliation,
+        remainder functions, and output processing pipeline.
+
+        Parameters
+        ----------
+        m : int
+            Input dimension of the head.
+        n : int
+            Output dimension of the head.
+        name : str
+            Name of the head.
+        channel_num : int
+            Number of channels for multi-channel processing.
+        graph : graph_class, optional
+            Predefined graph structure.
+        graph_file_path : str, optional
+            Path to the file containing the graph structure.
+        nodes : list, optional
+            List of nodes for the graph structure.
+        links : list, optional
+            List of links for the graph structure.
+        directed : bool
+            Whether the graph is directed.
+        with_multihop : bool, optional
+            Whether to use multi-hop graph interdependence.
+        h : int, optional
+            Number of hops for multi-hop interdependence.
+        accumulative : bool, optional
+            Whether multi-hop connections are accumulative.
+        with_pagerank : bool, optional
+            Whether to use PageRank-based interdependence.
+        c : float, optional
+            Damping factor for PageRank, default is 0.15.
+        require_data : bool, optional
+            Whether data input is required for interdependence.
+        require_parameters : bool, optional
+            Whether parameters are required for interdependence.
+        normalization : bool, optional
+            Whether to normalize the adjacency matrix.
+        normalization_mode : str, optional
+            Mode of normalization for the adjacency matrix.
+        self_dependence : bool, optional
+            Whether self-dependence is included in interdependence.
+        with_dual_lphm : bool, optional
+            Whether to use dual LPHM for parameter reconciliation.
+        with_lorr : bool, optional
+            Whether to use LORR for parameter reconciliation.
+        r : int, optional
+            Rank for parameter reconciliation.
+        with_residual : bool, optional
+            Whether to include a residual connection.
+        enable_bias : bool, optional
+            Whether to include bias in the model.
+        with_batch_norm : bool, optional
+            Whether to include batch normalization in output processing.
+        with_relu : bool, optional
+            Whether to include ReLU activation in output processing.
+        with_softmax : bool, optional
+            Whether to include softmax activation in output processing.
+        with_dropout : bool, optional
+            Whether to include dropout in output processing.
+        p : float, optional
+            Dropout probability.
+        parameters_init_method : str, optional
+            Initialization method for parameters.
+        device : str, optional
+            Device to host the head (e.g., 'cpu', 'cuda').
+
+        Raises
+        ------
+        ValueError
+            If graph parameters are not properly specified.
+        """
         if graph is not None:
             graph_structure = graph
         elif graph_file_path is not None:
@@ -186,6 +307,83 @@ class graph_interdependence_head(head):
 
 
 class graph_bilinear_interdependence_head(head):
+    """
+    A head class that implements hybrid graph-based and bilinear interdependence mechanisms.
+
+    This class combines graph-based interdependence with parameterized bilinear interdependence for instance
+    transformations, data expansions, parameter reconciliation, and output processing.
+
+    Attributes
+    ----------
+    m : int
+        Input dimension of the head.
+    n : int
+        Output dimension of the head.
+    name : str
+        Name of the head.
+    channel_num : int
+        Number of channels for multi-channel processing.
+    graph : graph_class, optional
+        Predefined graph structure.
+    graph_file_path : str, optional
+        Path to the file containing the graph structure.
+    nodes : list, optional
+        List of nodes for the graph structure.
+    links : list, optional
+        List of links for the graph structure.
+    directed : bool
+        Whether the graph is directed.
+    with_multihop : bool, optional
+        Whether to use multi-hop graph interdependence.
+    h : int, optional
+        Number of hops for multi-hop interdependence.
+    accumulative : bool, optional
+        Whether multi-hop connections are accumulative.
+    with_pagerank : bool, optional
+        Whether to use PageRank-based interdependence.
+    c : float, optional
+        Damping factor for PageRank, default is 0.15.
+    require_data : bool, optional
+        Whether data input is required for interdependence.
+    require_parameters : bool, optional
+        Whether parameters are required for interdependence.
+    normalization : bool, optional
+        Whether to normalize the adjacency matrix.
+    normalization_mode : str, optional
+        Mode of normalization for the adjacency matrix.
+    self_dependence : bool, optional
+        Whether self-dependence is included in interdependence.
+    with_dual_lphm_interdependence : bool, optional
+        Whether to use dual LPHM for bilinear interdependence.
+    with_lorr_interdependence : bool, optional
+        Whether to use LORR for bilinear interdependence.
+    r_interdependence : int, optional
+        Rank for bilinear interdependence.
+    with_dual_lphm : bool, optional
+        Whether to use dual LPHM for parameter reconciliation.
+    with_lorr : bool, optional
+        Whether to use LORR for parameter reconciliation.
+    r : int, optional
+        Rank for parameter reconciliation.
+    with_residual : bool, optional
+        Whether to include a residual connection.
+    enable_bias : bool, optional
+        Whether to include bias in the model.
+    with_batch_norm : bool, optional
+        Whether to include batch normalization in output processing.
+    with_relu : bool, optional
+        Whether to include ReLU activation in output processing.
+    with_softmax : bool, optional
+        Whether to include softmax activation in output processing.
+    with_dropout : bool, optional
+        Whether to include dropout in output processing.
+    p : float, optional
+        Dropout probability.
+    parameters_init_method : str, optional
+        Initialization method for parameters.
+    device : str, optional
+        Device to host the head (e.g., 'cpu', 'cuda').
+    """
     def __init__(
         self,
         m: int, n: int,
@@ -223,6 +421,89 @@ class graph_bilinear_interdependence_head(head):
         parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        """
+        Initializes the graph_bilinear_interdependence_head class.
+
+        This method combines graph-based interdependence and bilinear interdependence mechanisms, while setting up
+        data transformation, parameter reconciliation, remainder functions, and output processing.
+
+        Parameters
+        ----------
+        m : int
+            Input dimension of the head.
+        n : int
+            Output dimension of the head.
+        name : str
+            Name of the head.
+        channel_num : int
+            Number of channels for multi-channel processing.
+        graph : graph_class, optional
+            Predefined graph structure.
+        graph_file_path : str, optional
+            Path to the file containing the graph structure.
+        nodes : list, optional
+            List of nodes for the graph structure.
+        links : list, optional
+            List of links for the graph structure.
+        directed : bool
+            Whether the graph is directed.
+        with_multihop : bool, optional
+            Whether to use multi-hop graph interdependence.
+        h : int, optional
+            Number of hops for multi-hop interdependence.
+        accumulative : bool, optional
+            Whether multi-hop connections are accumulative.
+        with_pagerank : bool, optional
+            Whether to use PageRank-based interdependence.
+        c : float, optional
+            Damping factor for PageRank, default is 0.15.
+        require_data : bool, optional
+            Whether data input is required for interdependence.
+        require_parameters : bool, optional
+            Whether parameters are required for interdependence.
+        normalization : bool, optional
+            Whether to normalize the adjacency matrix.
+        normalization_mode : str, optional
+            Mode of normalization for the adjacency matrix.
+        self_dependence : bool, optional
+            Whether self-dependence is included in interdependence.
+        with_dual_lphm_interdependence : bool, optional
+            Whether to use dual LPHM for bilinear interdependence.
+        with_lorr_interdependence : bool, optional
+            Whether to use LORR for bilinear interdependence.
+        r_interdependence : int, optional
+            Rank for bilinear interdependence.
+        with_dual_lphm : bool, optional
+            Whether to use dual LPHM for parameter reconciliation.
+        with_lorr : bool, optional
+            Whether to use LORR for parameter reconciliation.
+        r : int, optional
+            Rank for parameter reconciliation.
+        with_residual : bool, optional
+            Whether to include a residual connection.
+        enable_bias : bool, optional
+            Whether to include bias in the model.
+        with_batch_norm : bool, optional
+            Whether to include batch normalization in output processing.
+        with_relu : bool, optional
+            Whether to include ReLU activation in output processing.
+        with_softmax : bool, optional
+            Whether to include softmax activation in output processing.
+        with_dropout : bool, optional
+            Whether to include dropout in output processing.
+        p : float, optional
+            Dropout probability.
+        parameters_init_method : str, optional
+            Initialization method for parameters.
+        device : str, optional
+            Device to host the head (e.g., 'cpu', 'cuda').
+
+        Raises
+        ------
+        ValueError
+            If graph parameters are not properly specified.
+        """
+
         if graph is not None:
             graph_structure = graph
         elif graph_file_path is not None:
@@ -383,4 +664,6 @@ class graph_bilinear_interdependence_head(head):
             parameters_init_method='fanout_std_uniform',
             device=device, *args, **kwargs
         )
+
+
 

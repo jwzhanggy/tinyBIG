@@ -6,6 +6,13 @@
 # Bilinear Attention Head Modules #
 ###################################
 
+"""
+Bilinear RPN based heads.
+
+This module contains the bilinear rpn based heads, including
+    bilinear_interdependence_head
+"""
+
 import torch
 import math
 from functools import partial
@@ -42,7 +49,27 @@ from tinybig.interdependence import (
 
 
 class bilinear_interdependence_head(head):
+    """
+    A bilinear interdependence-based head for multi-channel modules.
 
+    This head implements bilinear interdependence functions, including optional configurations for dual LPHM, LORR,
+    data transformations, parameter reconciliation, and various output processing techniques.
+
+    Attributes
+    ----------
+    m : int
+        Input dimension of the head.
+    n : int
+        Output dimension of the head.
+    batch_num : int, optional
+        Batch size for instance interdependence.
+    channel_num : int
+        Number of channels for multi-channel processing.
+    parameters_init_method : str
+        Initialization method for parameters.
+    device : str
+        Device to host the head (e.g., 'cpu' or 'cuda').
+    """
     def __init__(
         self,
         m: int, n: int,
@@ -69,7 +96,63 @@ class bilinear_interdependence_head(head):
         parameters_init_method: str = 'xavier_normal',
         device: str = 'cpu', *args, **kwargs
     ):
+        """
+        Initialize a bilinear interdependence head.
 
+        This constructor allows for fine-grained control over instance interdependence, data transformation, parameter
+        reconciliation, remainder function, and output processing configurations.
+
+        Parameters
+        ----------
+        m : int
+            Input dimension of the head.
+        n : int
+            Output dimension of the head.
+        name : str, optional
+            Name of the head, default is 'bilinear_interdependence_head'.
+        batch_num : int, optional
+            Batch size for instance interdependence, default is None.
+        channel_num : int, optional
+            Number of channels for multi-channel processing, default is 1.
+        with_dual_lphm_interdependence : bool, optional
+            Whether to use dual LPHM parameterized bilinear interdependence, default is False.
+        with_lorr_interdependence : bool, optional
+            Whether to use LORR parameterized bilinear interdependence, default is False.
+        r_interdependence : int, optional
+            Rank for the interdependence function, default is 3.
+        with_taylor : bool, optional
+            Whether to use Taylor expansion for data transformation, default is False.
+        d : int, optional
+            Degree of Taylor expansion, default is 2.
+        with_dual_lphm : bool, optional
+            Whether to use dual LPHM for parameter reconciliation, default is False.
+        with_lorr : bool, optional
+            Whether to use LORR for parameter reconciliation, default is False.
+        r : int, optional
+            Rank for parameter reconciliation, default is 3.
+        enable_bias : bool, optional
+            Whether to enable bias in parameter reconciliation, default is False.
+        with_residual : bool, optional
+            Whether to include a residual connection in the remainder function, default is False.
+        with_batch_norm : bool, optional
+            Whether to include batch normalization in output processing, default is False.
+        with_relu : bool, optional
+            Whether to include ReLU activation in output processing, default is True.
+        with_softmax : bool, optional
+            Whether to include softmax activation in output processing, default is True.
+        with_dropout : bool, optional
+            Whether to include dropout in output processing, default is False.
+        p : float, optional
+            Dropout probability, default is 0.25.
+        parameters_init_method : str, optional
+            Initialization method for parameters, default is 'xavier_normal'.
+        device : str, optional
+            Device to host the head, default is 'cpu'.
+
+        Returns
+        -------
+        None
+        """
         # instance interdependence function
         if with_lorr_interdependence:
             instance_interdependence = lowrank_parameterized_bilinear_interdependence(
