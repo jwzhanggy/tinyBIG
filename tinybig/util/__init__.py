@@ -9,6 +9,7 @@ directory creation, memory cleaning and class finding, etc.
 This module contains the following categories of utility functions:
 
 * Utility Functions for Data and Result Directory Creation
+* Environment Setups and Processing
 """
 
 from tinybig.util.utility import (

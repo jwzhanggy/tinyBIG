@@ -66,10 +66,36 @@ def set_random_seed(random_seed: int = 0, deterministic: bool = False):
 
 
 def check_file_existence(complete_file_path):
+    """
+    Checks if a file exists at the specified path.
+
+    Parameters
+    ----------
+    complete_file_path : str
+        The full file path to check.
+
+    Returns
+    -------
+    bool
+        True if the file exists, False otherwise.
+    """
     return os.path.exists(complete_file_path)
 
 
 def check_directory_exists(complete_file_path):
+    """
+    Checks if the directory of a given file path exists.
+
+    Parameters
+    ----------
+    complete_file_path : str
+        The full file path whose directory needs to be checked.
+
+    Returns
+    -------
+    bool
+        True if the directory exists, False otherwise.
+    """
     directory_path = os.path.dirname(complete_file_path)
     return os.path.exists(directory_path)
 
@@ -98,6 +124,22 @@ def create_directory_if_not_exists(complete_file_path):
 
 
 def async_clear_tensor_memory(tensor):
+    """
+    Clears memory occupied by a tensor asynchronously.
+
+    Moves a tensor to the CPU (if applicable) and clears associated memory.
+    Supports tensors on CUDA and MPS devices.
+
+    Parameters
+    ----------
+    tensor : torch.Tensor or None
+        The tensor to clear. If None, no action is taken.
+
+    Returns
+    -------
+    None
+        This method does not return any values.
+    """
     if tensor is None:
         print("Tensor is None, nothing to clear.")
         return
@@ -129,6 +171,21 @@ def async_clear_tensor_memory(tensor):
 
 
 def find_class_in_package(class_name: str, package_name: str = 'tinybig'):
+    """
+    Searches for a class within a package and its modules.
+
+    Parameters
+    ----------
+    class_name : str
+        The name of the class to search for.
+    package_name : str, optional
+        The name of the package to search within. Default is 'tinybig'.
+
+    Returns
+    -------
+    str
+        The full module path of the class if found, otherwise an error message.
+    """
     try:
         # Import the package
         package = importlib.import_module(package_name)
@@ -156,6 +213,21 @@ def find_class_in_package(class_name: str, package_name: str = 'tinybig'):
 
 
 def download_file_from_github(url_link: str, destination_path: str):
+    """
+    Downloads a file from a given URL and saves it to a destination path.
+
+    Parameters
+    ----------
+    url_link : str
+        The URL of the file to download.
+    destination_path : str
+        The path where the file will be saved.
+
+    Returns
+    -------
+    None
+        This method does not return any values.
+    """
     create_directory_if_not_exists(destination_path)
 
     response = requests.get(url_link, stream=True)
@@ -169,6 +241,26 @@ def download_file_from_github(url_link: str, destination_path: str):
 
 
 def unzip_file(complete_file_path: str, destination: str = None):
+    """
+    Unzips a `.zip` file to a specified destination.
+
+    Parameters
+    ----------
+    complete_file_path : str
+        The full path to the `.zip` file.
+    destination : str, optional
+        The destination directory for the unzipped files. Default is the directory of the `.zip` file.
+
+    Returns
+    -------
+    None
+        This method does not return any values.
+
+    Raises
+    ------
+    ValueError
+        If the file path is invalid or does not end with `.zip`.
+    """
     if complete_file_path is None or not complete_file_path.endswith('.zip'):
         raise ValueError('file_name ending with .zip needs to be provided...')
 
@@ -182,6 +274,28 @@ def unzip_file(complete_file_path: str, destination: str = None):
 
 
 def parameter_scheduler(strategy: str = 'half', parameter_list: list = None, lower_bound: int = 1):
+    """
+    Adjusts parameter values based on a specified strategy.
+
+    Parameters
+    ----------
+    strategy : str, optional
+        The scheduling strategy to apply. Supported: 'half'. Default is 'half'.
+    parameter_list : list, optional
+        A list of parameters to schedule. Default is None.
+    lower_bound : int, optional
+        The minimum value a parameter can take. Default is 1.
+
+    Returns
+    -------
+    list
+        The adjusted parameter values.
+
+    Raises
+    ------
+    ValueError
+        If `parameter_list` is not provided or the strategy is unsupported.
+    """
     if parameter_list is None:
         raise ValueError("Parameter list must be provided.")
     if strategy == 'half':
@@ -190,9 +304,3 @@ def parameter_scheduler(strategy: str = 'half', parameter_list: list = None, low
     else:
         raise ValueError("Parameter strategy not supported.")
 
-
-if __name__ == '__main__':
-    # Example usage:
-    url = "https://raw.githubusercontent.com/jwzhanggy/tinybig_dataset_repo/main/data/graph/cora/node"  # Replace with your file's raw URL
-    destination = "./data/graph/cora/node"  # Specify where to save the file
-    download_file_from_github(url, destination)
