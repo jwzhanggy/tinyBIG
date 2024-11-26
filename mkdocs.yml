@@ -162,18 +162,22 @@ nav:
       - documentations/tinybig/index.md
     - tinybig.model:
       - documentations/model/index.md
-      - documentations/model/rpn.md
-      - documentations/model/mlp.md
-      - documentations/model/kan.md
-      - documentations/model/pgm.md
-      - documentations/model/naive_bayes.md
-      - documentations/model/svm.md
-      - documentations/model/cnn.md
-      - documentations/model/rnn.md
-      - documentations/model/regression_rnn.md
-      - documentations/model/gcn.md
-      - documentations/model/gat.md
-      - documentations/model/transformer.md
+      - rpn_architecture:
+        - documentations/model/rpn.md
+      - rpn_based_ml_models:
+        - documentations/model/pgm.md
+        - documentations/model/naive_bayes.md
+        - documentations/model/svm.md
+      - rpn_based_dl_models:
+        - documentations/model/mlp.md
+        - documentations/model/kan.md
+      - rpn_based_backbones:
+        - documentations/model/cnn.md
+        - documentations/model/rnn.md
+        - documentations/model/regression_rnn.md
+        - documentations/model/gcn.md
+        - documentations/model/gat.md
+        - documentations/model/transformer.md
     - tinybig.module:
       - documentations/module/index.md
       - documentations/module/model.md
