@@ -22,10 +22,10 @@
 本文是基于我们之前的 [RPN (Reconciled Polynomial Network)](https://arxiv.org/abs/2407.04819) 研究的后续工作。
 在此前的研究中，我们提出了RPN这一通用模型架构，其包含三个组件函数：数据扩展函数、参数调和函数和剩余函数。
 我们先前的研究表明，RPN在构建不同复杂性、容量和完整性水平的模型方面具有很强的通用性，同时可以作为统一多种基础模型（包括PGM、核SVM、MLP和KAN）的框架。
-然而，先前的RPN模型基于以下假设：训练批次中的数据实例是独立同分布的。此外，在每个数据实例内部，RPN还假定所涉及的数据特征彼此独立，并在扩展函数中分别处理这些数据特征。
 
+然而，先前的RPN模型基于以下假设：训练批次中的数据实例是独立同分布的。此外，在每个数据实例内部，RPN还假定所涉及的数据特征彼此独立，并在扩展函数中分别处理这些数据特征。
 不过，现实数据往往存在比较强的相互依赖关系，这种依赖关系既存在于样本之间，也存在样本内部各个数据特征之间。 
-如上图中 (a)-(d) 所示， 对于图像、语言、时间序列和图等复杂且具有相互依赖的数据，这使得先前 RPN 模型的假设不成立。
+如上图中 (a)-(d) 所示， 对于图像、语言、时间序列和图等复杂且具有相互依赖的数据，这使得先前 RPN 模型的独立假设不成立。
 如果像先前的RPN模型那样忽略这些数据的相互依赖性，学习性能将显著下降。
 
 ## RPN 2 模型结构
@@ -33,8 +33,8 @@
 ![model_arch.png](imgs/model_arch.png)
 
 为了解决上面提到的问题，在本文中，我们重新设计了RPN架构，提出了新的 **RPN 2**（即**Reconciled Polynomial Network 2.0**）模型。
-如上图中所示，RPN 2 引入了一个全新的组件——相互依赖函数，用于显式建模数据实例和数据特征之间的多种依赖关系。
-这里需要解释一下，虽然我们在本文中将该组件称为 “**相互依赖（interdependence）**”，但实际上，该函数捕获了输入数据中的多种关系，
+如上图中所示，RPN 2 引入了一个全新的组件——数据依赖函数，用于显式建模数据实例和数据特征之间的多种依赖关系。
+这里需要解释一下，虽然我们在本文中将该组件称为 “**依赖函数（interdependence function）**”，但实际上，该函数捕获了输入数据中的多种关系，
 包括结构性依赖、逻辑因果关系、统计相关性以及数值相似性或差异性等。
 
 在模型架构方面，如上图所示，**RPN 2** 由四个组成函数构成：**数据扩展函数(data expansion function）**、**数据依赖函数（data interdependence function）**, 
@@ -60,7 +60,7 @@ RPN 2 提供了灵活的模型设计和结构，并且允许用户搭建不同�
 
 ![multi_modal_data_structures.png](imgs/multi_modal_data_structures.png)
 
-本文还专门分析了几种常见数据的底层模态结构，包括图片、点云、语言、时序、和各类图结构数据。 如下图所示：
+本文还专门分析了几种常见数据的底层模态结构，包括图像、点云、语言、时序、和各类图结构数据。 如下图所示：
 
 * 图像和点云表示为网格结构数据，其中节点表示像素和体素，连边表示空间位置关系；
 
@@ -140,7 +140,7 @@ RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合�
 
 ![discrete_result.png](imgs/discrete_result.png)
 
-**Note**: 本文实验所使用的数据集，都没有使用基于 flipping, rotation 等技术进行数据增强。
+**Note**: 本文实验所使用的数据集，都没有使用基于 flipping, rotation 等技术进行数据增强。上表展示了各个方法在多个数据集上分类的 Accuracy score。
 
 ### 图片数据依赖扩展
 
@@ -149,8 +149,6 @@ RPN实现了丰富的功能函数，具体列表如上图所示。 通过组合�
 每个 cylinder patch 包含了每个 pixel 周围的有效的 context 信息。
 
 ![image_visualization.png](imgs/image_visualization.png)
-
-**Note**: 上表中的结果是各个方法在几个数据集上分类结果的 Accuracy。
 
 ### 时序数据预测
 
@@ -189,24 +187,24 @@ RPN 2 也可以有效地拟合时序数据，本文使用了四个时序数据�
 
 ![loss_term.png](imgs/loss_term.png)
 
-本文中，模型泛化误差是指 L_{exp} - L_{em}，即模型在未见到的数据样本上所产生的误差和在训练数据样本上产生的误差的区别：
+本文中，模型泛化误差是指 L_{exp} - L_{em}，即模型在未见到的数据样本上所产生的误差和在训练数据样本上产生的误差的差别：
 
 ![error_bound.png](imgs/error_bound.png)
 
 ### 基于 VC-Dimension 泛化误差分析
 
-基于模型结构，我们定义了模型的 VC-Dimension 如下图所示：
+基于 RPN 2 的模型结构，我们定义了模型的 VC-Dimension 如下图所示：
 
 ![vc_dimension.png](imgs/vc_dimension.png)
 
-根据模型的 VC-Dimension 我们定义了模型的 泛化误差如下图所示：
+根据所获得的 VC-Dimension 我们定义了 RPN 2 模型的泛化误差如下图所示：
 
 ![vc_dimension_bound.png](imgs/vc_dimension_bound.png)
 
 ### 基于 Rademacher Complexity 泛化误差分析
 
 除了 VC-dimension 之外，我们还基于 Rademacher Complexity 理论分析了模型的泛化误差。
-相比 VC-dimension，Rademacher Complexity 不仅仅考虑了模型结构，还考虑了输入数据对泛化误差的影响。
+相比 VC-dimension，Rademacher Complexity 不仅仅考虑了 RPN 2 模型结构，还考虑了输入数据对泛化误差的影响。
 
 基于提供的 RPN 2 模型，我们定义了模型 Rademacher Complexity 如下图所示：
 
