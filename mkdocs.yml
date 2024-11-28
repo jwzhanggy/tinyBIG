@@ -119,6 +119,8 @@ plugins:
       glob:
         - 'notes/*.py'
         - 'notes/*.ipynb'
+        - 'tutorials/*/*/*/*.py'
+        - 'tutorials/*/*/*/*.ipynb'
 
 extra_javascript:
   - overrides/javascripts/mathjax.js
@@ -591,6 +593,7 @@ nav:
       - Beginner's Tutorials:
         - tutorials/beginner/index.md
         - Expansion Function: tutorials/beginner/module/expansion_function.md
+        - Reconciliation Function: tutorials/beginner/module/reconciliation_function.md
 #        - Extended/Nested Expansion: tutorials/beginner/module/extended_nested_expansion.md
 #        - Reconciliation Function: tutorials/beginner/module/reconciliation_function.md
 #        - Remainder Function: tutorials/beginner/module/remainder_function.md

@@ -7,15 +7,15 @@
 </span>
 <span style="text-align: right;">
 
-    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.ipynb">
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/tutorials/beginner/module/code/expansion_tutorial.ipynb">
     <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/ipynb_icon.png" alt="Jupyter Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
     </a>
 
-    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/configs/expansion_function_postprocessing.yaml">
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/tutorials/beginner/module/code/configs/expansion_function_postprocessing.yaml">
     <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/yaml_icon.png" alt="Yaml Logo" style="height: 2em; vertical-align: middle; margin-right: 4px;">
     </a>
 
-    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/notes/expansion_tutorial.py">
+    <a href="https://github.com/jwzhanggy/tinyBIG/blob/main/docs/tutorials/beginner/module/code/expansion_tutorial.py">
     <img src="https://raw.githubusercontent.com/jwzhanggy/tinyBIG/main/docs/assets/img/python_icon.svg" alt="Python Logo" style="height: 2em; vertical-align: middle; margin-right: 10px;">
     </a>
 
@@ -54,9 +54,8 @@ Data expansion provides high-order signals and features about the input that can
 input space. For the data instances that cannot be separated in the input space, with such high-dimensional features, 
 the {{our}} model can also learn better parameters to approximate their underlying distributions for easier separations.
 
-The currently released `tinybig` package only implements data expansion functions. Meanwhile, the upcoming new versions of 
-`tinybig` in development will support both "data expansion functions" and "data compression function", which can both be 
-referred to as the **data transformation functions**. 
+The currently released `tinybig` package support both "data expansion functions" and "data compression function", 
+which can both be referred to as the **data transformation functions**. 
 
 In this tutorial, for many places, we will use the function names "data transformation function" and 
 "data expansion function" interchangeably without distinguishing their differences.
@@ -70,7 +69,7 @@ In the following figure, we illustrate some example of them, including their nam
 expansion dimension calculations. In the following parts of this tutorial, we will walk you through some of them to 
 help you get familiar with their usages.
 
-![data_expansion_functions.png](../../img/data_expansion_functions.png)
+![data_expansion_functions.png](img/data_expansion_functions.png)
 
 ## 3. Taylor's Expansion
 
@@ -144,13 +143,11 @@ data_transformation_configs = {
         'd': 2
     }
 }
-```
 
-```python linenums="1"
-from tinybig.util import get_obj_from_str
 import torch
+from tinybig.config.base_config import config
 
-exp_func = get_obj_from_str(data_transformation_configs['data_transformation_class'])(**data_transformation_configs['data_transformation_parameters'])
+exp_func = config.get_obj_from_str(data_transformation_configs['data_transformation_class'])(**data_transformation_configs['data_transformation_parameters'])
 
 x = torch.Tensor([[1, 2, 3]])
 kappa_x = exp_func(x)
@@ -236,14 +233,14 @@ Please save the following `expansion_function_postprocessing.yaml` to the direct
 === "Expansion Function in Python"
     ```python linenums="1"
     from tinybig.config import config
-    from tinybig.util import get_obj_from_str
+    from tinybig.config.base_config import config
     
     config_obj = config(name='taylor_expansion_config')
     func_configs = config_obj.load_yaml(cache_dir='./configs', config_file='expansion_function_postprocessing.yaml')
     print(func_configs)
     
     data_transformation_configs = func_configs['data_transformation_configs']
-    exp_func = get_obj_from_str(data_transformation_configs['data_transformation_class'])(**data_transformation_configs['data_transformation_parameters'])
+    exp_func = config.get_obj_from_str(data_transformation_configs['data_transformation_class'])(**data_transformation_configs['data_transformation_parameters'])
     
     x = torch.Tensor([[1, 2, 3]])
     kappa_x = exp_func(x)
@@ -281,13 +278,13 @@ of the expansion functions, respectively. Also, as the parameter `d` of Taylor's
     and even just as function string name `"layer_norm"` (which is used in the previous [Quickstart tutorial](../../../guides/quick_start.md)).
     
     All the pre- and post-processing functions (as well as the output-processing and activation functions to be introduced later)
-    are all handled by `tinybig.util.process_function_list`, `tinybig.util.func_x` and `tinybig.util.str_func_x`.
+    are all handled by `tinybig.module.function.func_x` and `tinybig.module.function.str_func_x`.
 
     We recommend you to define these functions as objects, like `torch.nn.LayerNorm` together with the parameters as shown above, 
-    which will be first instantiated by `tinybig.util.process_function_list` into callable objects, and then executed by 
-    `tinybig.util.func_x`, without entering `tinybig.util.str_func_x`.
+    which will be first instantiated by `tinybig.config.config.instantiation_functions` into callable objects, and then executed by 
+    `tinybig.module.function.func_x`, without entering `tinybig.module.function.str_func_x`.
 
-    The current `tinybig.util.str_func_x` can only handle the string names of a few frequently used functions, which may
+    The current `tinybig.module.function.str_func_x` can only handle the string names of a few frequently used functions, which may
     fail to work for the functions whose names or classes have not been recorded yet. 
     
 
@@ -343,13 +340,13 @@ and after the expansion as follows:
 show_image(raw_image.view(28, 28))
 ```
 ???+ quote "MNIST raw image display"
-    ![mnist_raw_data_vector.png](../../img/mnist_raw_data_vector.png)
+    ![mnist_raw_data_vector.png](img/mnist_raw_data_vector.png)
 
 ```python linenums="1"
 show_image(expansion_image.view(784, 784))
 ```
 ???+ quote "MNIST expansion image display"
-    ![mnist_raw_data_vector.png](../../img/mnist_expansion_data.png)
+    ![mnist_raw_data_vector.png](img/mnist_expansion_data.png)
 
 Compared with the raw image, the above expansion image visualization is less readable, which makes it hard to interpret 
 the expansion results.
@@ -370,7 +367,7 @@ print(reshaped_expansion_image.shape)
 show_image(reshaped_expansion_image)
 ```
 ???+ quote "MNIST reshaped expansion image display"
-    ![mnist_raw_data_vector.png](../../img/mnist_expansion_data_reshape.png)
+    ![mnist_raw_data_vector.png](img/mnist_expansion_data_reshape.png)
 
 The above image visualization illustrates the expansion effects of each pixel in the image to the whole raw image,
 and there are $28 \times 28$ sub-images in the expansion results.

@@ -1,2 +1,2 @@
 
-![remainder_functions.png](../../img/remainder_functions.png)
+![remainder_functions.png](img/remainder_functions.png)

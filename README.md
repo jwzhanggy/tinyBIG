@@ -97,11 +97,11 @@ tensor([[1., 2., 1., 2., 2., 4.]])
 
 ### Tutorials
 
-|                                      Tutorial ID                                      |           Tutorial Title           |      Last Update      |
-|:-------------------------------------------------------------------------------------:|:----------------------------------:|:---------------------:|
-|               [Tutorial 0](https://www.tinybig.org/guides/quick_start/)               |        Quickstart Tutorial         |     July 6, 2024      |
-| [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)  |      Data Expansion Functions      |     July 7, 2024      |
-|                                      Tutorial 2                                       | Extended and Nested Data Expansion |          TBD          |
+|                                       Tutorial ID                                        |           Tutorial Title           |      Last Update       |
+|:----------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
+|                [Tutorial 0](https://www.tinybig.org/guides/quick_start/)                 |        Quickstart Tutorial         |      July 6, 2024      |
+|   [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)    |      Data Expansion Functions      |      July 7, 2024      |
+| [Tutorial 2](https://www.tinybig.org/tutorials/beginner/module/reconciliation_function/) | Parameter Reconciliation Functions |   November 28, 2024    |
 
 ### Examples
 
@@ -123,20 +123,31 @@ tensor([[1., 2., 1., 2., 2., 4.]])
 
 ### Library Organizations
 
-| Components                                                                              | Descriptions                                                                                   |
-|:----------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
-| [`tinybig`](https://www.tinybig.org/documentations/tinybig/)                            | a deep function learning library like torch.nn, deeply integrated with autograd                |
-| [`tinybig.expansion`](https://www.tinybig.org/documentations/expansion/)                | a library providing the "data expansion functions" for multi-modal data effective expansions   |
-| [`tinybig.reconciliation`](https://www.tinybig.org/documentations/reconciliation/)      | a library providing the "parameter reconciliation functions" for parameter efficient learning  |
-| [`tinybig.remainder`](https://www.tinybig.org/documentations/remainder/)                | a library providing the "remainder functions" for complementary information addition           |
-| [`tinybig.module`](https://www.tinybig.org/documentations/module/)                      | a library providing the basic building blocks for RPN model designing and implementation       |
-| [`tinybig.model`](https://www.tinybig.org/documentations/model/)                        | a library providing the RPN models for addressing various deep function learning tasks         |
-| [`tinybig.config`](https://www.tinybig.org/documentations/config/)                      | a library providing model component instantiation from textual configuration descriptions      |
-| [`tinybig.learner`](https://www.tinybig.org/documentations/learner/)                    | a library providing the learners that can be used for RPN model training and testing           |
-| [`tinybig.data`](https://www.tinybig.org/documentations/data/)                          | a library providing multi-modal datasets for solving various deep function learning tasks      |
-| [`tinybig.output`](https://www.tinybig.org/documentations/output/)                      | a library providing the processing method interfaces for output processing, saving and loading |
-| [`tinybig.metric`](https://www.tinybig.org/documentations/metric/)                      | a library providing the  metrics that can be used for RPN model performance evaluation         |
-| [`tinybig.util`](https://www.tinybig.org/documentations/util/)                          | a library of utility functions for RPN model design, implementation and learning               | 
+| Components                                                                           | Descriptions                                                                                        |
+|:-------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------|
+| [`tinybig`](https://www.tinybig.org/documentations/tinybig/)                         | a deep function learning library like torch.nn, deeply integrated with autograd                     |
+| [`tinybig.model`](https://www.tinybig.org/documentations/model/)                     | a library providing the RPN models for addressing various deep function learning tasks              |
+| [`tinybig.module`](https://www.tinybig.org/documentations/module/)                   | a library providing the basic building blocks for RPN model designing and implementation            |
+| [`tinybig.layer`](https://www.tinybig.org/documentations/layer/)                     | a library providing the implemented layers for RPN model designing and implementation               |
+| [`tinybig.head`](https://www.tinybig.org/documentations/head/)                       | a library providing the implemented heads for RPN model designing and implementation                |
+| [`tinybig.config`](https://www.tinybig.org/documentations/config/)                   | a library providing model component instantiation from textual configuration descriptions           |
+| [`tinybig.expansion`](https://www.tinybig.org/documentations/expansion/)             | a library providing the "data expansion functions" for effective data expansions                    |
+| [`tinybig.compression`](https://www.tinybig.org/documentations/compression/)         | a library providing the "data compression functions" for effective data compression                 |
+| [`tinybig.transformation`](https://www.tinybig.org/documentations/transformation/)   | a library providing the "data transformation functions" for effective data transformation           |
+| [`tinybig.reconciliation`](https://www.tinybig.org/documentations/reconciliation/)   | a library providing the "parameter reconciliation functions" for parameter efficient learning       |
+| [`tinybig.remainder`](https://www.tinybig.org/documentations/remainder/)             | a library providing the "remainder functions" for complementary information addition                |
+| [`tinybig.interdependence`](https://www.tinybig.org/documentations/interdependence/) | a library providing the "interdependence functions" for data interdependence relationships modeling |
+| [`tinybig.fusion`](https://www.tinybig.org/documentations/fusion/)                   | a library providing the "fusionn functions" for multi-source/channel/head data integration          |
+| [`tinybig.koala`](https://www.tinybig.org/documentations/koala/)                     | a library providing the functions from mathematics, statistics and other interdisciplinary sciences |
+| [`tinybig.data`](https://www.tinybig.org/documentations/data/)                       | a library providing multi-modal datasets for solving various deep function learning tasks           |
+| [`tinybig.output`](https://www.tinybig.org/documentations/output/)                   | a library providing the processing method interfaces for output processing, saving and loading      |
+| [`tinybig.loss`](https://www.tinybig.org/documentations/loss/)                       | a library providing the loss functions for model introduced error computation in learning           |
+| [`tinybig.metric`](https://www.tinybig.org/documentations/metric/)                      | a library providing the metrics that can be used for model performance evaluation                   |
+| [`tinybig.optimizer`](https://www.tinybig.org/documentations/optimizer/)                      | a library providing the optimizers that can be used for model parameter optimization in training    |
+| [`tinybig.learner`](https://www.tinybig.org/documentations/learner/)                      | a library providing the learner that can be used for model effective and efficient training         |
+| [`tinybig.visual`](https://www.tinybig.org/documentations/visual/)                          | a library of utility functions for data, model and learning process visualization and rendering     |
+| [`tinybig.util`](https://www.tinybig.org/documentations/util/)                          | a library of utility functions for RPN model design, implementation and learning                    | 
+| [`tinybig.zootopia`](https://www.tinybig.org/documentations/zootopia/)                          | a library of models developed with the functions for concrete AI applications                       | 
 
 
 ### License & Copyright
