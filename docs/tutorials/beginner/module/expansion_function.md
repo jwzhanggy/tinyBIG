@@ -35,7 +35,7 @@ refer to that section of the paper for more detailed technical descriptions when
 
 **References**:
 
-`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN.`
+`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN. ArXiv abs/2407.04819 (2024).`
 
 ----------------------------------------
 
@@ -60,7 +60,7 @@ which can both be referred to as the **data transformation functions**.
 In this tutorial, for many places, we will use the function names "data transformation function" and 
 "data expansion function" interchangeably without distinguishing their differences.
 
-## 2. Examples of Data Expansion Functions?
+## 2. Examples of Data Expansion Functions.
 
 In {{toolkit}}, several different families of data expansion functions have been implemented, whose detailed information
 is also available at the expansion function [documentation pages](../../../documentations/expansion/index.md).
@@ -71,7 +71,7 @@ help you get familiar with their usages.
 
 ![data_expansion_functions.png](img/data_expansion_functions.png)
 
-## 3. Taylor's Expansion
+## 3. Taylor's Expansion.
 
 Formally, given a vector $\mathbf{x} = [x_1, x_2, \cdots, x_m] \in R^m$ of dimension $m$, its Taylor's expansion 
 polynomials with orders no greater than $d$ can be represented as follows:
@@ -99,7 +99,7 @@ P_2(\mathbf{x}) &= [x_1^2,  x_1 x_2, x_1 x_3, \cdots, x_1 x_m, x_2 x_1, x_2^2, x
 \end{aligned}
 \end{equation}
 
-### 3.1 Taylor's Expansion Function
+### 3.1 Taylor's Expansion Function.
 
 Taylor's expansion has been implemented in `tinybig`, which can be called and applied to inputs as follows:
 ```python linenums="1"
@@ -127,7 +127,7 @@ As reminded before in the [Quickstart tutorial](../../../guides/quick_start.md),
 with shape $(B, m)$ as inputs, where $B$ denotes the batch size and $m$ denotes the input dimension length.
 
 
-### 3.2 Taylor's Expansion Function Instantiation from Configs
+### 3.2 Taylor's Expansion Function Instantiation from Configs.
 
 Besides the manual definition of the expansion functions, `tinybig` also allows the function instantiation from the 
 configurations. 
@@ -161,7 +161,7 @@ In the following tutorials, to make the code more descent, we will just use the 
 other functions, modules and models implemented in the {{toolkit}} toolkit.
 
 
-## 4. Optional processing functions for expansions
+## 4. Optional processing functions for expansions.
 
 Besides doing the expansions, `tinybig` also allows the data expansion functions to apply optional pre- and post-processing
 functions to the inputs and outputs of the expansion functions, respectively.
@@ -170,7 +170,7 @@ These optional pre- and post-processing functions will provide {{our}} and {{too
 design and implementation. In this part, we will illustrate how to add these processing functions into the data expansion
 functions.
 
-### 4.1 Pre-processing functions
+### 4.1 Pre-processing functions.
 
 The pre-processing function used in data expansion can be very diverse, including different activation functions and 
 normalization functions. You can also define your customized pre-processing function and use them for data expansions.
@@ -222,7 +222,7 @@ print(x, kappa_x)
           0.2980, -1.4190,  0.2980,  1.1210]], grad_fn=<CatBackward0>)
     ```
 
-### 4.2 Post-processing functions
+### 4.2 Post-processing functions.
 
 Below, we will define the Taylor's expansion functions with post-processing functions. 
 
@@ -288,7 +288,7 @@ of the expansion functions, respectively. Also, as the parameter `d` of Taylor's
     fail to work for the functions whose names or classes have not been recorded yet. 
     
 
-## 5. Expansion Visualization
+## 5. Expansion Visualization.
 
 We have defined the Taylor's expansion function above and also introduced how to add different pre- and post-processing
 functions to process the input and output of the expansions.
@@ -375,7 +375,7 @@ and there are $28 \times 28$ sub-images in the expansion results.
 These high-order expansions actually provide some important features about the input data. 
 We will discuss more about this in the following tutorials on the {{our}} model and the parameter reconciliation.
 
-## 6. Conclusion
+## 6. Conclusion.
 
 In this tutorial, we discussed the data expansion functions in the {{toolkit}} toolkit. We introduced different ways to 
 define the expansion functions, including both manual function definition and configuration file based function 

@@ -35,7 +35,7 @@ refer to that section of the paper for more detailed technical descriptions when
 
 **References**:
 
-`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN.`
+`[1] Jiawei Zhang. RPN: Reconciled Polynomial Network. Towards Unifying PGMs, Kernel SVMs, MLP and KAN. ArXiv abs/2407.04819 (2024).`
 
 ----------------------------------------
 
@@ -349,7 +349,7 @@ print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
     w vector shape: torch.Size([1, 12]) ; W matrix shape: torch.Size([6, 12])
     ```
 
-## Reconciliation Function from Configs
+## 5. Reconciliation Function instantiation from Configs.
 
 Besides the above manual function definitions, we will also briefly introduce how to instantiate the 
 reconciliation function instances from their configurations.
@@ -446,3 +446,13 @@ Please save the following `reconciliation_function_config.yaml` to the directory
     
     w vector shape: torch.Size([1, 12]) ; W matrix shape: torch.Size([6, 12])
     ```
+
+## 6. Conclusion.
+
+In this tutorial, we discussed the parameter reconciliation functions in the {{toolkit}} toolkit. 
+We illustrate several different examples of parameter reconciliation functions.
+We also use concrete examples to illustrate how to define the reconciliation functions and use them for computing the
+reconciled parameters, including both basic ones, like identity and duplicated padding reconciliation functions, 
+and more advanced ones, like low-rank, hm, lphm and dual-lphm reconciliation functions.
+What's more, we also introduced different ways to define the reconciliation functions, 
+including both manual function definition and configuration file based function instantiation.
