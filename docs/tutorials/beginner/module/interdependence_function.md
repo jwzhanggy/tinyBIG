@@ -297,7 +297,13 @@ learnable parameter vector $\mathbf{w} \in {R}^{l_{\xi}}$ with length $l_{\xi} =
 
 As introduced in the RPN 2 paper, the parameter matrix $\mathbf{W}$ can also be fabricated with the reconciliation
 functions, which can reduce the number of required parameters in the interdependence function, e.g., low-rank or lphm
-reconciliations. An example of the low-rank parameterized bilinear interdependence function is shown below.
+reconciliations. An example of the low-rank parameterized bilinear interdependence function is shown below:
+
+\begin{equation}
+\xi(\mathbf{X} | \mathbf{w}) = \mathbf{X}^\top \left( \mathbf{W}_p \mathbf{W}_q^\top \right) \mathbf{X} = (\mathbf{X}^\top \mathbf{W}_p)(\mathbf{X}^\top \mathbf{W}_q)^\top = \mathbf{A} \in R^{m \times m},
+\end{equation}
+
+where $\mathbf{W}_p \in R^{b \times r}$ and $\mathbf{W}_q \in R^{b \times r}$ denote two low-rank sub-matrices (of rank $r$).
 
 === "Instance Interdependence Function in Python"
     ```python linenums="1"
