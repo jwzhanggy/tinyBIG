@@ -1,0 +1,124 @@
+configurations:
+  device: &device mps
+  random_seed: 1234
+
+  data_configs:
+    data_class: tinybig.data.imdb
+    data_parameters:
+      name: imdb
+      train_batch_size: 64
+      test_batch_size: 64
+
+  learner_configs:
+    learner_class: tinybig.learner.backward_learner
+    learner_parameters:
+      name: error_backward_propagation
+      n_epochs: 10
+      optimizer_configs:
+        optimizer_class: torch.optim.AdamW
+        optimizer_parameters:
+          lr: 1.0e-04
+          weight_decay: 1.0e-05
+      lr_scheduler_configs:
+        lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
+        lr_scheduler_parameters:
+          gamma: 0.83
+      loss_configs:
+        loss_class: torch.nn.CrossEntropyLoss
+        loss_parameters:
+          reduction: mean
+
+  model_configs:
+    model_class: tinybig.model.rpn
+    model_parameters:
+      device: *device
+      name: reconciled_polynomial_network
+      depth: 3
+      depth_alloc: [1, 1, 1]
+      layer_configs:
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 26964
+            n: 128
+            width: 1
+            width_alloc: [1]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
+                      name: identity_expansion
+                  parameter_fabrication_configs:
+                    function_class: tinybig.reconciliation.lorr_reconciliation
+                    function_parameters:
+                      name: lorr_reconciliation
+                      r: 2
+                  remainder_configs:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
+                      name: zero_remainder
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 128
+            n: 32
+            width: 1
+            width_alloc: [ 1 ]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
+                      name: identity_expansion
+                  parameter_fabrication_configs:
+                    function_class: tinybig.reconciliation.lorr_reconciliation
+                    function_parameters:
+                      name: lorr_reconciliation
+                      r: 2
+                  remainder_configs:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
+                      name: zero_remainder
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 32
+            n: 2
+            width: 1
+            width_alloc: [ 1 ]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
+                      name: identity_expansion
+                  parameter_fabrication_configs:
+                    function_class: tinybig.reconciliation.lorr_reconciliation
+                    function_parameters:
+                      name: lorr_reconciliation
+                      r: 2
+                  remainder_configs:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
+                      name: zero_remainder
+
+
+  metric_configs:
+    metric_class: tinybig.metric.accuracy
+    metric_parameters:
+      name: accuracy
+
+  output_configs:
+    output_class: tinybig.output.rpn_output
+    output_parameters:
+      name: prediction_output
