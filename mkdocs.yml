@@ -594,7 +594,7 @@ nav:
         - tutorials/beginner/index.md
         - Expansion Function: tutorials/beginner/module/expansion_function.md
         - Reconciliation Function: tutorials/beginner/module/reconciliation_function.md
-        - Interdependence Function: tutorials/beginner/module/interdependence_function.md
+        - Data Interdependence Function: tutorials/beginner/module/interdependence_function.md
       - Advanced Tutorials:
         - tutorials/advanced/index.md
   - Examples:
