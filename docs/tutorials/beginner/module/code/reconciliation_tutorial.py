@@ -1,3 +1,4 @@
+#%%
 import torch
 from tinybig.reconciliation import identity_reconciliation
 
@@ -11,7 +12,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.reconciliation import duplicated_padding_reconciliation
 
@@ -27,7 +28,7 @@ W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 
-
+#%%
 import torch
 from tinybig.reconciliation import lorr_reconciliation
 
@@ -42,7 +43,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.reconciliation import hm_reconciliation
 
@@ -57,7 +58,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func_manual(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.reconciliation import hm_reconciliation
 
@@ -71,7 +72,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.reconciliation import lphm_reconciliation
 
@@ -86,7 +87,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.reconciliation import dual_lphm_reconciliation
 
@@ -101,7 +102,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 import torch
 from tinybig.config.base_config import config
 
@@ -125,7 +126,7 @@ w = torch.nn.Parameter(torch.randn(1, l), requires_grad=True)
 W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
-
+#%%
 from tinybig.config.base_config import config
 
 parameter_reconciliation_configs = {
@@ -139,15 +140,16 @@ parameter_reconciliation_configs = {
 }
 
 rec_func = config.instantiation_from_configs(configs=parameter_reconciliation_configs, class_name='parameter_reconciliation_class', parameter_name='parameter_reconciliation_parameters')
-
-
+#%% md
+# 
+#%%
 import torch
 from tinybig.config.base_config import config
 
 config_obj = config(name='dual_lphm_reconciliation_function_config')
 func_configs = config_obj.load_yaml(cache_dir='./configs', config_file='reconciliation_function_config.yaml')
 
-rec_func = config.instantiation_from_configs(configs=parameter_reconciliation_configs, class_name='parameter_reconciliation_class', parameter_name='parameter_reconciliation_parameters')
+rec_func = config.instantiation_from_configs(configs=func_configs['parameter_reconciliation_configs'], class_name='parameter_reconciliation_class', parameter_name='parameter_reconciliation_parameters')
 
 n, D = 6, 12
 l = rec_func.calculate_l(n=n, D=D)

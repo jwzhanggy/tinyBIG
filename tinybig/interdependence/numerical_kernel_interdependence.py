@@ -166,7 +166,6 @@ class numerical_kernel_based_interdependence(interdependence):
             A = self.post_process(x=A, device=device)
 
             if self.interdependence_type in ['column', 'right', 'attribute', 'attribute_interdependence']:
-                print(x.shape, A.shape, self.m, self.calculate_m_prime())
                 assert A.shape == (self.m, self.calculate_m_prime())
             elif self.interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
                 assert A.shape == (self.b, self.calculate_b_prime())

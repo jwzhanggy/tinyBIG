@@ -148,7 +148,7 @@ W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "Duplicated padding reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 18
     
@@ -194,7 +194,7 @@ W = rec_func(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "Low-Rank reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 18
 
@@ -237,7 +237,7 @@ W = rec_func_manual(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "HM reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 22
 
@@ -263,7 +263,7 @@ W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "HM reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 18
 
@@ -304,7 +304,7 @@ W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "LPHM reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 13
 
@@ -342,7 +342,7 @@ W = rec_func_auto(w=w, n=n, D=D)
 
 print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
 ```
-???+ quote "Identity reconciliation printing output"
+???+ quote "Dual-LPHM reconciliation printing output"
     ```
     n: 6 ; D: 12 ; l: 12
 
@@ -415,7 +415,11 @@ Please save the following `reconciliation_function_config.yaml` to the directory
     config_obj = config(name='dual_lphm_reconciliation_function_config')
     func_configs = config_obj.load_yaml(cache_dir='./configs', config_file='reconciliation_function_config.yaml')
     
-    rec_func = config.instantiation_from_configs(configs=parameter_reconciliation_configs, class_name='parameter_reconciliation_class', parameter_name='parameter_reconciliation_parameters')
+    rec_func = config.instantiation_from_configs(
+        configs=func_configs['parameter_reconciliation_configs'], 
+        class_name='parameter_reconciliation_class', 
+        parameter_name='parameter_reconciliation_parameters'
+    )
     
     n, D = 6, 12
     l = rec_func.calculate_l(n=n, D=D)
@@ -427,7 +431,7 @@ Please save the following `reconciliation_function_config.yaml` to the directory
     print("w vector shape:", w.shape, "; W matrix shape:", W.shape)
     ```
 
-=== "./configs/expansion_function_postprocessing.yaml"
+=== "./configs/reconciliation_function_config.yaml"
     ```yaml linenums="1"
     parameter_reconciliation_configs:
       parameter_reconciliation_class: tinybig.reconciliation.dual_lphm_reconciliation
@@ -440,7 +444,7 @@ Please save the following `reconciliation_function_config.yaml` to the directory
         enable_bias: True
         device: cpu
     ```
-???+ quote "Taylor's expansion with post-processing sigmoid and layer-norm"
+???+ quote "Reconciliation function instantiation from Configs"
     ```
     n: 6 ; D: 12 ; l: 12
     

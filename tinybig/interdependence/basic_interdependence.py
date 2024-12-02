@@ -437,6 +437,9 @@ class identity_interdependence(constant_interdependence):
             Warning
                 If `b != b_prime` or `m != m_prime`, indicating that the interdependence is not strictly identity.
         """
+        b_prime = b_prime if b_prime is not None else b
+        m_prime = m_prime if m_prime is not None else m
+
         if interdependence_type in ['row', 'left', 'instance', 'instance_interdependence']:
             assert b_prime is not None
             A = torch.eye(b, b_prime, device=device)
@@ -451,3 +454,4 @@ class identity_interdependence(constant_interdependence):
         else:
             raise ValueError(f'Interdependence type {interdependence_type} is not supported')
         super().__init__(b=b, m=m, A=A, name=name, interdependence_type=interdependence_type, device=device, *args, **kwargs)
+

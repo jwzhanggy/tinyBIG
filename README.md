@@ -97,11 +97,12 @@ tensor([[1., 2., 1., 2., 2., 4.]])
 
 ### Tutorials
 
-|                                       Tutorial ID                                        |           Tutorial Title           |      Last Update       |
-|:----------------------------------------------------------------------------------------:|:----------------------------------:|:----------------------:|
-|                [Tutorial 0](https://www.tinybig.org/guides/quick_start/)                 |        Quickstart Tutorial         |      July 6, 2024      |
-|   [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)    |      Data Expansion Functions      |      July 7, 2024      |
-| [Tutorial 2](https://www.tinybig.org/tutorials/beginner/module/reconciliation_function/) | Parameter Reconciliation Functions |   November 28, 2024    |
+|                                        Tutorial ID                                        |                Tutorial Title                |    Last Update    |
+|:-----------------------------------------------------------------------------------------:|:--------------------------------------------:|:-----------------:|
+|                 [Tutorial 0](https://www.tinybig.org/guides/quick_start/)                 |             Quickstart Tutorial              |   July 6, 2024    |
+|    [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)    |           Data Expansion Functions           |   July 7, 2024    |
+| [Tutorial 2](https://www.tinybig.org/tutorials/beginner/module/reconciliation_function/)  |      Parameter Reconciliation Functions      | November 28, 2024 |
+| [Tutorial 3](https://www.tinybig.org/tutorials/beginner/module/interdependence_function/) |        Data Interdependence Functions        | December 1, 2024  |
 
 ### Examples
 
