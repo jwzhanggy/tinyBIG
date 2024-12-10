@@ -14,6 +14,8 @@
     * RPN 1 (July 2024): https://arxiv.org/abs/2407.04819
     * RPN 2 (November 2024): https://arxiv.org/abs/2411.11162
     * RPN 3 (To be released ...)
+* `tinybig` based Applications:
+    * TBD
 * Official Website: https://www.tinybig.org/
 * PyPI: https://pypi.org/project/tinybig/
 * IFM Lab: https://www.ifmlab.org/index.html
@@ -97,12 +99,13 @@ tensor([[1., 2., 1., 2., 2., 4.]])
 
 ### Tutorials
 
-|                                        Tutorial ID                                        |                Tutorial Title                |    Last Update    |
-|:-----------------------------------------------------------------------------------------:|:--------------------------------------------:|:-----------------:|
-|                 [Tutorial 0](https://www.tinybig.org/guides/quick_start/)                 |             Quickstart Tutorial              |   July 6, 2024    |
-|    [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)    |           Data Expansion Functions           |   July 7, 2024    |
-| [Tutorial 2](https://www.tinybig.org/tutorials/beginner/module/reconciliation_function/)  |      Parameter Reconciliation Functions      | November 28, 2024 |
-| [Tutorial 3](https://www.tinybig.org/tutorials/beginner/module/interdependence_function/) |        Data Interdependence Functions        | December 1, 2024  |
+|                                         Tutorial ID                                         |            Tutorial Title            |    Last Update    |
+|:-------------------------------------------------------------------------------------------:|:------------------------------------:|:-----------------:|
+|                  [Tutorial 0](https://www.tinybig.org/guides/quick_start/)                  |         Quickstart Tutorial          |   July 6, 2024    |
+|     [Tutorial 1](https://www.tinybig.org/tutorials/beginner/module/expansion_function/)     |       Data Expansion Functions       |   July 7, 2024    |
+|  [Tutorial 2](https://www.tinybig.org/tutorials/beginner/module/reconciliation_function/)   |  Parameter Reconciliation Functions  | November 28, 2024 |
+|  [Tutorial 3](https://www.tinybig.org/tutorials/beginner/module/interdependence_function/)  |    Data Interdependence Functions    | December 1, 2024  |
+| [Tutorial 4](https://www.tinybig.org/tutorials/beginner/module/interdependence_function_2/) | Structural Interdependence Functions | December 10, 2024 |
 
 ### Examples
 

@@ -121,7 +121,7 @@ class imagenet(vision_dataloader):
     #     x = torch.flatten(x)
     #     return x.view(-1)
 
-    def load(self, cache_dir='./data/', *args, **kwargs):
+    def load(self, cache_dir='./data/', with_transformation: bool = True, *args, **kwargs):
         """
         Loads and preprocesses the ImageNet dataset.
 
@@ -129,6 +129,8 @@ class imagenet(vision_dataloader):
         ----------
         cache_dir : str, optional
             Directory to cache the dataset, default is './data/'.
+        with_transformation : bool, optional
+            Whether to load the training or testing dataset with transformation, default is True.
         *args, **kwargs
             Additional arguments for dataset loading.
 
@@ -137,14 +139,19 @@ class imagenet(vision_dataloader):
         dict
             A dictionary containing the train and test dataloaders.
         """
-        imagenet_transform = transforms.Compose([
-            transforms.Resize(256),
-            transforms.RandomResizedCrop(224),
-            #transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-            torch.flatten
-        ])
+        if with_transformation:
+            imagenet_transform = transforms.Compose([
+                transforms.Resize(256),
+                transforms.RandomResizedCrop(224),
+                #transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+                torch.flatten
+            ])
+        else:
+            imagenet_transform = Compose([
+                transforms.ToTensor(),
+            ])
 
         train_loader = DataLoader(
             ImageNet(root=cache_dir, split='train', transform=imagenet_transform),
@@ -198,7 +205,7 @@ class cifar10(vision_dataloader):
         """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
-    def load(self, cache_dir='./data/', *args, **kwargs):
+    def load(self, cache_dir='./data/', with_transformation: bool = True, *args, **kwargs):
         """
         Loads and preprocesses the CIFAR-10 dataset.
 
@@ -206,6 +213,8 @@ class cifar10(vision_dataloader):
         ----------
         cache_dir : str, optional
             Directory to cache the dataset, default is './data/'.
+        with_transformation : bool, optional
+            Whether to load the training or testing dataset with transformation, default is True.
         *args, **kwargs
             Additional arguments for dataset loading.
 
@@ -214,12 +223,17 @@ class cifar10(vision_dataloader):
         dict
             A dictionary containing the train and test dataloaders, and the class labels.
         """
-        transform = Compose([
-            # transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616)),
-            torch.flatten
-        ])
+        if with_transformation:
+            transform = Compose([
+                # transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                Normalize((0.4914, 0.4822, 0.4465), (0.2470, 0.2435, 0.2616)),
+                torch.flatten
+            ])
+        else:
+            transform = Compose([
+                transforms.ToTensor(),
+            ])
 
         train_loader = DataLoader(
             CIFAR10(root=cache_dir, train=True, download=True, transform=transform),
@@ -276,7 +290,7 @@ class mnist(vision_dataloader):
         """
         super().__init__(name=name, train_batch_size=train_batch_size, test_batch_size=test_batch_size)
 
-    def load(self, cache_dir='./data/', *args, **kwargs):
+    def load(self, cache_dir='./data/', with_transformation: bool = True, *args, **kwargs):
         """
         Loads and preprocesses the MNIST dataset.
 
@@ -284,6 +298,8 @@ class mnist(vision_dataloader):
         ----------
         cache_dir : str, optional
             Directory to cache the dataset, default is './data/'.
+        with_transformation : bool, optional
+            Whether to load the training or testing dataset with transformation, default is True.
         *args, **kwargs
             Additional arguments for dataset loading.
 
@@ -293,12 +309,17 @@ class mnist(vision_dataloader):
             A dictionary containing the train and test dataloaders.
         """
 
-        transform = Compose([
-            # transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            Normalize((0.1307,), (0.3081,)),
-            torch.flatten
-        ])
+        if with_transformation:
+            transform = Compose([
+                # transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                Normalize((0.1307,), (0.3081,)),
+                torch.flatten
+            ])
+        else:
+            transform = Compose([
+                transforms.ToTensor(),
+            ])
 
         train_loader = DataLoader(
             MNIST(root=cache_dir, train=True, download=True, transform=transform),

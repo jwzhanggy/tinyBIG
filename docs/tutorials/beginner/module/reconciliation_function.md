@@ -407,7 +407,7 @@ for the function instantiation.
 
 Please save the following `reconciliation_function_config.yaml` to the directory `./configs/` that your code can access:
 
-=== "Expansion Function in Python"
+=== "Reconciliation Function in Python"
     ```python linenums="1"
     import torch
     from tinybig.config.base_config import config

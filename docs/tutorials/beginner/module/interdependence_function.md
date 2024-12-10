@@ -1,4 +1,4 @@
-# Tutorial on Data Interdependence Functions 
+# Tutorial on Data Interdependence Functions
 
 <div style="display: flex; justify-content: space-between;">
 <span style="text-align: left;">
@@ -42,26 +42,37 @@ refer to that section of the paper for more detailed technical descriptions when
 ## 1. What is Data Interdependence Function?
 
 **Data interdependence functions** denotes a new family of interdependence functions capable of modeling a wide range of 
-interdependence relationships among both attributes and instances. 
-These functions can be defined using input data batches, underlying geometric and topological structures, 
-optional learnable parameters, or a hybrid combination of these elements. 
-
-Formally, based on the (optional) input data batch $\mathbf{X} \in {R}^{b \times m}$ (with $b$ instances and each instance with $m$ attributes), 
-we define the interdependence functions modeling the interdependence relationships among instances and attributes in the data batch as follows:
+interdependence relationships among both attributes and instances:
 
 \begin{equation}
 \xi_a: {R}^{b \times m} \to {R}^{m \times m'} \text{, and }
 \xi_i: {R}^{b \times m} \to {R}^{b \times b'},
 \end{equation}
 
-where $m'$ and $b'$ denote the output dimensions of their respective interdependence functions, respectively.
+where ${R}^{b \times m}$ denotes the input data batch space (with $b$ instances and $m$ attributes), and ${R}^{m \times m'}$
+, ${R}^{b \times b'}$ denote the spaces of the attribute and instance interdependence matrices, respectively.
+Notations, $m'$ and $b'$ denote the output dimensions of their respective interdependence functions.
+
+These functions can be defined using input data batches, underlying geometric and topological structures, 
+optional learnable parameters, or a hybrid combination of these elements. 
+
+For instance, based on the (optional) input data batch $\mathbf{X} \in {R}^{b \times m}$ (with $b$ instances and each instance with $m$ attributes), 
+we compute the interdependence matrices modeling the interdependence relationships among instances and attributes in the data batch as follows:
+
+\begin{equation}
+\xi_a(\mathbf{X}) = \mathbf{A}_a \in {R}^{m \times m'} \text{, and }
+\xi_i(\mathbf{X}) = \mathbf{A}_i \in {R}^{b \times b'}.
+\end{equation}
+
+For most of the interdependence functions to be introduced below, by default, we have the dimensions $b'=b$ and $m'=m$
+hold unless otherwise specified.
 
 ## 2. Examples of Data Interdependence Functions.
 
 In the `tinybig` library, several different families of data interdependence functions have been implemented, whose detailed information
 is also available at the reconciliation function [documentation pages](../../../documentations/interdependence/index.md).
 
-In the following figure, we illustrate some example of them, including their names, formulas, and the corresponding 
+In the following figure (functions 1-8), we illustrate some example of them, including their names, formulas, and the corresponding 
 output space dimensions. In the following parts of this tutorial, we will walk you through some of them to 
 help you get familiar with some of these functions implemented in the `tinybig` library.
 
@@ -362,7 +373,7 @@ which can be loaded for the function instantiation.
 
 Please save the following `data_interdependence_function_config.yaml` to the directory `./configs/` that your code can access:
 
-=== "Expansion Function in Python"
+=== "Interdependence Function in Python"
     ```python linenums="1"
     from tinybig.util import set_random_seed
 
@@ -414,7 +425,7 @@ Please save the following `data_interdependence_function_config.yaml` to the dir
         require_data: True
         device: cpu
     ```
-???+ quote "Reconciliation function instantiation from Configs"
+???+ quote "Interdependence function instantiation from Configs"
     ```
     l_xi: 4
     m_prime: 4
