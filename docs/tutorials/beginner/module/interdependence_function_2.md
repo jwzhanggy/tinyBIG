@@ -264,7 +264,7 @@ print('interdependence matrix A shape: ', A.shape)
 xi_x = dep_func(x=img_flat.unsqueeze(0)).squeeze(0)
 print('xi_x shape: ', xi_x.shape)
 ```
-???+ quote "MNIST raw image display"
+???+ quote "Interdependence function outputs"
     ```
     patch_size:  49 ; m_prime:  150528
     interdependence matrix A shape:  torch.Size([1024, 50176])
@@ -359,7 +359,7 @@ print('interdependence matrix A shape: ', A.shape)
 xi_x = dep_func(x=img_flat.unsqueeze(0)).squeeze(0)
 print('xi_x shape: ', xi_x.shape)
 ```
-???+ quote "MNIST raw image display"
+???+ quote "Interdependence function outputs"
     ```
     patch_size:  49 ; m_prime:  3072
     interdependence matrix A shape:  torch.Size([1024, 1024])
