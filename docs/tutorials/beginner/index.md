@@ -17,7 +17,7 @@ This page will be updated as new tutorials are posted, so please check back regu
 |     [Tutorial 1](./module/expansion_function.md)     |       Data Expansion Functions       |   July 6, 2024    |         {{expansion_tutorial_files}}          |
 |  [Tutorial 2](./module/reconciliation_function.md)   |  Parameter Reconciliation Functions  | November 28, 2024 |       {{reconciliation_tutorial_files}}       |
 |  [Tutorial 3](./module/interdependence_function.md)  |    Data Interdependence Functions    | December 1, 2024  | {{data_interdependence_tutorial_files}} |
-| [Tutorial 4](./module/interdependence_function_2.md) | Structural Interdependence Functions | December 10, 2024 | {{data_interdependence_tutorial_files}} |
+| [Tutorial 4](./module/interdependence_function_2.md) | Structural Interdependence Functions | December 10, 2024 | {{structural_interdependence_tutorial_files}} |
 
 
 [//]: # (| [Tutorial 2]&#40;./module/extended_nested_expansion.md&#41; | Extended and Nested Data Expansions |     TBD      | To Be Provided  |)

@@ -110,7 +110,7 @@ The **learning correctness** of RPN is fundamentally determined by the compositi
 """
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 from . import model, zootopia
 from . import module, head, layer, config
