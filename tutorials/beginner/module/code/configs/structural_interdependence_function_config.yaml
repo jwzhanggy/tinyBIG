@@ -1,0 +1,18 @@
+data_interdependence_function_configs:
+  data_interdependence_function_class: tinybig.interdependence.geometric_interdependence
+  data_interdependence_function_parameters:
+    name: geometric_interdependence
+    interdependence_type: attribute
+    h: 32
+    w: 32
+    channel_num: 3
+    patch_configs:
+      patch_class: tinybig.koala.geometry.cylinder
+      patch_parameters:
+        p_r: 4
+        p_d: 0
+    packing_strategy: densest_packing
+    interdependence_matrix_mode: padding
+    require_parameters: False
+    require_data: False
+    device: cpu

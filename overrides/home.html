@@ -1,0 +1,120 @@
+{#-
+  This file was automatically generated - do not edit
+-#}
+{% extends "main.html" %}
+
+{% block tabs %}
+{{ super() }}
+
+<meta name="msvalidate.01" content="DC4982B5DDD8070367A4BBD3295B44A8" />
+
+<style>
+.tx-container {
+    position: relative;
+    min-height: 100vh;
+    background-image: url('img/background1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.tx-hero {
+    width: 100%;
+    padding: 2rem;
+}
+
+.tx-hero h1 {
+    margin-bottom: 1rem;
+    color: currentColor;
+    font-weight: 700;
+}
+
+.tx-hero__content {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button {
+    margin-top: .5rem;
+    margin-right: .5rem;
+    color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button--primary {
+    background-color: var(--md-primary-bg-color);
+    color: hsla(280deg, 37%, 48%, 1);
+    border-color: var(--md-primary-bg-color);
+}
+
+.tx-hero .md-button:focus,
+.tx-hero .md-button:hover {
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-default-bg-color);
+    border-color: var(--md-accent-fg-color);
+}
+
+/* Media queries for responsiveness */
+@media screen and (min-width: 768px) {
+    .tx-hero__content {
+        position: absolute;
+        bottom: 5rem;
+        left: 10%;
+        max-width: 40%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .tx-hero__content {
+        left: 10rem;
+        max-width: 30%;
+    }
+}
+
+.clustrmaps-widget {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+</style>
+
+<!-- Main site Entry button descriptions -->
+<section class="tx-container">
+    <div class="md-grid md-typeset">
+      <div class="tx-hero">
+        <div class="tx-hero__content">
+          <h1> tinyBIG Python Library </h1>
+          <p> Building deep function learning models with unified architectures using tinyBIG in Python.</p>
+          <a href="guides" title="Get Started" class="md-button md-button--primary">
+            Get started
+          </a>
+          <a href="tutorials" title="Tutorials" class="md-button">
+            Tutorials
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="clustrmaps-widget">
+        <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=eMcgXsnFo_TZ0a6FIhEQMZ8ZQiwL0oBVuG7xDHK55PI"></script>
+    </div>
+</section>
+<!-- Feature End -->
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+{% block site_nav %}
+{{ super() }}
+{% endblock %}
+{% block container %}
+{% endblock %}
+

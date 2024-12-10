@@ -1,0 +1,11 @@
+data_interdependence_function_configs:
+  data_interdependence_function_class: tinybig.interdependence.lowrank_parameterized_bilinear_interdependence
+  data_interdependence_function_parameters:
+    name: lowrank_parameterized_bilinear_interdependence
+    r: 1
+    b: 2
+    m: 4
+    interdependence_type: attribute
+    require_parameters: True
+    require_data: True
+    device: cpu
