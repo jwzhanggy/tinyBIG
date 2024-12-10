@@ -430,7 +430,7 @@ Please save the following `structural_interdependence_function_config.yaml` to t
     print('attribute_xi_X:', xi_x.shape)
     ```
 
-=== "./configs/data_interdependence_function_config.yaml"
+=== "./configs/structural_interdependence_function_config.yaml"
     ```yaml linenums="1"
     data_interdependence_function_configs:
       data_interdependence_function_class: tinybig.interdependence.geometric_interdependence
