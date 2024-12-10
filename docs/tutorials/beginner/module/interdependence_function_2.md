@@ -145,7 +145,7 @@ patch(i, j, k) &= \left[ \left( i+ \nabla i, j + \nabla j, k + \nabla k \right) 
 
 whose size can also be represented by the notation $p = \left| patch(i, j, k) \right|$ as well.
 
-### 4.3 Geometric Patch based Structural Interdependence Function
+### 4.3 Geometric Grid based Structural Interdependence Function
 
 ![grid_interdependence_function.png](img/grid_interdependence_function.png)
 
@@ -190,7 +190,7 @@ as follows:
 
 In the aggregation mode, the matrix dimension $m'$ equals the size of the grid, i.e., $m' = m$, and is independent of the patch size.
 
-### 4.4 An Example of Grid based Interdependence Function
+### 4.4 An Example of the Structural Interdependence Function
 
 Below, we will walk you through on how to define the geometric grid based structural interdependence function with the
 cylinder patch shape to process the CIFAR-10 images.
@@ -329,7 +329,7 @@ plt.show()
 ???+ quote "CIFAR-10 processed image display"
     ![cifar_interdependence_image.png](img/cifar_interdependence_image.png)
 
-#### 4.4.1 The Aggregation Mode
+#### 4.4.2 The Aggregation Mode
 
 We also illustrate the structural interdependence function with the `aggregation` mode for processing the image data.
 
