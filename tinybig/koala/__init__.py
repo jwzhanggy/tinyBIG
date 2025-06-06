@@ -35,4 +35,5 @@ from tinybig.koala import (
     signal_processing,
     machine_learning,
     physics,
+    spatial_algebra,
 )

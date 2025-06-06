@@ -596,6 +596,7 @@ nav:
         - Reconciliation Function: tutorials/beginner/module/reconciliation_function.md
         - Data Interdependence Function: tutorials/beginner/module/interdependence_function.md
         - Structural Interdependence Function: tutorials/beginner/module/interdependence_function_2.md
+        - Hybrid Interdependence Function: tutorials/beginner/module/interdependence_function_3.md
       - Advanced Tutorials:
         - tutorials/advanced/index.md
   - Examples:
