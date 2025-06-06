@@ -1,0 +1,10 @@
+parameter_reconciliation_configs:
+  parameter_reconciliation_class: tinybig.reconciliation.dual_lphm_reconciliation
+  parameter_reconciliation_parameters:
+    name: dual_lphm_reconciliation
+    p: 2
+    q: 3
+    r: 1
+    require_parameters: True
+    enable_bias: True
+    device: cpu

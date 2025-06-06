@@ -1,0 +1,104 @@
+configurations:
+  device: &device mps
+  random_seed: 5678
+
+  data_configs:
+    data_class: tinybig.data.agnews
+    data_parameters:
+      name: agnews
+      train_batch_size: 64
+      test_batch_size: 64
+
+  learner_configs:
+    learner_class: tinybig.learner.backward_learner
+    learner_parameters:
+      name: error_backward_propagation
+      n_epochs: 12
+      optimizer_configs:
+        optimizer_class: torch.optim.AdamW
+        optimizer_parameters:
+          lr: 5.0e-05
+          weight_decay: 5.0e-05
+      lr_scheduler_configs:
+        lr_scheduler_class: torch.optim.lr_scheduler.ExponentialLR
+        lr_scheduler_parameters:
+          gamma: 0.95
+      loss_configs:
+        loss_class: torch.nn.CrossEntropyLoss
+        loss_parameters:
+          reduction: mean
+
+  model_configs:
+    model_class: tinybig.model.rpn
+    model_parameters:
+      device: *device
+      name: reconciled_polynomial_network
+      depth: 2
+      depth_alloc: [1, 1]
+      layer_configs:
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 25985
+            n: 128
+            width: 1
+            width_alloc: [1]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
+                      name: identity_expansion
+                  parameter_fabrication_configs:
+                    function_class: tinybig.reconciliation.lorr_reconciliation
+                    function_parameters:
+                      name: lorr_reconciliation
+                      r: 5
+                      enable_bias: False
+                  remainder_configs:
+                    function_class: tinybig.remainder.zero_remainder
+                    function_parameters:
+                      name: zero_remainder
+                      require_parameters: False
+                      enable_bias: False
+
+        - layer_class: tinybig.module.rpn_layer
+          layer_parameters:
+            name: rpn_layer
+            m: 128
+            n: 4
+            width: 1
+            width_alloc: [ 1 ]
+            head_configs:
+              - head_class: tinybig.module.rpn_head
+                head_parameters:
+                  l: null
+                  channel_num: 1
+                  data_transformation_configs:
+                    function_class: tinybig.expansion.identity_expansion
+                    function_parameters:
+                      name: identity_expansion
+                  parameter_fabrication_configs:
+                    function_class: tinybig.reconciliation.identity_reconciliation
+                    function_parameters:
+                      name: identity_reconciliation
+                      enable_bias: False
+                  remainder_configs:
+                    function_class: tinybig.remainder.linear_remainder
+                    function_parameters:
+                      name: linear_remainder
+                      require_parameters: True
+                      enable_bias: True
+
+  metric_configs:
+    metric_class: tinybig.metric.accuracy
+    metric_parameters:
+      name: accuracy
+
+  output_configs:
+    output_class: tinybig.output.rpn_output
+    output_parameters:
+      name: prediction_output
